@@ -10,7 +10,7 @@
   },
   "hosting": {
     "site": "put-gang-console",
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
