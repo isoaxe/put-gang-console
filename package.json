@@ -55,6 +55,7 @@
         "start": "react-app-rewired start",
         "build": "GENERATE_SOURCEMAP=false react-scripts build",
         "test": "react-scripts test",
+        "deploy": "firebase deploy",
         "ghp": "react-scripts build && gh-pages -d build"
     },
     "eslintConfig": {
