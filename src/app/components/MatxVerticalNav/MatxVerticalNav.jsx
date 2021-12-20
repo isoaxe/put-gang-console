@@ -45,12 +45,10 @@ const ExternalLink = styled('a')(({ theme }) => ({
     color: theme.palette.text.primary,
 }))
 
-const InternalLink = styled(Box)(({ theme }) => ({
-    '& a': {
-        ...ExtAndIntCommon,
-        color: theme.palette.text.primary,
-    },
-    '& .navItemActive': {
+const InternalLink = styled(NavLink)(({ theme }) => ({
+    ...ExtAndIntCommon,
+    color: theme.palette.text.primary,
+    '&.navItemActive': {
         backgroundColor: 'rgba(255, 255, 255, 0.16)',
     },
 }))
@@ -146,59 +144,56 @@ const MatxVerticalNav = ({ items }) => {
                 )
             } else {
                 return (
-                    <InternalLink>
-                        <NavLink
-                            key={index}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                isActive ? `navItemActive ${mode === 'compact' && 'compactNavItem'}` : `${mode === 'compact' && 'compactNavItem'}`
-                            }
+                    <InternalLink
+                        key={index}
+                        to={item.path}
+                        activeClassName="navItemActive"
+                        className={`${mode === 'compact' && 'compactNavItem'}`}
+                    >
+                        <ButtonBase
+                            key={item.name}
+                            name="child"
+                            sx={{ width: '100%' }}
                         >
-                            <ButtonBase
-                                key={item.name}
-                                name="child"
-                                sx={{ width: '100%' }}
+                            {item?.icon ? (
+                                <Icon className="icon" sx={{ width: 36 }}>
+                                    {item.icon}
+                                </Icon>
+                            ) : (
+                                <Fragment>
+                                    <BulletIcon
+                                        className={`nav-bullet`}
+                                        sx={{
+                                            display:
+                                                mode === 'compact' && 'none',
+                                        }}
+                                    />
+                                    <Box
+                                        className="nav-bullet-text"
+                                        sx={{
+                                            ml: '20px',
+                                            fontSize: '11px',
+                                            display:
+                                                mode !== 'compact' && 'none',
+                                        }}
+                                    >
+                                        {item.iconText}
+                                    </Box>
+                                </Fragment>
+                            )}
+                            <StyledText
+                                mode={mode}
+                                className="sidenavHoverShow"
                             >
-                                {item?.icon ? (
-                                    <Icon className="icon" sx={{ width: 36 }}>
-                                        {item.icon}
-                                    </Icon>
-                                ) : (
-                                    <Fragment>
-                                        <BulletIcon
-                                            className={`nav-bullet`}
-                                            sx={{
-                                                display:
-                                                    mode === 'compact' && 'none',
-                                            }}
-                                        />
-                                        <Box
-                                            className="nav-bullet-text"
-                                            sx={{
-                                                ml: '20px',
-                                                fontSize: '11px',
-                                                display:
-                                                    mode !== 'compact' && 'none',
-                                            }}
-                                        >
-                                            {item.iconText}
-                                        </Box>
-                                    </Fragment>
-                                )}
-                                <StyledText
-                                    mode={mode}
-                                    className="sidenavHoverShow"
-                                >
-                                    {item.name}
-                                </StyledText>
-                                <Box mx="auto"></Box>
-                                {item.badge && (
-                                    <BadgeValue className="sidenavHoverShow">
-                                        {item.badge.value}
-                                    </BadgeValue>
-                                )}
-                            </ButtonBase>
-                        </NavLink>
+                                {item.name}
+                            </StyledText>
+                            <Box mx="auto"></Box>
+                            {item.badge && (
+                                <BadgeValue className="sidenavHoverShow">
+                                    {item.badge.value}
+                                </BadgeValue>
+                            )}
+                        </ButtonBase>
                     </InternalLink>
                 )
             }

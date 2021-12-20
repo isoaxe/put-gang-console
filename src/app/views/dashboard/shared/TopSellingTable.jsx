@@ -43,19 +43,19 @@ const ProductTable = styled(Table)(() => ({
     '& td': {
         borderBottom: 'none',
     },
-    '& td:first-of-type': {
+    '& td:first-child': {
         paddingLeft: '16px !important',
     },
 }))
 
-const Small = styled('small')(({ bgcolor }) => ({
+const Small = styled('small')(({ bgColor }) => ({
     height: 15,
     width: 50,
     color: '#fff',
     padding: '2px 8px',
     borderRadius: '4px',
     overflow: 'hidden',
-    background: bgcolor,
+    background: bgColor,
     boxShadow: '0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)',
 }))
 
@@ -115,7 +115,7 @@ const TopSellingTable = () => {
                                     $
                                     {product.price > 999
                                         ? (product.price / 1000).toFixed(1) +
-                                        'k'
+                                          'k'
                                         : product.price}
                                 </TableCell>
 
@@ -126,16 +126,16 @@ const TopSellingTable = () => {
                                 >
                                     {product.available ? (
                                         product.available < 20 ? (
-                                            <Small bgcolor={bgSecondary}>
+                                            <Small bgColor={bgSecondary}>
                                                 {product.available} available
                                             </Small>
                                         ) : (
-                                            <Small bgcolor={bgPrimary}>
+                                            <Small bgColor={bgPrimary}>
                                                 in stock
                                             </Small>
                                         )
                                     ) : (
-                                        <Small bgcolor={bgError}>
+                                        <Small bgColor={bgError}>
                                             out of stock
                                         </Small>
                                     )}

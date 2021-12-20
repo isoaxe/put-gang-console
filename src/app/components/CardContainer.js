@@ -1,9 +1,6 @@
-import { Box, styled } from "@mui/system";
-import { themeShadows } from "../theme/themeColors";
+import { Card } from '@mui/material'
+import { Box, styled } from '@mui/system'
 
-export const CardContainer = styled(Box)(() => ({
-  borderRadius: 10,
-  overflow: "hidden",
-  padding: "1.4rem 1.25rem",
-  boxShadow: themeShadows[1],
-}));
+export const CardContainer = styled(Card)(({ theme }) => ({
+    background: `${theme.palette.background.paper} !important`,
+}))

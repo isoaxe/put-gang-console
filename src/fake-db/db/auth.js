@@ -100,6 +100,7 @@ Mock.onPost('/api/auth/register').reply((config) => {
 Mock.onGet('/api/auth/profile').reply((config) => {
     try {
         const { Authorization } = config.headers
+        console.log(config.headers)
         if (!Authorization) {
             return [401, { message: 'Invalid Authorization token' }]
         }

@@ -4,10 +4,8 @@ import AreaChart from './AreaChart'
 import { useTheme, Box, styled } from '@mui/system'
 import DoughnutChart from './Doughnut'
 import ComparisonChart from './ComparisonChart'
-import AdvanceAreaChart from './AdvanceAreaChart'
-import { Breadcrumb, SimpleCard } from 'app/components'
-import { H3 } from 'app/components/Typography'
-import { Card } from '@mui/material'
+import SimpleCard from 'app/components/cards/SimpleCard'
+import Breadcrumb from 'app/components/Breadcrumb/Breadcrumb'
 
 const Container = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -22,20 +20,6 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const AnalyticsRoot = styled(Card)(({ theme }) => ({
-    padding: '28px 32px 32px 32px',
-    marginBottom: '24px',
-    background: theme.palette.primary.main,
-}))
-
-const Header = styled(H3)(() => ({
-    fontSize: '1rem',
-    fontWeight: '500',
-    marginBottom: '16px',
-    textTransform: 'capitalize',
-    color: 'rgba(255, 255, 255, 0.87)',
-}))
-
 const AppEchart = () => {
     const theme = useTheme()
     return (
@@ -43,45 +27,11 @@ const AppEchart = () => {
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Charts', path: '/' },
+                        { name: 'Charts', path: '/charts' },
                         { name: 'Echarts' },
                     ]}
                 />
             </div>
-
-            <AnalyticsRoot>
-                <Header>Last 12 months sales</Header>
-                <AdvanceAreaChart
-                    height="280px"
-                    option={{
-                        series: [
-                            {
-                                data: [
-                                    34, 45, 31, 45, 31, 43, 26, 43, 31, 45, 33,
-                                    40,
-                                ],
-                                type: 'line',
-                            },
-                        ],
-                        xAxis: {
-                            data: [
-                                'Jan',
-                                'Feb',
-                                'Mar',
-                                'Apr',
-                                'May',
-                                'Jun',
-                                'Jul',
-                                'Aug',
-                                'Sep',
-                                'Oct',
-                                'Nov',
-                                'Dec',
-                            ],
-                        },
-                    }}
-                />
-            </AnalyticsRoot>
 
             <SimpleCard title="Doughnut Chart">
                 <DoughnutChart

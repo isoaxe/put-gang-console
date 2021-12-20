@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Divider } from '@mui/material'
-import { convertHexToRGB, getTimeDifference } from 'utils'
+import { getTimeDifference } from 'utils'
 import { H5, Span, Paragraph, Small } from '../Typography'
 import { styled, Box, useTheme } from '@mui/system'
 import { themeShadows } from '../MatxTheme/themeColors'
@@ -25,34 +25,34 @@ const Circle = styled('div')(({ theme }) => ({
     }
 }))
 
-const VerticalLine = styled('div')(({ theme }) => ({
+const VerticalLine = styled('div')(() => ({
     position: 'absolute',
     left: 25,
     width: 2,
-    background: `rgba(${convertHexToRGB(theme.palette.text.primary)}, 0.1)`,
+    background: 'rgba(var(--body), 0.1)',
 }))
 
-const UpperLine = styled(VerticalLine)(({ theme }) => ({
+const UpperLine = styled(VerticalLine)(() => ({
     position: 'absolute',
     left: 25,
     width: 2,
-    background: `rgba(${convertHexToRGB(theme.palette.text.primary)}, 0.1)`,
+    background: 'rgba(var(--body), 0.1)',
 }))
 
-const LowerLine = styled(VerticalLine)(({ theme }) => ({
+const LowerLine = styled(VerticalLine)(() => ({
     position: 'absolute',
     left: 25,
     width: 2,
-    background: `rgba(${convertHexToRGB(theme.palette.text.primary)}, 0.1)`,
+    background: 'rgba(var(--body), 0.1)',
 }))
 
-const StyledP = styled(Paragraph)(({ theme }) => ({
+const StyledP = styled(Paragraph)(() => ({
     fontSize: '14px',
     borderRadius: 4,
     padding: '6px 12px',
     marginTop: '8px',
     marginBottom: '8px',
-    background: `rgba(${convertHexToRGB(theme.palette.text.primary)}, 0.3)`,
+    background: 'rgba(var(--body),0.03)',
 }))
 
 const StyledLink = styled(Link)(({ theme }) => ({

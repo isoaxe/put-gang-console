@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom'
-import useAuth from 'app/hooks/useAuth'
+import { Card, Checkbox, FormControlLabel, Grid, Button } from '@mui/material'
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import React, { useState } from 'react'
 import { Box, styled } from '@mui/system'
 import { useNavigate } from 'react-router-dom'
+import useAuth from 'app/hooks/useAuth'
 import { Span } from 'app/components/Typography'
-import { Card, Checkbox, FormControlLabel, Grid, Button } from '@mui/material'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -37,9 +36,9 @@ const JWTRegister = styled(JustifyBox)(() => ({
 }))
 
 const JwtRegister = () => {
-    const navigate = useNavigate()
     const [state, setState] = useState({})
     const { register } = useAuth()
+    const navigate = useNavigate()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({

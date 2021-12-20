@@ -1,16 +1,16 @@
+import { Outlet } from 'react-router-dom'
 import Footer from '../../Footer/Footer'
 import Layout1Topbar from './Layout1Topbar'
-import { MatxSuspense } from 'app/components'
 import Layout1Sidenav from './Layout1Sidenav'
 import Scrollbar from 'react-perfect-scrollbar'
 import useSettings from 'app/hooks/useSettings'
-import { styled, Box, useTheme } from '@mui/system'
 import React, { useEffect, useRef } from 'react'
+import { sideNavWidth } from 'app/utils/constant'
+import { styled, Box, useTheme } from '@mui/system'
 import { ThemeProvider, useMediaQuery } from '@mui/material'
 import SidenavTheme from '../../MatxTheme/SidenavTheme/SidenavTheme'
 import SecondarySidebar from '../../SecondarySidebar/SecondarySidebar'
-import { sidenavCompactWidth, sideNavWidth } from 'app/utils/constant'
-import { Outlet } from 'react-router-dom'
+import MatxSuspense from 'app/components/MatxSuspense/MatxSuspense'
 
 const Layout1Root = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -60,7 +60,7 @@ const Layout1 = () => {
             case 'full':
                 return sideNavWidth
             case 'compact':
-                return sidenavCompactWidth
+                return 'var(--sidenav-compact-width)'
             default:
                 return '0px'
         }
@@ -111,7 +111,6 @@ const Layout1 = () => {
                             )}
                         <Box flexGrow={1} position="relative">
                             <MatxSuspense>
-                                {/* {renderRoutes(routes)} */}
                                 <Outlet />
                             </MatxSuspense>
                         </Box>
@@ -125,14 +124,12 @@ const Layout1 = () => {
                     <ContentBox>
                         {layout1Settings.topbar.show &&
                             !layout1Settings.topbar.fixed && (
-                                // <Layout1Topbar />
                                 <ThemeProvider theme={topbarTheme}>
                                     <Layout1Topbar />
                                 </ThemeProvider>
                             )}
                         <Box flexGrow={1} position="relative">
                             <MatxSuspense>
-                                {/* {renderRoutes(routes)} */}
                                 <Outlet />
                             </MatxSuspense>
                         </Box>

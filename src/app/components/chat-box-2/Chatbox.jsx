@@ -1,16 +1,22 @@
 import { H5, H6, Span } from '../Typography'
-import { ChatAvatar } from 'app/components'
 import ScrollBar from 'react-perfect-scrollbar'
 import { Box, styled, useTheme } from '@mui/system'
 import React, { useState, useEffect, useCallback } from 'react'
-import { IconButton, Icon, Divider, TextField, Avatar } from '@mui/material'
+import {
+    IconButton,
+    Icon,
+    Divider,
+    TextField,
+    Avatar,
+    Card,
+} from '@mui/material'
 import { convertHexToRGB } from 'utils'
+import ChatAvatar from '../ChatAvatar/ChatAvatar'
 
-const ChatContainer = styled('div')(() => ({
+const ChatContainer = styled(Card)(() => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    background: '#fff',
 }))
 
 const StyledScrollBar = styled(ScrollBar)(() => ({
@@ -22,13 +28,11 @@ const ProfileBox = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '12px 12px 12px 20px',
-    color: theme.palette.primary.main,
-    background: '#fafafa',
+    background: `rgba(${convertHexToRGB(theme.palette.text.primary)}, 0.03)`,
 }))
 
 const ChatStatus = styled('div')(({ theme }) => ({
     marginLeft: '12px',
-    color: theme.palette.primary.main,
     '& h5': {
         marginTop: 0,
         fontSize: '14px',
@@ -36,6 +40,7 @@ const ChatStatus = styled('div')(({ theme }) => ({
     },
     '& span': {
         fontWeight: '500',
+        color: theme.palette.text.secondary,
     },
 }))
 
@@ -47,23 +52,22 @@ const ChatMessage = styled('div')(({ theme }) => ({
     marginBottom: '8px',
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-word',
-    color: theme.palette.primary.main,
-    background: '#fafafa',
+    background: `rgba(${convertHexToRGB(theme.palette.text.primary)}, 0.03)`,
 }))
 
 const MessageTime = styled('span')(({ theme }) => ({
     fontSize: '13px',
     fontWeight: '500',
-    color: theme.palette.primary.main,
+    color: theme.palette.text.secondary,
 }))
 
-const ChatImgContainer = styled('div')(({ theme }) => ({
+const ChatImgContainer = styled('div')(() => ({
     padding: '20px',
     display: 'flex',
     justifyContent: 'flex-end',
 }))
 
-const ChatImgBox = styled('div')(({ theme }) => ({
+const ChatImgBox = styled('div')(() => ({
     padding: '8px',
     fontSize: '14px',
     maxWidth: 240,
@@ -71,8 +75,7 @@ const ChatImgBox = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    color: theme.palette.primary.main,
-    background: '#fafafa',
+    background: 'rgba(0, 0, 0, 0.01) !important',
 }))
 
 const ChatImg = styled('img')(() => ({ width: '40px' }))
@@ -81,12 +84,17 @@ const ChatImgSize = styled(MessageTime)(() => ({}))
 // for previewing bot message
 const globalMessageList = []
 
-const Chatbox = ({ togglePopup }) => {
+const Chatbox = (props) => {
+    const { mainTheme, setOpenChat } = props
     const [isAlive, setIsAlive] = useState(true)
     const [message, setMessage] = useState('')
     const [messageList, setMessageList] = useState([])
     const currentUserId = '7863a6802ez0e277a0f98534'
     const chatBottomRef = document.querySelector('#chat-scroll')
+
+    const togglePopup = async () => {
+        setOpenChat(false)
+    }
 
     const sendMessageOnEnter = (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -231,11 +239,10 @@ const Chatbox = ({ togglePopup }) => {
     }, [messageList, scrollToBottom])
 
     const { palette } = useTheme()
-    const primary = palette.primary.main
     const textPrimary = palette.text.primary
 
     return (
-        <ChatContainer>
+        <ChatContainer mainTheme={mainTheme}>
             <ProfileBox>
                 <Box display="flex" alignItems="center">
                     <ChatAvatar
@@ -247,8 +254,17 @@ const Chatbox = ({ togglePopup }) => {
                         <Span>Active</Span>
                     </ChatStatus>
                 </Box>
-                <IconButton onClick={togglePopup}>
-                    <Icon fontSize="small">clear</Icon>
+                <IconButton onClick={() => togglePopup()}>
+                    <Icon
+                        fontSize="small"
+                        sx={{
+                            color: `rgba(${convertHexToRGB(
+                                textPrimary
+                            )}, 0.87)`,
+                        }}
+                    >
+                        clear
+                    </Icon>
                 </IconButton>
             </ProfileBox>
             <StyledScrollBar id="chat-scroll">
@@ -267,13 +283,7 @@ const Chatbox = ({ togglePopup }) => {
                         )}
                         <Box ml="12px">
                             {currentUserId !== item.contactId && (
-                                <H5
-                                    sx={{
-                                        mb: '4px',
-                                        fontSize: '14px',
-                                        color: primary,
-                                    }}
-                                >
+                                <H5 sx={{ mt: 0, mb: '4px', fontSize: '14px' }}>
                                     {item.name}
                                 </H5>
                             )}
@@ -315,16 +325,31 @@ const Chatbox = ({ togglePopup }) => {
                     multiline
                     rowsMax={4}
                     fullWidth
-                    sx={{ '& textarea': { color: primary } }}
                     InputProps={{
                         disableUnderline: true,
                         endAdornment: (
                             <Box display="flex">
                                 <IconButton size="small">
-                                    <Icon>tag_faces</Icon>
+                                    <Icon
+                                        sx={{
+                                            color: `rgba(${convertHexToRGB(
+                                                textPrimary
+                                            )}, 0.87)`,
+                                        }}
+                                    >
+                                        tag_faces
+                                    </Icon>
                                 </IconButton>
                                 <IconButton size="small">
-                                    <Icon>attachment</Icon>
+                                    <Icon
+                                        sx={{
+                                            color: `rgba(${convertHexToRGB(
+                                                textPrimary
+                                            )}, 0.87)`,
+                                        }}
+                                    >
+                                        attachment
+                                    </Icon>
                                 </IconButton>
                             </Box>
                         ),

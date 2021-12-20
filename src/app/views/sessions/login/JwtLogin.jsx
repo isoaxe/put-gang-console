@@ -6,10 +6,10 @@ import {
     CircularProgress,
     FormControlLabel,
 } from '@mui/material'
+import { Box, styled, useTheme } from '@mui/system'
 import React, { useState } from 'react'
 import useAuth from 'app/hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
-import { Box, styled, useTheme } from '@mui/system'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Paragraph, Span } from 'app/components/Typography'
 
@@ -30,7 +30,7 @@ const ContentBox = styled(Box)(() => ({
 }))
 
 const IMG = styled('img')(() => ({
-    width: '100%',
+    width: 200,
 }))
 
 const JWTRoot = styled(JustifyBox)(() => ({
@@ -41,12 +41,13 @@ const JWTRoot = styled(JustifyBox)(() => ({
         borderRadius: 12,
         margin: '1rem',
     },
-}))
-
-const StyledProgress = styled(CircularProgress)(() => ({
-    position: 'absolute',
-    top: '6px',
-    left: '25px',
+    '& .buttonProgress': {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
 }))
 
 const JwtLogin = () => {
@@ -65,10 +66,6 @@ const JwtLogin = () => {
         setUserInfo(temp)
     }
 
-    const { palette } = useTheme()
-    const textError = palette.error.main
-    const textPrimary = palette.primary.main
-
     const handleFormSubmit = async (event) => {
         setLoading(true)
         try {
@@ -80,6 +77,10 @@ const JwtLogin = () => {
             setLoading(false)
         }
     }
+
+    const { palette } = useTheme()
+    const textError = palette.error.main
+    const textPrimary = palette.text.primary
 
     return (
         <JWTRoot>
@@ -163,7 +164,7 @@ const JwtLogin = () => {
                                             Sign in
                                         </Button>
                                         {loading && (
-                                            <StyledProgress
+                                            <CircularProgress
                                                 size={24}
                                                 className="buttonProgress"
                                             />
@@ -172,18 +173,14 @@ const JwtLogin = () => {
                                     <Span sx={{ mr: 1, ml: '20px' }}>or</Span>
                                     <Button
                                         sx={{ textTransform: 'capitalize' }}
-                                        onClick={() =>
-                                            navigate('/session/signup')
-                                        }
+                                        onClick={() => navigate('/session/signup')}
                                     >
                                         Sign up
                                     </Button>
                                 </FlexBox>
                                 <Button
                                     sx={{ color: textPrimary }}
-                                    onClick={() =>
-                                        navigate('/session/forgot-password')
-                                    }
+                                    onClick={() => navigate('/session/forgot-password')}
                                 >
                                     Forgot password?
                                 </Button>

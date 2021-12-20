@@ -35,18 +35,18 @@ const Popup = styled('div')(({ theme }) => ({
     },
 }))
 
-const ChatHead = ({ icon, children }) => {
-    const [open, setOpen] = useState(false)
+const ChatHead = (props) => {
+    const { icon, children, setOpenChat, openChat } = props
 
     const togglePopup = async () => {
-        setOpen((open) => !open)
+        setOpenChat(true)
     }
 
     return (
         <PopupRoot>
             {cloneElement(icon, { onClick: togglePopup })}
-            <Popup className={clsx({ popupOpen: open })}>
-                {open ? cloneElement(children, { togglePopup }) : null}
+            <Popup className={clsx({ popupOpen: openChat })}>
+                {openChat ? cloneElement(children, { togglePopup }) : null}
             </Popup>
         </PopupRoot>
     )

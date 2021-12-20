@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { MatxLoading } from 'app/components'
+import MatxLoading from 'app/components/MatxLoading/MatxLoading'
 
 const MatxSuspense = ({ children }) => {
     return <Suspense fallback={<MatxLoading />}>{children}</Suspense>

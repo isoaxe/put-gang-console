@@ -6,11 +6,18 @@ import { Grid, Card } from '@mui/material'
 import StatCards2 from './shared/StatCards2'
 import DoughnutChart from './shared/Doughnut'
 import UpgradeCard from './shared/UpgradeCard'
-import { styled, useTheme } from '@mui/system'
 import TopSellingTable from './shared/TopSellingTable'
+import ModifiedAreaChart from './shared/ModifiedAreaChart'
+import { styled, useTheme } from '@mui/system'
+
+const AnalyticsRoot = styled('div')(({ theme }) => ({
+    padding: '28px 32px 86px 32px',
+    background: theme.palette.primary.main,
+}))
 
 const ContentBox = styled('div')(({ theme }) => ({
     margin: '30px',
+    marginTop: '-72px',
     [theme.breakpoints.down('sm')]: {
         margin: '16px',
     },
@@ -22,9 +29,14 @@ const Title = styled('span')(() => ({
     textTransform: 'capitalize',
 }))
 
-const SubTitle = styled('span')(({ theme }) => ({
+const SubTitle = styled('span')(() => ({
     fontSize: '0.875rem',
-    color: theme.palette.text.secondary,
+    color: 'var(--text-muted)',
+}))
+
+const Header = styled(Title)(({ theme }) => ({
+    marginBottom: 2,
+    color: 'rgba(255, 255, 255, 0.87)',
 }))
 
 const H4 = styled('h4')(({ theme }) => ({
@@ -40,6 +52,40 @@ const Analytics = () => {
 
     return (
         <Fragment>
+            <AnalyticsRoot>
+                <Header>Last 12 months sales</Header>
+                <ModifiedAreaChart
+                    height="280px"
+                    option={{
+                        series: [
+                            {
+                                data: [
+                                    34, 45, 31, 45, 31, 43, 26, 43, 31, 45, 33,
+                                    40,
+                                ],
+                                type: 'line',
+                            },
+                        ],
+                        xAxis: {
+                            data: [
+                                'Jan',
+                                'Feb',
+                                'Mar',
+                                'Apr',
+                                'May',
+                                'Jun',
+                                'Jul',
+                                'Aug',
+                                'Sep',
+                                'Oct',
+                                'Nov',
+                                'Dec',
+                            ],
+                        },
+                    }}
+                />
+            </AnalyticsRoot>
+
             <ContentBox className="analytics">
                 <Grid container spacing={3}>
                     <Grid item lg={8} md={8} sm={12} xs={12}>

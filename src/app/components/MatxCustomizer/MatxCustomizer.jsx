@@ -90,7 +90,7 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
     paddingRight: '16px',
 }))
 
-const MatxCustomizer = () => {
+const MatxCustomizer = (props) => {
     const [open, setOpen] = useState(false)
     const [tabIndex, setTabIndex] = useState(0)
     const { settings, updateSettings } = useSettings()
@@ -155,7 +155,9 @@ const MatxCustomizer = () => {
                             </Button>
                         </Box>
 
-                        <StyledScrollBar options={{ suppressScrollX: true }}>
+                        <StyledScrollBar
+                            options={{ suppressScrollX: true }}
+                        >
                             {tabIndex === 0 && (
                                 <Box sx={{ mb: 4, mx: 3 }}>
                                     <Box sx={{ color: secondary }}>Layouts</Box>
@@ -288,6 +290,44 @@ const demoLayouts = [
                     theme: 'blueDark',
                     fixed: true,
                 },
+            },
+        },
+    },
+    {
+        name: 'Dark Theme',
+        thumbnail: '/assets/images/screenshots/layout3-customizer.png',
+        isPro: false,
+        options: {
+            activeLayout: 'layout1',
+            activeTheme: 'purpleDark1',
+            layout1Settings: {
+                leftSidebar: {
+                    mode: 'full',
+                    theme: 'slateDark1',
+                    bgOpacity: 0.92,
+                },
+                topbar: {
+                    theme: 'purpleDark1',
+                    fixed: true,
+                },
+            },
+            footer: {
+                theme: 'slateDark1',
+            },
+        },
+    },
+    {
+        name: 'Horizontal Navigation',
+        thumbnail: '/assets/images/screenshots/layout4-customizer.png',
+        isPro: true,
+        options: {
+            activeLayout: 'layout2',
+            activeTheme: 'purple1',
+            layout2Settings: {
+                mode: 'full',
+            },
+            footer: {
+                theme: 'slateDark1',
             },
         },
     },
