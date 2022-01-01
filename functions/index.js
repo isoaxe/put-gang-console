@@ -1,18 +1,19 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import * as express from "express";
+import * as cors from "cors";
+import * as bodyParser from "body-parser";
 
-const { usersRoute } = require("./users/usersRoute");
+import { usersRoute } from "./users/usersRoute.js";
 
 
+// Initialise the firebase-admin SDK in order to access its services.
 admin.initializeApp();
 
 const app = express();
 
 // Automatically allow cross-origin requests.
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 
 app.use(bodyParser.json());
 
@@ -20,4 +21,14 @@ app.use(bodyParser.json());
 usersRoute(app);
 
 // Expose Express API as a single Cloud Function.
-exports.api = functions.https.onRequest(app);
+export const api = functions.https.onRequest(app);
+
+/*
+// The below example works. No issue accessing the functions module.
+
+export const helloWorld = functions.https.onRequest((req, resp) => {
+  functions.logger.info("Hello logs!", {structuredData: true});
+  resp.send("Hello from Firebase!");
+});
+
+*/
