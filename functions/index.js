@@ -1,8 +1,8 @@
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
-import * as express from "express";
-import * as cors from "cors";
-import * as bodyParser from "body-parser";
+import functions from "firebase-functions";
+import admin from "firebase-admin";
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 
 import { usersRoute } from "./users/usersRoute.js";
 
