@@ -1,7 +1,7 @@
-const { isAuthenticated } = require("./auth/authenticated");
+import { isAuthenticated } from "./../auth/authenticated.js";
 
 
-exports.userRoute = function (app) {
+export function usersRoute (app) {
 	// Fetch all users within the business.
 	app.get("/users",
 		isAuthenticated
