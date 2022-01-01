@@ -10,9 +10,10 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "12"
+    "node": "14"
   },
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
