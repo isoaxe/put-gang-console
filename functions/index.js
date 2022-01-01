@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+const { usersRoute } = require("./users/usersRoute");
+
 
 admin.initializeApp();
 
@@ -13,6 +15,9 @@ const app = express();
 app.use(cors({origin: true}));
 
 app.use(bodyParser.json());
+
+// Set handler for individual user accounts.
+usersRoute(app);
 
 // Expose Express API as a single Cloud Function.
 exports.api = functions.https.onRequest(app);
