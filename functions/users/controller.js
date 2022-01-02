@@ -15,12 +15,14 @@ export async function create (req, res) {
 		await admin.auth().setCustomUserClaims(uid, { role });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
-		/* Note: Haven't added anything useful yet. That will come with hierarchy tree. */
 		const db = admin.firestore();
 		const user = db.collection("users").doc(uid);
 		user.set({
 			uid,
-			role
+			email,
+			role,
+			uplineUid: "", //TODO: Insert referrer uid here, else insert admin uid.
+			downlineUids: []
 		});
 
 		return res.status(200).send({ message: "level-1 user created" });
