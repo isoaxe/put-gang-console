@@ -74,7 +74,7 @@ const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithGoogle } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -96,7 +96,16 @@ const FirebaseRegister = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
-            await createUserWithEmailAndPassword(state.email, state.password)
+            const fetchConfig = {
+          		method: "POST",
+          		headers: {
+          			"Content-Type": "application/json",
+          			"Accept": "application/json"
+          		},
+              body: JSON.stringify(state)
+          	};
+            const response = await fetch("http://localhost:5001/put-gang/us-central1/api/users", fetchConfig);
+            console.log(response.json());
             navigate('/')
         } catch (e) {
             setLoading(false)
