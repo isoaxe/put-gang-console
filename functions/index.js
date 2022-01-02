@@ -22,13 +22,3 @@ usersRoute(app);
 
 // Expose Express API as a single Cloud Function.
 export const api = functions.https.onRequest(app);
-
-/*
-// The below example works. No issue accessing the functions module.
-
-export const helloWorld = functions.https.onRequest((req, resp) => {
-  functions.logger.info("Hello logs!", {structuredData: true});
-  resp.send("Hello from Firebase!");
-});
-
-*/
