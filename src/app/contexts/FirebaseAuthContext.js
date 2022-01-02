@@ -54,10 +54,6 @@ export const AuthProvider = ({ children }) => {
         return firebase.auth().signInWithPopup(provider)
     }
 
-    const createUserWithEmailAndPassword = async (email, password) => {
-        return firebase.auth().createUserWithEmailAndPassword(email, password)
-    }
-
     const logout = () => {
         return firebase.auth().signOut()
     }
@@ -100,7 +96,6 @@ export const AuthProvider = ({ children }) => {
             value={{
                 ...state,
                 method: 'FIREBASE',
-                createUserWithEmailAndPassword,
                 signInWithEmailAndPassword,
                 signInWithGoogle,
                 logout,
