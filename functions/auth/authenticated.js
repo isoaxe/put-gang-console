@@ -18,10 +18,8 @@ export async function isAuthenticated (req, res, next) {
 
 	try {
 		const decodedToken = await admin.auth().verifyIdToken(token);
-		res.locals = {  ...res.locals, uid: decodedToken.uid, bid: decodedToken.businessId, role: decodedToken.role, email: decodedToken.email };
-    /* The below success message is a temporary check for testing this file only. */
-		return res.status(200).send({ message: "Success" });
-		// return next();
+		res.locals = {  ...res.locals, uid: decodedToken.uid, role: decodedToken.role, email: decodedToken.email };
+		return next();
 	} catch (err) {
 		console.error(`${err.code} -  ${err.message}`);
 		return res.status(401).send({ message: "Authentication failure" });
