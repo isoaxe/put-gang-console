@@ -12,6 +12,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
+import { API_URL } from './../../../utils/urls'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -104,7 +105,7 @@ const FirebaseRegister = () => {
           		},
               body: JSON.stringify(state)
           	};
-            const response = await fetch("http://localhost:5001/put-gang/us-central1/api/users", fetchConfig);
+            const response = await fetch(`${API_URL}/users`, fetchConfig);
             console.log(response.json());
             navigate('/')
             signInWithEmailAndPassword(email, password);
