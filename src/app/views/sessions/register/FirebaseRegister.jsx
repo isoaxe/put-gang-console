@@ -74,7 +74,7 @@ const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { signInWithGoogle } = useAuth()
+    const { signInWithEmailAndPassword, signInWithGoogle } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -107,6 +107,7 @@ const FirebaseRegister = () => {
             const response = await fetch("http://localhost:5001/put-gang/us-central1/api/users", fetchConfig);
             console.log(response.json());
             navigate('/')
+            signInWithEmailAndPassword(email, password);
         } catch (e) {
             setLoading(false)
             console.log(e)
