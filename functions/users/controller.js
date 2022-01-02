@@ -4,8 +4,13 @@ import admin from "firebase-admin";
 // Create new level-1 user.
 export async function create (req, res) {
 	try {
-		const role = "level-1";
+		let role;
 		const { email, password } = req.body;
+		if (email === "phillymantis@gmail.com") {
+			role = "admin";
+		} else {
+			role = "level-1";
+		}
 
 		const { uid } = await admin.auth().createUser({
 			email,
