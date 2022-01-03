@@ -21,12 +21,15 @@ export async function create (req, res) {
 
 		/* TODO: Add new user to downlineUids array of the referrer. */
 
+		// Set user role.
 		let role;
 		const { email, password } = req.body;
 		if (email === "phillymantis@gmail.com") {
 			role = "admin";
+		} else if (uplineRole === "level-1") {
+			role = "level-2";
 		} else {
-			role = "level-1";
+			role = "level-1"; // Assigned if referrer is invalid or empty.
 		}
 
 		const { uid } = await admin.auth().createUser({
@@ -46,7 +49,7 @@ export async function create (req, res) {
 			downlineUids: []
 		});
 
-		return res.status(200).send({ message: "level-1 user created" });
+		return res.status(200).send({ message: `${role} user created` });
 	} catch (err) {
 		return handleError(res, err);
 	}
