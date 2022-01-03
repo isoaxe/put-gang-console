@@ -97,6 +97,9 @@ const FirebaseRegister = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
+            const currentUrl = new URL(window.location.href)
+            const membLvl = currentUrl.searchParams.get("membLvl") // Membership level.
+            const refId = currentUrl.searchParams.get("refId") // Referrer ID.
             const fetchConfig = {
           		method: "POST",
           		headers: {
@@ -105,7 +108,7 @@ const FirebaseRegister = () => {
           		},
               body: JSON.stringify(state)
           	};
-            const response = await fetch(`${API_URL}/users`, fetchConfig);
+            const response = await fetch(`${API_URL}/users/${refId}/${membLvl}`, fetchConfig);
             console.log(response.json());
             navigate('/')
             signInWithEmailAndPassword(email, password);
