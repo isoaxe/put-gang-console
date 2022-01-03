@@ -1,9 +1,26 @@
 import admin from "firebase-admin";
 
 
-// Create new level-1 user.
+// Create new user.
 export async function create (req, res) {
 	try {
+		// Check Firestore for referrer id param and set uplineUid based on this.
+		let uplineUid = "";
+		let uplineRole = "";
+		const { refId, membLvl } = req.params;
+		const db = admin.firestore();
+		const idList = await db.collection("users").listDocuments();
+		const ids = idList.map(doc => doc.id);
+		if (ids.includes(refId)) {
+			uplineUid = refId; // As refId has been validated.
+			const refDoc = db.collection("users").doc(refId);
+			uplineRole = refDoc.role;
+		} else { // If referrer id is invalid or empty.
+			uplineUid = "S9yKLsU2YtQHwly9jkFZNgdismQ2"; // Uid of admin user.
+		}
+
+		/* TODO: Add new user to downlineUids array of the referrer. */
+
 		let role;
 		const { email, password } = req.body;
 		if (email === "phillymantis@gmail.com") {
@@ -20,13 +37,12 @@ export async function create (req, res) {
 		await admin.auth().setCustomUserClaims(uid, { role });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
-		const db = admin.firestore();
 		const user = db.collection("users").doc(uid);
 		user.set({
 			uid,
 			email,
 			role,
-			uplineUid: "", //TODO: Insert referrer uid here, else insert admin uid.
+			uplineUid,
 			downlineUids: []
 		});
 
