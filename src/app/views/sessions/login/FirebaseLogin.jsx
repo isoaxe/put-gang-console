@@ -248,7 +248,7 @@ const FirebaseLogin = () => {
                                             checked={userInfo.remember}
                                         />
                                     }
-                                    label="Remeber me"
+                                    label="Remember me"
                                 />
 
                                 {message && (

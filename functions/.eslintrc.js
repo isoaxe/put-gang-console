@@ -4,9 +4,9 @@ module.exports = {
     es6: true,
     node: true,
   },
+  sourceType: "module",
   extends: [
     "eslint:recommended",
-    "google",
   ],
   rules: {
     quotes: ["error", "double"],

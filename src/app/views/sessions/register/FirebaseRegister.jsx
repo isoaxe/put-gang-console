@@ -12,6 +12,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
+import { API_URL } from './../../../utils/urls'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -74,7 +75,7 @@ const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithEmailAndPassword, signInWithGoogle } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -96,8 +97,18 @@ const FirebaseRegister = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
-            await createUserWithEmailAndPassword(state.email, state.password)
+            const fetchConfig = {
+          		method: "POST",
+          		headers: {
+          			"Content-Type": "application/json",
+          			"Accept": "application/json"
+          		},
+              body: JSON.stringify(state)
+          	};
+            const response = await fetch(`${API_URL}/users`, fetchConfig);
+            console.log(response.json());
             navigate('/')
+            signInWithEmailAndPassword(email, password);
         } catch (e) {
             setLoading(false)
             console.log(e)
