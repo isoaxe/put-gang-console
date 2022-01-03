@@ -4,11 +4,11 @@ import { isAuthorized } from "./../auth/authorized.js";
 
 
 export function usersRoute (app) {
-	// Create a new staff user.
-	app.post("/users",
+	// Create a new user.
+	app.post("/users/:refId/:membLvl",
 		create
 	);
-	// Fetch all users within the business.
+	// Fetch all users.
 	app.get("/users",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"]}),
