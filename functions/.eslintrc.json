@@ -8,6 +8,7 @@
     "eslint:recommended"
   ],
   "parserOptions": {
+    "requireConfigFile": false,
     "sourceType": "module",
     "ecmaVersion": 8
   },
