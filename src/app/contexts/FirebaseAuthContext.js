@@ -42,7 +42,6 @@ const reducer = (state, action) => {
 const AuthContext = createContext({
     ...initialAuthState,
     method: 'FIREBASE',
-    createUserWithEmailAndPassword: () => Promise.resolve(),
     signInWithEmailAndPassword: () => Promise.resolve(),
     signInWithGoogle: () => Promise.resolve(),
     logout: () => Promise.resolve(),

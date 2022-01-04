@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "sourceType": "module",
+    "ecmaVersion": 8
+  },
+  "rules": {
+    "quotes": ["warn", "double"],
+    "no-unused-vars": "warn"
+  }
+}
