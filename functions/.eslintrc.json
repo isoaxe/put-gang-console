@@ -4,10 +4,12 @@
     "es6": true,
     "node": true
   },
-  "sourceType": "module",
   "extends": [
     "eslint:recommended"
   ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "rules": {
     "quotes": ["error", "double"]
   }
