@@ -75,7 +75,7 @@ const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithEmailAndPassword, signInWithGoogle, refId, membLvl } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -97,9 +97,6 @@ const FirebaseRegister = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
-            const currentUrl = new URL(window.location.href)
-            const membLvl = currentUrl.searchParams.get("membLvl") // Membership level.
-            const refId = currentUrl.searchParams.get("refId") // Referrer ID.
             const fetchConfig = {
           		method: "POST",
           		headers: {
