@@ -4,6 +4,11 @@ import 'firebase/auth'
 import { firebaseConfig } from 'config.js'
 import { MatxLoading } from 'app/components'
 
+
+const currentUrl = new URL(window.location.href)
+const membLvl = currentUrl.searchParams.get("membLvl") // Membership level.
+const refId = currentUrl.searchParams.get("refId") // Referrer ID.
+
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig)
 }
@@ -12,6 +17,8 @@ const initialAuthState = {
     isAuthenticated: false,
     isInitialised: false,
     user: null,
+    membLvl,
+    refId,
 }
 
 const reducer = (state, action) => {
