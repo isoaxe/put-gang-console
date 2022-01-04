@@ -19,8 +19,6 @@ export async function create (req, res) {
 			uplineUid = "S9yKLsU2YtQHwly9jkFZNgdismQ2"; // Uid of admin user.
 		}
 
-		/* TODO: Add new user to downlineUids array of the referrer. */
-
 		// Set user role.
 		let role;
 		const { email, password } = req.body;
@@ -48,6 +46,13 @@ export async function create (req, res) {
 			uplineUid,
 			downlineUids: []
 		});
+
+		// Add new user to downlineUids array of the referrer.
+		const uplineDocRef = await db.collection("users").doc(uplineUid);
+		const uplineDoc = await uplineDocRef.get();
+		const referrerDownlines = uplineDoc.data().downlineUids;
+		referrerDownlines.push(uid);
+		uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
 
 		return res.status(200).send({ message: `${role} user created` });
 	} catch (err) {
