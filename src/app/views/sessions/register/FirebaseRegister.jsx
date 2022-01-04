@@ -106,13 +106,19 @@ const FirebaseRegister = () => {
               body: JSON.stringify(state)
           	};
             const response = await fetch(`${API_URL}/users/${refId}/${membLvl}`, fetchConfig);
-            console.log(response.json());
-            navigate('/')
-            signInWithEmailAndPassword(email, password);
+            const jsonResponse = await response.json();
+            if (jsonResponse.error) {
+              setLoading(false)
+              setMessage(jsonResponse.error)
+              console.log(jsonResponse)
+            } else {
+              navigate('/')
+              signInWithEmailAndPassword(email, password);
+            }
         } catch (e) {
             setLoading(false)
-            console.log(e)
             setMessage(e.message)
+            console.log(e)
         }
     }
     let { email, password, agreement } = state
