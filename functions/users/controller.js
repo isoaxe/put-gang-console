@@ -13,8 +13,9 @@ export async function create (req, res) {
 		const ids = idList.map(doc => doc.id);
 		if (ids.includes(refId)) {
 			uplineUid = refId; // As refId has been validated.
-			const refDoc = db.collection("users").doc(refId);
-			uplineRole = refDoc.role;
+			const uplineDocRef = await db.collection("users").doc(uplineUid);
+			const uplineDoc = await uplineDocRef.get();
+			uplineRole = uplineDoc.data().role;
 		} else { // If referrer id is invalid or empty.
 			uplineUid = "S9yKLsU2YtQHwly9jkFZNgdismQ2"; // Uid of admin user.
 		}
