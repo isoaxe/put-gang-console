@@ -11,6 +11,7 @@ import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import firebase from 'firebase/app'
+import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
 import { API_URL } from './../../../utils/urls'
@@ -92,9 +93,9 @@ function getBearerToken () {
 async function makePayment () {
   // Hardcode some sample api url params.
   const type = "join";
-  const uid = "0sCC49t0MPgnYfYJD1KHa6bMRS63"; // uid for lucas@gmail.com
   try {
     const token = await firebase.auth().currentUser.getIdToken(true);
+    const uid = firebase.auth().currentUser.uid;
     const fetchConfig = {
       method: "POST",
       headers: {
