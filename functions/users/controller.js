@@ -39,11 +39,8 @@ export async function create (req, res) {
 		const joinDate = now.toISOString();
 		const expiryDate = addMonth(now).toISOString();
 
-		const { uid } = await admin.auth().createUser({
-			email,
-			password
-		});
-
+		// Create user and set their claims.
+		const { uid } = await admin.auth().createUser({ email, password });
 		await admin.auth().setCustomUserClaims(uid, { role });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
