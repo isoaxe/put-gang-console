@@ -72,6 +72,15 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
     },
 }))
 
+// Temporary function to generate tokens for testing with Postman.
+function getBearerToken () {
+  firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+    console.log("Bearer token:", idToken);
+  }).catch(function(error) {
+    console.error("There was a problem with the token generation...");
+  });
+}
+
 
 const FirebaseRegister = () => {
     const navigate = useNavigate()
@@ -79,13 +88,6 @@ const FirebaseRegister = () => {
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
     const { signInWithEmailAndPassword, signInWithGoogle, refId, membLvl } = useAuth()
-
-    // Temporary function to generate tokens for testing with Postman.
-    firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-      console.log("Bearer token:", idToken);
-    }).catch(function(error) {
-      console.error("There was a problem with the token generation...");
-    });
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -247,6 +249,13 @@ const FirebaseRegister = () => {
                                     >
                                         Sign In
                                     </Button>
+                                </FlexBox>
+                                <FlexBox display="flex" alignItems="center">
+                                    <Box position="relative">
+                                        <button style={{marginTop: "5px"}} onClick={getBearerToken}>
+                                          Get a token
+                                        </button>
+                                    </Box>
                                 </FlexBox>
                             </ValidatorForm>
                         </Box>
