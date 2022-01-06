@@ -10,9 +10,11 @@ import { Box, styled, useTheme } from '@mui/system'
 import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
+import firebase from 'firebase/app'
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
 import { API_URL } from './../../../utils/urls'
+
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -70,6 +72,7 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
     },
 }))
 
+
 const FirebaseRegister = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -77,12 +80,20 @@ const FirebaseRegister = () => {
     const [message, setMessage] = useState('')
     const { signInWithEmailAndPassword, signInWithGoogle, refId, membLvl } = useAuth()
 
+    // Temporary function to generate tokens for testing with Postman.
+    firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+      console.log("Bearer token:", idToken);
+    }).catch(function(error) {
+      console.error("There was a problem with the token generation...");
+    });
+
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
             [name]: value,
         })
     }
+
     const handleGoogleRegister = async (event) => {
         try {
             await signInWithGoogle()
