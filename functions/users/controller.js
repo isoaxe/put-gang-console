@@ -85,7 +85,7 @@ export async function all (req, res) {
 
 // Helper function to create object containing user data.
 function mapUser (user) {
-	const customClaims = (user.customClaims || { role: "", businessId: "" });
+	const customClaims = (user.customClaims || { role: "" });
 	const role = customClaims.role;
 	return {
 		uid: user.uid,
