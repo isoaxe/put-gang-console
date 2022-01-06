@@ -81,9 +81,35 @@ function getBearerToken () {
   });
 }
 
-// Temporary function to make payment in order to test the api.
-function makePayment () {
-
+/*
+ * Temporary function to make payment in order to test the api.
+ *
+ * In order to test, go to the handleFormSubmit function of FirebaseLogin.jsx.
+ * Comment out the line [navigate('/')]. Then attempt to login via the console.
+ * The loading icon will not resolve but you will be logged in. Then this
+ * makePayment function can be called as the currentUser value will be populated.
+ */
+async function makePayment () {
+  // Hardcode some sample api url params.
+  const type = "join";
+  const uid = "0sCC49t0MPgnYfYJD1KHa6bMRS63"; // uid for lucas@gmail.com
+  try {
+    const token = await firebase.auth().currentUser.getIdToken(true);
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+      // Add body here for more info if necessary.
+    };
+    const response = await fetch(`${API_URL}/payments/${uid}/${type}`, fetchConfig);
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+} catch (error) {
+    console.log(error)
+  }
 }
 
 
