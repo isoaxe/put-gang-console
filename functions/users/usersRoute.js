@@ -3,7 +3,7 @@ import { isAuthenticated } from "./../auth/authenticated.js";
 import { isAuthorized } from "./../auth/authorized.js";
 
 
-export function usersRoute (app) {
+export default function usersRoute (app) {
 	// Create a new user.
 	app.post("/users/:refId/:membLvl",
 		create
