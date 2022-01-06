@@ -81,6 +81,11 @@ function getBearerToken () {
   });
 }
 
+// Temporary function to make payment in order to test the api.
+function makePayment () {
+
+}
+
 
 const FirebaseRegister = () => {
     const navigate = useNavigate()
@@ -252,8 +257,11 @@ const FirebaseRegister = () => {
                                 </FlexBox>
                                 <FlexBox display="flex" alignItems="center">
                                     <Box position="relative">
-                                        <button style={{marginTop: "5px"}} onClick={getBearerToken}>
+                                        <button style={{marginTop: "8px"}} onClick={getBearerToken}>
                                           Get a token
+                                        </button>
+                                        <button style={{margin: "8px"}} onClick={makePayment}>
+                                          Make payment
                                         </button>
                                     </Box>
                                 </FlexBox>
