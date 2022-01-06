@@ -1,6 +1,6 @@
 export function isAuthorized (opts) {
 	return (req, res, next) => {
-		const { role, email, uid } = res.locals;
+		const { role, uid } = res.locals;
 		const { id } = req.params;
 
 		if (!role)

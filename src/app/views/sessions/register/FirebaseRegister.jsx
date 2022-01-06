@@ -10,9 +10,11 @@ import { Box, styled, useTheme } from '@mui/system'
 import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
+import firebase from 'firebase/app'
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
 import { API_URL } from './../../../utils/urls'
+
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -70,6 +72,16 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
     },
 }))
 
+// Temporary function to generate tokens for testing with Postman.
+function getBearerToken () {
+  firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+    console.log("Bearer token:", idToken);
+  }).catch(function(error) {
+    console.error("There was a problem with the token generation...");
+  });
+}
+
+
 const FirebaseRegister = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -83,6 +95,7 @@ const FirebaseRegister = () => {
             [name]: value,
         })
     }
+
     const handleGoogleRegister = async (event) => {
         try {
             await signInWithGoogle()
@@ -236,6 +249,13 @@ const FirebaseRegister = () => {
                                     >
                                         Sign In
                                     </Button>
+                                </FlexBox>
+                                <FlexBox display="flex" alignItems="center">
+                                    <Box position="relative">
+                                        <button style={{marginTop: "5px"}} onClick={getBearerToken}>
+                                          Get a token
+                                        </button>
+                                    </Box>
                                 </FlexBox>
                             </ValidatorForm>
                         </Box>

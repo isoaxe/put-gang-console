@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { addMonth } from "./../util/helpers.js";
 
 
 // Create new user.
@@ -25,17 +26,21 @@ export async function create (req, res) {
 		const { email, password } = req.body;
 		if (email === "phillymantis@gmail.com") {
 			role = "admin";
+		} else if (uplineRole === "level-2") {
+			role = "level-3";
 		} else if (uplineRole === "level-1") {
 			role = "level-2";
 		} else {
 			role = "level-1"; // Assigned if referrer is invalid or empty.
 		}
 
-		const { uid } = await admin.auth().createUser({
-			email,
-			password
-		});
+		// Set creation and expiry dates.
+		const now = new Date();
+		const joinDate = now.toISOString();
+		const expiryDate = addMonth(now).toISOString();
 
+		// Create user and set their claims.
+		const { uid } = await admin.auth().createUser({ email, password });
 		await admin.auth().setCustomUserClaims(uid, { role });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
@@ -44,6 +49,9 @@ export async function create (req, res) {
 			uid,
 			email,
 			role,
+			membLvl,
+			joinDate,
+			expiryDate,
 			uplineUid,
 			downlineUids: []
 		});
@@ -55,7 +63,7 @@ export async function create (req, res) {
 		referrerDownlines.push(uid);
 		uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
 
-		return res.status(200).send({ message: `${role} user created` });
+		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {
 		return handleError(res, err);
 	}
@@ -77,7 +85,7 @@ export async function all (req, res) {
 
 // Helper function to create object containing user data.
 function mapUser (user) {
-	const customClaims = (user.customClaims || { role: "", businessId: "" });
+	const customClaims = (user.customClaims || { role: "" });
 	const role = customClaims.role;
 	return {
 		uid: user.uid,
