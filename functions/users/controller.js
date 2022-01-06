@@ -63,7 +63,7 @@ export async function create (req, res) {
 		referrerDownlines.push(uid);
 		uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
 
-		return res.status(200).send({ message: `${role} user created` });
+		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {
 		return handleError(res, err);
 	}
