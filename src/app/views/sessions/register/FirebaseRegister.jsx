@@ -157,8 +157,8 @@ const FirebaseRegister = () => {
               setMessage(jsonResponse.error)
               console.log(jsonResponse)
             } else {
+              await signInWithEmailAndPassword(email, password);
               navigate('/')
-              signInWithEmailAndPassword(email, password);
             }
         } catch (e) {
             setLoading(false)
