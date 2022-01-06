@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { addMonth } from "./../../util/helpers.js";
 
 
 // Create new user.
@@ -33,6 +34,11 @@ export async function create (req, res) {
 			role = "level-1"; // Assigned if referrer is invalid or empty.
 		}
 
+		// Set creation and expiry dates.
+		const now = new Date();
+		const joinDate = now.toISOString();
+		const expiryDate = addMonth(now).toISOString();
+
 		const { uid } = await admin.auth().createUser({
 			email,
 			password
@@ -46,6 +52,9 @@ export async function create (req, res) {
 			uid,
 			email,
 			role,
+			membLvl,
+			joinDate,
+			expiryDate,
 			uplineUid,
 			downlineUids: []
 		});
