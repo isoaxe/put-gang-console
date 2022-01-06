@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { addMonth } from "./../../util/helpers.js";
+import { addMonth } from "./../util/helpers.js";
 
 
 // Create new user.
