@@ -25,6 +25,8 @@ export async function create (req, res) {
 		const { email, password } = req.body;
 		if (email === "phillymantis@gmail.com") {
 			role = "admin";
+		} else if (uplineRole === "level-2") {
+			role = "level-3";
 		} else if (uplineRole === "level-1") {
 			role = "level-2";
 		} else {
