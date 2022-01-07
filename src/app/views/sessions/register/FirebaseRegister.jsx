@@ -118,6 +118,10 @@ async function makePayment () {
   }
 }
 
+function initPayments () {
+
+}
+
 
 const FirebaseRegister = () => {
     const navigate = useNavigate()
@@ -294,6 +298,9 @@ const FirebaseRegister = () => {
                                         </button>
                                         <button style={{margin: "8px"}} onClick={makePayment}>
                                           Make payment
+                                        </button>
+                                        <button style={{marginTop: "8px"}} onClick={initPayments}>
+                                          Init payments
                                         </button>
                                     </Box>
                                 </FlexBox>
