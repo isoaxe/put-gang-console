@@ -4,7 +4,10 @@ import admin from "firebase-admin";
 // Create a new payment.
 export async function create (req, res) {
 	try {
-		const { type } = req.params;
+		const { uid, type } = req.params;
+		const { name, email } = req.body;
+		const db = admin.firestore();
+		const user = db.collection("payments").doc(uid);
 
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
