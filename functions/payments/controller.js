@@ -11,6 +11,7 @@ export async function init (req, res) {
 
 		// Initialize all stats.
 		const stats = user.collection("stats").doc("stats");
+		// These data relate to the user's earnings from their downline.
 		const [revenue, paid, unpaid, joinSold, watchSold] = Array(5).fill(0);
 		stats.set({
 			name: "",
