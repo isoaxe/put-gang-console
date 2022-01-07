@@ -97,14 +97,18 @@ async function makePayment () {
     const user = firebase.auth().currentUser;
     const token = await user.getIdToken(true);
     const uid = user.uid;
+    const data = {
+      name: user.displayName,
+      email: user.email
+    }
     const fetchConfig = {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         "Accept": "application/json"
-      }
-      // Add body here for more info if necessary.
+      },
+      body: JSON.stringify(data)
     };
     const response = await fetch(`${API_URL}/payments/${uid}/${type}`, fetchConfig);
     const jsonResponse = await response.json();
