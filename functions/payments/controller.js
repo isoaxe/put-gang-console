@@ -38,6 +38,10 @@ export async function create (req, res) {
 		const db = admin.firestore();
 		const user = db.collection("payments").doc(uid);
 
+		// Get current user data.
+		const userRef = await db.collection("users").doc(uid).get();
+		const userData = userRef.data();
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
