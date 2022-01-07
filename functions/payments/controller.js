@@ -1,6 +1,16 @@
 import admin from "firebase-admin";
 
 
+// Initialize payments for new user.
+export async function init (req, res) {
+	try {
+		return res.status(200).send({ message: "Payments initialized for new user" });
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
+
+
 // Create a new payment.
 export async function create (req, res) {
 	try {
