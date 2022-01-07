@@ -94,8 +94,9 @@ async function makePayment () {
   // Hardcode some sample api url params.
   const type = "join";
   try {
-    const token = await firebase.auth().currentUser.getIdToken(true);
-    const uid = firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser;
+    const token = await user.getIdToken(true);
+    const uid = user.uid;
     const fetchConfig = {
       method: "POST",
       headers: {
