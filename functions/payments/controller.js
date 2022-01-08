@@ -13,7 +13,7 @@ export async function init (req, res) {
 		// Initialize all stats.
 		const stats = user.collection("stats").doc("stats");
 		// These data relate to the user's earnings from their downline.
-		const [revenue, paid, unpaid, sales, lastInvoiceId] = Array(5).fill(0);
+		const [revenue, paid, unpaid, sales, invoiceId] = Array(5).fill(0);
 		stats.set({
 			name: "",
 			email,
@@ -21,7 +21,7 @@ export async function init (req, res) {
 			paid,
 			unpaid,
 			sales,
-			lastInvoiceId
+			invoiceId
 		});
 
 		return res.status(200).send({ message: `Payments initialized for ${email}` });
