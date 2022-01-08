@@ -97,6 +97,7 @@ async function makePayment () {
     const user = firebase.auth().currentUser;
     const token = await user.getIdToken(true);
     const uid = user.uid;
+    console.log(`Making payment for ${user.email}`);
     const data = {
       name: user.displayName,
       email: user.email
