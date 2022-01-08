@@ -83,6 +83,11 @@ export async function create (req, res) {
 			toplineSales = toplineStatsData.sales;
 		}
 
+		// Set value of payment type.
+		let value;
+		if (type === "join") value = 50;
+		if (type === "watch") value = 150;
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
