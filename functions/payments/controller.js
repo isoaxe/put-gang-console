@@ -88,6 +88,15 @@ export async function create (req, res) {
 		if (type === "join") value = 50;
 		if (type === "watch") value = 150;
 
+		// Admin revenue and sales will always increase by full amount.
+		// This covers level-1 users.
+		adminRevenue += value;
+		adminSales++;
+		adminStats.set({
+			revenue: adminRevenue,
+			sales: adminSales
+		}, { merge: true });
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
