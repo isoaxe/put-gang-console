@@ -140,7 +140,7 @@ export async function create (req, res) {
 			}, { merge: true });
 		}
 
-		return res.status(200).send({ message: `${type} payment made` });
+		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
 	}
