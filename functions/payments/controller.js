@@ -114,6 +114,32 @@ export async function create (req, res) {
 			}, { merge: true });
 		}
 
+		// Set stats for level-1 and level-2 if level-3 user.
+		if (role === "level-3") {
+			toplineRevenue += value;
+			toplineUnpaid += value / 4;
+			toplineSales++;
+			toplineStats.set({
+				revenue: toplineRevenue,
+				unpaid: toplineUnpaid,
+				sales: toplineSales
+			}, { merge: true });
+
+			uplineRevenue += value;
+			uplineUnpaid += value / 4;
+			uplineSales++;
+			uplineStats.set({
+				revenue: uplineRevenue,
+				unpaid: uplineUnpaid,
+				sales: uplineSales
+			}, { merge: true });
+
+			adminUnpaid += value / 2;
+			adminStats.set({
+				unpaid: adminUnpaid
+			}, { merge: true });
+		}
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
