@@ -37,7 +37,6 @@ export async function create (req, res) {
 		const { uid, type } = req.params;
 		const { email } = req.body;
 		const db = admin.firestore();
-		const user = db.collection("payments").doc(uid);
 
 		// Get current user data.
 		const userRef = await db.collection("users").doc(uid).get();
@@ -63,9 +62,10 @@ export async function create (req, res) {
 		let uplineRevenue = uplineStatsData.revenue;
 		let uplineUnpaid = uplineStatsData.unpaid;
 		let uplineSales = uplineStatsData.sales;
+		let uplineInvoiceId = uplineStatsData.invoiceId;
 
 		// Initialize variables for use below.
-		let toplineRevenue, toplineUnpaid, toplineSales, toplineStats;
+		let toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
 
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
@@ -82,6 +82,7 @@ export async function create (req, res) {
 			toplineRevenue = toplineStatsData.revenue;
 			toplineUnpaid = toplineStatsData.unpaid;
 			toplineSales = toplineStatsData.sales;
+			toplineInvoiceId = toplineStatsData.invoiceId;
 		}
 
 		// Set value of payment type.
@@ -103,10 +104,12 @@ export async function create (req, res) {
 			uplineRevenue += value;
 			uplineUnpaid += value / 2;
 			uplineSales++;
+			uplineInvoiceId++;
 			uplineStats.set({
 				revenue: uplineRevenue,
 				unpaid: uplineUnpaid,
-				sales: uplineSales
+				sales: uplineSales,
+				invoiceId: uplineInvoiceId
 			}, { merge: true });
 
 			adminUnpaid += value / 2;
@@ -120,19 +123,23 @@ export async function create (req, res) {
 			toplineRevenue += value;
 			toplineUnpaid += value / 4;
 			toplineSales++;
+			toplineInvoiceId++;
 			toplineStats.set({
 				revenue: toplineRevenue,
 				unpaid: toplineUnpaid,
-				sales: toplineSales
+				sales: toplineSales,
+				invoiceId: toplineInvoiceId
 			}, { merge: true });
 
 			uplineRevenue += value;
 			uplineUnpaid += value / 4;
 			uplineSales++;
+			uplineInvoiceId++;
 			uplineStats.set({
 				revenue: uplineRevenue,
 				unpaid: uplineUnpaid,
-				sales: uplineSales
+				sales: uplineSales,
+				invoiceId: uplineInvoiceId
 			}, { merge: true });
 
 			adminUnpaid += value / 2;
