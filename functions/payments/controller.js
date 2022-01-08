@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { ADMIN_UID } from "./../util/constants.js";
 
 
 // Initialize payments for new user.
@@ -40,6 +41,17 @@ export async function create (req, res) {
 		// Get current user data.
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
+		const role = userData.role;
+
+		// Get admin stats as payments from all users will accrue here.
+		const adminUid = ADMIN_UID;
+		const adminUser = db.collection("payments").doc(adminUid);
+		const adminStats = adminUser.collection("stats").doc("stats");
+		const adminStatsRef = await adminStats.get();
+		const adminStatsData = adminStatsRef.data();
+		let adminRevenue = adminStatsData.revenue;
+		let adminUnpaid = adminStatsData.unpaid;
+		let adminSales = adminStatsData.sales;
 
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
