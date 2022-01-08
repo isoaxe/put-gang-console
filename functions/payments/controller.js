@@ -34,7 +34,7 @@ export async function init (req, res) {
 export async function create (req, res) {
 	try {
 		const { uid, type } = req.params;
-		const { name, email } = req.body;
+		const { email } = req.body;
 		const db = admin.firestore();
 		const user = db.collection("payments").doc(uid);
 
