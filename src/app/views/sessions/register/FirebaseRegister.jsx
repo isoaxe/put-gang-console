@@ -99,7 +99,6 @@ async function makePayment () {
     const uid = user.uid;
     console.log(`Making payment for ${user.email}`);
     const data = {
-      name: user.displayName,
       email: user.email
     }
     const fetchConfig = {
