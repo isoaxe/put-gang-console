@@ -97,6 +97,23 @@ export async function create (req, res) {
 			sales: adminSales
 		}, { merge: true });
 
+		// Set stats for level-1 if level-2 user.
+		if (role === "level-2") {
+			uplineRevenue += value;
+			uplineUnpaid += value / 2;
+			uplineSales++;
+			uplineStats.set({
+				revenue: uplineRevenue,
+				unpaid: uplineUnpaid,
+				sales: uplineSales
+			}, { merge: true });
+
+			adminUnpaid += value / 2;
+			adminStats.set({
+				unpaid: adminUnpaid
+			}, { merge: true });
+		}
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
