@@ -66,6 +66,23 @@ export async function create (req, res) {
 		// Initialize variables for use below.
 		let toplineRevenue, toplineUnpaid, toplineSales, toplineStats;
 
+		// Get the upline's upline (will be level-1) for level-3 users.
+		if (role === "level-3") {
+			// Get upline user data.
+			const uplineRef = await db.collection("users").doc(uplineUid).get();
+			const uplineData = uplineRef.data();
+
+			// Get topline stats. Will be level-1 user.
+			const toplineUid = uplineData.uplineUid; // The upline's upline.
+			const topline = db.collection("payments").doc(toplineUid);
+			toplineStats = topline.collection("stats").doc("stats");
+			const toplineStatsRef = await toplineStats.get();
+			const toplineStatsData = toplineStatsRef.data();
+			toplineRevenue = toplineStatsData.revenue;
+			toplineUnpaid = toplineStatsData.unpaid;
+			toplineSales = toplineStatsData.sales;
+		}
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
