@@ -53,6 +53,16 @@ export async function create (req, res) {
 		let adminUnpaid = adminStatsData.unpaid;
 		let adminSales = adminStatsData.sales;
 
+		// Get upline stats. Same as admin if level-1 user.
+		const uplineUid = userData.uplineUid;
+		const upline = db.collection("payments").doc(uplineUid);
+		const uplineStats = upline.collection("stats").doc("stats");
+		const uplineStatsRef = await uplineStats.get();
+		const uplineStatsData = uplineStatsRef.data();
+		let uplineRevenue = uplineStatsData.revenue;
+		let uplineUnpaid = uplineStatsData.unpaid;
+		let uplineSales = uplineStatsData.sales;
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
