@@ -148,6 +148,10 @@ export async function create (req, res) {
 			}, { merge: true });
 		}
 
+		// Now add the commission invoices themselves.
+		const now = new Date();
+		const date = now.toISOString();
+
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
