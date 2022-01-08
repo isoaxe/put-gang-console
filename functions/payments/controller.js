@@ -24,7 +24,7 @@ export async function init (req, res) {
 			lastInvoiceId
 		});
 
-		return res.status(200).send({ message: "Payments initialized for new user" });
+		return res.status(200).send({ message: `Payments initialized for ${email}` });
 	} catch (err) {
 		return handleError(res, err);
 	}
