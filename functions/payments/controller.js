@@ -63,6 +63,9 @@ export async function create (req, res) {
 		let uplineUnpaid = uplineStatsData.unpaid;
 		let uplineSales = uplineStatsData.sales;
 
+		// Initialize variables for use below.
+		let toplineRevenue, toplineUnpaid, toplineSales, toplineStats;
+
 		return res.status(200).send({ message: `${type} payment made` });
 	} catch (err) {
 		return handleError(res, err);
