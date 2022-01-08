@@ -91,7 +91,7 @@ function getBearerToken () {
  * makePayment function can be called as the currentUser value will be populated.
  */
 async function makePayment () {
-  // Hardcode some sample api url params.
+  // Hardcode payment type for now.
   const type = "join";
   try {
     const user = firebase.auth().currentUser;
