@@ -152,6 +152,21 @@ export async function create (req, res) {
 		const now = new Date();
 		const date = now.toISOString();
 
+		// If level-2 user, generate invoice for upline (level-1) only.
+		if (role === "level-2") {
+			const uplineInvoice = upline.collection("invoices").doc(uplineInvoiceId);
+			uplineInvoice.set({
+				name: userData.name,
+				uid,
+				email,
+				date,
+				product: type,
+				sale: value,
+				commission: value / 2,
+				paid: false
+			});
+		}
+
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
