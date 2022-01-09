@@ -54,7 +54,8 @@ export async function create (req, res) {
 			joinDate,
 			expiryDate,
 			uplineUid,
-			downlineUids: []
+			downlineUids: [],
+			name: ""
 		});
 
 		// Add new user to downlineUids array of the referrer.
