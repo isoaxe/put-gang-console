@@ -151,6 +151,9 @@ export async function create (req, res) {
 		// Now add the commission invoices themselves.
 		const now = new Date();
 		const date = now.toISOString();
+		let commission;
+		if (role === "level-2") commission = value / 2;
+		if (role === "level-3") commission = value / 4;
 
 		// If level-2 user, generate invoice for upline (level-1) only.
 		if (role === "level-2") {
@@ -162,7 +165,7 @@ export async function create (req, res) {
 				date,
 				product: type,
 				sale: value,
-				commission: value / 2,
+				commission,
 				paid: false
 			});
 		}
@@ -177,7 +180,7 @@ export async function create (req, res) {
 				date,
 				product: type,
 				sale: value,
-				commission: value / 4,
+				commission,
 				paid: false
 			});
 
@@ -189,7 +192,7 @@ export async function create (req, res) {
 				date,
 				product: type,
 				sale: value,
-				commission: value / 4,
+				commission,
 				paid: false
 			});
 		}
