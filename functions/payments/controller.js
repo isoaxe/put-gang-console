@@ -65,7 +65,7 @@ export async function create (req, res) {
 		let uplineInvoiceId = uplineStatsData.invoiceId;
 
 		// Initialize variables for use below.
-		let toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
+		let topline, toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
 
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
@@ -75,7 +75,7 @@ export async function create (req, res) {
 
 			// Get topline stats. Will be level-1 user.
 			const toplineUid = uplineData.uplineUid; // The upline's upline.
-			const topline = db.collection("payments").doc(toplineUid);
+			topline = db.collection("payments").doc(toplineUid);
 			toplineStats = topline.collection("stats").doc("stats");
 			const toplineStatsRef = await toplineStats.get();
 			const toplineStatsData = toplineStatsRef.data();
@@ -175,8 +175,7 @@ export async function create (req, res) {
 		if (role === "level-3") {
 			const uplineInvoice = upline.collection("invoices").doc(uplineInvoiceId.toString());
 			uplineInvoice.set({ invoice });
-
-			const toplineInvoice = upline.collection("invoices").doc(toplineInvoiceId.toString());
+			const toplineInvoice = topline.collection("invoices").doc(toplineInvoiceId.toString());
 			toplineInvoice.set({ invoice });
 		}
 
