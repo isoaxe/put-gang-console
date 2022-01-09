@@ -44,8 +44,7 @@ export async function create (req, res) {
 		const role = userData.role;
 
 		// Get admin stats as payments from all users will accrue here.
-		const adminUid = ADMIN_UID;
-		const adminUser = db.collection("payments").doc(adminUid);
+		const adminUser = db.collection("payments").doc(ADMIN_UID);
 		const adminStats = adminUser.collection("stats").doc("stats");
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
