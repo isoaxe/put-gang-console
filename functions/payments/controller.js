@@ -167,6 +167,33 @@ export async function create (req, res) {
 			});
 		}
 
+		// If level-3 user, generate invoices for upline (level-2) and topline (level-1).
+		if (role === "level-3") {
+			const uplineInvoice = upline.collection("invoices").doc(uplineInvoiceId);
+			uplineInvoice.set({
+				name: userData.name,
+				uid,
+				email,
+				date,
+				product: type,
+				sale: value,
+				commission: value / 4,
+				paid: false
+			});
+
+			const toplineInvoice = upline.collection("invoices").doc(toplineInvoiceId);
+			toplineInvoice.set({
+				name: userData.name,
+				uid,
+				email,
+				date,
+				product: type,
+				sale: value,
+				commission: value / 4,
+				paid: false
+			});
+		}
+
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
