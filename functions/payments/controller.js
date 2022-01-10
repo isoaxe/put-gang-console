@@ -188,7 +188,7 @@ export async function create (req, res) {
 // Returns all payment data.
 export async function all (req, res) {
 	try {
-		const { uid } = req.params;
+		const { uid } = res.locals;
 		const db = admin.firestore();
 
 		// Get current user data.
