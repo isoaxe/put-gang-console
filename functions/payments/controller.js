@@ -209,6 +209,13 @@ export async function all (req, res) {
 			});
 		}
 
+		// Populate payment object with all relevant Firestore data.
+		for (let i = 0; i < uids.length; i++) {
+			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
+			const stats = statsRef.data();
+			payments[uids[i]] = { stats };
+		}
+
 		return res.status(200).send("Temp placeholder for payment data");
 	} catch (err) {
 		return handleError(res, err);
