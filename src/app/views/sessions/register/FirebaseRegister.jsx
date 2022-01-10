@@ -11,6 +11,7 @@ import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import firebase from 'firebase/app'
+import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
 import { API_URL } from './../../../utils/urls'
@@ -81,6 +82,68 @@ function getBearerToken () {
   });
 }
 
+/*
+ * Temporary function to make payment in order to test the api.
+ *
+ * In order to test, go to the handleFormSubmit function of FirebaseLogin.jsx.
+ * Comment out the line [navigate('/')]. Then attempt to login via the console.
+ * The loading icon will not resolve but you will be logged in. Then this
+ * makePayment function can be called as the currentUser value will be populated.
+ */
+async function makePayment () {
+  // Hardcode payment type for now.
+  const type = "join";
+  try {
+    const user = firebase.auth().currentUser;
+    const token = await user.getIdToken(true);
+    const uid = user.uid;
+    console.log(`Making payment for ${user.email}`);
+    const data = {
+      email: user.email
+    }
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(data)
+    };
+    const response = await fetch(`${API_URL}/payments/${uid}/${type}`, fetchConfig);
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+} catch (error) {
+    console.log(error)
+  }
+}
+
+// Temporary function to initialize payments by populating Firestore with initial values.
+async function initPayments () {
+  try {
+    const user = firebase.auth().currentUser;
+    const token = await user.getIdToken(true);
+    const uid = user.uid;
+    const data = {
+      email: user.email
+    }
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(data)
+    };
+    const response = await fetch(`${API_URL}/payments/init/${uid}`, fetchConfig);
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 const FirebaseRegister = () => {
     const navigate = useNavigate()
@@ -125,8 +188,8 @@ const FirebaseRegister = () => {
               setMessage(jsonResponse.error)
               console.log(jsonResponse)
             } else {
+              await signInWithEmailAndPassword(email, password);
               navigate('/')
-              signInWithEmailAndPassword(email, password);
             }
         } catch (e) {
             setLoading(false)
@@ -252,8 +315,14 @@ const FirebaseRegister = () => {
                                 </FlexBox>
                                 <FlexBox display="flex" alignItems="center">
                                     <Box position="relative">
-                                        <button style={{marginTop: "5px"}} onClick={getBearerToken}>
+                                        <button style={{marginTop: "8px"}} onClick={getBearerToken}>
                                           Get a token
+                                        </button>
+                                        <button style={{margin: "8px"}} onClick={makePayment}>
+                                          Make payment
+                                        </button>
+                                        <button style={{marginTop: "8px"}} onClick={initPayments}>
+                                          Init payments
                                         </button>
                                     </Box>
                                 </FlexBox>
