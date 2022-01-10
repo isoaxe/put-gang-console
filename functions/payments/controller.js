@@ -197,7 +197,7 @@ export async function all (req, res) {
 		const role = userData.role;
 
 		// Variables used within conditionals below.
-		const uids = [];
+		let uids = [];
 		const payments = {};
 		const paymentsRef = db.collection("payments");
 
@@ -207,6 +207,11 @@ export async function all (req, res) {
 			documents.forEach(doc => {
 				uids.push(doc.id);
 			});
+		}
+
+		// Only include self for level-2 user.
+		if (role === "level-2") {
+			uids.push(uid);
 		}
 
 		// Populate payment object with all relevant Firestore data.
