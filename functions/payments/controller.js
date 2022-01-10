@@ -195,7 +195,17 @@ export async function all (req, res) {
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
 		const role = userData.role;
-		
+
+		const downlineUids = [];
+
+		if (role === "admin") {
+			const paymentRef = db.collection("payments");
+			const documents = await paymentRef.listDocuments();
+			documents.forEach(doc => {
+				downlineUids.push(doc.id);
+			});
+		}
+
 		return res.status(200).send("Temp placeholder for payment data");
 	} catch (err) {
 		return handleError(res, err);
