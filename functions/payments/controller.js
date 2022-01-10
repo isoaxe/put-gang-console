@@ -198,6 +198,7 @@ export async function all (req, res) {
 
 		// Variables used within conditionals below.
 		const uids = [];
+		const payments = {};
 		const paymentsRef = db.collection("payments");
 
 		// Get downline ids plus self for admin (i.e. all users).
