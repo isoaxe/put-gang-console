@@ -135,6 +135,8 @@ const FirebaseLogin = () => {
     async function signInNoRedirect (event) {
         try {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
+            console.log(`${userInfo.email} signed in!`)
+            window.alert(`${userInfo.email} signed in!`)
         } catch (e) {
             console.log(e)
             setMessage(e.message)
