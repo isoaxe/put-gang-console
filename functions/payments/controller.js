@@ -196,13 +196,14 @@ export async function all (req, res) {
 		const userData = userRef.data();
 		const role = userData.role;
 
-		const downlineUids = [];
+		const uids = [];
 
+		// Get downline ids plus self for admin (i.e. all users).
 		if (role === "admin") {
 			const paymentRef = db.collection("payments");
 			const documents = await paymentRef.listDocuments();
 			documents.forEach(doc => {
-				downlineUids.push(doc.id);
+				uids.push(doc.id);
 			});
 		}
 
