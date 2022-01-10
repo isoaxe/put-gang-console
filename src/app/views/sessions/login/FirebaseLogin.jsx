@@ -133,13 +133,11 @@ const FirebaseLogin = () => {
 
     // Temporary function to login without redirecting to console.
     async function signInNoRedirect (event) {
-        setLoading(true)
         try {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
         } catch (e) {
             console.log(e)
             setMessage(e.message)
-            setLoading(false)
         }
     }
 
