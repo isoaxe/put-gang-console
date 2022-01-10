@@ -118,20 +118,15 @@ async function initPayments () {
   try {
     const user = firebase.auth().currentUser;
     const token = await user.getIdToken(true);
-    const uid = user.uid;
-    const data = {
-      email: user.email
-    }
     const fetchConfig = {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         "Accept": "application/json"
-      },
-      body: JSON.stringify(data)
+      }
     };
-    const response = await fetch(`${API_URL}/payments/init/${uid}`, fetchConfig);
+    const response = await fetch(`${API_URL}/payments/init`, fetchConfig);
     const jsonResponse = await response.json();
     console.log(jsonResponse);
   } catch (error) {
