@@ -11,7 +11,7 @@ export default function paymentsRoute (app) {
 		init
 	);
 	// Create a new payment for a given user.
-	app.post("/payments/:uid/:type",
+	app.post("/payments/:type",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["level-1", "level-2", "level-3"]}),
 		create
