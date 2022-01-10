@@ -213,7 +213,14 @@ export async function all (req, res) {
 		for (let i = 0; i < uids.length; i++) {
 			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
 			const stats = statsRef.data();
-			payments[uids[i]] = { stats };
+			const invoices = {};
+			for (let j = 1; j <= stats.invoiceId; j++) {
+				const invoiceNumber = j.toString(); // Cast as string for use as object key.
+				const invoice = await paymentsRef.doc(uids[i]).collection("invoices").doc(invoiceNumber).get();
+				const invoiceData = invoice.data();
+				invoices[invoiceNumber] = invoiceData;
+			}
+			payments[uids[i]] = { stats, invoices };
 		}
 
 		return res.status(200).send(payments);
