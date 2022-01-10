@@ -188,6 +188,14 @@ export async function create (req, res) {
 // Returns all payment data.
 export async function all (req, res) {
 	try {
+		const { uid } = req.params;
+		const db = admin.firestore();
+
+		// Get current user data.
+		const userRef = await db.collection("users").doc(uid).get();
+		const userData = userRef.data();
+		const role = userData.role;
+		
 		return res.status(200).send("Temp placeholder for payment data");
 	} catch (err) {
 		return handleError(res, err);
