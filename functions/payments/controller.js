@@ -34,8 +34,8 @@ export async function init (req, res) {
 // Create a new payment.
 export async function create (req, res) {
 	try {
-		const { uid, type } = req.params;
-		const { email } = req.body;
+		const { uid, email } = res.locals;
+		const { type } = req.params;
 		const db = admin.firestore();
 
 		// Get current user data.
