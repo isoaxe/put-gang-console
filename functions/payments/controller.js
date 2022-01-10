@@ -5,8 +5,7 @@ import { ADMIN_UID } from "./../util/constants.js";
 // Initialize payments for new user.
 export async function init (req, res) {
 	try {
-		const { uid } = req.params;
-		const { email } = req.body;
+		const { uid, email } = res.locals;
 		const db = admin.firestore();
 		const user = db.collection("payments").doc(uid);
 
