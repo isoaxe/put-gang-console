@@ -16,8 +16,8 @@ export default function paymentsRoute (app) {
 		isAuthorized({ hasRole: ["level-1", "level-2", "level-3"]}),
 		create
 	);
-	// Fetch all payment data.
-	app.get("/payments",
+	// Fetch all payment data downline from user.
+	app.get("/payments/:uid",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"]}),
 		all
