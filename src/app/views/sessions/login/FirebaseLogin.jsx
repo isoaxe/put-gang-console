@@ -130,6 +130,19 @@ const FirebaseLogin = () => {
             setLoading(false)
         }
     }
+
+    // Temporary function to login without redirecting to console.
+    async function signInNoRedirect (event) {
+        setLoading(true)
+        try {
+            await signInWithEmailAndPassword(userInfo.email, userInfo.password)
+        } catch (e) {
+            console.log(e)
+            setMessage(e.message)
+            setLoading(false)
+        }
+    }
+
     const handleGoogleLogin = async (event) => {
         try {
             await signInWithGoogle()
@@ -289,6 +302,9 @@ const FirebaseLogin = () => {
                                     Forgot password?
                                 </Button>
                             </ValidatorForm>
+                            <button style={{marginTop: "8px"}} onClick={signInNoRedirect}>
+                              Sign In: No Redirect
+                            </button>
                         </Box>
                     </Grid>
                 </Grid>
