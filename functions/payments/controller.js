@@ -209,6 +209,12 @@ export async function all (req, res) {
 			});
 		}
 
+		// Include downline and self for level-1 user.
+		if (role === "level-1") {
+			uids = userData.downlineUids;
+			uids.push(uid);
+		}
+
 		// Only include self for level-2 user.
 		if (role === "level-2") {
 			uids.push(uid);
