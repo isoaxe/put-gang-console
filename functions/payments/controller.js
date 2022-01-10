@@ -216,7 +216,7 @@ export async function all (req, res) {
 			payments[uids[i]] = { stats };
 		}
 
-		return res.status(200).send("Temp placeholder for payment data");
+		return res.status(200).send(payments);
 	} catch (err) {
 		return handleError(res, err);
 	}
