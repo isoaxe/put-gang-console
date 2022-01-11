@@ -85,10 +85,9 @@ function getBearerToken () {
 /*
  * Temporary function to make payment in order to test the api.
  *
- * In order to test, go to the handleFormSubmit function of FirebaseLogin.jsx.
- * Comment out the line [navigate('/')]. Then attempt to login via the console.
- * The loading icon will not resolve but you will be logged in. Then this
- * makePayment function can be called as the currentUser value will be populated.
+ * In order to test, login via the 'Sign In: No Redirect' temporary button rather
+ * than the usual 'Sign In' button. Then this makePayment function can be called
+ * as the currentUser value will be populated.
  */
 async function makePayment () {
   // Hardcode payment type for now.
