@@ -31,8 +31,10 @@ export async function create (req, res) {
 			role = "level-3";
 		} else if (uplineRole === "level-1") {
 			role = "level-2";
+		} else if (uplineRole === "admin") {
+			role = "level-1";
 		} else {
-			role = "level-1"; // Assigned if referrer is invalid or empty.
+			role = "standard"; // Assigned if referrer is invalid or empty.
 		}
 
 		// Set creation and expiry dates.
