@@ -58,11 +58,13 @@ export async function create (req, res) {
 		});
 
 		// Add new user to downlineUids array of the referrer.
-		const uplineDocRef = await db.collection("users").doc(uplineUid);
-		const uplineDoc = await uplineDocRef.get();
-		const referrerDownlines = uplineDoc.data().downlineUids;
-		referrerDownlines.push(uid);
-		uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+		if (role !== "admin" && role !== "standard") {
+			const uplineDocRef = await db.collection("users").doc(uplineUid);
+			const uplineDoc = await uplineDocRef.get();
+			const referrerDownlines = uplineDoc.data().downlineUids;
+			referrerDownlines.push(uid);
+			uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+		}
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {
