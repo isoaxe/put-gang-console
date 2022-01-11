@@ -85,10 +85,9 @@ function getBearerToken () {
 /*
  * Temporary function to make payment in order to test the api.
  *
- * In order to test, go to the handleFormSubmit function of FirebaseLogin.jsx.
- * Comment out the line [navigate('/')]. Then attempt to login via the console.
- * The loading icon will not resolve but you will be logged in. Then this
- * makePayment function can be called as the currentUser value will be populated.
+ * In order to test, login via the 'Sign In: No Redirect' temporary button rather
+ * than the usual 'Sign In' button. Then this makePayment function can be called
+ * as the currentUser value will be populated.
  */
 async function makePayment () {
   // Hardcode payment type for now.
@@ -109,27 +108,6 @@ async function makePayment () {
     const jsonResponse = await response.json();
     console.log(jsonResponse);
 } catch (error) {
-    console.log(error)
-  }
-}
-
-// Temporary function to initialize payments by populating Firestore with initial values.
-async function initPayments () {
-  try {
-    const user = firebase.auth().currentUser;
-    const token = await user.getIdToken(true);
-    const fetchConfig = {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    };
-    const response = await fetch(`${API_URL}/payments/init`, fetchConfig);
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-  } catch (error) {
     console.log(error)
   }
 }
@@ -310,9 +288,6 @@ const FirebaseRegister = () => {
                                         </button>
                                         <button style={{margin: "8px"}} onClick={makePayment}>
                                           Make payment
-                                        </button>
-                                        <button style={{marginTop: "8px"}} onClick={initPayments}>
-                                          Init payments
                                         </button>
                                     </Box>
                                 </FlexBox>
