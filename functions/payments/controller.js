@@ -81,8 +81,8 @@ export async function create (req, res) {
 		if (type === "join") value = 50;
 		if (type === "watch") value = 150;
 
-		// Admin revenue and sales will always increase by full amount.
-		// This covers level-1 users.
+		// Admin revenue and sales will always increase by full amount for all users.
+		// This covers level-1 and standard users fully.
 		adminRevenue += value;
 		adminSales++;
 		adminStats.set({
