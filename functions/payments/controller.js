@@ -5,8 +5,7 @@ import { ADMIN_UID } from "./../util/constants.js";
 // Initialize payments for new user.
 export async function init (req, res) {
 	try {
-		const { uid } = req.params;
-		const { email } = req.body;
+		const { uid, email } = res.locals;
 		const db = admin.firestore();
 		const user = db.collection("payments").doc(uid);
 
@@ -34,14 +33,13 @@ export async function init (req, res) {
 // Create a new payment.
 export async function create (req, res) {
 	try {
-		const { uid, type } = req.params;
-		const { email } = req.body;
+		const { uid, role, email } = res.locals;
+		const { type } = req.params;
 		const db = admin.firestore();
 
 		// Get current user data.
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
-		const role = userData.role;
 
 		// Get admin stats as payments from all users will accrue here.
 		const adminUser = db.collection("payments").doc(ADMIN_UID);
@@ -188,13 +186,12 @@ export async function create (req, res) {
 // Returns all payment data.
 export async function all (req, res) {
 	try {
-		const { uid } = req.params;
+		const { uid, role } = res.locals;
 		const db = admin.firestore();
 
 		// Get current user data.
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
-		const role = userData.role;
 
 		// Variables used within conditionals below.
 		let uids = [];
