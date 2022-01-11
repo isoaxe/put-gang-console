@@ -1,15 +1,9 @@
-import { init, create, all } from "./controller.js";
+import { create, all } from "./controller.js";
 import { isAuthenticated } from "./../auth/authenticated.js";
 import { isAuthorized } from "./../auth/authorized.js";
 
 
 export default function paymentsRoute (app) {
-	// Initialize payments for a new user.
-	app.post("/payments/init",
-		isAuthenticated,
-		isAuthorized({ hasRole: ["admin", "level-1", "level-2", "level-3"]}),
-		init
-	);
 	// Create a new payment for the current user.
 	app.post("/payments/:type",
 		isAuthenticated,
