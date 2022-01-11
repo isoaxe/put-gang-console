@@ -37,9 +37,26 @@ export async function create (req, res) {
 		const { type } = req.params;
 		const db = admin.firestore();
 
-		// Get current user data.
+		// Get current user and stats data.
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
+		const stats = db.collection("payments").doc(uid).collection("stats").doc("stats");
+		const statsRef = await stats.get();
+		const statsData = statsRef.data()
+
+		if (!statsData && ["admin", "level-1", "level-2"].includes(role)) {
+			// Initialize all stats. These data relate to the user's earnings from their downline.
+			const [revenue, paid, unpaid, sales, invoiceId] = Array(5).fill(0);
+			stats.set({
+				name: "",
+				email,
+				revenue,
+				paid,
+				unpaid,
+				sales,
+				invoiceId
+			});
+		}
 
 		// Get admin stats as payments from all users will accrue here.
 		const adminUser = db.collection("payments").doc(ADMIN_UID);
