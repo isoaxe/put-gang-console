@@ -10,13 +10,13 @@ export default function paymentsRoute (app) {
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2", "level-3"]}),
 		init
 	);
-	// Create a new payment for a given user.
+	// Create a new payment for the current user.
 	app.post("/payments/:type",
 		isAuthenticated,
-		isAuthorized({ hasRole: ["level-1", "level-2", "level-3"]}),
+		isAuthorized({ hasRole: ["admin", "level-1", "level-2", "level-3"]}),
 		create
 	);
-	// Fetch all payment data downline from user.
+	// Fetch all payment data downline from current user.
 	app.get("/payments",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"]}),
