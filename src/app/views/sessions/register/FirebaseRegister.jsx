@@ -113,27 +113,6 @@ async function makePayment () {
   }
 }
 
-// Temporary function to initialize payments by populating Firestore with initial values.
-async function initPayments () {
-  try {
-    const user = firebase.auth().currentUser;
-    const token = await user.getIdToken(true);
-    const fetchConfig = {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    };
-    const response = await fetch(`${API_URL}/payments/init`, fetchConfig);
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 
 const FirebaseRegister = () => {
     const navigate = useNavigate()
@@ -310,9 +289,6 @@ const FirebaseRegister = () => {
                                         </button>
                                         <button style={{margin: "8px"}} onClick={makePayment}>
                                           Make payment
-                                        </button>
-                                        <button style={{marginTop: "8px"}} onClick={initPayments}>
-                                          Init payments
                                         </button>
                                     </Box>
                                 </FlexBox>
