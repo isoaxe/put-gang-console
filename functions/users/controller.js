@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
 import { addMonth } from "./../util/helpers.js";
-import { ADMIN_UID } from "./../util/constants.js";
 
 
 // Create new user.
@@ -18,8 +17,6 @@ export async function create (req, res) {
 			const uplineDocRef = await db.collection("users").doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			uplineRole = uplineDoc.data().role;
-		} else { // If referrer id is invalid or empty.
-			uplineUid = ADMIN_UID;
 		}
 
 		// Set user role.
