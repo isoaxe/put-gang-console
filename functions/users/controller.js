@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 import { addMonth } from "./../util/helpers.js";
+import { ADMIN_EMAIL } from "./../util/constants.js";
 
 
 // Create new user.
@@ -22,7 +23,7 @@ export async function create (req, res) {
 		// Set user role.
 		let role;
 		const { email, password } = req.body;
-		if (email === "phillymantis@gmail.com") {
+		if (email === ADMIN_EMAIL) {
 			role = "admin";
 		} else if (uplineRole === "level-2") {
 			role = "level-3";
