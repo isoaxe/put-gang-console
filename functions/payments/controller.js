@@ -18,11 +18,12 @@ export async function create (req, res) {
 
 		if (!statsData && ["admin", "level-1", "level-2"].includes(role)) {
 			// Initialize all stats. These data relate to the user's earnings from their downline.
-			const [revenue, paid, unpaid, sales, invoiceId] = Array(5).fill(0);
+			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
 			stats.set({
 				name: "",
 				email,
 				revenue,
+				mrr,
 				paid,
 				unpaid,
 				sales,
