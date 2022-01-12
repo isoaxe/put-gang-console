@@ -37,6 +37,7 @@ export async function create (req, res) {
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
 		let adminRevenue = adminStatsData.revenue;
+		let adminMrr = adminStatsData.mrr;
 		let adminUnpaid = adminStatsData.unpaid;
 		let adminSales = adminStatsData.sales;
 
