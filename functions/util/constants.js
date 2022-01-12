@@ -4,5 +4,6 @@
  */
 
 
-// User ID for admin.
+// User ID and email for admin.
 export const ADMIN_UID = "S9yKLsU2YtQHwly9jkFZNgdismQ2";
+export const ADMIN_EMAIL = "phillymantis@gmail.com";

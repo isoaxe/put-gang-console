@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { addMonth } from "./../util/helpers.js";
-import { ADMIN_UID } from "./../util/constants.js";
+import { ADMIN_EMAIL } from "./../util/constants.js";
 
 
 // Create new user.
@@ -18,21 +18,21 @@ export async function create (req, res) {
 			const uplineDocRef = await db.collection("users").doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			uplineRole = uplineDoc.data().role;
-		} else { // If referrer id is invalid or empty.
-			uplineUid = ADMIN_UID;
 		}
 
 		// Set user role.
 		let role;
 		const { email, password } = req.body;
-		if (email === "phillymantis@gmail.com") {
+		if (email === ADMIN_EMAIL) {
 			role = "admin";
 		} else if (uplineRole === "level-2") {
 			role = "level-3";
 		} else if (uplineRole === "level-1") {
 			role = "level-2";
+		} else if (uplineRole === "admin") {
+			role = "level-1";
 		} else {
-			role = "level-1"; // Assigned if referrer is invalid or empty.
+			role = "standard"; // Assigned if referrer is invalid or empty.
 		}
 
 		// Set creation and expiry dates.
@@ -59,11 +59,13 @@ export async function create (req, res) {
 		});
 
 		// Add new user to downlineUids array of the referrer.
-		const uplineDocRef = await db.collection("users").doc(uplineUid);
-		const uplineDoc = await uplineDocRef.get();
-		const referrerDownlines = uplineDoc.data().downlineUids;
-		referrerDownlines.push(uid);
-		uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+		if (role !== "admin" && role !== "standard") {
+			const uplineDocRef = await db.collection("users").doc(uplineUid);
+			const uplineDoc = await uplineDocRef.get();
+			const referrerDownlines = uplineDoc.data().downlineUids;
+			referrerDownlines.push(uid);
+			uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+		}
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {

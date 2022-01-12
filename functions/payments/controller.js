@@ -14,7 +14,7 @@ export async function create (req, res) {
 		const userData = userRef.data();
 		const stats = db.collection("payments").doc(uid).collection("stats").doc("stats");
 		const statsRef = await stats.get();
-		const statsData = statsRef.data()
+		const statsData = statsRef.data();
 
 		if (!statsData && ["admin", "level-1", "level-2"].includes(role)) {
 			// Initialize all stats. These data relate to the user's earnings from their downline.
@@ -39,16 +39,21 @@ export async function create (req, res) {
 		let adminUnpaid = adminStatsData.unpaid;
 		let adminSales = adminStatsData.sales;
 
+		// Initialize variables for use below.
+		let upline, uplineUid, uplineRevenue, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
+
 		// Get upline stats. Same as admin if level-1 user.
-		const uplineUid = userData.uplineUid;
-		const upline = db.collection("payments").doc(uplineUid);
-		const uplineStats = upline.collection("stats").doc("stats");
-		const uplineStatsRef = await uplineStats.get();
-		const uplineStatsData = uplineStatsRef.data();
-		let uplineRevenue = uplineStatsData.revenue;
-		let uplineUnpaid = uplineStatsData.unpaid;
-		let uplineSales = uplineStatsData.sales;
-		let uplineInvoiceId = uplineStatsData.invoiceId;
+		if (role !== "admin" && role !== "standard") {
+			uplineUid = userData.uplineUid;
+			upline = db.collection("payments").doc(uplineUid);
+			uplineStats = upline.collection("stats").doc("stats");
+			const uplineStatsRef = await uplineStats.get();
+			const uplineStatsData = uplineStatsRef.data();
+			uplineRevenue = uplineStatsData.revenue;
+			uplineUnpaid = uplineStatsData.unpaid;
+			uplineSales = uplineStatsData.sales;
+			uplineInvoiceId = uplineStatsData.invoiceId;
+		}
 
 		// Initialize variables for use below.
 		let topline, toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
@@ -76,8 +81,8 @@ export async function create (req, res) {
 		if (type === "join") value = 50;
 		if (type === "watch") value = 150;
 
-		// Admin revenue and sales will always increase by full amount.
-		// This covers level-1 users.
+		// Admin revenue and sales will always increase by full amount for all users.
+		// This covers level-1 and standard users fully.
 		adminRevenue += value;
 		adminSales++;
 		adminStats.set({
