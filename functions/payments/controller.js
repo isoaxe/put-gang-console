@@ -42,7 +42,7 @@ export async function create (req, res) {
 		let adminSales = adminStatsData.sales;
 
 		// Initialize variables for use below.
-		let upline, uplineUid, uplineRevenue, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
+		let upline, uplineUid, uplineRevenue, uplineMrr, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
 
 		// Get upline stats. Same as admin if level-1 user.
 		if (role !== "admin" && role !== "standard") {
@@ -52,6 +52,7 @@ export async function create (req, res) {
 			const uplineStatsRef = await uplineStats.get();
 			const uplineStatsData = uplineStatsRef.data();
 			uplineRevenue = uplineStatsData.revenue;
+			uplineMrr = uplineStatsData.mrr;
 			uplineUnpaid = uplineStatsData.unpaid;
 			uplineSales = uplineStatsData.sales;
 			uplineInvoiceId = uplineStatsData.invoiceId;
