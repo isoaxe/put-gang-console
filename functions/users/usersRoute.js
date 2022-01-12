@@ -11,7 +11,7 @@ export default function usersRoute (app) {
 	// Fetch all users.
 	app.get("/users",
 		isAuthenticated,
-		isAuthorized({ hasRole: ["admin", "level-1", "level-2"]}),
+		isAuthorized({ hasRole: ["admin", "level-1", "level-2"] }),
 		all
 	);
 }
