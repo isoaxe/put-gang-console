@@ -59,7 +59,7 @@ export async function create (req, res) {
 		}
 
 		// Initialize variables for use below.
-		let topline, toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
+		let topline, toplineRevenue, toplineMrr, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
 
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
@@ -74,6 +74,7 @@ export async function create (req, res) {
 			const toplineStatsRef = await toplineStats.get();
 			const toplineStatsData = toplineStatsRef.data();
 			toplineRevenue = toplineStatsData.revenue;
+			toplineMrr = toplineStatsData.mrr;
 			toplineUnpaid = toplineStatsData.unpaid;
 			toplineSales = toplineStatsData.sales;
 			toplineInvoiceId = toplineStatsData.invoiceId;
