@@ -31,6 +31,15 @@ export async function create (req, res) {
 			});
 		}
 
+		// Initialize the totals for admin user.
+		if (!statsData && role === "admin") {
+			const [totalRevenue, totalMrr] = Array(2).fill(0);
+			stats.set({
+				totalRevenue,
+				totalMrr
+			}, { merge: true });
+		}
+
 		// Get admin stats as payments from all users will accrue here.
 		const adminUser = db.collection("payments").doc(ADMIN_UID);
 		const adminStats = adminUser.collection("stats").doc("stats");
