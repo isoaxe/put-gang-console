@@ -106,10 +106,13 @@ export async function create (req, res) {
 			if (role === "level-1" || role === "standard") adminMrr += value;
 		}
 
-		// Admin sales will always increase by full amount for all users.
+		// Admin sales will always increment for all users.
 		// The amount of revenue accruing to admin depends on user role.
 		// This covers level-1 and standard users fully.
-		if (role === "level-2" || role === "level-3") adminRevenue += value / 2;
+		if (role === "level-2" || role === "level-3") {
+			adminUnpaid += value / 2;
+			adminRevenue += value / 2;
+		}
 		if (role === "level-1" || role === "standard") adminRevenue += value;
 		totalRevenue += value;
 		adminSales++;
@@ -118,6 +121,7 @@ export async function create (req, res) {
 			totalMrr,
 			revenue: adminRevenue,
 			mrr: adminMrr,
+			unpaid: adminUnpaid,
 			sales: adminSales
 		}, { merge: true });
 
@@ -134,11 +138,6 @@ export async function create (req, res) {
 				unpaid: uplineUnpaid,
 				sales: uplineSales,
 				invoiceId: uplineInvoiceId
-			}, { merge: true });
-
-			adminUnpaid += value / 2;
-			adminStats.set({
-				unpaid: adminUnpaid
 			}, { merge: true });
 		}
 
@@ -170,11 +169,6 @@ export async function create (req, res) {
 				unpaid: uplineUnpaid,
 				sales: uplineSales,
 				invoiceId: uplineInvoiceId
-			}, { merge: true });
-
-			adminUnpaid += value / 2;
-			adminStats.set({
-				unpaid: adminUnpaid
 			}, { merge: true });
 		}
 
