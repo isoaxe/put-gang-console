@@ -5,7 +5,7 @@ import { ADMIN_UID } from "./../util/constants.js";
 // Create a new payment.
 export async function create (req, res) {
 	try {
-		const { uid, role, email } = res.locals;
+		const { uid, role, subscribed, email } = res.locals;
 		const { type } = req.params;
 		const db = admin.firestore();
 
@@ -85,12 +85,23 @@ export async function create (req, res) {
 		if (type === "join") value = 50;
 		if (type === "watch") value = 150;
 
+		// Add to admin MRR if new user, is a recurring type and not admin.
+		if (!subscribed && (type === "join" || type === "watch") && role !== "admin") {
+			if (role === "level-2" || role === "level-3") {
+				adminMrr += value / 2;
+			}
+			if (role === "level-1" || role === "standard") {
+				adminMrr += value;
+			}
+		}
+
 		// Admin revenue and sales will always increase by full amount for all users.
 		// This covers level-1 and standard users fully.
 		adminRevenue += value;
 		adminSales++;
 		adminStats.set({
 			revenue: adminRevenue,
+			mrr: adminMrr,
 			sales: adminSales
 		}, { merge: true });
 
