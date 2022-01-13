@@ -109,7 +109,7 @@ export async function create (req, res) {
 
 		// Set stats for level-1 if level-2 user.
 		if (role === "level-2") {
-			uplineRevenue += value;
+			uplineRevenue += value / 2;
 			uplineUnpaid += value / 2;
 			uplineSales++;
 			uplineInvoiceId++;
@@ -128,7 +128,7 @@ export async function create (req, res) {
 
 		// Set stats for level-1 and level-2 if level-3 user.
 		if (role === "level-3") {
-			toplineRevenue += value;
+			toplineRevenue += value / 4;
 			toplineUnpaid += value / 4;
 			toplineSales++;
 			toplineInvoiceId++;
@@ -139,7 +139,7 @@ export async function create (req, res) {
 				invoiceId: toplineInvoiceId
 			}, { merge: true });
 
-			uplineRevenue += value;
+			uplineRevenue += value / 4;
 			uplineUnpaid += value / 4;
 			uplineSales++;
 			uplineInvoiceId++;
