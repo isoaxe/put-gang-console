@@ -95,9 +95,11 @@ export async function create (req, res) {
 			}
 		}
 
-		// Admin revenue and sales will always increase by full amount for all users.
+		// Admin sales will always increase by full amount for all users.
+		// The amount of revenue accruing to admin depends on user role.
 		// This covers level-1 and standard users fully.
-		adminRevenue += value;
+		if (role === "level-2" || role === "level-3") adminRevenue += value / 2;
+		if (role === "level-1" || role === "standard") adminRevenue += value;
 		adminSales++;
 		adminStats.set({
 			revenue: adminRevenue,
