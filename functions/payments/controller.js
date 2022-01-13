@@ -169,6 +169,10 @@ export async function create (req, res) {
 			}, { merge: true });
 		}
 
+		if (!subscribed && (type === "join" || type === "watch")) {
+			await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
+		}
+
 		// Now add the commission invoices themselves.
 		const now = new Date();
 		const date = now.toISOString();
