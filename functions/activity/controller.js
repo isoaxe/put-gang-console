@@ -13,10 +13,13 @@ export async function create (req, res) {
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
 
-		const adminRef = await db.collection("users").doc(ADMIN_UID).get();
+		// Get activityId from admin data and increment.
+		const admin = db.collection("users").doc(ADMIN_UID);
+		const adminRef = await admin.get();
 		const adminData = adminRef.data();
 		let { activityId } = adminData;
 		activityId++;
+		admin.set({ activityId }, { merge: true });
 
 		return res.status(200).send({ message: "placeholder message" });
 	} catch (err) {
