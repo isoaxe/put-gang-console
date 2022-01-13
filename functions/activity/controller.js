@@ -14,12 +14,12 @@ export async function create (req, res) {
 		const userData = userRef.data();
 
 		// Get activityId from admin data and increment.
-		const admin = db.collection("users").doc(ADMIN_UID);
-		const adminRef = await admin.get();
+		const adminUser = db.collection("users").doc(ADMIN_UID);
+		const adminRef = await adminUser.get();
 		const adminData = adminRef.data();
 		let { activityId } = adminData;
 		activityId++;
-		admin.set({ activityId }, { merge: true });
+		adminUser.set({ activityId }, { merge: true });
 
 		// Add current timestamp.
 		const now = new Date();
