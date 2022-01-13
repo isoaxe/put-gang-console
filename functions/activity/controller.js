@@ -36,7 +36,7 @@ export async function create (req, res) {
 			date
 		});
 
-		return res.status(200).send({ message: "placeholder message" });
+		return res.status(200).send({ message: `${email} has taken a ${action} action on ${product}` });
 	} catch (err) {
 		return handleError(res, err);
 	}
