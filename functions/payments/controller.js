@@ -36,6 +36,7 @@ export async function create (req, res) {
 		const adminStats = adminUser.collection("stats").doc("stats");
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
+		let { totalRevenue, totalMrr } = adminStatsData;
 		let adminRevenue = adminStatsData.revenue;
 		let adminMrr = adminStatsData.mrr;
 		let adminUnpaid = adminStatsData.unpaid;
@@ -87,12 +88,9 @@ export async function create (req, res) {
 
 		// Add to admin MRR if new user, is a recurring type and not admin.
 		if (!subscribed && (type === "join" || type === "watch") && role !== "admin") {
-			if (role === "level-2" || role === "level-3") {
-				adminMrr += value / 2;
-			}
-			if (role === "level-1" || role === "standard") {
-				adminMrr += value;
-			}
+			totalMrr += value;
+			if (role === "level-2" || role === "level-3") adminMrr += value / 2;
+			if (role === "level-1" || role === "standard") adminMrr += value;
 		}
 
 		// Admin sales will always increase by full amount for all users.
@@ -100,8 +98,11 @@ export async function create (req, res) {
 		// This covers level-1 and standard users fully.
 		if (role === "level-2" || role === "level-3") adminRevenue += value / 2;
 		if (role === "level-1" || role === "standard") adminRevenue += value;
+		totalRevenue += value;
 		adminSales++;
 		adminStats.set({
+			totalRevenue,
+			totalMrr,
 			revenue: adminRevenue,
 			mrr: adminMrr,
 			sales: adminSales
