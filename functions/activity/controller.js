@@ -21,6 +21,10 @@ export async function create (req, res) {
 		activityId++;
 		admin.set({ activityId }, { merge: true });
 
+		// Add current timestamp.
+		const now = new Date();
+		const date = now.toISOString();
+
 		return res.status(200).send({ message: "placeholder message" });
 	} catch (err) {
 		return handleError(res, err);
