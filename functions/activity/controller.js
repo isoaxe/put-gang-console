@@ -5,7 +5,7 @@ import { ADMIN_UID } from "./../util/constants.js";
 // Create a new activity.
 export async function create (req, res) {
 	try {
-		const { uid, role, email } = res.locals;
+		const { uid, email } = res.locals;
 		const { action, product } = req.params;
 		const db = admin.firestore();
 
