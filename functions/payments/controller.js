@@ -125,6 +125,7 @@ export async function create (req, res) {
 			uplineInvoiceId++;
 			uplineStats.set({
 				revenue: uplineRevenue,
+				mrr: uplineMrr,
 				unpaid: uplineUnpaid,
 				sales: uplineSales,
 				invoiceId: uplineInvoiceId
@@ -144,6 +145,7 @@ export async function create (req, res) {
 			toplineInvoiceId++;
 			toplineStats.set({
 				revenue: toplineRevenue,
+				mrr: toplineMrr,
 				unpaid: toplineUnpaid,
 				sales: toplineSales,
 				invoiceId: toplineInvoiceId
@@ -155,6 +157,7 @@ export async function create (req, res) {
 			uplineInvoiceId++;
 			uplineStats.set({
 				revenue: uplineRevenue,
+				mrr: uplineMrr,
 				unpaid: uplineUnpaid,
 				sales: uplineSales,
 				invoiceId: uplineInvoiceId
