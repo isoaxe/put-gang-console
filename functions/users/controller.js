@@ -10,6 +10,7 @@ export async function create (req, res) {
 		let uplineUid = "";
 		let uplineRole = "";
 		const { refId, membLvl } = req.params;
+		const { email, password } = req.body;
 		const db = admin.firestore();
 		const idList = await db.collection("users").listDocuments();
 		const ids = idList.map(doc => doc.id);
@@ -22,7 +23,6 @@ export async function create (req, res) {
 
 		// Set user role.
 		let role;
-		const { email, password } = req.body;
 		if (email === ADMIN_EMAIL) {
 			role = "admin";
 		} else if (uplineRole === "level-2") {
@@ -40,9 +40,12 @@ export async function create (req, res) {
 		const joinDate = now.toISOString();
 		const expiryDate = addMonth(now).toISOString();
 
+		// Track if customer is recurring and has paid at least once.
+		const subscribed = false;
+
 		// Create user and set their claims.
 		const { uid } = await admin.auth().createUser({ email, password });
-		await admin.auth().setCustomUserClaims(uid, { role });
+		await admin.auth().setCustomUserClaims(uid, { role, subscribed });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
 		const user = db.collection("users").doc(uid);
