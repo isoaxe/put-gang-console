@@ -9,6 +9,10 @@ export async function create (req, res) {
 		const { action, product } = req.params;
 		const db = admin.firestore();
 
+		// Get current user data.
+		const userRef = await db.collection("users").doc(uid).get();
+		const userData = userRef.data();
+
 		const adminRef = await db.collection("users").doc(ADMIN_UID).get();
 		const adminData = adminRef.data();
 		let { activityId } = adminData;
