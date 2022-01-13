@@ -119,6 +119,9 @@ export async function create (req, res) {
 
 		// Set stats for level-1 if level-2 user.
 		if (role === "level-2") {
+			if (!subscribed && (type === "join" || type === "watch")) {
+				uplineMrr += value / 2;
+			}
 			uplineRevenue += value / 2;
 			uplineUnpaid += value / 2;
 			uplineSales++;
@@ -139,6 +142,10 @@ export async function create (req, res) {
 
 		// Set stats for level-1 and level-2 if level-3 user.
 		if (role === "level-3") {
+			if (!subscribed && (type === "join" || type === "watch")) {
+				uplineMrr += value / 4;
+				toplineMrr += value / 4;
+			}
 			toplineRevenue += value / 4;
 			toplineUnpaid += value / 4;
 			toplineSales++;
