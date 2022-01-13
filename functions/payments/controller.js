@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { newSubscriber } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
@@ -8,6 +9,9 @@ export async function create (req, res) {
 		const { uid, role, subscribed, email } = res.locals;
 		const { type } = req.params;
 		const db = admin.firestore();
+
+		// Check if user is a new subscriber.
+		const newSub = newSubscriber(subscribed, type);
 
 		// Get current user and stats data.
 		const userRef = await db.collection("users").doc(uid).get();
@@ -95,8 +99,8 @@ export async function create (req, res) {
 		if (type === "join") value = 50;
 		if (type === "watch") value = 150;
 
-		// Add to admin MRR if new user, is a recurring type and not admin.
-		if (!subscribed && (type === "join" || type === "watch") && role !== "admin") {
+		// Add to admin MRR if new subscriber and not admin.
+		if (newSub && role !== "admin") {
 			totalMrr += value;
 			if (role === "level-2" || role === "level-3") adminMrr += value / 2;
 			if (role === "level-1" || role === "standard") adminMrr += value;
@@ -119,9 +123,7 @@ export async function create (req, res) {
 
 		// Set stats for level-1 if level-2 user.
 		if (role === "level-2") {
-			if (!subscribed && (type === "join" || type === "watch")) {
-				uplineMrr += value / 2;
-			}
+			if (newSub) uplineMrr += value / 2;
 			uplineRevenue += value / 2;
 			uplineUnpaid += value / 2;
 			uplineSales++;
@@ -142,7 +144,7 @@ export async function create (req, res) {
 
 		// Set stats for level-1 and level-2 if level-3 user.
 		if (role === "level-3") {
-			if (!subscribed && (type === "join" || type === "watch")) {
+			if (newSub) {
 				uplineMrr += value / 4;
 				toplineMrr += value / 4;
 			}
@@ -176,9 +178,7 @@ export async function create (req, res) {
 			}, { merge: true });
 		}
 
-		if (!subscribed && (type === "join" || type === "watch")) {
-			await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
-		}
+		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
 
 		// Now add the commission invoices themselves.
 		const now = new Date();
