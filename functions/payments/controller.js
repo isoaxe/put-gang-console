@@ -1,13 +1,17 @@
 import admin from "firebase-admin";
+import { newSubscriber } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
 // Create a new payment.
 export async function create (req, res) {
 	try {
-		const { uid, role, email } = res.locals;
+		const { uid, role, subscribed, email } = res.locals;
 		const { type } = req.params;
 		const db = admin.firestore();
+
+		// Check if user is a new subscriber.
+		const newSub = newSubscriber(subscribed, type);
 
 		// Get current user and stats data.
 		const userRef = await db.collection("users").doc(uid).get();
@@ -18,11 +22,12 @@ export async function create (req, res) {
 
 		if (!statsData && ["admin", "level-1", "level-2"].includes(role)) {
 			// Initialize all stats. These data relate to the user's earnings from their downline.
-			const [revenue, paid, unpaid, sales, invoiceId] = Array(5).fill(0);
+			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
 			stats.set({
 				name: "",
 				email,
 				revenue,
+				mrr,
 				paid,
 				unpaid,
 				sales,
@@ -30,17 +35,28 @@ export async function create (req, res) {
 			});
 		}
 
+		// Initialize the totals for admin user.
+		if (!statsData && role === "admin") {
+			const [totalRevenue, totalMrr] = Array(2).fill(0);
+			stats.set({
+				totalRevenue,
+				totalMrr
+			}, { merge: true });
+		}
+
 		// Get admin stats as payments from all users will accrue here.
 		const adminUser = db.collection("payments").doc(ADMIN_UID);
 		const adminStats = adminUser.collection("stats").doc("stats");
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
+		let { totalRevenue, totalMrr } = adminStatsData;
 		let adminRevenue = adminStatsData.revenue;
+		let adminMrr = adminStatsData.mrr;
 		let adminUnpaid = adminStatsData.unpaid;
 		let adminSales = adminStatsData.sales;
 
 		// Initialize variables for use below.
-		let upline, uplineUid, uplineRevenue, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
+		let upline, uplineUid, uplineRevenue, uplineMrr, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
 
 		// Get upline stats. Same as admin if level-1 user.
 		if (role !== "admin" && role !== "standard") {
@@ -50,13 +66,14 @@ export async function create (req, res) {
 			const uplineStatsRef = await uplineStats.get();
 			const uplineStatsData = uplineStatsRef.data();
 			uplineRevenue = uplineStatsData.revenue;
+			uplineMrr = uplineStatsData.mrr;
 			uplineUnpaid = uplineStatsData.unpaid;
 			uplineSales = uplineStatsData.sales;
 			uplineInvoiceId = uplineStatsData.invoiceId;
 		}
 
 		// Initialize variables for use below.
-		let topline, toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
+		let topline, toplineRevenue, toplineMrr, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
 
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
@@ -71,6 +88,7 @@ export async function create (req, res) {
 			const toplineStatsRef = await toplineStats.get();
 			const toplineStatsData = toplineStatsRef.data();
 			toplineRevenue = toplineStatsData.revenue;
+			toplineMrr = toplineStatsData.mrr;
 			toplineUnpaid = toplineStatsData.unpaid;
 			toplineSales = toplineStatsData.sales;
 			toplineInvoiceId = toplineStatsData.invoiceId;
@@ -81,63 +99,80 @@ export async function create (req, res) {
 		if (type === "join") value = 50;
 		if (type === "watch") value = 150;
 
-		// Admin revenue and sales will always increase by full amount for all users.
+		// Add to admin MRR if new subscriber and not admin.
+		if (newSub && role !== "admin") {
+			totalMrr += value;
+			if (role === "level-2" || role === "level-3") adminMrr += value / 2;
+			if (role === "level-1" || role === "standard") adminMrr += value;
+		}
+
+		// Admin sales will always increment for all users.
+		// The amount of revenue accruing to admin depends on user role.
 		// This covers level-1 and standard users fully.
-		adminRevenue += value;
+		if (role === "level-2" || role === "level-3") {
+			adminUnpaid += value / 2;
+			adminRevenue += value / 2;
+		}
+		if (role === "level-1" || role === "standard") adminRevenue += value;
+		totalRevenue += value;
 		adminSales++;
 		adminStats.set({
+			totalRevenue,
+			totalMrr,
 			revenue: adminRevenue,
+			mrr: adminMrr,
+			unpaid: adminUnpaid,
 			sales: adminSales
 		}, { merge: true });
 
 		// Set stats for level-1 if level-2 user.
 		if (role === "level-2") {
-			uplineRevenue += value;
+			if (newSub) uplineMrr += value / 2;
+			uplineRevenue += value / 2;
 			uplineUnpaid += value / 2;
 			uplineSales++;
 			uplineInvoiceId++;
 			uplineStats.set({
 				revenue: uplineRevenue,
+				mrr: uplineMrr,
 				unpaid: uplineUnpaid,
 				sales: uplineSales,
 				invoiceId: uplineInvoiceId
-			}, { merge: true });
-
-			adminUnpaid += value / 2;
-			adminStats.set({
-				unpaid: adminUnpaid
 			}, { merge: true });
 		}
 
 		// Set stats for level-1 and level-2 if level-3 user.
 		if (role === "level-3") {
-			toplineRevenue += value;
+			if (newSub) {
+				uplineMrr += value / 4;
+				toplineMrr += value / 4;
+			}
+			toplineRevenue += value / 4;
 			toplineUnpaid += value / 4;
 			toplineSales++;
 			toplineInvoiceId++;
 			toplineStats.set({
 				revenue: toplineRevenue,
+				mrr: toplineMrr,
 				unpaid: toplineUnpaid,
 				sales: toplineSales,
 				invoiceId: toplineInvoiceId
 			}, { merge: true });
 
-			uplineRevenue += value;
+			uplineRevenue += value / 4;
 			uplineUnpaid += value / 4;
 			uplineSales++;
 			uplineInvoiceId++;
 			uplineStats.set({
 				revenue: uplineRevenue,
+				mrr: uplineMrr,
 				unpaid: uplineUnpaid,
 				sales: uplineSales,
 				invoiceId: uplineInvoiceId
 			}, { merge: true });
-
-			adminUnpaid += value / 2;
-			adminStats.set({
-				unpaid: adminUnpaid
-			}, { merge: true });
 		}
+
+		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
 
 		// Now add the commission invoices themselves.
 		const now = new Date();
