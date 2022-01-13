@@ -25,15 +25,16 @@ export async function create (req, res) {
 		const now = new Date();
 		const date = now.toISOString();
 
-		// Define activity object to save to Firestore.
-		const activity = {
+		// Save activity data to Firestore.
+		const activity = db.collection("activity").doc(activityId.toString());
+		activity.set({
 			uid,
 			name: userData.name,
 			email,
 			product,
 			action,
 			date
-		}
+		});
 
 		return res.status(200).send({ message: "placeholder message" });
 	} catch (err) {
