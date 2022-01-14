@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import { filterObject } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
@@ -84,6 +85,12 @@ export async function all (req, res) {
 		if (role === "level-2") {
 			uids = userData.downlineUids;
 			uids.push(uid);
+		}
+
+		// Filter the activities array based on authorized uids.
+		// Admin user gets unfiltered object (i.e. all activities).
+		if (role !== "admin") {
+			activities = filterObject(activities, uids, "uid");
 		}
 
 		return res.status(200).send({ message: "placeholder message"});
