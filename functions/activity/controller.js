@@ -46,6 +46,10 @@ export async function create (req, res) {
 // Get all activity applicable to the calling user.
 export async function all (req, res) {
 	try {
+		const { uid, role } = res.locals;
+		const db = admin.firestore();
+		let uids = [];
+
 		return res.status(200).send({ message: "placeholder message"});
 	} catch (err) {
 		return handleError(res, err);
