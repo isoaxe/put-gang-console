@@ -61,6 +61,11 @@ export async function create (req, res) {
 			name: ""
 		});
 
+		// Initialize and activity ID if admin. Used in activity route.
+		if (role === "admin") {
+			user.set({ activityId: 0 }, { merge: true });
+		}
+
 		// Add new user to downlineUids array of the referrer.
 		if (role !== "admin" && role !== "standard") {
 			const uplineDocRef = await db.collection("users").doc(uplineUid);
