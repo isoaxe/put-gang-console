@@ -59,6 +59,15 @@ export async function all (req, res) {
 		const adminData = adminRef.data();
 		const { activityId } = adminData;
 
+		// Populate activities object from Firestore.
+		let activities = {};
+		for (let i = 1; i <= activityId; i++) {
+			const activityNumber = i.toString();
+			const activityRef = await db.collection("activity").doc(activityNumber).get();
+			const activity = activityRef.data();
+			activities[activityNumber] = activity;
+		}
+
 		return res.status(200).send({ message: "placeholder message"});
 	} catch (err) {
 		return handleError(res, err);
