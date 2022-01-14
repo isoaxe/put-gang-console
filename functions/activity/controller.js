@@ -54,6 +54,11 @@ export async function all (req, res) {
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
 
+		// Get activity id from admin data.
+		const adminRef = await db.collection("users").doc(ADMIN_UID).get();
+		const adminData = adminRef.data();
+		const { activityId } = adminData;
+
 		return res.status(200).send({ message: "placeholder message"});
 	} catch (err) {
 		return handleError(res, err);
