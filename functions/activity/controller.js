@@ -68,6 +68,18 @@ export async function all (req, res) {
 			activities[activityNumber] = activity;
 		}
 
+		// Include self, downline and downlines' downline for level-1 user.
+		if (role === "level-1") {
+			const downUids = userData.downlineUids;
+			uids = downUids;
+			for (let i = 0; i < downUids.length; i++) {
+				const downUserRef = await db.collection("users").doc(downUids[i]).get();
+				const downUserData = downUserRef.data();
+				uids = uids.concat(downUserData.downlineUids);
+			}
+			uids.push(uid);
+		}
+
 		return res.status(200).send({ message: "placeholder message"});
 	} catch (err) {
 		return handleError(res, err);
