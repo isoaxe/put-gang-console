@@ -93,7 +93,7 @@ export async function all (req, res) {
 			activities = filterObject(activities, uids, "uid");
 		}
 
-		return res.status(200).send({ message: "placeholder message"});
+		return res.status(200).send(activities);
 	} catch (err) {
 		return handleError(res, err);
 	}
