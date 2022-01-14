@@ -50,6 +50,10 @@ export async function all (req, res) {
 		const db = admin.firestore();
 		let uids = [];
 
+		// Get current user data.
+		const userRef = await db.collection("users").doc(uid).get();
+		const userData = userRef.data();
+
 		return res.status(200).send({ message: "placeholder message"});
 	} catch (err) {
 		return handleError(res, err);
