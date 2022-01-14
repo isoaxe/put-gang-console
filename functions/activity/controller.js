@@ -80,6 +80,12 @@ export async function all (req, res) {
 			uids.push(uid);
 		}
 
+		// Include self and downline for level-2 user.
+		if (role === "level-2") {
+			uids = userData.downlineUids;
+			uids.push(uid);
+		}
+
 		return res.status(200).send({ message: "placeholder message"});
 	} catch (err) {
 		return handleError(res, err);
