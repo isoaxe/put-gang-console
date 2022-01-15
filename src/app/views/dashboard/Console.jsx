@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import firebase from 'firebase/app'
 import StatCard3 from './shared/StatCard3'
 import StatCard4 from './shared/StatCard4'
 import FollowerCard from './shared/FollowerCard'
@@ -35,6 +36,24 @@ const Analytics2 = () => {
     const [activities, setActivities] = useState({});
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
+
+    async function getActivity () {
+      const token = await firebase.auth().currentUser.getIdToken(true);
+      const fetchConfig = {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      };
+      const response = await fetch(`${API_URL}/activity`, fetchConfig);
+      const jsonResponse = await response.json();
+      setActivities(jsonResponse);
+      if (jsonResponse.error) {
+        console.log(jsonResponse)
+      }
+    }
 
     return (
         <AnalyticsRoot>
