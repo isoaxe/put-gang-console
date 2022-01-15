@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StatCard3 from './shared/StatCard3'
 import StatCard4 from './shared/StatCard4'
 import FollowerCard from './shared/FollowerCard'
@@ -32,6 +32,7 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Analytics2 = () => {
+    const [activities, setActivities] = useState({});
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
 
