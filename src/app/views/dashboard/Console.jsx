@@ -79,6 +79,7 @@ const Analytics2 = () => {
 
             <StatCard3 />
 
+            <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList />
 
             <Card sx={{ mt: '20px', mb: '24px' }} elevation={3}>
