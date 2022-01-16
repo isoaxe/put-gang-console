@@ -71,11 +71,11 @@ const ListView = ({ list = [] }) => {
                                 <IMG src={item.projectImage} alt="project" />
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
-                                        {item.projectName}
+                                        {formatStatement(item.name, item.email, item.action, item.product)}
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
-                                            {item.date}
+                                            {new Date(item.date).toLocaleString()}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
                                             {item.email}
