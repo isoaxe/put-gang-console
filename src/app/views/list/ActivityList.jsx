@@ -42,6 +42,7 @@ const ActivityList = (props) => {
           item.action,
           item.product
         ));
+        activityArray.reverse();
         setOriginalList(activityArray);
         setList(activityArray);
         console.log(activityArray);
