@@ -66,7 +66,7 @@ const ListView = ({ list = [] }) => {
                     sx={{ mb: index < list.length && 2 }}
                 >
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item md={6}>
+                        <Grid item md={10}>
                             <FlexBox>
                                 {actionImage(item.action, item.product)}
                                 <Box ml={2}>
