@@ -1,7 +1,6 @@
-import GridView from './GridView'
 import ListView from './ListView'
 import { debounce } from 'lodash'
-import ListTopbar from './ListTopbar'
+import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
 import { getAllList } from './ListService'
 import React, { useState, useMemo, useEffect } from 'react'
@@ -44,8 +43,8 @@ const ActivityList = () => {
     return (
         <Container className="list">
             <Box mb={2}>
-                <ListTopbar handleInputChange={handleInputChange}>
-                </ListTopbar>
+                <ListSearchbar handleInputChange={handleInputChange}>
+                </ListSearchbar>
             </Box>
             <Hidden xsDown>
                 <ListView list={list}></ListView>
