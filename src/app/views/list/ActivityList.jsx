@@ -22,6 +22,8 @@ const ActivityList = (props) => {
     const formatActivityData = useCallback(
       () => {
         const activityArray = objectToArray(activities);
+        setOriginalList(activityArray);
+        setList(activityArray);
         console.log(activityArray);
       }, [activities]
     );
@@ -43,10 +45,6 @@ const ActivityList = (props) => {
     )
 
     useEffect(() => {
-        getAllList().then((response) => {
-            setOriginalList(response.data)
-            setList(response.data)
-        })
         formatActivityData();
     }, [formatActivityData])
 
