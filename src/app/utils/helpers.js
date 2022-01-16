@@ -8,7 +8,6 @@
 export function objectToArray (compoundObj) {
   const result = [];
   const keys = Object.keys(compoundObj);
-  console.log(compoundObj);
   keys.forEach(key => {
     const obj = compoundObj[key]; // Nested object is value.
     obj["id"] = key; // Add key to object.
