@@ -3,7 +3,8 @@ import { debounce } from 'lodash'
 import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
 import { getAllList } from './ListService'
-import React, { useState, useMemo, useEffect } from 'react'
+import { objectToArray } from './../../utils/helpers';
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { Box, styled } from '@mui/system'
 
 const Container = styled('div')(({ theme }) => ({
@@ -13,9 +14,17 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const ActivityList = () => {
+const ActivityList = (props) => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
+    const activities = props.activities;
+
+    const formatActivityData = useCallback(
+      () => {
+        const activityArray = objectToArray(activities);
+        console.log(activityArray);
+      }, [activities]
+    );
 
     const handleInputChange = (event) => {
         let { value } = event.target
@@ -38,7 +47,8 @@ const ActivityList = () => {
             setOriginalList(response.data)
             setList(response.data)
         })
-    }, [])
+        formatActivityData();
+    }, [formatActivityData])
 
     return (
         <Container className="list">
