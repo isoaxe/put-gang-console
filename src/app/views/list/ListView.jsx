@@ -46,10 +46,12 @@ function formatStatement (name, email, action, product) {
   let actionStatement, productStatement;
   if (action === "cancel") actionStatement = "cancelled their subscription to";
   if (action === "join") actionStatement = "joined";
-  if (action === "subscribe") actionStatement = "signed up to your";
   if (product === "join") productStatement = "Join the Discussion";
   if (product === "watch") productStatement = "Watch the Discussion";
-  if (product === "news") productStatement = "newsletter";
+  if (action === "join" && product === "news") {
+    actionStatement = "signed up to your";
+    productStatement = "newsletter";
+  }
   return `${name ? name : email} ${actionStatement} ${productStatement}.`
 }
 
