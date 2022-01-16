@@ -46,8 +46,8 @@ const ListCard = styled(Card)(({ theme }) => ({
 }))
 
 function actionImage (action) {
-  if (action === "join") return AddTask;
-  if (action === "cancel") return HighlightOff;
+  if (action === "join") return <AddTask/>;
+  if (action === "cancel") return <HighlightOff/>;
 }
 
 const ListView = ({ list = [] }) => {
@@ -65,7 +65,7 @@ const ListView = ({ list = [] }) => {
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={6}>
                             <FlexBox>
-                                <IMG src={item.projectImage} alt="project" />
+                                {actionImage(item.action)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
                                         {item.statement}
