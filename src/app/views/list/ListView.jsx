@@ -89,65 +89,11 @@ const ListView = ({ list = [] }) => {
                                 </Box>
                             </FlexBox>
                         </Grid>
-
-                        <Grid item md={2}>
-                            <FlexBox color={textMuted}>
-                                <Icon fontSize="small">
-                                    chat_bubble_outline
-                                </Icon>
-                                <Span sx={{ mr: 3, ml: '4px' }}>
-                                    {item.comment}
-                                </Span>
-                                <Icon fontSize="small">desktop_windows</Icon>
-                                <Span sx={{ ml: '4px' }}>{item.revision}</Span>
-                            </FlexBox>
-                        </Grid>
                         <Grid item md={2}>
                             <FlexBox>
                                 <Avatar src={item.userImage}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
                             </FlexBox>
-                        </Grid>
-                        <Grid item md={2}>
-                            <div className="card__button-group">
-                                <StyledIcon fontSize="small">
-                                    filter_none
-                                </StyledIcon>
-                                <StyledIcon fontSize="small">share</StyledIcon>
-                                <StyledIcon fontSize="small">edit</StyledIcon>
-                                <StyledIcon fontSize="small">delete</StyledIcon>
-                            </div>
-
-                            <Box textAlign="right">
-                                <Hidden smDown>
-                                    <MatxMenu
-                                        menuButton={
-                                            <IconButton sx={{ mr: '4px' }}>
-                                                <Icon>more_horiz</Icon>
-                                            </IconButton>
-                                        }
-                                    >
-                                        <StyledItem>
-                                            <Icon className="icon">
-                                                filter_none
-                                            </Icon>{' '}
-                                            Duplicate
-                                        </StyledItem>
-                                        <StyledItem>
-                                            <Icon className="icon">share</Icon>{' '}
-                                            Share
-                                        </StyledItem>
-                                        <StyledItem>
-                                            <Icon className="icon">edit</Icon>{' '}
-                                            Edit
-                                        </StyledItem>
-                                        <StyledItem>
-                                            <Icon className="icon">delete</Icon>{' '}
-                                            Delete
-                                        </StyledItem>
-                                    </MatxMenu>
-                                </Hidden>
-                            </Box>
                         </Grid>
                     </Grid>
                 </ListCard>
