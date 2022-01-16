@@ -41,20 +41,6 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-// Form a statement for each activity based on data.
-function formatStatement (name, email, action, product) {
-  let actionStatement, productStatement;
-  if (action === "cancel") actionStatement = "cancelled their subscription to";
-  if (action === "join") actionStatement = "joined";
-  if (product === "join") productStatement = "Join the Discussion";
-  if (product === "watch") productStatement = "Watch the Discussion";
-  if (action === "join" && product === "news") {
-    actionStatement = "signed up to your";
-    productStatement = "newsletter";
-  }
-  return `${name ? name : email} ${actionStatement} ${productStatement}.`
-}
-
 const ListView = ({ list = [] }) => {
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
@@ -73,7 +59,7 @@ const ListView = ({ list = [] }) => {
                                 <IMG src={item.projectImage} alt="project" />
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
-                                        {formatStatement(item.name, item.email, item.action, item.product)}
+                                        {item.statement}
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
