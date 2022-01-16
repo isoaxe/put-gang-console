@@ -2,7 +2,6 @@ import ListView from './ListView'
 import { debounce } from 'lodash'
 import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
-import { getAllList } from './ListService'
 import { objectToArray } from './../../utils/helpers';
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { Box, styled } from '@mui/system'
@@ -45,7 +44,6 @@ const ActivityList = (props) => {
         activityArray.reverse();
         setOriginalList(activityArray);
         setList(activityArray);
-        console.log(activityArray);
       }, [activities]
     );
 
