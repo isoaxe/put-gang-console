@@ -16,9 +16,7 @@ const Container = styled('div')(({ theme }) => ({
 
 const ActivityList = () => {
     const [originalList, setOriginalList] = useState([])
-    const [sliderValue, setSliderValue] = useState(50)
     const [list, setList] = useState([])
-    const [viewMode, setViewMode] = useState('grid')
 
     const handleInputChange = (event) => {
         let { value } = event.target
@@ -36,14 +34,6 @@ const ActivityList = () => {
         [originalList]
     )
 
-    const handleSldierChange = (event, value) => {
-        setSliderValue(value)
-    }
-
-    const handleViewChange = (view) => {
-        setViewMode(view)
-    }
-
     useEffect(() => {
         getAllList().then((response) => {
             setOriginalList(response.data)
@@ -54,24 +44,11 @@ const ActivityList = () => {
     return (
         <Container className="list">
             <Box mb={2}>
-                <ListTopbar
-                    viewMode={viewMode}
-                    handleViewChange={handleViewChange}
-                    handleInputChange={handleInputChange}
-                    handleSldierChange={handleSldierChange}
-                    sliderValue={sliderValue}
-                ></ListTopbar>
+                <ListTopbar handleInputChange={handleInputChange}>
+                </ListTopbar>
             </Box>
             <Hidden xsDown>
-                {viewMode === 'list' ? (
-                    <ListView list={list}></ListView>
-                ) : (
-                    <GridView list={list} sliderValue={sliderValue}></GridView>
-                )}
-            </Hidden>
-
-            <Hidden smUp>
-                <GridView list={list} sliderValue={sliderValue}></GridView>
+                <ListView list={list}></ListView>
             </Hidden>
         </Container>
     )
