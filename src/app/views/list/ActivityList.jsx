@@ -26,9 +26,9 @@ const ActivityList = (props) => {
       if (action === "join") actionStatement = "joined";
       if (product === "join") productStatement = "Join the Discussion";
       if (product === "watch") productStatement = "Watch the Discussion";
+      if (product === "news") productStatement = "your newsletter";
       if (action === "join" && product === "news") {
-        actionStatement = "signed up to your";
-        productStatement = "newsletter";
+        actionStatement = "signed up to";
       }
       return `${name ? name : email} ${actionStatement} ${productStatement}.`
     }
