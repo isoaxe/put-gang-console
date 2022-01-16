@@ -9,7 +9,8 @@ import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
   AddTask,
-  HighlightOff
+  HighlightOff,
+  MailOutline
 } from '@mui/icons-material';
 
 const FlexBox = styled(Box)(() => ({
@@ -45,7 +46,8 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-function actionImage (action) {
+function actionImage (action, product) {
+  if (action === "join" && product === "news") return <MailOutline color="info" />
   if (action === "join") return <AddTask color="success" />;
   if (action === "cancel") return <HighlightOff color="error" />;
 }
@@ -65,7 +67,7 @@ const ListView = ({ list = [] }) => {
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={6}>
                             <FlexBox>
-                                {actionImage(item.action)}
+                                {actionImage(item.action, item.product)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
                                         {item.statement}
