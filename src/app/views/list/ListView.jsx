@@ -46,8 +46,8 @@ const ListCard = styled(Card)(({ theme }) => ({
 }))
 
 function actionImage (action) {
-  if (action === "join") return <AddTask/>;
-  if (action === "cancel") return <HighlightOff/>;
+  if (action === "join") return <AddTask color="success" />;
+  if (action === "cancel") return <HighlightOff color="error" />;
 }
 
 const ListView = ({ list = [] }) => {
