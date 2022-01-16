@@ -57,7 +57,7 @@ const ActivityList = (props) => {
         () =>
             debounce((query) => {
                 let tempList = originalList.filter((item) =>
-                    item.projectName.toLowerCase().match(query.toLowerCase())
+                    item.statement.toLowerCase().match(query.toLowerCase())
                 )
                 setList([...tempList])
             }, 200),
