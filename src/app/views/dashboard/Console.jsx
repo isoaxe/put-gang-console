@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import firebase from 'firebase/app'
+import firebase from 'firebase/app';
+import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
 import StatCard4 from './shared/StatCard4'
 import FollowerCard from './shared/FollowerCard'
@@ -77,6 +78,8 @@ const Analytics2 = () => {
             </FlexBox>
 
             <StatCard3 />
+
+            <ActivityList />
 
             <Card sx={{ mt: '20px', mb: '24px' }} elevation={3}>
                 <FlexBox
