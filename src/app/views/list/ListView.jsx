@@ -1,15 +1,10 @@
 import {
     Card,
-    Icon,
     Avatar,
-    MenuItem,
-    IconButton,
     Grid,
-    Hidden,
 } from '@mui/material'
 import React from 'react'
 import { Box, styled, useTheme } from '@mui/system'
-import { MatxMenu } from 'app/components'
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 
@@ -18,22 +13,10 @@ const FlexBox = styled(Box)(() => ({
     alignItems: 'center',
 }))
 
-const StyledItem = styled(MenuItem)(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    '& .icon': { marginRight: 2 },
-}))
-
 const IMG = styled('img')(() => ({
     width: '100%',
     height: 75,
     width: 100,
-}))
-
-const StyledIcon = styled(Icon)(({ theme }) => ({
-    cursor: 'pointer',
-    marginRight: '16px',
-    color: theme.palette.text.secondary,
 }))
 
 const ListCard = styled(Card)(({ theme }) => ({
