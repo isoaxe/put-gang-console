@@ -7,6 +7,10 @@ import React from 'react'
 import { Box, styled, useTheme } from '@mui/system'
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
+import {
+  AddTask,
+  HighlightOff
+} from '@mui/icons-material';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -40,6 +44,11 @@ const ListCard = styled(Card)(({ theme }) => ({
         },
     },
 }))
+
+function actionImage (action) {
+  if (action === "join") return AddTask;
+  if (action === "cancel") return HighlightOff;
+}
 
 const ListView = ({ list = [] }) => {
     const { palette } = useTheme()
