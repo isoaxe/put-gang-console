@@ -11,7 +11,7 @@ const StatCard3 = (props) => {
     const statList = [
         {
             icon: 'attach_money',
-            amount: revenue,
+            amount: '$' + revenue,
             title: 'Revenue',
         },
         {
@@ -21,17 +21,17 @@ const StatCard3 = (props) => {
         },
         {
             icon: 'price_check',
-            amount: paid,
+            amount: '$' + paid,
             title: 'Paid',
         },
         {
             icon: 'money_off',
-            amount: unpaid,
+            amount: '$' + unpaid,
             title: 'Unpaid',
         },
         {
             icon: 'ballot',
-            amount: mrr,
+            amount: '$' + mrr,
             title: 'MRR',
         },
     ]
