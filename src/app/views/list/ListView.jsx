@@ -18,12 +18,6 @@ const FlexBox = styled(Box)(() => ({
     alignItems: 'center',
 }))
 
-const IMG = styled('img')(() => ({
-    width: '100%',
-    height: 75,
-    width: 100,
-}))
-
 const ListCard = styled(Card)(({ theme }) => ({
     padding: '8px',
     position: 'relative',
@@ -47,8 +41,8 @@ const ListCard = styled(Card)(({ theme }) => ({
 }))
 
 function actionImage (action, product) {
-  if (action === "join" && product === "news") return <MailOutline color="info" />
-  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />
+  if (action === "join" && product === "news") return <MailOutline color="info" />;
+  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
   if (action === "join") return <AddTask color="success" />;
   if (action === "cancel") return <HighlightOff color="error" />;
 }
