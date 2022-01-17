@@ -5,7 +5,7 @@ import { Grid, Card, IconButton, Icon } from '@mui/material'
 
 const StatCard3 = (props) => {
     let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
-    if (props.stats) {
+    if (props.stats && Object.keys(props.stats).length) {
       ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats);
     }
     const { palette } = useTheme();
