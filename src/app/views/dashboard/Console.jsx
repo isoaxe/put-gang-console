@@ -39,13 +39,17 @@ const Analytics2 = () => {
     const [payments, setPayments] = useState({});
     const [stats, setStats] = useState({});
     const [invoices, setInvoices] = useState({});
+    const [role, setRole] = useState("");
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const { user } = useAuth();
     const uid = user.id;
 
     async function getPayments () {
-      const token = await firebase.auth().currentUser.getIdToken(true);
+      const user = firebase.auth().currentUser;
+      const token = await user.getIdToken(true);
+      const result = await user.getIdTokenResult(true);
+      setRole(result.claims.role);
       const fetchConfig = {
         method: "GET",
         headers: {
@@ -109,7 +113,7 @@ const Analytics2 = () => {
                 </TextField>
             </FlexBox>
 
-            <StatCard3 stats={stats} />
+            <StatCard3 stats={stats} role={role} />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList activities={activities} />
