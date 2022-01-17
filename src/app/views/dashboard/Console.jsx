@@ -35,8 +35,27 @@ const FlexBox = styled('div')(({ theme }) => ({
 
 const Analytics2 = () => {
     const [activities, setActivities] = useState({});
-    const { palette } = useTheme()
-    const textMuted = palette.text.secondary
+    const [payments, setPayments] = useState({});
+    const { palette } = useTheme();
+    const textMuted = palette.text.secondary;
+
+    async function getPayments () {
+      const token = await firebase.auth().currentUser.getIdToken(true);
+      const fetchConfig = {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      };
+      const response = await fetch(`${API_URL}/payments`, fetchConfig);
+      const jsonResponse = await response.json();
+      setPayments(jsonResponse);
+      if (jsonResponse.error) {
+        console.log(jsonResponse)
+      }
+    }
 
     async function getActivity () {
       const token = await firebase.auth().currentUser.getIdToken(true);
@@ -58,6 +77,7 @@ const Analytics2 = () => {
 
     useEffect(() => {
       getActivity();
+      getPayments();
     }, []);
 
     return (
