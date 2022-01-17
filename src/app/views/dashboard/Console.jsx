@@ -37,9 +37,12 @@ const FlexBox = styled('div')(({ theme }) => ({
 const Analytics2 = () => {
     const [activities, setActivities] = useState({});
     const [payments, setPayments] = useState({});
+    const [stats, setStats] = useState({});
+    const [invoices, setInvoices] = useState({});
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const { user } = useAuth();
+    const uid = user.id;
 
     async function getPayments () {
       const token = await firebase.auth().currentUser.getIdToken(true);
@@ -55,7 +58,7 @@ const Analytics2 = () => {
       const jsonResponse = await response.json();
       setPayments(jsonResponse);
       if (jsonResponse.error) {
-        console.log(jsonResponse)
+        console.log(jsonResponse);
       }
     }
 
@@ -73,7 +76,7 @@ const Analytics2 = () => {
       const jsonResponse = await response.json();
       setActivities(jsonResponse);
       if (jsonResponse.error) {
-        console.log(jsonResponse)
+        console.log(jsonResponse);
       }
     }
 
@@ -81,6 +84,13 @@ const Analytics2 = () => {
       getActivity();
       getPayments();
     }, []);
+
+    useEffect(() => {
+      if (Object.keys(payments).length) {
+        setStats(payments[uid].stats);
+        setInvoices(payments[uid].invoices);
+      }
+    }, [payments, uid]);
 
     return (
         <AnalyticsRoot>
