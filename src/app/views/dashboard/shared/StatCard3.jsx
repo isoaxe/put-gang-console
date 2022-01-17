@@ -59,7 +59,7 @@ const StatCard3 = (props) => {
                             </div>
                             <Box ml={2}>
                                 <H3 sx={{ mt: '-4px', fontSize: '32px' }}>
-                                    {item.amount.toLocaleString()}
+                                    {item.amount}
                                 </H3>
                                 <Paragraph sx={{ m: 0, color: textMuted }}>
                                     {item.title}
