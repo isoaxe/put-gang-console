@@ -7,8 +7,9 @@ import FollowerCard from './shared/FollowerCard'
 import FollowerCard2 from './shared/FollowerCard2'
 import ComparisonChart2 from './shared/ComparisonChart2'
 import GaugeProgressCard from './shared/GuageProgressCard'
-import { API_URL } from './../../utils/urls'
-import { H3, Span } from 'app/components/Typography'
+import { API_URL } from './../../utils/urls';
+import useAuth from 'app/hooks/useAuth';
+import { H3, Span } from './../../components/Typography';
 import { styled, useTheme } from '@mui/system'
 import {
     Card,
@@ -38,6 +39,7 @@ const Analytics2 = () => {
     const [payments, setPayments] = useState({});
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const { user } = useAuth();
 
     async function getPayments () {
       const token = await firebase.auth().currentUser.getIdToken(true);
