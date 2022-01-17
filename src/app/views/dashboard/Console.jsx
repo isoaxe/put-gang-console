@@ -109,7 +109,7 @@ const Analytics2 = () => {
                 </TextField>
             </FlexBox>
 
-            <StatCard3 />
+            <StatCard3 stats={stats} />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList activities={activities} />
