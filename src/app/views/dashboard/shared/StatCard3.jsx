@@ -4,7 +4,10 @@ import { H3, Paragraph } from 'app/components/Typography'
 import { Grid, Card, IconButton, Icon } from '@mui/material'
 
 const StatCard3 = (props) => {
-    const { revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats;
+    let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
+    if (props.stats) {
+      ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats);
+    }
     const statList = [
         {
             icon: 'attach_money',
