@@ -8,7 +8,9 @@ const StatCard3 = (props) => {
     if (props.stats) {
       ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats);
     }
-    const statList = [
+    const { palette } = useTheme();
+    const textMuted = palette.text.secondary;
+    let statList = [
         {
             icon: 'attach_money',
             amount: '$' + revenue,
@@ -35,8 +37,21 @@ const StatCard3 = (props) => {
             title: 'MRR',
         },
     ]
-    const { palette } = useTheme()
-    const textMuted = palette.text.secondary
+    const additionalStats = [
+        {
+            icon: 'attach_money',
+            amount: '$' + totalRevenue,
+            title: 'Total Revenue',
+        },
+        {
+            icon: 'ballot',
+            amount: '$' + totalMrr,
+            title: 'Total MRR',
+        },
+    ]
+    if (props.role === "admin") {
+      statList =  statList.concat(additionalStats);
+    }
 
     return (
         <div>
