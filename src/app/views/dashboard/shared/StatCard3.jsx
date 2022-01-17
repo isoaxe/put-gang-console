@@ -3,27 +3,33 @@ import { Box, useTheme } from '@mui/system'
 import { H3, Paragraph } from 'app/components/Typography'
 import { Grid, Card, IconButton, Icon } from '@mui/material'
 
-const StatCard3 = () => {
+const StatCard3 = (props) => {
+    const { revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats;
     const statList = [
         {
-            icon: 'people',
-            amount: 10495,
-            title: 'New Members',
+            icon: 'attach_money',
+            amount: revenue,
+            title: 'Revenue',
         },
         {
-            icon: 'location_on_outlined',
-            amount: 30942,
-            title: 'Places added',
+            icon: 'bar_chart',
+            amount: sales,
+            title: 'Sales',
         },
         {
-            icon: 'keyboard_voice',
-            amount: 45269,
-            title: 'Support Members',
+            icon: 'price_check',
+            amount: paid,
+            title: 'Paid',
         },
         {
-            icon: 'card_giftcard',
-            amount: 20965,
-            title: 'Tags Used',
+            icon: 'money_off',
+            amount: unpaid,
+            title: 'Unpaid',
+        },
+        {
+            icon: 'ballot',
+            amount: mrr,
+            title: 'MRR',
         },
     ]
     const { palette } = useTheme()
