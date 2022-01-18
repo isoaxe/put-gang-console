@@ -22,6 +22,11 @@ export const navigations = [
         icon: 'store',
     },
     {
+        name: 'Console',
+        path: '/dashboard/console',
+        icon: 'dashboard',
+    },
+    {
         label: 'Pages',
         type: 'label',
     },

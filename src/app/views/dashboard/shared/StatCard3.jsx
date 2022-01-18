@@ -3,31 +3,55 @@ import { Box, useTheme } from '@mui/system'
 import { H3, Paragraph } from 'app/components/Typography'
 import { Grid, Card, IconButton, Icon } from '@mui/material'
 
-const StatCard3 = () => {
-    const statList = [
+const StatCard3 = (props) => {
+    let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
+    if (props.stats && Object.keys(props.stats).length) {
+      ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats);
+    }
+    const { palette } = useTheme();
+    const textMuted = palette.text.secondary;
+    let statList = [
         {
-            icon: 'people',
-            amount: 10495,
-            title: 'New Members',
+            icon: 'attach_money',
+            amount: '$' + revenue,
+            title: 'Revenue',
         },
         {
-            icon: 'location_on_outlined',
-            amount: 30942,
-            title: 'Places added',
+            icon: 'bar_chart',
+            amount: sales,
+            title: 'Sales',
         },
         {
-            icon: 'keyboard_voice',
-            amount: 45269,
-            title: 'Support Members',
+            icon: 'price_check',
+            amount: '$' + paid,
+            title: 'Paid',
         },
         {
-            icon: 'card_giftcard',
-            amount: 20965,
-            title: 'Tags Used',
+            icon: 'money_off',
+            amount: '$' + unpaid,
+            title: 'Unpaid',
+        },
+        {
+            icon: 'ballot',
+            amount: '$' + mrr,
+            title: 'MRR',
         },
     ]
-    const { palette } = useTheme()
-    const textMuted = palette.text.secondary
+    const additionalStats = [
+        {
+            icon: 'attach_money',
+            amount: '$' + totalRevenue,
+            title: 'Total Revenue',
+        },
+        {
+            icon: 'ballot',
+            amount: '$' + totalMrr,
+            title: 'Total MRR',
+        },
+    ]
+    if (props.role === "admin") {
+      statList =  statList.concat(additionalStats);
+    }
 
     return (
         <div>
@@ -50,7 +74,7 @@ const StatCard3 = () => {
                             </div>
                             <Box ml={2}>
                                 <H3 sx={{ mt: '-4px', fontSize: '32px' }}>
-                                    {item.amount.toLocaleString()}
+                                    {item.amount}
                                 </H3>
                                 <Paragraph sx={{ m: 0, color: textMuted }}>
                                     {item.title}
