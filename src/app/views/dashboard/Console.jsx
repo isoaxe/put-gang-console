@@ -34,7 +34,7 @@ const FlexBox = styled('div')(({ theme }) => ({
     marginBottom: '24px',
 }))
 
-const Analytics2 = () => {
+const Console = () => {
     const [activities, setActivities] = useState({});
     const [payments, setPayments] = useState({});
     const [stats, setStats] = useState({});
@@ -152,4 +152,4 @@ const Analytics2 = () => {
     )
 }
 
-export default Analytics2
+export default Console
