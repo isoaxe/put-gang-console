@@ -3,7 +3,8 @@ import { debounce } from 'lodash'
 import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
 import { objectToArray } from './../../utils/helpers';
-import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import DataContext from './../../contexts/DataContext';
+import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react'
 import { Box, styled } from '@mui/system'
 
 const Container = styled('div')(({ theme }) => ({
@@ -13,10 +14,10 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const ActivityList = (props) => {
+const ActivityList = () => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
-    const activities = props.activities;
+    const { activities } = useContext(DataContext);
 
     // Form a statement for each activity based on data.
     function formatStatement (name, email, action, product) {
