@@ -89,7 +89,7 @@ const LoadData = () => {
     }, [payments, uid]);
 
     return (
-        <DataContext.Provider value={{activities, stats, role}}>
+        <DataContext.Provider value={{activities, allStats, role}}>
             {all_pages}
             <Routes>
                 <Route path='/' element={<Navigate to="/dashboard/default" />} />
