@@ -194,15 +194,15 @@ export async function create (req, res) {
 		// If level-2 user, generate invoice for upline (level-1) only.
 		if (role === "level-2") {
 			const uplineInvoice = upline.collection("invoices").doc(uplineInvoiceId.toString());
-			uplineInvoice.set({ invoice });
+			uplineInvoice.set(invoice);
 		}
 
 		// If level-3 user, generate invoices for upline (level-2) and topline (level-1).
 		if (role === "level-3") {
 			const uplineInvoice = upline.collection("invoices").doc(uplineInvoiceId.toString());
-			uplineInvoice.set({ invoice });
+			uplineInvoice.set(invoice);
 			const toplineInvoice = topline.collection("invoices").doc(toplineInvoiceId.toString());
-			toplineInvoice.set({ invoice });
+			toplineInvoice.set(invoice);
 		}
 
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
