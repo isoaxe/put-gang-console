@@ -32,7 +32,7 @@ const LoadData = () => {
     }, []);
 
     return (
-        <DataContext.Provider value={{activities, allStats, role}}>
+        <DataContext.Provider value={{activities, allStats, allInvoices, role}}>
             {all_pages}
             <Routes>
                 <Route path='/' element={<Navigate to="/dashboard/default" />} />
