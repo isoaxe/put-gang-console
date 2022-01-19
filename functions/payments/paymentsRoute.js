@@ -1,4 +1,4 @@
-import { create, all, stats } from "./controller.js";
+import { create, all, stats, invoices } from "./controller.js";
 import { isAuthenticated } from "./../auth/authenticated.js";
 import { isAuthorized } from "./../auth/authorized.js";
 
@@ -21,5 +21,11 @@ export default function paymentsRoute (app) {
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"] }),
 		stats
+	);
+	// Fetch invoices for the user and their downlines.
+	app.get("/payments/invoices",
+		isAuthenticated,
+		isAuthorized({ hasRole: ["admin", "level-1", "level-2"] }),
+		invoices
 	);
 }
