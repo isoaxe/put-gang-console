@@ -20,6 +20,7 @@ const LoadData = () => {
     const uid = user.id;
 
     const getActivity = () => getData("/activity", setActivities);
+    const getStats = () => getData("/payments/stats", setAllStats);
 
     async function getPayments () {
       const user = firebase.auth().currentUser;
@@ -37,24 +38,6 @@ const LoadData = () => {
       const response = await fetch(`${API_URL}/payments`, fetchConfig);
       const jsonResponse = await response.json();
       setPayments(jsonResponse);
-      if (jsonResponse.error) {
-        console.log(jsonResponse);
-      }
-    }
-
-    async function getStats () {
-      const token = await firebase.auth().currentUser.getIdToken(true);
-      const fetchConfig = {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      };
-      const response = await fetch(`${API_URL}/payments/stats`, fetchConfig);
-      const jsonResponse = await response.json();
-      setAllStats(jsonResponse);
       if (jsonResponse.error) {
         console.log(jsonResponse);
       }
