@@ -25,11 +25,15 @@ const LoadData = () => {
     const getStats = () => getData("/payments/stats", setAllStats);
     const getInvoices = () => getData("/payments/invoices", setAllInvoices);
 
+    async function getRole () {
+      const user = firebase.auth().currentUser;
+      const result = await user.getIdTokenResult(true);
+      setRole(result.claims.role);
+    }
+
     async function getPayments () {
       const user = firebase.auth().currentUser;
       const token = await user.getIdToken(true);
-      const result = await user.getIdTokenResult(true);
-      setRole(result.claims.role);
       const fetchConfig = {
         method: "GET",
         headers: {
@@ -51,6 +55,7 @@ const LoadData = () => {
       getPayments();
       getStats();
       getInvoices();
+      getRole();
     }, [])
 
     useEffect(() => {
