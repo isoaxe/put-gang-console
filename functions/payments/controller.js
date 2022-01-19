@@ -267,6 +267,54 @@ export async function all (req, res) {
 }
 
 
+// Returns statistics for user and their downlines.
+export async function stats (req, res) {
+	try {
+		const { uid, role } = res.locals;
+		const db = admin.firestore();
+
+		// Get current user data.
+		const userRef = await db.collection("users").doc(uid).get();
+		const userData = userRef.data();
+
+		// Variables used within conditionals below.
+		let uids = [];
+		const stats = {};
+		const paymentsRef = db.collection("payments");
+
+		// Get downline ids plus self for admin (i.e. all users).
+		if (role === "admin") {
+			const documents = await paymentsRef.listDocuments();
+			documents.forEach(doc => {
+				uids.push(doc.id);
+			});
+		}
+
+		// Include downline and self for level-1 user.
+		if (role === "level-1") {
+			uids = userData.downlineUids;
+			uids.push(uid);
+		}
+
+		// Only include self for level-2 user.
+		if (role === "level-2") {
+			uids.push(uid);
+		}
+
+		// Populate payment object with all relevant Firestore data.
+		for (let i = 0; i < uids.length; i++) {
+			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
+			const statsData = statsRef.data();
+			stats[uids[i]] = statsData;
+		}
+
+		return res.status(200).send(stats);
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
+
+
 // Standard error helper function.
 function handleError (res, err) {
 	return res.status(500).send({ error: `${err}` });
