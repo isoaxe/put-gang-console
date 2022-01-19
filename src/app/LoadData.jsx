@@ -12,6 +12,7 @@ const LoadData = () => {
     const [activities, setActivities] = useState({});
     const [payments, setPayments] = useState({});
     const [allStats, setAllStats] = useState({});
+    const [allInvoices, setAllInvoices] = useState({});
     const [stats, setStats] = useState({});
     const [invoices, setInvoices] = useState({});
     const [role, setRole] = useState("");
@@ -19,8 +20,10 @@ const LoadData = () => {
     const { user } = useAuth();
     const uid = user.id;
 
+    // Fetch all data.
     const getActivity = () => getData("/activity", setActivities);
     const getStats = () => getData("/payments/stats", setAllStats);
+    const getInvoices = () => getData("/payments/invoices", setAllInvoices);
 
     async function getPayments () {
       const user = firebase.auth().currentUser;
@@ -47,6 +50,7 @@ const LoadData = () => {
       getActivity();
       getPayments();
       getStats();
+      getInvoices();
     }, [])
 
     useEffect(() => {
