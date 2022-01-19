@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, useTheme } from '@mui/system'
 import { H3, Paragraph } from 'app/components/Typography'
+import DataContext from './../../../contexts/DataContext';
 import { Grid, Card, IconButton, Icon } from '@mui/material'
 
-const StatCard3 = (props) => {
+const StatCard3 = () => {
+    const { stats, role } = useContext(DataContext);
     let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
-    if (props.stats && Object.keys(props.stats).length) {
-      ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = props.stats);
+    if (stats && Object.keys(stats).length) {
+      ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = stats);
     }
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
@@ -49,7 +51,7 @@ const StatCard3 = (props) => {
             title: 'Total MRR',
         },
     ]
-    if (props.role === "admin") {
+    if (role === "admin") {
       statList =  statList.concat(additionalStats);
     }
 
