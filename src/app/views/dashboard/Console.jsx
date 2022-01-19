@@ -8,7 +8,6 @@ import FollowerCard2 from './shared/FollowerCard2'
 import ComparisonChart2 from './shared/ComparisonChart2'
 import GaugeProgressCard from './shared/GuageProgressCard'
 import { API_URL } from './../../utils/urls';
-import useAuth from 'app/hooks/useAuth';
 import { H3, Span } from './../../components/Typography';
 import { styled, useTheme } from '@mui/system'
 import {
@@ -36,35 +35,8 @@ const FlexBox = styled('div')(({ theme }) => ({
 
 const Console = () => {
     const [activities, setActivities] = useState({});
-    const [payments, setPayments] = useState({});
-    const [stats, setStats] = useState({});
-    const [invoices, setInvoices] = useState({});
-    const [role, setRole] = useState("");
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
-    const { user } = useAuth();
-    const uid = user.id;
-
-    async function getPayments () {
-      const user = firebase.auth().currentUser;
-      const token = await user.getIdToken(true);
-      const result = await user.getIdTokenResult(true);
-      setRole(result.claims.role);
-      const fetchConfig = {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      };
-      const response = await fetch(`${API_URL}/payments`, fetchConfig);
-      const jsonResponse = await response.json();
-      setPayments(jsonResponse);
-      if (jsonResponse.error) {
-        console.log(jsonResponse);
-      }
-    }
 
     async function getActivity () {
       const token = await firebase.auth().currentUser.getIdToken(true);
@@ -86,15 +58,7 @@ const Console = () => {
 
     useEffect(() => {
       getActivity();
-      getPayments();
     }, []);
-
-    useEffect(() => {
-      if (Object.keys(payments).length) {
-        setStats(payments[uid].stats);
-        setInvoices(payments[uid].invoices);
-      }
-    }, [payments, uid]);
 
     return (
         <AnalyticsRoot>
@@ -113,7 +77,7 @@ const Console = () => {
                 </TextField>
             </FlexBox>
 
-            <StatCard3 stats={stats} role={role} />
+            <StatCard3 />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList activities={activities} />
