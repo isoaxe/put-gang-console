@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import firebase from 'firebase/app';
+import React from 'react'
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
 import StatCard4 from './shared/StatCard4'
@@ -7,7 +6,6 @@ import FollowerCard from './shared/FollowerCard'
 import FollowerCard2 from './shared/FollowerCard2'
 import ComparisonChart2 from './shared/ComparisonChart2'
 import GaugeProgressCard from './shared/GuageProgressCard'
-import { API_URL } from './../../utils/urls';
 import { H3, Span } from './../../components/Typography';
 import { styled, useTheme } from '@mui/system'
 import {
@@ -34,31 +32,8 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Console = () => {
-    const [activities, setActivities] = useState({});
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
-
-    async function getActivity () {
-      const token = await firebase.auth().currentUser.getIdToken(true);
-      const fetchConfig = {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      };
-      const response = await fetch(`${API_URL}/activity`, fetchConfig);
-      const jsonResponse = await response.json();
-      setActivities(jsonResponse);
-      if (jsonResponse.error) {
-        console.log(jsonResponse);
-      }
-    }
-
-    useEffect(() => {
-      getActivity();
-    }, []);
 
     return (
         <AnalyticsRoot>
@@ -80,7 +55,7 @@ const Console = () => {
             <StatCard3 />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
-            <ActivityList activities={activities} />
+            <ActivityList />
 
             <Card sx={{ mt: '20px', mb: '24px' }} elevation={3}>
                 <FlexBox
