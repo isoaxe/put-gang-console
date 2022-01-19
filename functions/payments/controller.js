@@ -301,7 +301,7 @@ export async function stats (req, res) {
 			uids.push(uid);
 		}
 
-		// Populate payment object with all relevant Firestore data.
+		// Populate stats object.
 		for (let i = 0; i < uids.length; i++) {
 			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
 			const statsData = statsRef.data();
@@ -309,6 +309,61 @@ export async function stats (req, res) {
 		}
 
 		return res.status(200).send(stats);
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
+
+
+// Returns invoices for user and their downlines.
+export async function invoices (req, res) {
+	try {
+		const { uid, role } = res.locals;
+		const db = admin.firestore();
+
+		// Get current user data.
+		const userRef = await db.collection("users").doc(uid).get();
+		const userData = userRef.data();
+
+		// Variables used within conditionals below.
+		let uids = [];
+		const invoices = {};
+		const paymentsRef = db.collection("payments");
+
+		// Get downline ids plus self for admin (i.e. all users).
+		if (role === "admin") {
+			const documents = await paymentsRef.listDocuments();
+			documents.forEach(doc => {
+				uids.push(doc.id);
+			});
+		}
+
+		// Include downline and self for level-1 user.
+		if (role === "level-1") {
+			uids = userData.downlineUids;
+			uids.push(uid);
+		}
+
+		// Only include self for level-2 user.
+		if (role === "level-2") {
+			uids.push(uid);
+		}
+
+		// Populate invoices object.
+		for (let i = 0; i < uids.length; i++) {
+			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
+			const stats = statsRef.data();
+			const userInvoices = {};
+			for (let j = 1; j <= stats.invoiceId; j++) {
+				const invoiceNumber = j.toString(); // Cast as string for use as object key.
+				const invoice = await paymentsRef.doc(uids[i]).collection("invoices").doc(invoiceNumber).get();
+				const invoiceData = invoice.data();
+				userInvoices[invoiceNumber] = invoiceData;
+			}
+			invoices[uids[i]] = userInvoices;
+		}
+
+		return res.status(200).send(invoices);
 	} catch (err) {
 		return handleError(res, err);
 	}
