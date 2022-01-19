@@ -1,14 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Box, useTheme } from '@mui/system'
 import { H3, Paragraph } from 'app/components/Typography'
 import DataContext from './../../../contexts/DataContext';
+import useAuth from './../../../hooks/useAuth';
 import { Grid, Card, IconButton, Icon } from '@mui/material'
 
 const StatCard3 = () => {
-    const { stats, role } = useContext(DataContext);
+    const [userStats, setUserStats] = useState({});
+    const { allStats, role } = useContext(DataContext);
+    const { user } = useAuth();
+    const uid = user.id;
     let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
-    if (stats && Object.keys(stats).length) {
-      ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = stats);
+    if (userStats && Object.keys(userStats).length) {
+      ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = userStats);
     }
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
@@ -54,6 +58,12 @@ const StatCard3 = () => {
     if (role === "admin") {
       statList =  statList.concat(additionalStats);
     }
+
+    useEffect(() => {
+      if (allStats && Object.keys(allStats).length) {
+        setUserStats(allStats[uid]);
+      }
+    }, [allStats, uid]);
 
     return (
         <div>

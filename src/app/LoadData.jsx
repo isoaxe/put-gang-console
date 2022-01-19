@@ -3,73 +3,36 @@ import firebase from 'firebase/app';
 import { useRoutes } from 'react-router-dom'
 import DataContext from './contexts/DataContext'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import useAuth from './hooks/useAuth';
 import { AllPages } from './routes/routes'
-import { API_URL } from './utils/urls';
+import { getData } from './utils/helpers';
 
 const LoadData = () => {
     const [activities, setActivities] = useState({});
-    const [payments, setPayments] = useState({});
-    const [stats, setStats] = useState({});
-    const [invoices, setInvoices] = useState({});
+    const [allStats, setAllStats] = useState({});
+    const [allInvoices, setAllInvoices] = useState({});
     const [role, setRole] = useState("");
     const all_pages = useRoutes(AllPages())
-    const { user } = useAuth();
-    const uid = user.id;
 
-    async function getActivity () {
-      const token = await firebase.auth().currentUser.getIdToken(true);
-      const fetchConfig = {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      };
-      const response = await fetch(`${API_URL}/activity`, fetchConfig);
-      const jsonResponse = await response.json();
-      setActivities(jsonResponse);
-      if (jsonResponse.error) {
-        console.log(jsonResponse);
-      }
-    }
+    // Fetch all data.
+    const getActivity = () => getData("/activity", setActivities);
+    const getStats = () => getData("/payments/stats", setAllStats);
+    const getInvoices = () => getData("/payments/invoices", setAllInvoices);
 
-    async function getPayments () {
+    async function getRole () {
       const user = firebase.auth().currentUser;
-      const token = await user.getIdToken(true);
       const result = await user.getIdTokenResult(true);
       setRole(result.claims.role);
-      const fetchConfig = {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        }
-      };
-      const response = await fetch(`${API_URL}/payments`, fetchConfig);
-      const jsonResponse = await response.json();
-      setPayments(jsonResponse);
-      if (jsonResponse.error) {
-        console.log(jsonResponse);
-      }
     }
 
     useEffect(() => {
       getActivity();
-      getPayments();
-    }, [])
-
-    useEffect(() => {
-      if (Object.keys(payments).length) {
-        setStats(payments[uid].stats);
-        setInvoices(payments[uid].invoices);
-      }
-    }, [payments, uid]);
+      getStats();
+      getInvoices();
+      getRole();
+    }, []);
 
     return (
-        <DataContext.Provider value={{activities, stats, role}}>
+        <DataContext.Provider value={{activities, allStats, allInvoices, role}}>
             {all_pages}
             <Routes>
                 <Route path='/' element={<Navigate to="/dashboard/default" />} />
