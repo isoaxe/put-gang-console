@@ -58,12 +58,13 @@ export async function create (req, res) {
 			expiryDate,
 			uplineUid,
 			downlineUids: [],
+			activityId: 0,
 			name: ""
 		});
 
-		// Initialize and activity ID if admin. Used in activity route.
+		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
-			user.set({ activityId: 0, level2Uids: [] }, { merge: true });
+			user.set({ level2Uids: [] }, { merge: true });
 		}
 
 		// Add new user to downlineUids array of the referrer.
