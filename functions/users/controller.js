@@ -56,7 +56,6 @@ export async function create (req, res) {
 			membLvl,
 			joinDate,
 			expiryDate,
-			uplineUid,
 			name: ""
 		});
 
@@ -68,6 +67,11 @@ export async function create (req, res) {
 		// Initialize a downlineUids array and activityId if senior user.
 		if (role === "admin" || role === "level-1" || role === "level-2") {
 			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
+		}
+
+		// Only initialize uplineUid for below users.
+		if (role === "level-1" || role === "level-2" || role === "level-3") {
+			user.set({ uplineUid }, { merge: true });
 		}
 
 		// Add new user to downlineUids array of the referrer.
