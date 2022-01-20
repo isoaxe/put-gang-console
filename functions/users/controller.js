@@ -57,14 +57,17 @@ export async function create (req, res) {
 			joinDate,
 			expiryDate,
 			uplineUid,
-			downlineUids: [],
-			activityId: 0,
 			name: ""
 		});
 
 		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
 			user.set({ level2Uids: [] }, { merge: true });
+		}
+
+		// Initialize a downlineUids array and activityId if senior user.
+		if (role === "admin" || role === "level-1" || role === "level-2") {
+			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
 		}
 
 		// Add new user to downlineUids array of the referrer.
