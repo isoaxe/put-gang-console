@@ -22,14 +22,27 @@ export async function create (req, res) {
 		adminActivityId++;
 		adminUser.set({ activityId: adminActivityId }, { merge: true });
 
+		// Declare variables before conditionals.
+		let uplineData;
+
 		// Get activityId from upline data and increment.
 		if (role === "level-2" || role === "level-3") {
 			const uplineUser = db.collection("users").doc(userData.uplineUid);
 			const uplineRef = await uplineUser.get();
-			const uplineData = uplineRef.data();
+			uplineData = uplineRef.data();
 			let uplineActivityId = uplineData.activityId;
 			uplineActivityId++;
 			uplineUser.set({ activityId: uplineActivityId }, { merge: true });
+		}
+
+		// Get activityId from topline data and increment.
+		if (role === "level-3") {
+			const toplineUser = db.collection("users").doc(uplineData.uplineUid);
+			const toplineRef = await toplineUser.get();
+			const toplineData = toplineRef.data();
+			let toplineActivityId = toplineData.activityId;
+			toplineActivityId++;
+			toplineUser.set({ activityId: toplineActivityId }, { merge: true });
 		}
 
 		// Add current timestamp.
