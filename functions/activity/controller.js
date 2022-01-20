@@ -1,5 +1,4 @@
 import admin from "firebase-admin";
-import { filterObject } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
@@ -95,42 +94,13 @@ export async function all (req, res) {
 	try {
 		const { uid, role } = res.locals;
 		const db = admin.firestore();
-		let uids = [];
-
-		// Get current user data.
-		const userRef = await db.collection("users").doc(uid).get();
-		const userData = userRef.data();
+		let activities = {};
 
 		// Populate activities object from Firestore.
-		let activities = {};
-		const activitiesRef = await db.collection("activity").get();
-		activitiesRef.forEach(activity => {
+		const activityRef = await db.collection("activity").doc(uid).collection(role).get();
+		activityRef.forEach(activity => {
 			activities[activity.id] = activity.data();
 		});
-
-		// Include self, downline and downlines' downline for level-1 user.
-		if (role === "level-1") {
-			const downUids = userData.downlineUids;
-			uids = downUids;
-			for (let i = 0; i < downUids.length; i++) {
-				const downUserRef = await db.collection("users").doc(downUids[i]).get();
-				const downUserData = downUserRef.data();
-				uids = uids.concat(downUserData.downlineUids);
-			}
-			uids.push(uid);
-		}
-
-		// Include self and downline for level-2 user.
-		if (role === "level-2") {
-			uids = userData.downlineUids;
-			uids.push(uid);
-		}
-
-		// Filter the activities array based on authorized uids.
-		// Admin user gets unfiltered object (i.e. all activities).
-		if (role !== "admin") {
-			activities = filterObject(activities, uids, "uid");
-		}
 
 		return res.status(200).send(activities);
 	} catch (err) {
