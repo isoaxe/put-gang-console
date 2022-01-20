@@ -6,7 +6,7 @@ import { ADMIN_UID } from "./../util/constants.js";
 // Create a new activity.
 export async function create (req, res) {
 	try {
-		const { uid, email } = res.locals;
+		const { uid, role, email } = res.locals;
 		const { action, product } = req.params;
 		const db = admin.firestore();
 
@@ -21,6 +21,16 @@ export async function create (req, res) {
 		let adminActivityId = adminData.activityId;
 		adminActivityId++;
 		adminUser.set({ activityId: adminActivityId }, { merge: true });
+
+		// Get activityId from upline data and increment.
+		if (role === "level-2" || role === "level-3") {
+			const uplineUser = db.collection("users").doc(userData.uplineUid);
+			const uplineRef = await uplineUser.get();
+			const uplineData = uplineRef.data();
+			let uplineActivityId = uplineData.activityId;
+			uplineActivityId++;
+			uplineUser.set({ activityId: uplineActivityId }, { merge: true });
+		}
 
 		// Add current timestamp.
 		const now = new Date();
