@@ -18,9 +18,9 @@ export async function create (req, res) {
 		const adminUser = db.collection("users").doc(ADMIN_UID);
 		const adminRef = await adminUser.get();
 		const adminData = adminRef.data();
-		let { activityId } = adminData;
-		activityId++;
-		adminUser.set({ activityId }, { merge: true });
+		let adminActivityId = adminData.activityId;
+		adminActivityId++;
+		adminUser.set({ activityId: adminActivityId }, { merge: true });
 
 		// Add current timestamp.
 		const now = new Date();
