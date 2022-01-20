@@ -296,15 +296,11 @@ export async function invoices (req, res) {
 
 		// Populate invoices object.
 		for (let i = 0; i < uids.length; i++) {
-			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
-			const stats = statsRef.data();
 			const userInvoices = {};
-			for (let j = 1; j <= stats.invoiceId; j++) {
-				const invoiceNumber = j.toString(); // Cast as string for use as object key.
-				const invoice = await paymentsRef.doc(uids[i]).collection("invoices").doc(invoiceNumber).get();
-				const invoiceData = invoice.data();
-				userInvoices[invoiceNumber] = invoiceData;
-			}
+			const userInvoiceRef = await paymentsRef.doc(uids[i]).collection("invoices").get();
+			userInvoiceRef.forEach(invoice => {
+				userInvoices[invoice.id] = invoice.data();
+			});
 			invoices[uids[i]] = userInvoices;
 		}
 
