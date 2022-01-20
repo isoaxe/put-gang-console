@@ -24,14 +24,14 @@ export async function create (req, res) {
 		adminUser.set({ activityId: adminActivityId }, { merge: true });
 
 		// Declare variables before conditionals.
-		let uplineData;
+		let uplineData, uplineActivityId;
 
 		// Get activityId from upline data and increment.
 		if (role === "level-2" || role === "level-3") {
 			const uplineUser = db.collection("users").doc(userData.uplineUid);
 			const uplineRef = await uplineUser.get();
 			uplineData = uplineRef.data();
-			let uplineActivityId = uplineData.activityId;
+			uplineActivityId = uplineData.activityId;
 			uplineActivityId++;
 			uplineUser.set({ activityId: uplineActivityId }, { merge: true });
 		}
@@ -64,6 +64,13 @@ export async function create (req, res) {
 		const adminActivity = activityRef.doc(ADMIN_UID).collection("admin");
 		const adminActivityRef = adminActivity.doc(adminActivityId.toString());
 		adminActivityRef.set(activityData);
+
+		// Save activity data for consumption by level-1.
+		if (role === "level-2") {
+			const level1Activity = activityRef.doc(uplineData.uid).collection("level-1");
+			const level1ActivityRef = level1Activity.doc(uplineActivityId.toString());
+			level1ActivityRef.set(activityData);
+		}
 
 		return res.status(200).send({ message: `${email} has taken a ${action} action on ${product}` });
 	} catch (err) {
