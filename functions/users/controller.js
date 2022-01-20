@@ -69,18 +69,16 @@ export async function create (req, res) {
 			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
 		}
 
-		// Only initialize uplineUid for below users.
-		if (role === "level-1" || role === "level-2" || role === "level-3") {
-			user.set({ uplineUid }, { merge: true });
-		}
-
-		// Add new user to downlineUids array of the referrer.
 		if (role !== "admin" && role !== "standard") {
+			// Add new user to downlineUids array of the referrer.
 			const uplineDocRef = await db.collection("users").doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			const referrerDownlines = uplineDoc.data().downlineUids;
 			referrerDownlines.push(uid);
 			uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+
+			// Only initialize uplineUid for below users.
+			user.set({ uplineUid }, { merge: true });
 		}
 
 		// Add user to level2Uids array of admin.
