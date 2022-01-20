@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { addMonth } from "./../util/helpers.js";
-import { ADMIN_EMAIL } from "./../util/constants.js";
+import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
 
 // Create new user.
@@ -63,7 +63,7 @@ export async function create (req, res) {
 
 		// Initialize and activity ID if admin. Used in activity route.
 		if (role === "admin") {
-			user.set({ activityId: 0 }, { merge: true });
+			user.set({ activityId: 0, level2Uids: [] }, { merge: true });
 		}
 
 		// Add new user to downlineUids array of the referrer.
@@ -73,6 +73,15 @@ export async function create (req, res) {
 			const referrerDownlines = uplineDoc.data().downlineUids;
 			referrerDownlines.push(uid);
 			uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+		}
+
+		// Add user to level2Uids array of admin.
+		if (role === "level-2") {
+			const adminDocRef = await db.collection("users").doc(ADMIN_UID);
+			const adminDoc = await adminDocRef.get();
+			const level2Uids = adminDoc.data().level2Uids;
+			level2Uids.push(uid);
+			adminDocRef.set({ level2Uids }, { merge: true });
 		}
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
