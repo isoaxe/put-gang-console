@@ -56,23 +56,29 @@ export async function create (req, res) {
 			membLvl,
 			joinDate,
 			expiryDate,
-			uplineUid,
-			downlineUids: [],
 			name: ""
 		});
 
-		// Initialize and activity ID if admin. Used in activity route.
+		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
-			user.set({ activityId: 0, level2Uids: [] }, { merge: true });
+			user.set({ level2Uids: [] }, { merge: true });
 		}
 
-		// Add new user to downlineUids array of the referrer.
+		// Initialize a downlineUids array and activityId if senior user.
+		if (role === "admin" || role === "level-1" || role === "level-2") {
+			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
+		}
+
 		if (role !== "admin" && role !== "standard") {
+			// Add new user to downlineUids array of the referrer.
 			const uplineDocRef = await db.collection("users").doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			const referrerDownlines = uplineDoc.data().downlineUids;
 			referrerDownlines.push(uid);
 			uplineDocRef.set({ downlineUids: referrerDownlines }, { merge: true });
+
+			// Only initialize uplineUid for below users.
+			user.set({ uplineUid }, { merge: true });
 		}
 
 		// Add user to level2Uids array of admin.
