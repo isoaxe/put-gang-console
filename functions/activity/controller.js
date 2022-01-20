@@ -9,6 +9,7 @@ export async function create (req, res) {
 		const { uid, role, email } = res.locals;
 		const { action, product } = req.params;
 		const db = admin.firestore();
+		const activityRef = db.collection("activity");
 
 		// Get current user data.
 		const userRef = await db.collection("users").doc(uid).get();
@@ -60,7 +61,7 @@ export async function create (req, res) {
 		}
 
 		// Save activity data for consumption by admin.
-		const adminActivity = db.collection("activity").doc(ADMIN_UID).collection("admin");
+		const adminActivity = activityRef.doc(ADMIN_UID).collection("admin");
 		const adminActivityRef = adminActivity.doc(adminActivityId.toString());
 		adminActivityRef.set(activityData);
 
