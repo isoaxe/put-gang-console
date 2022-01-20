@@ -227,12 +227,10 @@ export async function stats (req, res) {
 		const stats = {};
 		const paymentsRef = db.collection("payments");
 
-		// Get downline ids plus self for admin (i.e. all users).
+		// Get level-1, level-2 and self for admin.
 		if (role === "admin") {
-			const documents = await paymentsRef.listDocuments();
-			documents.forEach(doc => {
-				uids.push(doc.id);
-			});
+			uids = userData.downlineUids.concat(userData.level2Uids);
+			uids.push(uid);
 		}
 
 		// Include downline and self for level-1 user.
@@ -275,12 +273,9 @@ export async function invoices (req, res) {
 		const invoices = {};
 		const paymentsRef = db.collection("payments");
 
-		// Get downline ids plus self for admin (i.e. all users).
+		// Get level-1 and level-2 users for admin.
 		if (role === "admin") {
-			const documents = await paymentsRef.listDocuments();
-			documents.forEach(doc => {
-				uids.push(doc.id);
-			});
+			uids = userData.downlineUids.concat(userData.level2Uids);
 		}
 
 		// Include downline and self for level-1 user.
@@ -296,15 +291,11 @@ export async function invoices (req, res) {
 
 		// Populate invoices object.
 		for (let i = 0; i < uids.length; i++) {
-			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
-			const stats = statsRef.data();
 			const userInvoices = {};
-			for (let j = 1; j <= stats.invoiceId; j++) {
-				const invoiceNumber = j.toString(); // Cast as string for use as object key.
-				const invoice = await paymentsRef.doc(uids[i]).collection("invoices").doc(invoiceNumber).get();
-				const invoiceData = invoice.data();
-				userInvoices[invoiceNumber] = invoiceData;
-			}
+			const userInvoiceRef = await paymentsRef.doc(uids[i]).collection("invoices").get();
+			userInvoiceRef.forEach(invoice => {
+				userInvoices[invoice.id] = invoice.data();
+			});
 			invoices[uids[i]] = userInvoices;
 		}
 
