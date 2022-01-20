@@ -55,19 +55,12 @@ export async function all (req, res) {
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
 
-		// Get activity id from admin data.
-		const adminRef = await db.collection("users").doc(ADMIN_UID).get();
-		const adminData = adminRef.data();
-		const { activityId } = adminData;
-
 		// Populate activities object from Firestore.
 		let activities = {};
-		for (let i = 1; i <= activityId; i++) {
-			const activityNumber = i.toString();
-			const activityRef = await db.collection("activity").doc(activityNumber).get();
-			const activity = activityRef.data();
-			activities[activityNumber] = activity;
-		}
+		const activitiesRef = await db.collection("activity").get();
+		activitiesRef.forEach(activity => {
+			activities[activity.id] = activity.data();
+		});
 
 		// Include self, downline and downlines' downline for level-1 user.
 		if (role === "level-1") {
