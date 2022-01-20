@@ -59,9 +59,10 @@ export async function create (req, res) {
 			date
 		}
 
-		// Save activity data to Firestore.
-		const activity = db.collection("activity").doc(activityId.toString());
-		activity.set(activityData);
+		// Save activity data for consumption by admin.
+		const adminActivity = db.collection("activity").doc(ADMIN_UID).collection("admin");
+		const adminActivityRef = adminActivity.doc(adminActivityId.toString());
+		adminActivityRef.set(activityData);
 
 		return res.status(200).send({ message: `${email} has taken a ${action} action on ${product}` });
 	} catch (err) {
