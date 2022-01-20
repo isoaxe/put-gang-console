@@ -227,9 +227,10 @@ export async function stats (req, res) {
 		const stats = {};
 		const paymentsRef = db.collection("payments");
 
-		// Get level-1 and level-2 users for admin.
+		// Get level-1, level-2 and self for admin.
 		if (role === "admin") {
 			uids = userData.downlineUids.concat(userData.level2Uids);
+			uids.push(uid);
 		}
 
 		// Include downline and self for level-1 user.
