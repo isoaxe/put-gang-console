@@ -219,6 +219,11 @@ export async function create (req, res) {
 			sale: value,
 		}
 
+		// Get receiptId from user data, iterate and save.
+		let { receiptId } = userData;
+		receiptId++;
+		usersRef.doc(uid).set({ receiptId }, { merge: true });
+
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
