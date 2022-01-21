@@ -9,6 +9,7 @@ export async function create (req, res) {
 		const { uid, role, subscribed, email } = res.locals;
 		const { type } = req.params;
 		const db = admin.firestore();
+		const paymentsRef = db.collection("payments");
 
 		// Check if user is a new subscriber.
 		const newSub = newSubscriber(subscribed, type);
@@ -16,7 +17,7 @@ export async function create (req, res) {
 		// Get current user and stats data.
 		const userRef = await db.collection("users").doc(uid).get();
 		const userData = userRef.data();
-		const stats = db.collection("payments").doc(uid).collection("stats").doc("stats");
+		const stats = paymentsRef.doc(uid).collection("stats").doc("stats");
 		const statsRef = await stats.get();
 		const statsData = statsRef.data();
 
@@ -45,7 +46,7 @@ export async function create (req, res) {
 		}
 
 		// Get admin stats as payments from all users will accrue here.
-		const adminUser = db.collection("payments").doc(ADMIN_UID);
+		const adminUser = paymentsRef.doc(ADMIN_UID);
 		const adminStats = adminUser.collection("stats").doc("stats");
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
@@ -61,7 +62,7 @@ export async function create (req, res) {
 		// Get upline stats. Same as admin if level-1 user.
 		if (role !== "admin" && role !== "standard") {
 			uplineUid = userData.uplineUid;
-			upline = db.collection("payments").doc(uplineUid);
+			upline = paymentsRef.doc(uplineUid);
 			uplineStats = upline.collection("stats").doc("stats");
 			const uplineStatsRef = await uplineStats.get();
 			const uplineStatsData = uplineStatsRef.data();
@@ -83,7 +84,7 @@ export async function create (req, res) {
 
 			// Get topline stats. Will be level-1 user.
 			const toplineUid = uplineData.uplineUid; // The upline's upline.
-			topline = db.collection("payments").doc(toplineUid);
+			topline = paymentsRef.doc(toplineUid);
 			toplineStats = topline.collection("stats").doc("stats");
 			const toplineStatsRef = await toplineStats.get();
 			const toplineStatsData = toplineStatsRef.data();
