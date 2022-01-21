@@ -24,6 +24,7 @@ const ActivityList = () => {
       let actionStatement, productStatement;
       if (action === "cancel") actionStatement = "cancelled their subscription to";
       if (action === "join") actionStatement = "joined";
+      if (action === "recur") actionStatement = "made a payment for";
       if (product === "join") productStatement = "Join the Discussion";
       if (product === "watch") productStatement = "Watch the Discussion";
       if (product === "news") productStatement = "your newsletter";
