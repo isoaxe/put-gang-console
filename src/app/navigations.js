@@ -2,6 +2,11 @@ import { authRoles } from './auth/authRoles'
 
 export const navigations = [
     {
+        name: 'Console',
+        path: '/dashboard/console',
+        icon: 'dashboard',
+    },
+    {
         name: 'Dashboard',
         path: '/dashboard/default',
         icon: 'dashboard',
@@ -20,11 +25,6 @@ export const navigations = [
         name: 'Inventory Management',
         path: '/dashboard/inventory-management',
         icon: 'store',
-    },
-    {
-        name: 'Console',
-        path: '/dashboard/console',
-        icon: 'dashboard',
     },
     {
         label: 'Pages',

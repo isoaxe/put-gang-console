@@ -10,7 +10,6 @@ import { Box, styled, useTheme } from '@mui/system'
 import React, { useState } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
-import firebase from 'firebase/app'
 import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span } from 'app/components/Typography'
@@ -72,46 +71,6 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
         textDecoration: 'underline',
     },
 }))
-
-// Temporary function to generate tokens for testing with Postman.
-function getBearerToken () {
-  firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-    console.log("Bearer token:", idToken);
-  }).catch(function(error) {
-    console.error("There was a problem with the token generation...");
-  });
-}
-
-/*
- * Temporary function to make payment in order to test the api.
- *
- * In order to test, login via the 'Sign In: No Redirect' temporary button rather
- * than the usual 'Sign In' button. Then this makePayment function can be called
- * as the currentUser value will be populated.
- */
-async function makePayment () {
-  // Hardcode payment type for now.
-  const type = "join";
-  try {
-    const user = firebase.auth().currentUser;
-    const token = await user.getIdToken(true);
-    console.log(`Making payment for ${user.email}`);
-    const fetchConfig = {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    };
-    const response = await fetch(`${API_URL}/payments/${type}`, fetchConfig);
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-} catch (error) {
-    console.log(error)
-  }
-}
-
 
 const FirebaseRegister = () => {
     const navigate = useNavigate()
@@ -280,16 +239,6 @@ const FirebaseRegister = () => {
                                     >
                                         Sign In
                                     </Button>
-                                </FlexBox>
-                                <FlexBox display="flex" alignItems="center">
-                                    <Box position="relative">
-                                        <button style={{marginTop: "8px"}} onClick={getBearerToken}>
-                                          Get a token
-                                        </button>
-                                        <button style={{margin: "8px"}} onClick={makePayment}>
-                                          Make payment
-                                        </button>
-                                    </Box>
                                 </FlexBox>
                             </ValidatorForm>
                         </Box>

@@ -10,7 +10,8 @@ import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
   AddTask,
   HighlightOff,
-  MailOutline
+  MailOutline,
+  MonetizationOn
 } from '@mui/icons-material';
 
 const FlexBox = styled(Box)(() => ({
@@ -45,6 +46,7 @@ function actionImage (action, product) {
   if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
   if (action === "join") return <AddTask color="success" />;
   if (action === "cancel") return <HighlightOff color="error" />;
+  if (action === "recur") return <MonetizationOn color="success" />;
 }
 
 const ListView = ({ list = [] }) => {
