@@ -9,13 +9,14 @@ export async function create (req, res) {
 		const { action, product } = req.params;
 		const db = admin.firestore();
 		const activityRef = db.collection("activity");
+		const usersPath = db.collection("users");
 
 		// Get current user data.
-		const userRef = await db.collection("users").doc(uid).get();
+		const userRef = await usersPath.doc(uid).get();
 		const userData = userRef.data();
 
 		// Get activityId from admin data and increment.
-		const adminUser = db.collection("users").doc(ADMIN_UID);
+		const adminUser = usersPath.doc(ADMIN_UID);
 		const adminRef = await adminUser.get();
 		const adminData = adminRef.data();
 		let adminActivityId = adminData.activityId;
@@ -27,7 +28,7 @@ export async function create (req, res) {
 
 		// Get activityId from upline data and increment.
 		if (role === "level-2" || role === "level-3") {
-			const uplineUser = db.collection("users").doc(userData.uplineUid);
+			const uplineUser = usersPath.doc(userData.uplineUid);
 			const uplineRef = await uplineUser.get();
 			uplineData = uplineRef.data();
 			uplineActivityId = uplineData.activityId;
@@ -37,7 +38,7 @@ export async function create (req, res) {
 
 		// Get activityId from topline data and increment.
 		if (role === "level-3") {
-			const toplineUser = db.collection("users").doc(uplineData.uplineUid);
+			const toplineUser = usersPath.doc(uplineData.uplineUid);
 			const toplineRef = await toplineUser.get();
 			const toplineData = toplineRef.data();
 			toplineActivityId = toplineData.activityId;
