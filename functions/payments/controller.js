@@ -224,6 +224,10 @@ export async function create (req, res) {
 		receiptId++;
 		usersRef.doc(uid).set({ receiptId }, { merge: true });
 
+		// Save receipts to Firestore with the document name of receiptId.
+		const receipts = paymentsRef.doc(uid).collection("receipts").doc(receiptId.toString());
+		receipts.set(receipt);
+
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
