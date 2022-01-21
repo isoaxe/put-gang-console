@@ -73,15 +73,6 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
     },
 }))
 
-// Temporary function to generate tokens for testing with Postman.
-function getBearerToken () {
-  firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-    console.log("Bearer token:", idToken);
-  }).catch(function(error) {
-    console.error("There was a problem with the token generation...");
-  });
-}
-
 /*
  * Temporary function to make payment in order to test the api.
  *
@@ -283,9 +274,6 @@ const FirebaseRegister = () => {
                                 </FlexBox>
                                 <FlexBox display="flex" alignItems="center">
                                     <Box position="relative">
-                                        <button style={{marginTop: "8px"}} onClick={getBearerToken}>
-                                          Get a token
-                                        </button>
                                         <button style={{margin: "8px"}} onClick={makePayment}>
                                           Make payment
                                         </button>
