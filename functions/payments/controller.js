@@ -174,7 +174,8 @@ export async function create (req, res) {
 
 		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
 
-		// Now add the commission invoices themselves.
+
+		// Now add the commission invoices.
 		const now = new Date();
 		const date = now.toISOString();
 		let commission;
@@ -203,6 +204,17 @@ export async function create (req, res) {
 			uplineInvoice.set(invoice);
 			const toplineInvoice = topline.collection("invoices").doc(toplineInvoiceId.toString());
 			toplineInvoice.set(invoice);
+		}
+
+
+		// Finally, do the payment receipts. Similar to invoice but for all users.
+		const receipt = {
+			name: userData.name,
+			uid,
+			email,
+			date,
+			product: type,
+			sale: value,
 		}
 
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
