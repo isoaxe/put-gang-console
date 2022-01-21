@@ -56,6 +56,7 @@ export async function create (req, res) {
 			membLvl,
 			joinDate,
 			expiryDate,
+			activityId: 0,
 			name: ""
 		});
 
