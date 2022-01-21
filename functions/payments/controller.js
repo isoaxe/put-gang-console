@@ -9,14 +9,16 @@ export async function create (req, res) {
 		const { uid, role, subscribed, email } = res.locals;
 		const { type } = req.params;
 		const db = admin.firestore();
+		const paymentsPath = db.collection("payments");
 
 		// Check if user is a new subscriber.
 		const newSub = newSubscriber(subscribed, type);
 
 		// Get current user and stats data.
-		const userRef = await db.collection("users").doc(uid).get();
+		const usersRef = db.collection("users");
+		const userRef = await usersRef.doc(uid).get();
 		const userData = userRef.data();
-		const stats = db.collection("payments").doc(uid).collection("stats").doc("stats");
+		const stats = paymentsPath.doc(uid).collection("stats").doc("stats");
 		const statsRef = await stats.get();
 		const statsData = statsRef.data();
 
@@ -45,7 +47,7 @@ export async function create (req, res) {
 		}
 
 		// Get admin stats as payments from all users will accrue here.
-		const adminUser = db.collection("payments").doc(ADMIN_UID);
+		const adminUser = paymentsPath.doc(ADMIN_UID);
 		const adminStats = adminUser.collection("stats").doc("stats");
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
@@ -61,7 +63,7 @@ export async function create (req, res) {
 		// Get upline stats. Same as admin if level-1 user.
 		if (role !== "admin" && role !== "standard") {
 			uplineUid = userData.uplineUid;
-			upline = db.collection("payments").doc(uplineUid);
+			upline = paymentsPath.doc(uplineUid);
 			uplineStats = upline.collection("stats").doc("stats");
 			const uplineStatsRef = await uplineStats.get();
 			const uplineStatsData = uplineStatsRef.data();
@@ -78,12 +80,12 @@ export async function create (req, res) {
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
 			// Get upline user data.
-			const uplineRef = await db.collection("users").doc(uplineUid).get();
+			const uplineRef = await usersRef.doc(uplineUid).get();
 			const uplineData = uplineRef.data();
 
 			// Get topline stats. Will be level-1 user.
 			const toplineUid = uplineData.uplineUid; // The upline's upline.
-			topline = db.collection("payments").doc(toplineUid);
+			topline = paymentsPath.doc(toplineUid);
 			toplineStats = topline.collection("stats").doc("stats");
 			const toplineStatsRef = await toplineStats.get();
 			const toplineStatsData = toplineStatsRef.data();
@@ -174,7 +176,8 @@ export async function create (req, res) {
 
 		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
 
-		// Now add the commission invoices themselves.
+
+		// Now add the commission invoices.
 		const now = new Date();
 		const date = now.toISOString();
 		let commission;
@@ -205,6 +208,26 @@ export async function create (req, res) {
 			toplineInvoice.set(invoice);
 		}
 
+
+		// Finally, do the payment receipts. Similar to invoice but for all users.
+		const receipt = {
+			name: userData.name,
+			uid,
+			email,
+			date,
+			product: type,
+			sale: value,
+		}
+
+		// Get receiptId from user data, iterate and save.
+		let { receiptId } = userData;
+		receiptId++;
+		usersRef.doc(uid).set({ receiptId }, { merge: true });
+
+		// Save receipts to Firestore with the document name of receiptId.
+		const receipts = paymentsPath.doc(uid).collection("receipts").doc(receiptId.toString());
+		receipts.set(receipt);
+
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
 		return handleError(res, err);
@@ -225,7 +248,7 @@ export async function stats (req, res) {
 		// Variables used within conditionals below.
 		let uids = [];
 		const stats = {};
-		const paymentsRef = db.collection("payments");
+		const paymentsPath = db.collection("payments");
 
 		// Get level-1, level-2 and self for admin.
 		if (role === "admin") {
@@ -246,7 +269,7 @@ export async function stats (req, res) {
 
 		// Populate stats object.
 		for (let i = 0; i < uids.length; i++) {
-			const statsRef = await paymentsRef.doc(uids[i]).collection("stats").doc("stats").get();
+			const statsRef = await paymentsPath.doc(uids[i]).collection("stats").doc("stats").get();
 			const statsData = statsRef.data();
 			stats[uids[i]] = statsData;
 		}
@@ -271,7 +294,7 @@ export async function invoices (req, res) {
 		// Variables used within conditionals below.
 		let uids = [];
 		const invoices = {};
-		const paymentsRef = db.collection("payments");
+		const paymentsPath = db.collection("payments");
 
 		// Get level-1 and level-2 users for admin.
 		if (role === "admin") {
@@ -292,7 +315,7 @@ export async function invoices (req, res) {
 		// Populate invoices object.
 		for (let i = 0; i < uids.length; i++) {
 			const userInvoices = {};
-			const userInvoiceRef = await paymentsRef.doc(uids[i]).collection("invoices").get();
+			const userInvoiceRef = await paymentsPath.doc(uids[i]).collection("invoices").get();
 			userInvoiceRef.forEach(invoice => {
 				userInvoices[invoice.id] = invoice.data();
 			});
