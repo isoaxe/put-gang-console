@@ -15,7 +15,8 @@ export async function create (req, res) {
 		const newSub = newSubscriber(subscribed, type);
 
 		// Get current user and stats data.
-		const userRef = await db.collection("users").doc(uid).get();
+		const usersRef = db.collection("users");
+		const userRef = await usersRef.doc(uid).get();
 		const userData = userRef.data();
 		const stats = paymentsRef.doc(uid).collection("stats").doc("stats");
 		const statsRef = await stats.get();
@@ -79,7 +80,7 @@ export async function create (req, res) {
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
 			// Get upline user data.
-			const uplineRef = await db.collection("users").doc(uplineUid).get();
+			const uplineRef = await usersRef.doc(uplineUid).get();
 			const uplineData = uplineRef.data();
 
 			// Get topline stats. Will be level-1 user.
