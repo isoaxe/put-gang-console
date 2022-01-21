@@ -9,6 +9,10 @@ const InventoryManagement = Loadable(lazy(() => import("./InventoryManagement"))
 
 export const dashboardRoutes = [
     {
+        path: '/dashboard/console',
+        element: <Console />,
+    },
+    {
         path: '/dashboard/default',
         element: <Analytics2 />,
     },
@@ -23,9 +27,5 @@ export const dashboardRoutes = [
     {
         path: '/dashboard/inventory-management',
         element: <InventoryManagement />,
-    },
-    {
-        path: '/dashboard/console',
-        element: <Console />,
     },
 ]
