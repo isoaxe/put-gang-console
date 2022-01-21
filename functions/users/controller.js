@@ -12,11 +12,12 @@ export async function create (req, res) {
 		const { refId, membLvl } = req.params;
 		const { email, password } = req.body;
 		const db = admin.firestore();
-		const idList = await db.collection("users").listDocuments();
+		const usersPath = db.collection("users");
+		const idList = await usersPath.listDocuments();
 		const ids = idList.map(doc => doc.id);
 		if (ids.includes(refId)) {
 			uplineUid = refId; // As refId has been validated.
-			const uplineDocRef = await db.collection("users").doc(uplineUid);
+			const uplineDocRef = await usersPath.doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			uplineRole = uplineDoc.data().role;
 		}
@@ -48,7 +49,7 @@ export async function create (req, res) {
 		await admin.auth().setCustomUserClaims(uid, { role, subscribed });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
-		const user = db.collection("users").doc(uid);
+		const user = usersPath.doc(uid);
 		user.set({
 			uid,
 			email,
@@ -72,7 +73,7 @@ export async function create (req, res) {
 
 		if (role !== "admin" && role !== "standard") {
 			// Add new user to downlineUids array of the referrer.
-			const uplineDocRef = await db.collection("users").doc(uplineUid);
+			const uplineDocRef = await usersPath.doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			const referrerDownlines = uplineDoc.data().downlineUids;
 			referrerDownlines.push(uid);
@@ -84,7 +85,7 @@ export async function create (req, res) {
 
 		// Add user to level2Uids array of admin.
 		if (role === "level-2") {
-			const adminDocRef = await db.collection("users").doc(ADMIN_UID);
+			const adminDocRef = await usersPath.doc(ADMIN_UID);
 			const adminDoc = await adminDocRef.get();
 			const level2Uids = adminDoc.data().level2Uids;
 			level2Uids.push(uid);
