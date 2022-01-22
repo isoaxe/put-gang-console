@@ -30,13 +30,19 @@ const ComparisonChart2 = ({ height }) => {
         tooltip: {},
         dataset: {
             source: [
-                ['Month', 'Website', 'App', 'Linux', 'Windows'],
-                ['Jan', 2200, 1200, 950, 800],
-                ['Feb', 800, 500, 1500, 600],
-                ['Mar', 700, 1350, 800, 700],
-                ['Apr', 1500, 1250, 950, 900],
-                ['May', 2450, 450, 950, 500],
-                ['June', 1700, 1250, 1500, 800],
+                ['Month', 'New Subs', 'Cancellations', 'New MLM'],
+                ['Jan', 30, 12, 3],
+                ['Feb', 33, 7, 5],
+                ['Mar', 37, 14, 2],
+                ['Apr', 40, 22, 3],
+                ['May', 45, 13, 4],
+                ['June', 41, 15, 13],
+                ['July', 43, 17, 12],
+                ['August', 55, 25, 15],
+                ['September', 60, 30, 18],
+                ['October', 43, 25, 12],
+                ['November', 25, 14, 9],
+                ['December', 55, 30, 23],
             ],
         },
         xAxis: {
@@ -79,12 +85,6 @@ const ComparisonChart2 = ({ height }) => {
         // Declare several bar series, each will be mapped
         // to a column of dataset.source by default.
         series: [
-            {
-                type: 'bar',
-                itemStyle: {
-                    barBorderRadius: [10, 10, 0, 0],
-                },
-            },
             {
                 type: 'bar',
                 itemStyle: {

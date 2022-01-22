@@ -28,12 +28,14 @@ const LoadData = () => {
 
     useEffect(() => {
       if (user) {
+        getRole();
+      }
+      if (["admin", "level-1", "level-2"].includes(role)) {
         getActivity();
         getStats();
         getInvoices();
-        getRole();
       }
-    }, [user]);
+    }, [user, role]);
 
     return (
         <DataContext.Provider value={{activities, allStats, allInvoices, role}}>
