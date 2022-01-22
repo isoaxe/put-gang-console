@@ -51,14 +51,14 @@ function actionImage (action, product) {
   if (action === "recur") return <MonetizationOn color="success" />;
 }
 
-function paymentInfo (userId) {
-  console.log(userId);
-}
-
 const ListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
-    const { palette } = useTheme()
-    const textMuted = palette.text.secondary
+    const { palette } = useTheme();
+    const textMuted = palette.text.secondary;
+
+    function paymentInfo (userId) {
+      console.log(userId);
+    }
 
     return (
         <div>
