@@ -3,8 +3,9 @@ import {
     Avatar,
     Grid,
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
+import ReceiptsModal from './../modal/ReceiptsModal';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
@@ -55,6 +56,7 @@ function paymentInfo (userId) {
 }
 
 const ListView = ({ list = [] }) => {
+    const [visible, setVisible] = useState(false);
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
 
@@ -95,6 +97,10 @@ const ListView = ({ list = [] }) => {
                     </Grid>
                 </ListCard>
             ))}
+            <ReceiptsModal
+								visible={visible}
+								setVisible={setVisible}
+							/>
         </div>
     )
 }
