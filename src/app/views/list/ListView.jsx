@@ -56,7 +56,7 @@ const ListView = ({ list = [] }) => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
-    function paymentInfo (userId) {
+    function displayReceipts (userId) {
       console.log(userId);
     }
 
@@ -67,7 +67,7 @@ const ListView = ({ list = [] }) => {
                     key={item.id}
                     elevation={3}
                     sx={{ mb: index < list.length && 2 }}
-                    onClick={() => paymentInfo(item.uid)}
+                    onClick={() => displayReceipts(item.uid)}
                 >
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
