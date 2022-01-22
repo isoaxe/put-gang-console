@@ -1,4 +1,5 @@
 import Modal from "react-modal";
+import ReceiptsListView from "./../list/ReceiptsListView";
 import "./ReceiptsModal.css";
 
 
@@ -18,6 +19,8 @@ function ReceiptsModal (props) {
 			overlayClassName="overlay"
 		>
 			<div>
+				<h2>Payment History</h2>
+				<ReceiptsListView />
 			</div>
 		</Modal>
 	);
