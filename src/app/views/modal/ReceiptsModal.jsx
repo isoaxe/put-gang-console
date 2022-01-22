@@ -1,4 +1,5 @@
 import Modal from "react-modal";
+import "./ReceiptsModal.css";
 
 
 function ReceiptsModal (props) {
