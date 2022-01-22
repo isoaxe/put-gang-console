@@ -215,6 +215,7 @@ export async function create (req, res) {
 			uid,
 			email,
 			date,
+			action: "payment",
 			product: type,
 			sale: value,
 		}
