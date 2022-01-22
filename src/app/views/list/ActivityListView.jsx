@@ -51,7 +51,7 @@ function actionImage (action, product) {
   if (action === "recur") return <MonetizationOn color="success" />;
 }
 
-const ListView = ({ list = [] }) => {
+const ActivityListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
@@ -106,4 +106,4 @@ const ListView = ({ list = [] }) => {
     )
 }
 
-export default ListView
+export default ActivityListView
