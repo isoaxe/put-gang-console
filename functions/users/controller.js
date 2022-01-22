@@ -67,7 +67,7 @@ export async function create (req, res) {
 		}
 
 		// Initialize a downlineUids array and activityId if senior user.
-		if (role === "admin" || role === "level-1" || role === "level-2") {
+		if (["admin", "level-1", "level-2"].includes(role)) {
 			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
 		}
 
