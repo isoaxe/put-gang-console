@@ -1,4 +1,4 @@
-import ListView from './ListView'
+import ActivityListView from './ActivityListView'
 import { debounce } from 'lodash'
 import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
@@ -76,7 +76,7 @@ const ActivityList = () => {
                 </ListSearchbar>
             </Box>
             <Hidden xsDown>
-                <ListView list={list}></ListView>
+                <ActivityListView list={list}></ActivityListView>
             </Hidden>
         </Container>
     )
