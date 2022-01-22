@@ -58,6 +58,7 @@ const ListView = ({ list = [] }) => {
 
     function displayReceipts (userId) {
       console.log(userId);
+      setVisible(true);
     }
 
     return (
