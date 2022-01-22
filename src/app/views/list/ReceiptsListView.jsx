@@ -44,7 +44,7 @@ const ListCard = styled(Card)(({ theme }) => ({
 function actionImage (action) {
   if (action === "join") return <AddTask color="success" />;
   if (action === "cancel") return <HighlightOff color="error" />;
-  if (action === "recur") return <MonetizationOn color="success" />;
+  if (action === "payment") return <MonetizationOn color="success" />;
 }
 
 const ReceiptsListView = ({ list = [] }) => {
