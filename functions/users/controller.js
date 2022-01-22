@@ -71,7 +71,7 @@ export async function create (req, res) {
 			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
 		}
 
-		if (role !== "admin" && role !== "standard") {
+		if (["level-1", "level-2", "level-3"].includes(role)) {
 			// Add new user to downlineUids array of the referrer.
 			const uplineDocRef = await usersPath.doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
