@@ -49,6 +49,10 @@ function actionImage (action, product) {
   if (action === "recur") return <MonetizationOn color="success" />;
 }
 
+function paymentInfo (userId) {
+  console.log(userId);
+}
+
 const ListView = ({ list = [] }) => {
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
@@ -60,6 +64,7 @@ const ListView = ({ list = [] }) => {
                     key={item.id}
                     elevation={3}
                     sx={{ mb: index < list.length && 2 }}
+                    onClick={() => paymentInfo(item.uid)}
                 >
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
