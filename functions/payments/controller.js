@@ -61,7 +61,7 @@ export async function create (req, res) {
 		let upline, uplineUid, uplineRevenue, uplineMrr, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
 
 		// Get upline stats. Same as admin if level-1 user.
-		if (role !== "admin" && role !== "standard") {
+		if (["level-1", "level-2", "level-3"].includes(role)) {
 			uplineUid = userData.uplineUid;
 			upline = paymentsPath.doc(uplineUid);
 			uplineStats = upline.collection("stats").doc("stats");
