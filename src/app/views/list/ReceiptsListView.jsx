@@ -1,11 +1,10 @@
 import {
     Card,
-    Avatar,
     Grid,
 } from '@mui/material'
 import React from 'react'
 import { Box, styled, useTheme } from '@mui/system'
-import { Small, Span, Paragraph } from 'app/components/Typography'
+import { Small, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
   AddTask,
@@ -77,12 +76,6 @@ const ReceiptsListView = (props) => {
                                         </Small>
                                     </Box>
                                 </Box>
-                            </FlexBox>
-                        </Grid>
-                        <Grid item md={2}>
-                            <FlexBox>
-                                <Avatar src={item.userImage}></Avatar>
-                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
                             </FlexBox>
                         </Grid>
                     </Grid>
