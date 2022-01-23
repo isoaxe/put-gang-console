@@ -98,8 +98,8 @@ export async function create (req, res) {
 
 		// Set value of payment type.
 		let value;
-		if (type === "join") value = 50;
-		if (type === "watch") value = 150;
+		if (type === "join") value = 150;
+		if (type === "watch") value = 50;
 
 		// Add to admin MRR if new subscriber and not admin.
 		if (newSub && role !== "admin") {
