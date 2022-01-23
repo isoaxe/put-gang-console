@@ -19,7 +19,7 @@ export function objectToArray (compoundObj) {
 }
 
 
-// Get data from Firestore at given endpoint and save to state.
+// Get data from Firestore at given endpoint and optionally save to state.
 export async function getData (endpoint, setterFunction) {
   const token = await firebase.auth().currentUser.getIdToken(true);
   const fetchConfig = {
@@ -32,8 +32,11 @@ export async function getData (endpoint, setterFunction) {
   };
   const response = await fetch(API_URL + endpoint, fetchConfig);
   const jsonResponse = await response.json();
-  setterFunction(jsonResponse); // Stores data to state.
+  if (setterFunction) {
+    setterFunction(jsonResponse); // Stores data to state.
+  }
   if (jsonResponse.error) {
     console.error(jsonResponse);
   }
+  return jsonResponse;
 }
