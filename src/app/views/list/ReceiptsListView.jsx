@@ -3,6 +3,7 @@ import {
     Grid,
 } from '@mui/material'
 import React from 'react'
+import ScrollBar from 'react-perfect-scrollbar';
 import { Box, styled, useTheme } from '@mui/system'
 import { Small, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
@@ -40,6 +41,10 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
+const StyledScrollBar = styled(ScrollBar)(() => ({
+    flexGrow: 1,
+}))
+
 function actionImage (action) {
   if (action === "join") return <AddTask color="success" />;
   if (action === "cancel") return <HighlightOff color="error" />;
@@ -52,7 +57,7 @@ const ReceiptsListView = (props) => {
     const receipts = props.receipts;
 
     return (
-        <div>
+        <StyledScrollBar>
             {receipts.map((item, index) => (
                 <ListCard
                     key={item.id}
@@ -81,7 +86,7 @@ const ReceiptsListView = (props) => {
                     </Grid>
                 </ListCard>
             ))}
-        </div>
+        </StyledScrollBar>
     )
 }
 
