@@ -6,6 +6,7 @@ import {
 import React, { useState } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
 import ReceiptsModal from './../modal/ReceiptsModal';
+import { getData } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
@@ -53,11 +54,12 @@ function actionImage (action, product) {
 
 const ActivityListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
+    const [receipts, setReceipts] = useState({});
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
-    function displayReceipts (userId) {
-      console.log(userId);
+    async function displayReceipts (uid) {
+      getData(`/payments/receipts/${uid}`, setReceipts);
       setVisible(true);
     }
 
