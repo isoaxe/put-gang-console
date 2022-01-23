@@ -105,6 +105,7 @@ const ActivityListView = ({ list = [] }) => {
             <ReceiptsModal
 								visible={visible}
 								setVisible={setVisible}
+                receipts={receipts}
 							/>
         </div>
     )
