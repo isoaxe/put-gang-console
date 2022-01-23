@@ -30,7 +30,7 @@ const LoadData = () => {
       if (user) {
         getRole();
       }
-      if (["admin", "level-1", "level-2"].includes(role)) {
+      if (user && ["admin", "level-1", "level-2"].includes(role)) {
         getActivity();
         getStats();
         getInvoices();
