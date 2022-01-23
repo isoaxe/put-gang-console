@@ -54,13 +54,12 @@ function actionImage (action, product) {
 
 const ActivityListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
-    const [rawReceipts, setRawReceipts] = useState({});
     const [receipts, setReceipts] = useState([]);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
     async function displayReceipts (uid) {
-      getData(`/payments/receipts/${uid}`, setRawReceipts);
+      const rawReceipts = await getData(`/payments/receipts/${uid}`);
       setReceipts(objectToArray(rawReceipts));
       setVisible(true);
     }
