@@ -1,22 +1,39 @@
 import {
     Card,
+    Icon,
     Avatar,
+    MenuItem,
+    IconButton,
     Grid,
+    Hidden,
 } from '@mui/material'
 import React from 'react'
 import { Box, styled, useTheme } from '@mui/system'
+import { MatxMenu } from 'app/components'
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
-import {
-  AddTask,
-  HighlightOff,
-  MailOutline,
-  MonetizationOn
-} from '@mui/icons-material';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
+}))
+
+const StyledItem = styled(MenuItem)(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    '& .icon': { marginRight: 2 },
+}))
+
+const IMG = styled('img')(() => ({
+    width: '100%',
+    height: 75,
+    width: 100,
+}))
+
+const StyledIcon = styled(Icon)(({ theme }) => ({
+    cursor: 'pointer',
+    marginRight: '16px',
+    color: theme.palette.text.secondary,
 }))
 
 const ListCard = styled(Card)(({ theme }) => ({
@@ -41,14 +58,6 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-function actionImage (action, product) {
-  if (action === "join" && product === "news") return <MailOutline color="info" />;
-  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
-  if (action === "join") return <AddTask color="success" />;
-  if (action === "cancel") return <HighlightOff color="error" />;
-  if (action === "recur") return <MonetizationOn color="success" />;
-}
-
 const ListView = ({ list = [] }) => {
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
@@ -62,16 +71,16 @@ const ListView = ({ list = [] }) => {
                     sx={{ mb: index < list.length && 2 }}
                 >
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item md={10}>
+                        <Grid item md={6}>
                             <FlexBox>
-                                {actionImage(item.action, item.product)}
+                                <IMG src={item.projectImage} alt="project" />
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
-                                        {item.statement}
+                                        {item.projectName}
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
-                                            {new Date(item.date).toLocaleString()}
+                                            {item.date}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
                                             {item.email}
@@ -80,11 +89,65 @@ const ListView = ({ list = [] }) => {
                                 </Box>
                             </FlexBox>
                         </Grid>
+
+                        <Grid item md={2}>
+                            <FlexBox color={textMuted}>
+                                <Icon fontSize="small">
+                                    chat_bubble_outline
+                                </Icon>
+                                <Span sx={{ mr: 3, ml: '4px' }}>
+                                    {item.comment}
+                                </Span>
+                                <Icon fontSize="small">desktop_windows</Icon>
+                                <Span sx={{ ml: '4px' }}>{item.revision}</Span>
+                            </FlexBox>
+                        </Grid>
                         <Grid item md={2}>
                             <FlexBox>
                                 <Avatar src={item.userImage}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
                             </FlexBox>
+                        </Grid>
+                        <Grid item md={2}>
+                            <div className="card__button-group">
+                                <StyledIcon fontSize="small">
+                                    filter_none
+                                </StyledIcon>
+                                <StyledIcon fontSize="small">share</StyledIcon>
+                                <StyledIcon fontSize="small">edit</StyledIcon>
+                                <StyledIcon fontSize="small">delete</StyledIcon>
+                            </div>
+
+                            <Box textAlign="right">
+                                <Hidden smDown>
+                                    <MatxMenu
+                                        menuButton={
+                                            <IconButton sx={{ mr: '4px' }}>
+                                                <Icon>more_horiz</Icon>
+                                            </IconButton>
+                                        }
+                                    >
+                                        <StyledItem>
+                                            <Icon className="icon">
+                                                filter_none
+                                            </Icon>{' '}
+                                            Duplicate
+                                        </StyledItem>
+                                        <StyledItem>
+                                            <Icon className="icon">share</Icon>{' '}
+                                            Share
+                                        </StyledItem>
+                                        <StyledItem>
+                                            <Icon className="icon">edit</Icon>{' '}
+                                            Edit
+                                        </StyledItem>
+                                        <StyledItem>
+                                            <Icon className="icon">delete</Icon>{' '}
+                                            Delete
+                                        </StyledItem>
+                                    </MatxMenu>
+                                </Hidden>
+                            </Box>
                         </Grid>
                     </Grid>
                 </ListCard>

@@ -13,6 +13,7 @@ export async function create (req, res) {
 		const { email, password } = req.body;
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
+		const paymentsPath = db.collection("payments");
 		const idList = await usersPath.listDocuments();
 		const ids = idList.map(doc => doc.id);
 		if (ids.includes(refId)) {
@@ -57,7 +58,7 @@ export async function create (req, res) {
 			membLvl,
 			joinDate,
 			expiryDate,
-			activityId: 0,
+			receiptId: 1,
 			name: ""
 		});
 
@@ -91,6 +92,21 @@ export async function create (req, res) {
 			level2Uids.push(uid);
 			adminDocRef.set({ level2Uids }, { merge: true });
 		}
+
+		// Add a receipt to payments to indicate that a user has joined.
+		const receipt = {
+			name: "",
+			uid,
+			email,
+			date: joinDate,
+			action: "join",
+			product: membLvl,
+			sale: 0,
+		}
+
+		// Save receipts to Firestore with the document name of receiptId.
+		const receipts = paymentsPath.doc(uid).collection("receipts").doc("1");
+		receipts.set(receipt);
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {

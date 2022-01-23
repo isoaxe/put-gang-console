@@ -61,7 +61,7 @@ export async function create (req, res) {
 		let upline, uplineUid, uplineRevenue, uplineMrr, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
 
 		// Get upline stats. Same as admin if level-1 user.
-		if (role !== "admin" && role !== "standard") {
+		if (["level-1", "level-2", "level-3"].includes(role)) {
 			uplineUid = userData.uplineUid;
 			upline = paymentsPath.doc(uplineUid);
 			uplineStats = upline.collection("stats").doc("stats");
@@ -98,8 +98,8 @@ export async function create (req, res) {
 
 		// Set value of payment type.
 		let value;
-		if (type === "join") value = 50;
-		if (type === "watch") value = 150;
+		if (type === "join") value = 150;
+		if (type === "watch") value = 50;
 
 		// Add to admin MRR if new subscriber and not admin.
 		if (newSub && role !== "admin") {
@@ -215,6 +215,7 @@ export async function create (req, res) {
 			uid,
 			email,
 			date,
+			action: "payment",
 			product: type,
 			sale: value,
 		}
@@ -323,6 +324,27 @@ export async function invoices (req, res) {
 		}
 
 		return res.status(200).send(invoices);
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
+
+
+// Returns receipts for selected user as specified by params.
+export async function receipts (req, res) {
+	try {
+		const { uid } = req.params; // NOT calling user's id.
+		const db = admin.firestore();
+		const receipts = {};
+
+		// Get all receipts for given user id.
+		const paymentsPath = db.collection("payments");
+		const receiptsRef = await paymentsPath.doc(uid).collection("receipts").get();
+		receiptsRef.forEach(receipt => {
+			receipts[receipt.id] = receipt.data();
+		});
+
+		return res.status(200).send(receipts);
 	} catch (err) {
 		return handleError(res, err);
 	}
