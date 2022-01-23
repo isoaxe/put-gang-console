@@ -47,17 +47,18 @@ function actionImage (action) {
   if (action === "payment") return <MonetizationOn color="success" />;
 }
 
-const ReceiptsListView = ({ list = [] }) => {
+const ReceiptsListView = (props) => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const receipts = props.receipts;
 
     return (
         <div>
-            {list.map((item, index) => (
+            {receipts.map((item, index) => (
                 <ListCard
                     key={item.id}
                     elevation={3}
-                    sx={{ mb: index < list.length && 2 }}
+                    sx={{ mb: index < receipts.length && 2 }}
                 >
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
