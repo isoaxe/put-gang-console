@@ -6,7 +6,7 @@ import {
 import React, { useState } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
 import ReceiptsModal from './../modal/ReceiptsModal';
-import { getData } from './../../utils/helpers';
+import { getData, objectToArray } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
@@ -60,6 +60,7 @@ const ActivityListView = ({ list = [] }) => {
 
     async function displayReceipts (uid) {
       getData(`/payments/receipts/${uid}`, setReceipts);
+      setReceipts(objectToArray(receipts));
       setVisible(true);
     }
 
