@@ -33,7 +33,6 @@ const ListCard = styled(Card)(({ theme }) => ({
         background: theme.palette.background.paper,
     },
     '&:hover': {
-        cursor: 'pointer',
         '& .card__button-group': {
             display: 'flex',
             alignItems: 'center',
