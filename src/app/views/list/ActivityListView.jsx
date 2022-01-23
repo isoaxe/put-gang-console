@@ -58,6 +58,17 @@ const ActivityListView = ({ list = [] }) => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
+    // Form a statement for each activity based on data.
+    function formatStatement (name, email, action, product, sale) {
+      let productStatement, actionStatement;
+      if (action === "join") actionStatement = "has subscribed to";
+      if (action === "payment") actionStatement = `has made a $${sale} payment for`;
+      if (action === "cancel") actionStatement = "has cancelled their subscription to"
+      if (product === "join") productStatement = "Join the Discussion";
+      if (product === "watch") productStatement = "Watch the Discussion";
+      return `${name ? name : email} ${actionStatement} ${productStatement}.`
+    }
+
     async function displayReceipts (uid) {
       const rawReceipts = await getData(`/payments/receipts/${uid}`);
       setReceipts(objectToArray(rawReceipts).reverse());
