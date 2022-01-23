@@ -71,7 +71,15 @@ const ActivityListView = ({ list = [] }) => {
 
     async function displayReceipts (uid) {
       const rawReceipts = await getData(`/payments/receipts/${uid}`);
-      setReceipts(objectToArray(rawReceipts).reverse());
+      const receiptsArray = objectToArray(rawReceipts).reverse();
+      receiptsArray.forEach(item => item["statement"] = formatStatement(
+        item.name,
+        item.email,
+        item.action,
+        item.product,
+        item.sale
+      ));
+      setReceipts(receiptsArray);
       setVisible(true);
     }
 
