@@ -20,7 +20,7 @@ function ReceiptsModal (props) {
 		>
 			<div>
 				<h2>Payment History</h2>
-				<ReceiptsListView />
+				<ReceiptsListView receipts={props.receipts} />
 			</div>
 		</Modal>
 	);
