@@ -64,7 +64,7 @@ const ReceiptsListView = (props) => {
                     sx={{ mb: index < receipts.length && 2 }}
                 >
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item md={10}>
+                        <Grid item md={12}>
                             <FlexBox>
                                 {actionImage(item.action)}
                                 <Box ml={2}>
