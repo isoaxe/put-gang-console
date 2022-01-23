@@ -17,7 +17,7 @@ const Container = styled('div')(({ theme }) => ({
 const ActivityList = () => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
-    const { activities } = useContext(DataContext);
+    const { role, activities } = useContext(DataContext);
 
     // Form a statement for each activity based on data.
     function formatStatement (name, email, action, product) {
@@ -66,8 +66,10 @@ const ActivityList = () => {
     )
 
     useEffect(() => {
-        formatActivityData();
-    }, [formatActivityData])
+        if (["admin", "level-1", "level-2"].includes(role)) {
+            formatActivityData();
+        }
+    }, [role, formatActivityData])
 
     return (
         <Container className="list">
