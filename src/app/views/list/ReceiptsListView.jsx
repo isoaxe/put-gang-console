@@ -42,7 +42,7 @@ const ListCard = styled(Card)(({ theme }) => ({
 }))
 
 const StyledScrollBar = styled(ScrollBar)(() => ({
-    flexGrow: 1,
+    maxHeight: '70vh',
 }))
 
 function actionImage (action) {
