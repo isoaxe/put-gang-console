@@ -173,21 +173,6 @@ export async function all (req, res) {
 }
 
 
-// Helper function to create object containing user data.
-function mapUser (user) {
-	const customClaims = (user.customClaims || { role: "" });
-	const role = customClaims.role;
-	return {
-		uid: user.uid,
-		email: user.email || "",
-		displayName: user.displayName || "",
-		role,
-		lastSignInTime: user.metadata.lastSignInTime,
-		creationTime: user.metadata.creationTime.slice(5, 16)
-	};
-}
-
-
 // Standard error helper function.
 function handleError (res, err) {
 	return res.status(500).send({ error: `${err}` });
