@@ -6,7 +6,7 @@ import {
 import React, { useState } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
 import ReceiptsModal from './../modal/ReceiptsModal';
-import { getData, objectToArray, formatReceiptStatement } from './../../utils/helpers';
+import { displayReceipts } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
@@ -58,20 +58,6 @@ const ActivityListView = ({ list = [] }) => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
-    async function displayReceipts (uid) {
-      const rawReceipts = await getData(`/payments/receipts/${uid}`);
-      const receiptsArray = objectToArray(rawReceipts).reverse();
-      receiptsArray.forEach(item => item["statement"] = formatReceiptStatement(
-        item.name,
-        item.email,
-        item.action,
-        item.product,
-        item.sale
-      ));
-      setReceipts(receiptsArray);
-      setVisible(true);
-    }
-
     return (
         <div>
             {list.map((item, index) => (
@@ -79,7 +65,7 @@ const ActivityListView = ({ list = [] }) => {
                     key={item.id}
                     elevation={3}
                     sx={{ mb: index < list.length && 2 }}
-                    onClick={() => displayReceipts(item.uid)}
+                    onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
                 >
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
