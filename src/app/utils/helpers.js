@@ -52,3 +52,19 @@ export function formatReceiptStatement (name, email, action, product, sale) {
   if (product === "watch") productStatement = "Watch the Discussion";
   return `${name ? name : email} ${actionStatement} ${productStatement}.`
 }
+
+
+// Fetch receipts from api, format and then save to state and turn on modal.
+export async function displayReceipts (uid, setReceipts, setVisible) {
+  const rawReceipts = await getData(`/payments/receipts/${uid}`);
+  const receiptsArray = objectToArray(rawReceipts).reverse();
+  receiptsArray.forEach(item => item["statement"] = formatReceiptStatement(
+    item.name,
+    item.email,
+    item.action,
+    item.product,
+    item.sale
+  ));
+  setReceipts(receiptsArray);
+  setVisible(true);
+}
