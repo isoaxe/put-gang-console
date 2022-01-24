@@ -131,6 +131,9 @@ export async function all (req, res) {
 			const usersRef = await usersPath.get();
 			usersRef.forEach(user => {
 				const data = user.data();
+				const matchUser = allAuthUsers.find(item => item.uid === data.uid);
+				const lastSignIn = matchUser.metadata.lastSignInTime;
+				data["lastSignIn"] = lastSignIn;
 				users.push(data);
 			});
 		}
