@@ -118,10 +118,11 @@ export async function create (req, res) {
 // Returns a list of all users.
 export async function all (req, res) {
 	try {
-		const { role } = res.locals;
+		const { role, uid } = res.locals;
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const users = [];
+		let uids = [uid];
 
 		const listAuthUsers = await admin.auth().listUsers();
 		const allAuthUsers = listAuthUsers.users;
@@ -136,6 +137,18 @@ export async function all (req, res) {
 				data["lastSignIn"] = lastSignIn;
 				users.push(data);
 			});
+		}
+
+		// Get uids of downlines, their downlines and self for level-1 users.
+		if (role === "level-1") {
+			const currentUserRef = await usersPath.doc(uid).get();
+			const downlineUids = currentUserRef.data().downlineUids;
+			uids = uids.concat(downlineUids);
+			for (let i = 0; i < downlineUids.length; i++) {
+				const downlineUserRef = await usersPath.doc(downlineUids[i]).get();
+				const bottomlineUids = downlineUserRef.data().downlineUids;
+				uids = uids.concat(bottomlineUids);
+			}
 		}
 
 		return res.status(200).send(users);
