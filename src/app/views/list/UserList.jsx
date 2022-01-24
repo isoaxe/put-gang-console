@@ -2,7 +2,6 @@ import UserListView from './UserListView'
 import { debounce } from 'lodash'
 import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
-import { objectToArray } from './../../utils/helpers';
 import DataContext from './../../contexts/DataContext';
 import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react'
 import { Box, styled } from '@mui/system'
@@ -17,7 +16,7 @@ const Container = styled('div')(({ theme }) => ({
 const UserList = () => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
-    const { role, activities } = useContext(DataContext);
+    const { role, users } = useContext(DataContext);
 
     // Form a statement for each activity based on data.
     function formatStatement (name, email, action, product) {
@@ -34,19 +33,19 @@ const UserList = () => {
       return `${name ? name : email} ${actionStatement} ${productStatement}.`
     }
 
-    const formatActivityData = useCallback(
+    const formatUserData = useCallback(
       () => {
-        const activityArray = objectToArray(activities);
-        activityArray.forEach(item => item["statement"] = formatStatement(
-          item.name,
-          item.email,
-          item.action,
-          item.product
-        ));
-        activityArray.reverse();
-        setOriginalList(activityArray);
-        setList(activityArray);
-      }, [activities]
+        users.forEach(item => item["data"] = `
+          ${item.name}
+          ${item.email}
+          ${item.membLvl}
+          ${item.role}
+          ${item.joinDate}
+          ${item.expiryDate}
+        `);
+        setOriginalList(users);
+        setList(users);
+      }, [users]
     );
 
     const handleInputChange = (event) => {
@@ -58,7 +57,7 @@ const UserList = () => {
         () =>
             debounce((query) => {
                 let tempList = originalList.filter((item) =>
-                    item.statement.toLowerCase().match(query.toLowerCase())
+                    item.data.toLowerCase().match(query.toLowerCase())
                 )
                 setList([...tempList])
             }, 200),
@@ -66,10 +65,10 @@ const UserList = () => {
     )
 
     useEffect(() => {
-        if (["admin", "level-1", "level-2"].includes(role)) {
-            formatActivityData();
+        if (Object.keys(users).length && ["admin", "level-1", "level-2"].includes(role)) {
+            formatUserData();
         }
-    }, [role, formatActivityData])
+    }, [users, role, formatUserData])
 
     return (
         <Container className="list">
