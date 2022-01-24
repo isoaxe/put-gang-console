@@ -25,7 +25,7 @@ const UserList = () => {
           ${item.email}
           ${item.membLvl}
           ${item.role}
-          ${item.joinDate}
+          ${new Date(item.joinDate)}
         `);
         setOriginalList(users);
         setList(users);
