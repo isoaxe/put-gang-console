@@ -154,6 +154,18 @@ export async function all (req, res) {
 			}
 		}
 
+		// Add data for self and all downlines if level-1 or level-2 user.
+		if (role === "level-1" || role === "level-2") {
+			const usersRef = await usersPath.where("uid", "in", uids).get();
+			usersRef.forEach(user => {
+				const data = user.data();
+				const matchUser = allAuthUsers.find(item => item.uid === data.uid);
+				const lastSignIn = matchUser.metadata.lastSignInTime;
+				data["lastSignIn"] = lastSignIn;
+				users.push(data);
+			});
+		}
+
 		return res.status(200).send(users);
 	} catch (err) {
 		return handleError(res, err);
