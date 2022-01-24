@@ -6,7 +6,7 @@ import {
 import React, { useState } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
 import ReceiptsModal from './../modal/ReceiptsModal';
-import { getData, objectToArray } from './../../utils/helpers';
+import { getData, objectToArray, formatReceiptStatement } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
@@ -58,21 +58,10 @@ const ActivityListView = ({ list = [] }) => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
-    // Form a statement for each activity based on data.
-    function formatStatement (name, email, action, product, sale) {
-      let productStatement, actionStatement;
-      if (action === "join") actionStatement = "has subscribed to";
-      if (action === "payment") actionStatement = `has made a $${sale} payment for`;
-      if (action === "cancel") actionStatement = "has cancelled their subscription to"
-      if (product === "join") productStatement = "Join the Discussion";
-      if (product === "watch") productStatement = "Watch the Discussion";
-      return `${name ? name : email} ${actionStatement} ${productStatement}.`
-    }
-
     async function displayReceipts (uid) {
       const rawReceipts = await getData(`/payments/receipts/${uid}`);
       const receiptsArray = objectToArray(rawReceipts).reverse();
-      receiptsArray.forEach(item => item["statement"] = formatStatement(
+      receiptsArray.forEach(item => item["statement"] = formatReceiptStatement(
         item.name,
         item.email,
         item.action,
