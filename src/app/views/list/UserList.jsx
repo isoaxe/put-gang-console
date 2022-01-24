@@ -18,21 +18,6 @@ const UserList = () => {
     const [list, setList] = useState([])
     const { role, users } = useContext(DataContext);
 
-    // Form a statement for each activity based on data.
-    function formatStatement (name, email, action, product) {
-      let actionStatement, productStatement;
-      if (action === "cancel") actionStatement = "cancelled their subscription to";
-      if (action === "join") actionStatement = "joined";
-      if (action === "recur") actionStatement = "made a payment for";
-      if (product === "join") productStatement = "Join the Discussion";
-      if (product === "watch") productStatement = "Watch the Discussion";
-      if (product === "news") productStatement = "your newsletter";
-      if (action === "join" && product === "news") {
-        actionStatement = "signed up to";
-      }
-      return `${name ? name : email} ${actionStatement} ${productStatement}.`
-    }
-
     const formatUserData = useCallback(
       () => {
         users.forEach(item => item["data"] = `
