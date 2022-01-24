@@ -123,6 +123,9 @@ export async function all (req, res) {
 		const usersPath = db.collection("users");
 		const users = [];
 
+		const listAuthUsers = await admin.auth().listUsers();
+		const allAuthUsers = listAuthUsers.users;
+
 		// Get data for all users if admin.
 		if (role === "admin") {
 			const usersRef = await usersPath.get();
