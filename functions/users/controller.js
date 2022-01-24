@@ -121,13 +121,14 @@ export async function all (req, res) {
 		const { role } = res.locals;
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
-		const users = {};
+		const users = [];
 
 		// Get data for all users if admin.
 		if (role === "admin") {
 			const usersRef = await usersPath.get();
 			usersRef.forEach(user => {
-				users[user.id] = user.data();
+				const data = user.data();
+				users.push(data);
 			});
 		}
 
