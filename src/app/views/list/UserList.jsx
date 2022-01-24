@@ -26,7 +26,6 @@ const UserList = () => {
           ${item.membLvl}
           ${item.role}
           ${item.joinDate}
-          ${item.expiryDate}
         `);
         setOriginalList(users);
         setList(users);
