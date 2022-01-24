@@ -118,10 +118,20 @@ export async function create (req, res) {
 // Returns a list of all users.
 export async function all (req, res) {
 	try {
-		const listUsers = await admin.auth().listUsers();
-		const allUsers = listUsers.users.map(mapUser);
+		const { role } = res.locals;
+		const db = admin.firestore();
+		const usersPath = db.collection("users");
+		const users = {};
 
-		return res.status(200).send(allUsers);
+		// Get data for all users if admin.
+		if (role === "admin") {
+			const usersRef = await usersPath.get();
+			usersRef.forEach(user => {
+				users[user.id] = user.data();
+			});
+		}
+
+		return res.status(200).send(users);
 	} catch (err) {
 		return handleError(res, err);
 	}
