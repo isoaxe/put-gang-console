@@ -9,14 +9,16 @@ import { getData } from './utils/helpers';
 
 const LoadData = () => {
     const [activities, setActivities] = useState({});
+    const [users, setUsers] = useState({});
     const [allStats, setAllStats] = useState({});
     const [allInvoices, setAllInvoices] = useState({});
     const [role, setRole] = useState("");
     const all_pages = useRoutes(AllPages());
     const { user } = useAuth();
 
-    // Fetch all data.
+    // Fetch most data.
     const getActivity = () => getData("/activity", setActivities);
+    const getUsers = () => getData("/users", setUsers);
     const getStats = () => getData("/payments/stats", setAllStats);
     const getInvoices = () => getData("/payments/invoices", setAllInvoices);
 
@@ -32,13 +34,14 @@ const LoadData = () => {
       }
       if (user && ["admin", "level-1", "level-2"].includes(role)) {
         getActivity();
+        getUsers();
         getStats();
         getInvoices();
       }
     }, [user, role]);
 
     return (
-        <DataContext.Provider value={{activities, allStats, allInvoices, role}}>
+        <DataContext.Provider value={{activities, users, allStats, allInvoices, role}}>
             {all_pages}
             <Routes>
                 <Route path='/' element={<Navigate to="/dashboard/console" />} />
