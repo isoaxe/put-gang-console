@@ -139,15 +139,18 @@ export async function all (req, res) {
 			});
 		}
 
-		// Get uids of downlines, their downlines and self for level-1 users.
-		if (role === "level-1") {
+		// Get uids of downlines for level-1 and level-2 users.
+		if (role === "level-1" || role === "level-2") {
 			const currentUserRef = await usersPath.doc(uid).get();
 			const downlineUids = currentUserRef.data().downlineUids;
 			uids = uids.concat(downlineUids);
-			for (let i = 0; i < downlineUids.length; i++) {
-				const downlineUserRef = await usersPath.doc(downlineUids[i]).get();
-				const bottomlineUids = downlineUserRef.data().downlineUids;
-				uids = uids.concat(bottomlineUids);
+			// Get uids of the downline's downlines for level-1 users.
+			if (role === "level-1") {
+				for (let i = 0; i < downlineUids.length; i++) {
+					const downlineUserRef = await usersPath.doc(downlineUids[i]).get();
+					const bottomlineUids = downlineUserRef.data().downlineUids;
+					uids = uids.concat(bottomlineUids);
+				}
 			}
 		}
 
