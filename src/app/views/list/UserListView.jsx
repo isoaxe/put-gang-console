@@ -64,6 +64,12 @@ const UserListView = ({ list = [] }) => {
                     onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
                 >
                     <Grid container justify="space-between" alignItems="center">
+                        <Grid item md={0}>
+                            <FlexBox>
+                                <Avatar src={item.userImage}></Avatar>
+                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
+                            </FlexBox>
+                        </Grid>
                         <Grid item md={10}>
                             <FlexBox>
                                 {actionImage(item.expiryDate)}
