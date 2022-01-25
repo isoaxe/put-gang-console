@@ -86,7 +86,7 @@ const UserListView = ({ list = [] }) => {
                                         <Small sx={{ color: textMuted }}>
                                             Join: {new Date(item.joinDate).toLocaleString().slice(0, 10)}
                                         </Small>
-                                        <Small sx={{ color: textMuted }}>
+                                        <Small sx={{ ml: 3, color: textMuted }}>
                                             Expire: {new Date(item.expiryDate).toLocaleString().slice(0, 10)}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
