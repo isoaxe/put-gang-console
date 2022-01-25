@@ -49,9 +49,11 @@ const UserListView = ({ list = [] }) => {
     const [receipts, setReceipts] = useState([]);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const msSinceEpoch = Date.now();
 
     function actionImage (expiry) {
-      if (expiry) return <AddTask color="success" />;
+      const msSinceEpochToExpiry = new Date(expiry).getTime();
+      if (msSinceEpoch < msSinceEpochToExpiry) return <AddTask color="success" />;
     }
 
     return (
