@@ -1,8 +1,9 @@
 import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
+import DataContext from './../../contexts/DataContext';
 import { H5, Small } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 
@@ -27,6 +28,7 @@ const Container = styled('div')(({ theme }) => ({
 const CustomerList = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
+    const { role, users } = useContext(DataContext);
 
     useEffect(() => {
         Axios.get('/api/user/all').then(({ data }) => {
