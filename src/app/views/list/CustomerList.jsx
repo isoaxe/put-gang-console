@@ -1,7 +1,5 @@
 import Axios from 'axios'
-import { Link } from 'react-router-dom'
 import MUIDataTable from 'mui-datatables'
-import { Breadcrumb } from 'app/components'
 import React, { useState, useEffect } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
@@ -66,8 +64,22 @@ const CustomerList = () => {
             },
         },
         {
+            name: 'membLvl',
+            label: 'Membership Level',
+            options: {
+                filter: true,
+            },
+        },
+        {
+            name: 'balance',
+            label: 'Role',
+            options: {
+                filter: true,
+            },
+        },
+        {
             name: 'address',
-            label: 'Address',
+            label: 'Join Date',
             options: {
                 filter: true,
                 // customBodyRenderLite: (dataIndex) => (
@@ -77,14 +89,7 @@ const CustomerList = () => {
         },
         {
             name: 'company',
-            label: 'Company',
-            options: {
-                filter: true,
-            },
-        },
-        {
-            name: 'balance',
-            label: 'Balance',
+            label: 'Expiry Date',
             options: {
                 filter: true,
             },
@@ -96,7 +101,7 @@ const CustomerList = () => {
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
-                        title={'All Customers'}
+                        title={'Users'}
                         data={userList}
                         columns={columns}
                         options={{
