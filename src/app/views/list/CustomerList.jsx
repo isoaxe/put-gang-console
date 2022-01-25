@@ -2,6 +2,7 @@ import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
 import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
+import { Person } from '@mui/icons-material';
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
 import { H5, Small } from 'app/components/Typography'
@@ -29,6 +30,21 @@ const CustomerList = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
     const { role, users } = useContext(DataContext);
+    const msSinceEpoch = Date.now();
+
+    function userStatus (expiry) {
+      const msSinceEpochToExpiry = new Date(expiry).getTime();
+      if (msSinceEpoch < msSinceEpochToExpiry) {
+        return <Person color="success" />;
+      // Turn red if user expired in the past week.
+      } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
+        return <Person color="error" />;
+      } else if (msSinceEpoch > msSinceEpochToExpiry) {
+        return <Person color="disabled" />;
+      } else {
+        return <Person color="info" />;
+      }
+    }
 
     useEffect(() => {
         Axios.get('/api/user/all').then(({ data }) => {
