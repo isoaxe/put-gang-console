@@ -84,7 +84,7 @@ const UserListView = ({ list = [] }) => {
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
-                                            {new Date(item.date).toLocaleString()}
+                                            Join: {new Date(item.joinDate).toLocaleString().slice(0, 10)}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
                                             {item.email}
