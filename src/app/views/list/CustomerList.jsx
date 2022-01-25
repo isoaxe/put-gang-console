@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
 import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
@@ -27,7 +26,6 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const CustomerList = () => {
-    const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
     const { role, users } = useContext(DataContext);
     const msSinceEpoch = Date.now();
@@ -59,7 +57,7 @@ const CustomerList = () => {
             name: 'name', // field name in the row object
             label: 'Name', // column title that will be shown in table
             options: {
-                filter: true,
+                filter: false,
                 customBodyRenderLite: (dataIndex) => {
                     let user = userList[dataIndex]
 
@@ -112,7 +110,7 @@ const CustomerList = () => {
             name: 'joinDate',
             label: 'Join Date',
             options: {
-                filter: true,
+                filter: false,
                 // customBodyRenderLite: (dataIndex) => (
                 //   <span className="ellipsis">{userList[dataIndex].address}</span>
                 // ),
@@ -122,7 +120,7 @@ const CustomerList = () => {
             name: 'expiryDate',
             label: 'Expiry Date',
             options: {
-                filter: true,
+                filter: false,
             },
         },
     ]
