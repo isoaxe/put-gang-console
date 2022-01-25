@@ -89,28 +89,6 @@ const CustomerList = () => {
                 filter: true,
             },
         },
-        {
-            name: 'action',
-            label: ' ',
-            options: {
-                filter: false,
-                customBodyRenderLite: (dataIndex) => (
-                    <FlexBox>
-                        <Box flexGrow={1}></Box>
-                        <Link to="/pages/new-customer">
-                            <IconButton>
-                                <Icon>edit</Icon>
-                            </IconButton>
-                        </Link>
-                        <Link to="/pages/view-customer">
-                            <IconButton>
-                                <Icon>arrow_right_alt</Icon>
-                            </IconButton>
-                        </Link>
-                    </FlexBox>
-                ),
-            },
-        },
     ]
 
     return (
