@@ -81,6 +81,20 @@ const CustomerList = () => {
             },
         },
         {
+            name: 'status',
+            label: 'Status',
+            options: {
+                filter: false,
+                customBodyRenderLite: (dataIndex) => {
+                    let user = userList[dataIndex];
+
+                    return (
+                        userStatus(user.expiryDate)
+                    );
+                },
+            },
+        },
+        {
             name: 'membLvl',
             label: 'Membership Level',
             options: {
