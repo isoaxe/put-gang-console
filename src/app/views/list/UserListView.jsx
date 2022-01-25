@@ -52,6 +52,9 @@ const UserListView = ({ list = [] }) => {
       const msSinceEpochToExpiry = new Date(expiry).getTime();
       if (msSinceEpoch < msSinceEpochToExpiry) {
         return <Person color="success" />;
+      // Turn red if user expired in the past week.
+      } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
+        return <Person color="error" />;
       } else if (msSinceEpoch > msSinceEpochToExpiry) {
         return <Person color="disabled" />;
       } else {
