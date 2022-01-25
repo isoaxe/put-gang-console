@@ -97,6 +97,17 @@ const CustomerList = () => {
             label: 'Membership Level',
             options: {
                 filter: true,
+                customBodyRenderLite: (dataIndex) => {
+                    let user = userList[dataIndex];
+
+                    if (user.membLvl === "watch") {
+                        return "Watch the Discussion";
+                    } else if (user.membLvl === "join") {
+                        return "Join the Discussion";
+                    } else {
+                        return "Not a Member";
+                    }
+                },
             },
         },
         {
