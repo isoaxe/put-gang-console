@@ -1,5 +1,5 @@
 import React from 'react'
-import UserList from './../list/UserList';
+import CustomerList from './../list/CustomerList';
 import { H3 } from './../../components/Typography';
 import { styled } from '@mui/system'
 import {
@@ -40,7 +40,7 @@ const Console = () => {
                 </TextField>
             </FlexBox>
 
-            <UserList />
+            <CustomerList />
         </AnalyticsRoot>
     )
 }
