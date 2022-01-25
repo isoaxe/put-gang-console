@@ -47,11 +47,10 @@ const CustomerList = () => {
     }
 
     useEffect(() => {
-        Axios.get('/api/user/all').then(({ data }) => {
-            if (isAlive) setUserList(data)
-        })
-        return () => setIsAlive(false)
-    }, [isAlive])
+        if (users.length && ["admin", "level-1", "level-2"].includes(role)) {
+            setUserList(users);
+        }
+    }, [users, role])
     const { palette } = useTheme()
     const textMuted = palette.text.secondary
 
@@ -89,14 +88,14 @@ const CustomerList = () => {
             },
         },
         {
-            name: 'balance',
+            name: 'role',
             label: 'Role',
             options: {
                 filter: true,
             },
         },
         {
-            name: 'address',
+            name: 'joinDate',
             label: 'Join Date',
             options: {
                 filter: true,
@@ -106,7 +105,7 @@ const CustomerList = () => {
             },
         },
         {
-            name: 'company',
+            name: 'expiryDate',
             label: 'Expiry Date',
             options: {
                 filter: true,
