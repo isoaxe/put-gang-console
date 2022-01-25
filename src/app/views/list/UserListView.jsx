@@ -44,12 +44,8 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-function actionImage (action, product) {
-  if (action === "join" && product === "news") return <MailOutline color="info" />;
-  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
-  if (action === "join") return <AddTask color="success" />;
-  if (action === "cancel") return <HighlightOff color="error" />;
-  if (action === "recur") return <MonetizationOn color="success" />;
+function actionImage (expiry) {
+  if (expiry) return <AddTask color="success" />;
 }
 
 const UserListView = ({ list = [] }) => {
@@ -70,7 +66,7 @@ const UserListView = ({ list = [] }) => {
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
                             <FlexBox>
-                                {actionImage(item.action, item.product)}
+                                {actionImage(item.expiryDate)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
                                         {item.statement}
