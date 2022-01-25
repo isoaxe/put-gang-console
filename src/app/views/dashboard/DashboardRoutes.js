@@ -5,12 +5,17 @@ const Analytics = Loadable(lazy(() => import("./Analytics")));
 const Analytics2 = Loadable(lazy(() => import("./Analytics2")));
 const Analytics3 = Loadable(lazy(() => import("./Analytics3")));
 const Console = Loadable(lazy(() => import("./Console")));
+const Users = Loadable(lazy(() => import("./Users")));
 const InventoryManagement = Loadable(lazy(() => import("./InventoryManagement")));
 
 export const dashboardRoutes = [
     {
         path: '/dashboard/console',
         element: <Console />,
+    },
+    {
+        path: '/dashboard/users',
+        element: <Users />,
     },
     {
         path: '/dashboard/default',

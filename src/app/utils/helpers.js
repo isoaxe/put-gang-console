@@ -40,3 +40,31 @@ export async function getData (endpoint, setterFunction) {
   }
   return jsonResponse;
 }
+
+
+// Form a statement for each receipt based on data.
+export function formatReceiptStatement (name, email, action, product, sale) {
+  let productStatement, actionStatement;
+  if (action === "join") actionStatement = "has subscribed to";
+  if (action === "payment") actionStatement = `has made a $${sale} payment for`;
+  if (action === "cancel") actionStatement = "has cancelled their subscription to"
+  if (product === "join") productStatement = "Join the Discussion";
+  if (product === "watch") productStatement = "Watch the Discussion";
+  return `${name ? name : email} ${actionStatement} ${productStatement}.`
+}
+
+
+// Fetch receipts from api, format and then save to state and turn on modal.
+export async function displayReceipts (uid, setReceipts, setVisible) {
+  const rawReceipts = await getData(`/payments/receipts/${uid}`);
+  const receiptsArray = objectToArray(rawReceipts).reverse();
+  receiptsArray.forEach(item => item["statement"] = formatReceiptStatement(
+    item.name,
+    item.email,
+    item.action,
+    item.product,
+    item.sale
+  ));
+  setReceipts(receiptsArray);
+  setVisible(true);
+}

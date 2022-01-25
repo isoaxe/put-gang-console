@@ -10,10 +10,7 @@ import { displayReceipts } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
-  AddTask,
-  HighlightOff,
-  MailOutline,
-  MonetizationOn
+  Person
 } from '@mui/icons-material';
 
 const FlexBox = styled(Box)(() => ({
@@ -44,19 +41,32 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-function actionImage (action, product) {
-  if (action === "join" && product === "news") return <MailOutline color="info" />;
-  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
-  if (action === "join") return <AddTask color="success" />;
-  if (action === "cancel") return <HighlightOff color="error" />;
-  if (action === "recur") return <MonetizationOn color="success" />;
-}
-
-const ActivityListView = ({ list = [] }) => {
+const UserListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const msSinceEpoch = Date.now();
+
+    function userStatus (expiry) {
+      const msSinceEpochToExpiry = new Date(expiry).getTime();
+      if (msSinceEpoch < msSinceEpochToExpiry) {
+        return <Person color="success" />;
+      // Turn red if user expired in the past week.
+      } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
+        return <Person color="error" />;
+      } else if (msSinceEpoch > msSinceEpochToExpiry) {
+        return <Person color="disabled" />;
+      } else {
+        return <Person color="info" />;
+      }
+    }
+
+    // Converts an ISO string to DD/MM/YYYY string.
+    function formatDate (date) {
+      if (date) return new Date(date).toLocaleString().slice(0, 10);
+      return "No expiry"
+    }
 
     return (
         <div>
@@ -68,16 +78,25 @@ const ActivityListView = ({ list = [] }) => {
                     onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
                 >
                     <Grid container justify="space-between" alignItems="center">
+                        <Grid item md={0}>
+                            <FlexBox>
+                                <Avatar src={item.userImage}></Avatar>
+                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
+                            </FlexBox>
+                        </Grid>
                         <Grid item md={10}>
                             <FlexBox>
-                                {actionImage(item.action, item.product)}
+                                {userStatus(item.expiryDate)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
-                                        {item.statement}
+                                        {item.name || item.email}
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
-                                            {new Date(item.date).toLocaleString()}
+                                            Join: {formatDate(item.joinDate)}
+                                        </Small>
+                                        <Small sx={{ ml: 3, color: textMuted }}>
+                                            Expire: {formatDate(item.expiryDate)}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
                                             {item.email}
@@ -86,7 +105,7 @@ const ActivityListView = ({ list = [] }) => {
                                 </Box>
                             </FlexBox>
                         </Grid>
-                        <Grid item md={2}>
+                        <Grid item md={0}>
                             <FlexBox>
                                 <Avatar src={item.userImage}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
@@ -104,4 +123,4 @@ const ActivityListView = ({ list = [] }) => {
     )
 }
 
-export default ActivityListView
+export default UserListView

@@ -118,28 +118,58 @@ export async function create (req, res) {
 // Returns a list of all users.
 export async function all (req, res) {
 	try {
-		const listUsers = await admin.auth().listUsers();
-		const allUsers = listUsers.users.map(mapUser);
+		const { role, uid } = res.locals;
+		const db = admin.firestore();
+		const usersPath = db.collection("users");
+		const users = [];
+		let uids = [uid];
 
-		return res.status(200).send(allUsers);
+		const listAuthUsers = await admin.auth().listUsers();
+		const allAuthUsers = listAuthUsers.users;
+
+		// Get data for all users if admin.
+		if (role === "admin") {
+			const usersRef = await usersPath.get();
+			usersRef.forEach(user => {
+				const data = user.data();
+				const matchUser = allAuthUsers.find(item => item.uid === data.uid);
+				const lastSignIn = matchUser.metadata.lastSignInTime;
+				data["lastSignIn"] = lastSignIn;
+				users.push(data);
+			});
+		}
+
+		// Get uids of downlines for level-1 and level-2 users.
+		if (role === "level-1" || role === "level-2") {
+			const currentUserRef = await usersPath.doc(uid).get();
+			const downlineUids = currentUserRef.data().downlineUids;
+			uids = uids.concat(downlineUids);
+			// Get uids of the downline's downlines for level-1 users.
+			if (role === "level-1") {
+				for (let i = 0; i < downlineUids.length; i++) {
+					const downlineUserRef = await usersPath.doc(downlineUids[i]).get();
+					const bottomlineUids = downlineUserRef.data().downlineUids;
+					uids = uids.concat(bottomlineUids);
+				}
+			}
+		}
+
+		// Add data for self and all downlines if level-1 or level-2 user.
+		if (role === "level-1" || role === "level-2") {
+			const usersRef = await usersPath.where("uid", "in", uids).get();
+			usersRef.forEach(user => {
+				const data = user.data();
+				const matchUser = allAuthUsers.find(item => item.uid === data.uid);
+				const lastSignIn = matchUser.metadata.lastSignInTime;
+				data["lastSignIn"] = lastSignIn;
+				users.push(data);
+			});
+		}
+
+		return res.status(200).send(users);
 	} catch (err) {
 		return handleError(res, err);
 	}
-}
-
-
-// Helper function to create object containing user data.
-function mapUser (user) {
-	const customClaims = (user.customClaims || { role: "" });
-	const role = customClaims.role;
-	return {
-		uid: user.uid,
-		email: user.email || "",
-		displayName: user.displayName || "",
-		role,
-		lastSignInTime: user.metadata.lastSignInTime,
-		creationTime: user.metadata.creationTime.slice(5, 16)
-	};
 }
 
 

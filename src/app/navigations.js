@@ -7,6 +7,11 @@ export const navigations = [
         icon: 'dashboard',
     },
     {
+        name: 'Users',
+        path: '/dashboard/users',
+        icon: 'people',
+    },
+    {
         name: 'Dashboard',
         path: '/dashboard/default',
         icon: 'dashboard',
