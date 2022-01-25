@@ -59,6 +59,11 @@ const UserListView = ({ list = [] }) => {
       }
     }
 
+    // Converts an ISO string to DD/MM/YYYY string.
+    function formatDate (date) {
+      return new Date(date).toLocaleString().slice(0, 10);
+    }
+
     return (
         <div>
             {list.map((item, index) => (
@@ -84,10 +89,10 @@ const UserListView = ({ list = [] }) => {
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
-                                            Join: {new Date(item.joinDate).toLocaleString().slice(0, 10)}
+                                            Join: {formatDate(item.joinDate)}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
-                                            Expire: {new Date(item.expiryDate).toLocaleString().slice(0, 10)}
+                                            Expire: {formatDate(item.expiryDate)}
                                         </Small>
                                         <Small sx={{ ml: 3, color: textMuted }}>
                                             {item.email}
