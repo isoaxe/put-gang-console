@@ -48,7 +48,7 @@ const UserListView = ({ list = [] }) => {
     const textMuted = palette.text.secondary;
     const msSinceEpoch = Date.now();
 
-    function actionImage (expiry) {
+    function userStatus (expiry) {
       const msSinceEpochToExpiry = new Date(expiry).getTime();
       if (msSinceEpoch < msSinceEpochToExpiry) {
         return <Person color="success" />;
@@ -86,7 +86,7 @@ const UserListView = ({ list = [] }) => {
                         </Grid>
                         <Grid item md={10}>
                             <FlexBox>
-                                {actionImage(item.expiryDate)}
+                                {userStatus(item.expiryDate)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
                                         {item.name || item.email}
