@@ -88,7 +88,7 @@ const UserListView = ({ list = [] }) => {
                                 </Box>
                             </FlexBox>
                         </Grid>
-                        <Grid item md={2}>
+                        <Grid item md={0}>
                             <FlexBox>
                                 <Avatar src={item.userImage}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
