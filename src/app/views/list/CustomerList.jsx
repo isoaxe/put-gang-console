@@ -93,14 +93,6 @@ const CustomerList = () => {
 
     return (
         <Container>
-            <div className="breadcrumb">
-                <Breadcrumb
-                    routeSegments={[
-                        { name: 'Pages', path: '/pages' },
-                        { name: 'Customer List' },
-                    ]}
-                />
-            </div>
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
