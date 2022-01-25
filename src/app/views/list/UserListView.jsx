@@ -10,10 +10,7 @@ import { displayReceipts } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
-  AddTask,
-  HighlightOff,
-  MailOutline,
-  MonetizationOn
+  Person
 } from '@mui/icons-material';
 
 const FlexBox = styled(Box)(() => ({
@@ -53,7 +50,8 @@ const UserListView = ({ list = [] }) => {
 
     function actionImage (expiry) {
       const msSinceEpochToExpiry = new Date(expiry).getTime();
-      if (msSinceEpoch < msSinceEpochToExpiry) return <AddTask color="success" />;
+      if (msSinceEpoch < msSinceEpochToExpiry) return <Person color="success" />;
+      if (msSinceEpoch > msSinceEpochToExpiry) return <Person color="disabled" />;
     }
 
     return (
