@@ -86,7 +86,7 @@ const UserListView = ({ list = [] }) => {
                                 {actionImage(item.expiryDate)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
-                                        {item.statement}
+                                        {item.name || item.email}
                                     </Paragraph>
                                     <Box display="flex">
                                         <Small sx={{ color: textMuted }}>
