@@ -44,6 +44,12 @@ const CustomerList = () => {
       }
     }
 
+    // Converts an ISO string to DD/MM/YYYY string.
+    function formatDate (date) {
+      if (date) return new Date(date).toLocaleString().slice(0, 10);
+      return "No expiry"
+    }
+
     useEffect(() => {
         if (users.length && ["admin", "level-1", "level-2"].includes(role)) {
             setUserList(users);
@@ -122,9 +128,13 @@ const CustomerList = () => {
             label: 'Join Date',
             options: {
                 filter: false,
-                // customBodyRenderLite: (dataIndex) => (
-                //   <span className="ellipsis">{userList[dataIndex].address}</span>
-                // ),
+                customBodyRenderLite: (dataIndex) => {
+                    let user = userList[dataIndex];
+
+                    return (
+                        formatDate(user.joinDate)
+                    );
+                },
             },
         },
         {
@@ -132,6 +142,13 @@ const CustomerList = () => {
             label: 'Expiry Date',
             options: {
                 filter: false,
+                customBodyRenderLite: (dataIndex) => {
+                    let user = userList[dataIndex];
+
+                    return (
+                        formatDate(user.expiryDate)
+                    );
+                },
             },
         },
     ]
