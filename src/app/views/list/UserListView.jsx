@@ -61,7 +61,8 @@ const UserListView = ({ list = [] }) => {
 
     // Converts an ISO string to DD/MM/YYYY string.
     function formatDate (date) {
-      return new Date(date).toLocaleString().slice(0, 10);
+      if (date) return new Date(date).toLocaleString().slice(0, 10);
+      return "No expiry"
     }
 
     return (
