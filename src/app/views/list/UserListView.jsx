@@ -44,15 +44,15 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-function actionImage (expiry) {
-  if (expiry) return <AddTask color="success" />;
-}
-
 const UserListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+
+    function actionImage (expiry) {
+      if (expiry) return <AddTask color="success" />;
+    }
 
     return (
         <div>
