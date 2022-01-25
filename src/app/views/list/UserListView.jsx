@@ -50,8 +50,13 @@ const UserListView = ({ list = [] }) => {
 
     function actionImage (expiry) {
       const msSinceEpochToExpiry = new Date(expiry).getTime();
-      if (msSinceEpoch < msSinceEpochToExpiry) return <Person color="success" />;
-      if (msSinceEpoch > msSinceEpochToExpiry) return <Person color="disabled" />;
+      if (msSinceEpoch < msSinceEpochToExpiry) {
+        return <Person color="success" />;
+      } else if (msSinceEpoch > msSinceEpochToExpiry) {
+        return <Person color="disabled" />;
+      } else {
+        return <Person color="info" />;
+      }
     }
 
     return (
