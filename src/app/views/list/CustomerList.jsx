@@ -43,10 +43,15 @@ const CustomerList = () => {
       }
     }
 
-    // Converts an ISO string to DD/MM/YYYY string.
+    // Converts an ISO string to DD/MM/YYYY local string.
     function formatDate (date) {
       if (date) return new Date(date).toLocaleString().slice(0, 10);
       return "No expiry"
+    }
+
+    // Converts an ISO string to HH:MM:SS local string.
+    function formatTime (date) {
+      if (date) return new Date(date).toLocaleString().slice(11);
     }
 
     useEffect(() => {
