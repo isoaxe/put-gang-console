@@ -164,12 +164,13 @@ const CustomerList = () => {
                         options={{
                             filterType: 'checkbox',
                             responsive: 'standard',
+                            resizableColumns: true,
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
                             // filter: false, // set data filter option
                             // download: false, // set download option
                             // print: false, // set print option
-                            // pagination: true, //set pagination option
+                            // pagination: true, // set pagination option
                             // viewColumns: false, // set column option
                             elevation: 1,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
