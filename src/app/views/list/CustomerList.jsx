@@ -4,6 +4,7 @@ import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
 import ReceiptsModal from './../modal/ReceiptsModal';
+import { displayReceipts } from './../../utils/helpers';
 import { H5, Paragraph, Small } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 
@@ -164,6 +165,10 @@ const CustomerList = () => {
                             filterType: 'checkbox',
                             responsive: 'standard',
                             resizableColumns: true,
+                            onRowClick: (rowData, rowState) => {
+                              const data = userList[rowState.rowIndex];
+                              displayReceipts(data.uid, setReceipts, setVisible);
+                            },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
                             // filter: false, // set data filter option
