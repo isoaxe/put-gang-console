@@ -335,13 +335,13 @@ export async function receipts (req, res) {
 	try {
 		const { uid } = req.params; // NOT calling user's id.
 		const db = admin.firestore();
-		const receipts = {};
+		const receipts = [];
 
 		// Get all receipts for given user id.
 		const paymentsPath = db.collection("payments");
 		const receiptsRef = await paymentsPath.doc(uid).collection("receipts").get();
 		receiptsRef.forEach(receipt => {
-			receipts[receipt.id] = receipt.data();
+			receipts.push(receipt.data());
 		});
 
 		return res.status(200).send(receipts);

@@ -5,20 +5,6 @@ import firebase from 'firebase/app';
 import { API_URL } from './urls';
 
 
-// Turns a compound object into an array of objects.
-// Each object in the array is the value from original with key inserted.
-export function objectToArray (compoundObj) {
-  const result = [];
-  const keys = Object.keys(compoundObj);
-  keys.forEach(key => {
-    const obj = compoundObj[key]; // Nested object is value.
-    obj["id"] = key; // Add key to object.
-    result.push(obj);
-  })
-  return result;
-}
-
-
 // Get data from Firestore at given endpoint and optionally save to state.
 export async function getData (endpoint, setterFunction) {
   const token = await firebase.auth().currentUser.getIdToken(true);
@@ -42,29 +28,34 @@ export async function getData (endpoint, setterFunction) {
 }
 
 
-// Form a statement for each receipt based on data.
-export function formatReceiptStatement (name, email, action, product, sale) {
-  let productStatement, actionStatement;
-  if (action === "join") actionStatement = "has subscribed to";
-  if (action === "payment") actionStatement = `has made a $${sale} payment for`;
-  if (action === "cancel") actionStatement = "has cancelled their subscription to"
-  if (product === "join") productStatement = "Join the Discussion";
-  if (product === "watch") productStatement = "Watch the Discussion";
-  return `${name ? name : email} ${actionStatement} ${productStatement}.`
-}
-
-
 // Fetch receipts from api, format and then save to state and turn on modal.
 export async function displayReceipts (uid, setReceipts, setVisible) {
-  const rawReceipts = await getData(`/payments/receipts/${uid}`);
-  const receiptsArray = objectToArray(rawReceipts).reverse();
-  receiptsArray.forEach(item => item["statement"] = formatReceiptStatement(
+  const receipts = await getData(`/payments/receipts/${uid}`);
+  receipts.reverse();
+  receipts.forEach(item => item["statement"] = formatReceiptStatement(
     item.name,
     item.email,
     item.action,
     item.product,
     item.sale
   ));
-  setReceipts(receiptsArray);
+  setReceipts(receipts);
   setVisible(true);
 }
+
+
+/*
+ *   Helper functions for the above helpers.
+ *   As such, these do not get exported.
+ */
+
+ // Form a statement for each receipt based on data.
+ function formatReceiptStatement (name, email, action, product, sale) {
+   let productStatement, actionStatement;
+   if (action === "join") actionStatement = "Subscription started for";
+   if (action === "payment") actionStatement = `$${sale} payment made for`;
+   if (action === "cancel") actionStatement = "Subscription cancelled for"
+   if (product === "join") productStatement = "Join the Discussion";
+   if (product === "watch") productStatement = "Watch the Discussion";
+   return `${actionStatement} ${productStatement}.`
+ }

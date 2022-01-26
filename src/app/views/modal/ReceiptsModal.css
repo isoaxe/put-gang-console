@@ -1,5 +1,5 @@
 .overlay {
-  z-index: 1;
+  z-index: 1000; /* MUIDataTable resizableColumns property has index of 999 */
   position: fixed;
   top: 0;
   left: 0;
@@ -18,8 +18,8 @@
   color: #34314C;
   text-align: center;
   width: 90%;
-  max-width: 600px;
+  max-width: 400px;
   max-height: 95vh;
-  padding: 10px;
+  padding: 20px;
   border-radius: 7px;
 }
