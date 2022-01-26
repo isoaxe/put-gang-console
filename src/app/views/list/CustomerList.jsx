@@ -28,6 +28,8 @@ const CustomerList = () => {
     const [userList, setUserList] = useState([])
     const { role, users } = useContext(DataContext);
     const msSinceEpoch = Date.now();
+    const { palette } = useTheme();
+    const textMuted = palette.text.secondary;
 
     function userStatus (expiry) {
       const msSinceEpochToExpiry = new Date(expiry).getTime();
@@ -59,8 +61,6 @@ const CustomerList = () => {
             setUserList(users);
         }
     }, [users, role])
-    const { palette } = useTheme()
-    const textMuted = palette.text.secondary
 
     const columns = [
         {
