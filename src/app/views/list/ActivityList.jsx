@@ -2,7 +2,6 @@ import ActivityListView from './ActivityListView'
 import { debounce } from 'lodash'
 import ListSearchbar from './ListSearchbar'
 import { Hidden } from '@mui/material'
-import { objectToArray } from './../../utils/helpers';
 import DataContext from './../../contexts/DataContext';
 import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react'
 import { Box, styled } from '@mui/system'
