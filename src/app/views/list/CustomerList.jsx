@@ -69,7 +69,7 @@ const CustomerList = () => {
                     return (
                         <FlexBox>
                             <Avatar
-                                sx={{ width: 48, height: 48 }}
+                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(user.expiryDate) }}
                                 src={user?.imgUrl}
                             />
                             <Box ml="12px">
