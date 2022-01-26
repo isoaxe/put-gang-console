@@ -63,6 +63,7 @@ const CustomerList = () => {
             label: 'Name', // column title that will be shown in table
             options: {
                 filter: false,
+                hint: 'Paid users in green. Recently unpaid in red. Long time unpaid in grey.',
                 customBodyRenderLite: (dataIndex) => {
                     let user = userList[dataIndex]
 
