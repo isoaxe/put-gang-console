@@ -95,12 +95,12 @@ export async function all (req, res) {
 	try {
 		const { uid, role } = res.locals;
 		const db = admin.firestore();
-		let activities = {};
+		let activities = [];
 
 		// Populate activities object from Firestore.
 		const activityRef = await db.collection("activity").doc(uid).collection(role).get();
 		activityRef.forEach(activity => {
-			activities[activity.id] = activity.data();
+			activities.push(activity.data());
 		});
 
 		return res.status(200).send(activities);
