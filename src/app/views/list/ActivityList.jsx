@@ -36,16 +36,15 @@ const ActivityList = () => {
 
     const formatActivityData = useCallback(
       () => {
-        const activityArray = objectToArray(activities);
-        activityArray.forEach(item => item["statement"] = formatStatement(
+        activities.forEach(item => item["statement"] = formatStatement(
           item.name,
           item.email,
           item.action,
           item.product
         ));
-        activityArray.reverse();
-        setOriginalList(activityArray);
-        setList(activityArray);
+        activities.reverse();
+        setOriginalList(activities);
+        setList(activities);
       }, [activities]
     );
 
@@ -66,10 +65,10 @@ const ActivityList = () => {
     )
 
     useEffect(() => {
-        if (["admin", "level-1", "level-2"].includes(role)) {
+        if (activities && ["admin", "level-1", "level-2"].includes(role)) {
             formatActivityData();
         }
-    }, [role, formatActivityData])
+    }, [activities, role, formatActivityData])
 
     return (
         <Container className="list">
