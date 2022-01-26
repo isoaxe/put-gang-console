@@ -18,6 +18,9 @@ const Container = styled('div')(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         margin: '16px',
     },
+    '& .MuiTableBody-root': {
+        cursor: 'pointer',
+    },
 }))
 
 const CustomerList = () => {
