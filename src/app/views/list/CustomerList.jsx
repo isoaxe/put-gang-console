@@ -89,6 +89,7 @@ const CustomerList = () => {
             label: 'Status',
             options: {
                 filter: false,
+                hint: 'Paid users in green. Recently unpaid in red. Long time unpaid in grey.',
                 customBodyRenderLite: (dataIndex) => {
                     let user = userList[dataIndex];
 
