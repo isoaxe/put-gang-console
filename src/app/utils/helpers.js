@@ -44,16 +44,16 @@ export async function getData (endpoint, setterFunction) {
 
 // Fetch receipts from api, format and then save to state and turn on modal.
 export async function displayReceipts (uid, setReceipts, setVisible) {
-  const rawReceipts = await getData(`/payments/receipts/${uid}`);
-  const receiptsArray = objectToArray(rawReceipts).reverse();
-  receiptsArray.forEach(item => item["statement"] = formatReceiptStatement(
+  const receipts = await getData(`/payments/receipts/${uid}`);
+  receipts.reverse();
+  receipts.forEach(item => item["statement"] = formatReceiptStatement(
     item.name,
     item.email,
     item.action,
     item.product,
     item.sale
   ));
-  setReceipts(receiptsArray);
+  setReceipts(receipts);
   setVisible(true);
 }
 
