@@ -85,21 +85,6 @@ const CustomerList = () => {
             },
         },
         {
-            name: 'status',
-            label: 'Status',
-            options: {
-                filter: false,
-                hint: 'Paid users in green. Recently unpaid in red. Long time unpaid in grey.',
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    return (
-                        userStatus(user.expiryDate)
-                    );
-                },
-            },
-        },
-        {
             name: 'membLvl',
             label: 'Membership Level',
             options: {
