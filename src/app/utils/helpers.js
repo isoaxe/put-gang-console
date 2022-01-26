@@ -45,12 +45,12 @@ export async function getData (endpoint, setterFunction) {
 // Form a statement for each receipt based on data.
 export function formatReceiptStatement (name, email, action, product, sale) {
   let productStatement, actionStatement;
-  if (action === "join") actionStatement = "has subscribed to";
-  if (action === "payment") actionStatement = `has made a $${sale} payment for`;
-  if (action === "cancel") actionStatement = "has cancelled their subscription to"
+  if (action === "join") actionStatement = "Subscription started for";
+  if (action === "payment") actionStatement = `$${sale} payment made for`;
+  if (action === "cancel") actionStatement = "Subscription cancelled for"
   if (product === "join") productStatement = "Join the Discussion";
   if (product === "watch") productStatement = "Watch the Discussion";
-  return `${name ? name : email} ${actionStatement} ${productStatement}.`
+  return `${actionStatement} ${productStatement}.`
 }
 
 
