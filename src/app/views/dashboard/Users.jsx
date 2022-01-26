@@ -1,5 +1,5 @@
 import React from 'react'
-import CustomerList from './../list/CustomerList';
+import UserTable from './../list/UserTable';
 import { styled } from '@mui/system'
 
 
@@ -14,7 +14,7 @@ const Console = () => {
 
     return (
         <AnalyticsRoot>
-            <CustomerList />
+            <UserTable />
         </AnalyticsRoot>
     )
 }
