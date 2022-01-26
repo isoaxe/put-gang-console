@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
-import { H5, Small } from 'app/components/Typography'
+import { H5, Paragraph, Small } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 
 const FlexBox = styled(Box)(() => ({
@@ -123,7 +123,12 @@ const CustomerList = () => {
                     let user = userList[dataIndex];
 
                     return (
-                        formatDate(user.joinDate)
+                        <Box>
+                            <Paragraph>{formatDate(user.joinDate)}</Paragraph>
+                            <Small sx={{ color: textMuted }}>
+                                {formatTime(user.joinDate)}
+                            </Small>
+                        </Box>
                     );
                 },
             },
@@ -137,7 +142,12 @@ const CustomerList = () => {
                     let user = userList[dataIndex];
 
                     return (
-                        formatDate(user.expiryDate)
+                        <Box>
+                            <Paragraph>{formatDate(user.expiryDate)}</Paragraph>
+                            <Small sx={{ color: textMuted }}>
+                                {formatTime(user.expiryDate)}
+                            </Small>
+                        </Box>
                     );
                 },
             },
