@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
+import ReceiptsModal from './../modal/ReceiptsModal';
 import { H5, Paragraph, Small } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 
@@ -19,12 +20,15 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const CustomerList = () => {
-    const [userList, setUserList] = useState([])
+    const [userList, setUserList] = useState([]);
+    const [visible, setVisible] = useState(false);
+    const [receipts, setReceipts] = useState([]);
     const { role, users } = useContext(DataContext);
     const msSinceEpoch = Date.now();
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
+    // Check if user subscription has lapsed and if long ago.
     function userStatus (expiry) {
       const msSinceEpochToExpiry = new Date(expiry).getTime();
       if (msSinceEpoch < msSinceEpochToExpiry) {
@@ -214,6 +218,11 @@ const CustomerList = () => {
                     />
                 </Box>
             </Box>
+            <ReceiptsModal
+                visible={visible}
+                setVisible={setVisible}
+                receipts={receipts}
+            />
         </Container>
     )
 }
