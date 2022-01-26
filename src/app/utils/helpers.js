@@ -42,18 +42,6 @@ export async function getData (endpoint, setterFunction) {
 }
 
 
-// Form a statement for each receipt based on data.
-export function formatReceiptStatement (name, email, action, product, sale) {
-  let productStatement, actionStatement;
-  if (action === "join") actionStatement = "Subscription started for";
-  if (action === "payment") actionStatement = `$${sale} payment made for`;
-  if (action === "cancel") actionStatement = "Subscription cancelled for"
-  if (product === "join") productStatement = "Join the Discussion";
-  if (product === "watch") productStatement = "Watch the Discussion";
-  return `${actionStatement} ${productStatement}.`
-}
-
-
 // Fetch receipts from api, format and then save to state and turn on modal.
 export async function displayReceipts (uid, setReceipts, setVisible) {
   const rawReceipts = await getData(`/payments/receipts/${uid}`);
@@ -68,3 +56,20 @@ export async function displayReceipts (uid, setReceipts, setVisible) {
   setReceipts(receiptsArray);
   setVisible(true);
 }
+
+
+/*
+ *   Helper functions for the above helpers.
+ *   As such, these do not get exported.
+ */
+
+ // Form a statement for each receipt based on data.
+ function formatReceiptStatement (name, email, action, product, sale) {
+   let productStatement, actionStatement;
+   if (action === "join") actionStatement = "Subscription started for";
+   if (action === "payment") actionStatement = `$${sale} payment made for`;
+   if (action === "cancel") actionStatement = "Subscription cancelled for"
+   if (product === "join") productStatement = "Join the Discussion";
+   if (product === "watch") productStatement = "Watch the Discussion";
+   return `${actionStatement} ${productStatement}.`
+ }
