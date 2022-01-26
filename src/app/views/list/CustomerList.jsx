@@ -85,6 +85,13 @@ const CustomerList = () => {
             },
         },
         {
+            name: 'role',
+            label: 'Role',
+            options: {
+                filter: true,
+            },
+        },
+        {
             name: 'membLvl',
             label: 'Membership Level',
             options: {
@@ -100,13 +107,6 @@ const CustomerList = () => {
                         return "Not a Member";
                     }
                 },
-            },
-        },
-        {
-            name: 'role',
-            label: 'Role',
-            options: {
-                filter: true,
             },
         },
         {
