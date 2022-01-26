@@ -8,8 +8,8 @@ import { AllPages } from './routes/routes'
 import { getData } from './utils/helpers';
 
 const LoadData = () => {
-    const [activities, setActivities] = useState({});
-    const [users, setUsers] = useState({});
+    const [activities, setActivities] = useState([]);
+    const [users, setUsers] = useState([]);
     const [allStats, setAllStats] = useState({});
     const [allInvoices, setAllInvoices] = useState({});
     const [role, setRole] = useState("");
