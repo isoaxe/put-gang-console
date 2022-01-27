@@ -3,10 +3,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
-import ReceiptsModal from './../modal/ReceiptsModal';
-import { displayReceipts } from './../../utils/helpers';
-import { H5, Paragraph, Small } from 'app/components/Typography'
-import { themeShadows } from 'app/components/MatxTheme/themeColors'
+import { H5, Small } from 'app/components/Typography'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -25,38 +22,9 @@ const Container = styled('div')(({ theme }) => ({
 
 const Affiliates = () => {
     const [userList, setUserList] = useState([]);
-    const [visible, setVisible] = useState(false);
-    const [receipts, setReceipts] = useState([]);
     const { role, users } = useContext(DataContext);
-    const msSinceEpoch = Date.now();
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
-
-    // Check if user subscription has lapsed and if long ago.
-    function userStatus (expiry) {
-      const msSinceEpochToExpiry = new Date(expiry).getTime();
-      if (msSinceEpoch < msSinceEpochToExpiry) {
-        return "green";
-      // Turn red if user expired in the past week.
-      } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
-        return "red";
-      } else if (msSinceEpoch > msSinceEpochToExpiry) {
-        return "grey";
-      } else {
-        return "blue";
-      }
-    }
-
-    // Converts an ISO string to DD/MM/YYYY local string.
-    function formatDate (date) {
-      if (date) return new Date(date).toLocaleString().slice(0, 10);
-      return "No expiry"
-    }
-
-    // Converts an ISO string to HH:MM:SS local string.
-    function formatTime (date) {
-      if (date) return new Date(date).toLocaleString().slice(11);
-    }
 
     useEffect(() => {
         if (users.length && ["admin", "level-1", "level-2"].includes(role)) {
@@ -66,18 +34,17 @@ const Affiliates = () => {
 
     const columns = [
         {
-            name: 'name', // field name in the row object
-            label: 'Name', // column title that will be shown in table
+            name: 'name',
+            label: 'Name',
             options: {
                 filter: false,
-                hint: 'Paid users in green. Recently unpaid in red. Long time unpaid in grey.',
                 customBodyRenderLite: (dataIndex) => {
                     let user = userList[dataIndex]
 
                     return (
                         <FlexBox>
                             <Avatar
-                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(user.expiryDate) }}
+                                sx={{ width: 48, height: 48 }}
                                 src={user?.imgUrl}
                             />
                             <Box ml="12px">
@@ -121,18 +88,6 @@ const Affiliates = () => {
             label: 'Join Date',
             options: {
                 filter: false,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    return (
-                        <Box>
-                            <Paragraph>{formatDate(user.joinDate)}</Paragraph>
-                            <Small sx={{ color: textMuted }}>
-                                {formatTime(user.joinDate)}
-                            </Small>
-                        </Box>
-                    );
-                },
             },
         },
         {
@@ -140,18 +95,6 @@ const Affiliates = () => {
             label: 'Expiry Date',
             options: {
                 filter: false,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    return (
-                        <Box>
-                            <Paragraph>{formatDate(user.expiryDate)}</Paragraph>
-                            <Small sx={{ color: textMuted }}>
-                                {formatTime(user.expiryDate)}
-                            </Small>
-                        </Box>
-                    );
-                },
             },
         },
     ]
@@ -170,7 +113,7 @@ const Affiliates = () => {
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
                               const data = userList[rowState.rowIndex];
-                              displayReceipts(data.uid, setReceipts, setVisible);
+                              console.log(`user ${data.uid} clicked`);
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
@@ -226,11 +169,6 @@ const Affiliates = () => {
                     />
                 </Box>
             </Box>
-            <ReceiptsModal
-                visible={visible}
-                setVisible={setVisible}
-                receipts={receipts}
-            />
         </Container>
     )
 }
