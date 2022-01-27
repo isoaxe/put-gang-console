@@ -4,7 +4,7 @@ import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
 import ReceiptsModal from './../modal/ReceiptsModal';
-import { displayReceipts } from './../../utils/helpers';
+import { userStatus, displayReceipts } from './../../utils/helpers';
 import { H5, Paragraph, Small } from 'app/components/Typography'
 
 const FlexBox = styled(Box)(() => ({
@@ -26,24 +26,8 @@ const Users = () => {
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
     const { users } = useContext(DataContext);
-    const msSinceEpoch = Date.now();
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
-
-    // Check if user subscription has lapsed and if long ago.
-    function userStatus (expiry) {
-      const msSinceEpochToExpiry = new Date(expiry).getTime();
-      if (msSinceEpoch < msSinceEpochToExpiry) {
-        return "green";
-      // Turn red if user expired in the past week.
-      } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
-        return "red";
-      } else if (msSinceEpoch > msSinceEpochToExpiry) {
-        return "grey";
-      } else {
-        return "blue";
-      }
-    }
 
     // Converts an ISO string to DD/MM/YYYY local string.
     function formatDate (date) {
