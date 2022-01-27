@@ -80,7 +80,7 @@ const Affiliates = () => {
             },
         },
         {
-            name: 'mmr',
+            name: 'mrr',
             label: 'MRR',
             options: {
                 filter: false,
