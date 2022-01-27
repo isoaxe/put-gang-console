@@ -1,5 +1,5 @@
 import MUIDataTable from 'mui-datatables'
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
@@ -27,17 +27,26 @@ const Affiliates = () => {
     const textMuted = palette.text.secondary;
 
     // Add some user data to allStats to produce affiliateData.
-    function combineData () {
-      const combined = [];
-      for (let i = 0; i < allStats.length; i++) {
-        const currentStat = allStats[i];
-        const currentUser = users.find(user => user.uid === currentStat.uid);
-        currentStat["role"] = currentUser.role;
-        currentStat["name"] = currentUser.name;
-        combined.push(currentStat);
+    const combineData = useCallback(
+      () => {
+        const combined = [];
+        for (let i = 0; i < allStats.length; i++) {
+          const currentStat = allStats[i];
+          const currentUser = users.find(user => user.uid === currentStat.uid);
+          currentStat["role"] = currentUser.role;
+          currentStat["name"] = currentUser.name;
+          combined.push(currentStat);
+        }
+        setAffiliateData(combined);
+      },
+      [users, allStats]
+    );
+
+    useEffect(() => {
+      if (users && allStats) {
+        combineData();
       }
-      setAffiliateData(combined);
-    }
+    }, [users, allStats, combineData]);
 
     const columns = [
         {
@@ -115,7 +124,7 @@ const Affiliates = () => {
                 <Box minWidth={750}>
                     <MUIDataTable
                         title={'Affiliates'}
-                        data={allStats}
+                        data={affiliateData}
                         columns={columns}
                         options={{
                             filterType: 'checkbox',
