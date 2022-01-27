@@ -10,7 +10,7 @@ import { getData } from './utils/helpers';
 const LoadData = () => {
     const [activities, setActivities] = useState([]);
     const [users, setUsers] = useState([]);
-    const [allStats, setAllStats] = useState({});
+    const [allStats, setAllStats] = useState([]);
     const [allInvoices, setAllInvoices] = useState({});
     const [role, setRole] = useState("");
     const all_pages = useRoutes(AllPages());
