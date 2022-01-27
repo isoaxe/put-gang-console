@@ -9,14 +9,15 @@ export async function create (req, res) {
 		// Check Firestore for referrer id param and set uplineUid based on this.
 		let uplineUid = "";
 		let uplineRole = "";
+		const ids = [];
 		let { refId, membLvl } = req.params;
 		const { email, password } = req.body;
 		if (!membLvl) membLvl = "Not a Member";
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
-		const idList = await usersPath.listDocuments();
-		const ids = idList.map(doc => doc.id);
+		const userList = await admin.auth().listUsers();
+		userList.users.forEach(item => ids.push(item.uid));
 		if (ids.includes(refId)) {
 			uplineUid = refId; // As refId has been validated.
 			const uplineDocRef = usersPath.doc(uplineUid);
