@@ -12,7 +12,7 @@ export async function create (req, res) {
 		const ids = [];
 		let { refId, membLvl } = req.params;
 		const { email, password } = req.body;
-		if (!membLvl) membLvl = "Not a Member";
+		if (membLvl === "null") membLvl = "none";
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
