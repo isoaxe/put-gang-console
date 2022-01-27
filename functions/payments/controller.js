@@ -18,34 +18,6 @@ export async function create (req, res) {
 		const usersRef = db.collection("users");
 		const userRef = await usersRef.doc(uid).get();
 		const userData = userRef.data();
-		const stats = paymentsPath.doc(uid).collection("stats").doc("stats");
-		const statsRef = await stats.get();
-		const statsData = statsRef.data();
-
-		if (!statsData && ["admin", "level-1", "level-2"].includes(role)) {
-			// Initialize all stats. These data relate to the user's earnings from their downline.
-			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
-			stats.set({
-				name: "",
-				uid,
-				email,
-				revenue,
-				mrr,
-				paid,
-				unpaid,
-				sales,
-				invoiceId
-			});
-		}
-
-		// Initialize the totals for admin user.
-		if (!statsData && role === "admin") {
-			const [totalRevenue, totalMrr] = Array(2).fill(0);
-			stats.set({
-				totalRevenue,
-				totalMrr
-			}, { merge: true });
-		}
 
 		// Get admin stats as payments from all users will accrue here.
 		const adminUser = paymentsPath.doc(ADMIN_UID);
