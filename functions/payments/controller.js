@@ -221,7 +221,7 @@ export async function stats (req, res) {
 
 		// Variables used within conditionals below.
 		let uids = [];
-		const stats = {};
+		const stats = [];
 		const paymentsPath = db.collection("payments");
 
 		// Get level-1, level-2 and self for admin.
@@ -244,8 +244,7 @@ export async function stats (req, res) {
 		// Populate stats object.
 		for (let i = 0; i < uids.length; i++) {
 			const statsRef = await paymentsPath.doc(uids[i]).collection("stats").doc("stats").get();
-			const statsData = statsRef.data();
-			stats[uids[i]] = statsData;
+			stats.push(statsRef.data());
 		}
 
 		return res.status(200).send(stats);
