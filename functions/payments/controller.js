@@ -27,6 +27,7 @@ export async function create (req, res) {
 			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
 			stats.set({
 				name: "",
+				uid,
 				email,
 				revenue,
 				mrr,
