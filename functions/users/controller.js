@@ -9,17 +9,18 @@ export async function create (req, res) {
 		// Check Firestore for referrer id param and set uplineUid based on this.
 		let uplineUid = "";
 		let uplineRole = "";
+		const ids = [];
 		let { refId, membLvl } = req.params;
 		const { email, password } = req.body;
-		if (!membLvl) membLvl = "Not a Member";
+		if (membLvl === "null") membLvl = "none";
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
-		const idList = await usersPath.listDocuments();
-		const ids = idList.map(doc => doc.id);
+		const userList = await admin.auth().listUsers();
+		userList.users.forEach(item => ids.push(item.uid));
 		if (ids.includes(refId)) {
 			uplineUid = refId; // As refId has been validated.
-			const uplineDocRef = await usersPath.doc(uplineUid);
+			const uplineDocRef = usersPath.doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			uplineRole = uplineDoc.data().role;
 		}
@@ -65,7 +66,7 @@ export async function create (req, res) {
 
 		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
-			user.set({ level2Uids: [] }, { merge: true });
+			user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
 		}
 
 		// Initialize a downlineUids array and activityId if senior user.
@@ -75,7 +76,7 @@ export async function create (req, res) {
 
 		if (["level-1", "level-2", "level-3"].includes(role)) {
 			// Add new user to downlineUids array of the referrer.
-			const uplineDocRef = await usersPath.doc(uplineUid);
+			const uplineDocRef = usersPath.doc(uplineUid);
 			const uplineDoc = await uplineDocRef.get();
 			const referrerDownlines = uplineDoc.data().downlineUids;
 			referrerDownlines.push(uid);
@@ -87,7 +88,7 @@ export async function create (req, res) {
 
 		// Add user to level2Uids array of admin.
 		if (role === "level-2") {
-			const adminDocRef = await usersPath.doc(ADMIN_UID);
+			const adminDocRef = usersPath.doc(ADMIN_UID);
 			const adminDoc = await adminDocRef.get();
 			const level2Uids = adminDoc.data().level2Uids;
 			level2Uids.push(uid);
@@ -108,6 +109,32 @@ export async function create (req, res) {
 		// Save receipts to Firestore with the document name of receiptId.
 		const receipts = paymentsPath.doc(uid).collection("receipts").doc("1");
 		receipts.set(receipt);
+
+		// Initialize all stats. These data relate to the user's earnings from their downline.
+		const stats = paymentsPath.doc(uid).collection("stats").doc("stats");
+		if (["admin", "level-1", "level-2"].includes(role)) {
+			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
+			stats.set({
+				name: "",
+				uid,
+				email,
+				revenue,
+				mrr,
+				paid,
+				unpaid,
+				sales,
+				invoiceId
+			});
+		}
+
+		// Initialize the stats totals for admin user.
+		if (role === "admin") {
+			const [totalRevenue, totalMrr] = Array(2).fill(0);
+			stats.set({
+				totalRevenue,
+				totalMrr
+			}, { merge: true });
+		}
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {

@@ -18,33 +18,6 @@ export async function create (req, res) {
 		const usersRef = db.collection("users");
 		const userRef = await usersRef.doc(uid).get();
 		const userData = userRef.data();
-		const stats = paymentsPath.doc(uid).collection("stats").doc("stats");
-		const statsRef = await stats.get();
-		const statsData = statsRef.data();
-
-		if (!statsData && ["admin", "level-1", "level-2"].includes(role)) {
-			// Initialize all stats. These data relate to the user's earnings from their downline.
-			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
-			stats.set({
-				name: "",
-				email,
-				revenue,
-				mrr,
-				paid,
-				unpaid,
-				sales,
-				invoiceId
-			});
-		}
-
-		// Initialize the totals for admin user.
-		if (!statsData && role === "admin") {
-			const [totalRevenue, totalMrr] = Array(2).fill(0);
-			stats.set({
-				totalRevenue,
-				totalMrr
-			}, { merge: true });
-		}
 
 		// Get admin stats as payments from all users will accrue here.
 		const adminUser = paymentsPath.doc(ADMIN_UID);
@@ -248,7 +221,7 @@ export async function stats (req, res) {
 
 		// Variables used within conditionals below.
 		let uids = [];
-		const stats = {};
+		const stats = [];
 		const paymentsPath = db.collection("payments");
 
 		// Get level-1, level-2 and self for admin.
@@ -271,8 +244,7 @@ export async function stats (req, res) {
 		// Populate stats object.
 		for (let i = 0; i < uids.length; i++) {
 			const statsRef = await paymentsPath.doc(uids[i]).collection("stats").doc("stats").get();
-			const statsData = statsRef.data();
-			stats[uids[i]] = statsData;
+			stats.push(statsRef.data());
 		}
 
 		return res.status(200).send(stats);

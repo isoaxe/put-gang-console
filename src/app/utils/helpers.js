@@ -3,6 +3,7 @@
  */
 import firebase from 'firebase/app';
 import { API_URL } from './urls';
+const msSinceEpoch = Date.now();
 
 
 // Get data from Firestore at given endpoint and optionally save to state.
@@ -44,6 +45,23 @@ export async function displayReceipts (uid, setReceipts, setVisible) {
 }
 
 
+// Check if user subscription has lapsed and if long ago.
+export function userStatus (expiry) {
+  const msSinceEpochToExpiry = new Date(expiry).getTime();
+  if (msSinceEpoch < msSinceEpochToExpiry) {
+    return "green";
+  // Turn red if user expired in the past week.
+  } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
+    return "red";
+  } else if (msSinceEpoch > msSinceEpochToExpiry) {
+    return "grey";
+  } else {
+    return "blue";
+  }
+}
+
+
+
 /*
  *   Helper functions for the above helpers.
  *   As such, these do not get exported.
@@ -57,5 +75,6 @@ export async function displayReceipts (uid, setReceipts, setVisible) {
    if (action === "cancel") actionStatement = "Subscription cancelled for"
    if (product === "join") productStatement = "Join the Discussion";
    if (product === "watch") productStatement = "Watch the Discussion";
+   if (product === "null") productStatement = email;
    return `${actionStatement} ${productStatement}.`
  }

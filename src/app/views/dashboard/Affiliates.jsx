@@ -1,12 +1,11 @@
 import MUIDataTable from 'mui-datatables'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
-import ReceiptsModal from './../modal/ReceiptsModal';
-import { displayReceipts } from './../../utils/helpers';
-import { H5, Paragraph, Small } from 'app/components/Typography'
-import { themeShadows } from 'app/components/MatxTheme/themeColors'
+import { userStatus } from './../../utils/helpers';
+import { H5, Small } from 'app/components/Typography'
+import useAuth from './../../hooks/useAuth';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -23,56 +22,45 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const UserTable = () => {
-    const [userList, setUserList] = useState([]);
-    const [visible, setVisible] = useState(false);
-    const [receipts, setReceipts] = useState([]);
-    const { role, users } = useContext(DataContext);
-    const msSinceEpoch = Date.now();
+const Affiliates = () => {
+    const [ affiliateData, setAffiliateData ] = useState([]);
+    const { users, allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const uid = useAuth().user.id;
 
-    // Check if user subscription has lapsed and if long ago.
-    function userStatus (expiry) {
-      const msSinceEpochToExpiry = new Date(expiry).getTime();
-      if (msSinceEpoch < msSinceEpochToExpiry) {
-        return "green";
-      // Turn red if user expired in the past week.
-      } else if (msSinceEpoch - msSinceEpochToExpiry < 604800000) {
-        return "red";
-      } else if (msSinceEpoch > msSinceEpochToExpiry) {
-        return "grey";
-      } else {
-        return "blue";
-      }
-    }
-
-    // Converts an ISO string to DD/MM/YYYY local string.
-    function formatDate (date) {
-      if (date) return new Date(date).toLocaleString().slice(0, 10);
-      return "No expiry"
-    }
-
-    // Converts an ISO string to HH:MM:SS local string.
-    function formatTime (date) {
-      if (date) return new Date(date).toLocaleString().slice(11);
-    }
+    // Add some user data to allStats to produce affiliateData.
+    const combineData = useCallback(
+      () => {
+        const reducedStats = allStats.filter(stat => stat.uid !== uid); // Remove self.
+        const combined = [];
+        for (let i = 0; i < reducedStats.length; i++) {
+          const currentStat = reducedStats[i];
+          const currentUser = users.find(user => user.uid === currentStat.uid);
+          currentStat["role"] = currentUser.role;
+          currentStat["name"] = currentUser.name;
+          currentStat["expiryDate"] = currentUser.expiryDate;
+          combined.push(currentStat);
+        }
+        setAffiliateData(combined);
+      },
+      [uid, users, allStats]
+    );
 
     useEffect(() => {
-        if (users.length && ["admin", "level-1", "level-2"].includes(role)) {
-            setUserList(users);
-        }
-    }, [users, role])
+      if (users && allStats) {
+        combineData();
+      }
+    }, [users, allStats, combineData]);
 
     const columns = [
         {
-            name: 'name', // field name in the row object
-            label: 'Name', // column title that will be shown in table
+            name: 'name',
+            label: 'Name',
             options: {
                 filter: false,
-                hint: 'Paid users in green. Recently unpaid in red. Long time unpaid in grey.',
                 customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex]
+                    let user = allStats[dataIndex]
 
                     return (
                         <FlexBox>
@@ -99,59 +87,38 @@ const UserTable = () => {
             },
         },
         {
-            name: 'membLvl',
-            label: 'Membership Level',
+            name: 'paid',
+            label: 'Paid',
             options: {
                 filter: true,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    if (user.membLvl === "watch") {
-                        return "Watch the Discussion";
-                    } else if (user.membLvl === "join") {
-                        return "Join the Discussion";
-                    } else {
-                        return "Not a Member";
-                    }
-                },
             },
         },
         {
-            name: 'joinDate',
-            label: 'Join Date',
+            name: 'unpaid',
+            label: 'Unpaid',
             options: {
                 filter: false,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    return (
-                        <Box>
-                            <Paragraph>{formatDate(user.joinDate)}</Paragraph>
-                            <Small sx={{ color: textMuted }}>
-                                {formatTime(user.joinDate)}
-                            </Small>
-                        </Box>
-                    );
-                },
             },
         },
         {
-            name: 'expiryDate',
-            label: 'Expiry Date',
+            name: 'revenue',
+            label: 'Revenue',
             options: {
                 filter: false,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    return (
-                        <Box>
-                            <Paragraph>{formatDate(user.expiryDate)}</Paragraph>
-                            <Small sx={{ color: textMuted }}>
-                                {formatTime(user.expiryDate)}
-                            </Small>
-                        </Box>
-                    );
-                },
+            },
+        },
+        {
+            name: 'mrr',
+            label: 'MRR',
+            options: {
+                filter: false,
+            },
+        },
+        {
+            name: 'sales',
+            label: 'Sales',
+            options: {
+                filter: false,
             },
         },
     ]
@@ -161,16 +128,16 @@ const UserTable = () => {
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
-                        title={'Users'}
-                        data={userList}
+                        title={'Affiliates'}
+                        data={affiliateData}
                         columns={columns}
                         options={{
                             filterType: 'checkbox',
                             responsive: 'standard',
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
-                              const data = userList[rowState.rowIndex];
-                              displayReceipts(data.uid, setReceipts, setVisible);
+                              const data = allStats[rowState.rowIndex];
+                              console.log(`user ${data.uid} clicked`);
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
@@ -226,13 +193,8 @@ const UserTable = () => {
                     />
                 </Box>
             </Box>
-            <ReceiptsModal
-                visible={visible}
-                setVisible={setVisible}
-                receipts={receipts}
-            />
         </Container>
     )
 }
 
-export default UserTable;
+export default Affiliates;

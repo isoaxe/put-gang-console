@@ -60,8 +60,8 @@ const StatCard3 = () => {
     }
 
     useEffect(() => {
-      if (allStats && Object.keys(allStats).length) {
-        setUserStats(allStats[uid]);
+      if (allStats.length) {
+        setUserStats(allStats.find(userData => userData.uid === uid));
       }
     }, [allStats, uid]);
 
