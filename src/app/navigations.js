@@ -12,6 +12,11 @@ export const navigations = [
         icon: 'people',
     },
     {
+        name: 'Affiliates',
+        path: '/dashboard/affiliates',
+        icon: 'people_alt',
+    },
+    {
         name: 'Dashboard',
         path: '/dashboard/default',
         icon: 'dashboard',
