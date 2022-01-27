@@ -23,7 +23,7 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const UserTable = () => {
+const Users = () => {
     const [userList, setUserList] = useState([]);
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
@@ -235,4 +235,4 @@ const UserTable = () => {
     )
 }
 
-export default UserTable;
+export default Users;
