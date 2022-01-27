@@ -59,22 +59,36 @@ const Affiliates = () => {
             },
         },
         {
-            name: 'membLvl',
-            label: 'Membership Level',
+            name: 'paid',
+            label: 'Paid',
             options: {
                 filter: true,
             },
         },
         {
-            name: 'joinDate',
-            label: 'Join Date',
+            name: 'unpaid',
+            label: 'Unpaid',
             options: {
                 filter: false,
             },
         },
         {
-            name: 'expiryDate',
-            label: 'Expiry Date',
+            name: 'revenue',
+            label: 'Revenue',
+            options: {
+                filter: false,
+            },
+        },
+        {
+            name: 'mmr',
+            label: 'MRR',
+            options: {
+                filter: false,
+            },
+        },
+        {
+            name: 'sales',
+            label: 'Sales',
             options: {
                 filter: false,
             },
@@ -86,7 +100,7 @@ const Affiliates = () => {
             <Box overflow="auto">
                 <Box minWidth={750}>
                     <MUIDataTable
-                        title={'Users'}
+                        title={'Affiliates'}
                         data={allStats}
                         columns={columns}
                         options={{
