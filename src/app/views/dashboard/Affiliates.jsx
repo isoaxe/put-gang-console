@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
+import { userStatus } from './../../utils/helpers';
 import { H5, Small } from 'app/components/Typography'
 import useAuth from './../../hooks/useAuth';
 
@@ -38,6 +39,7 @@ const Affiliates = () => {
           const currentUser = users.find(user => user.uid === currentStat.uid);
           currentStat["role"] = currentUser.role;
           currentStat["name"] = currentUser.name;
+          currentStat["expiryDate"] = currentUser.expiryDate;
           combined.push(currentStat);
         }
         setAffiliateData(combined);
@@ -63,7 +65,7 @@ const Affiliates = () => {
                     return (
                         <FlexBox>
                             <Avatar
-                                sx={{ width: 48, height: 48 }}
+                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(user.expiryDate) }}
                                 src={user?.imgUrl}
                             />
                             <Box ml="12px">
