@@ -66,7 +66,7 @@ export async function create (req, res) {
 
 		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
-			user.set({ level2Uids: [] }, { merge: true });
+			user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
 		}
 
 		// Initialize a downlineUids array and activityId if senior user.
