@@ -1,5 +1,5 @@
 import MUIDataTable from 'mui-datatables'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
@@ -23,10 +23,9 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const Users = () => {
-    const [userList, setUserList] = useState([]);
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
-    const { role, users } = useContext(DataContext);
+    const { users } = useContext(DataContext);
     const msSinceEpoch = Date.now();
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
@@ -57,12 +56,6 @@ const Users = () => {
       if (date) return new Date(date).toLocaleString().slice(11);
     }
 
-    useEffect(() => {
-        if (users.length && ["admin", "level-1", "level-2"].includes(role)) {
-            setUserList(users);
-        }
-    }, [users, role])
-
     const columns = [
         {
             name: 'name', // field name in the row object
@@ -71,7 +64,7 @@ const Users = () => {
                 filter: false,
                 hint: 'Paid users in green. Recently unpaid in red. Long time unpaid in grey.',
                 customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex]
+                    let user = users[dataIndex]
 
                     return (
                         <FlexBox>
@@ -103,7 +96,7 @@ const Users = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
+                    let user = users[dataIndex];
 
                     if (user.membLvl === "watch") {
                         return "Watch the Discussion";
@@ -121,7 +114,7 @@ const Users = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
+                    let user = users[dataIndex];
 
                     return (
                         <Box>
@@ -140,7 +133,7 @@ const Users = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
+                    let user = users[dataIndex];
 
                     return (
                         <Box>
@@ -161,14 +154,14 @@ const Users = () => {
                 <Box minWidth={750}>
                     <MUIDataTable
                         title={'Users'}
-                        data={userList}
+                        data={users}
                         columns={columns}
                         options={{
                             filterType: 'checkbox',
                             responsive: 'standard',
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
-                              const data = userList[rowState.rowIndex];
+                              const data = users[rowState.rowIndex];
                               displayReceipts(data.uid, setReceipts, setVisible);
                             },
                             // selectableRows: "none", // set checkbox for each row
