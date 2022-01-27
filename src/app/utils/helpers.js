@@ -57,5 +57,6 @@ export async function displayReceipts (uid, setReceipts, setVisible) {
    if (action === "cancel") actionStatement = "Subscription cancelled for"
    if (product === "join") productStatement = "Join the Discussion";
    if (product === "watch") productStatement = "Watch the Discussion";
+   if (product === "null") productStatement = email;
    return `${actionStatement} ${productStatement}.`
  }
