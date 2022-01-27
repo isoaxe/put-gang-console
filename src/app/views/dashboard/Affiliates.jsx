@@ -1,5 +1,5 @@
 import MUIDataTable from 'mui-datatables'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
@@ -21,16 +21,9 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const Affiliates = () => {
-    const [userList, setUserList] = useState([]);
-    const { role, users } = useContext(DataContext);
+    const { allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
-
-    useEffect(() => {
-        if (users.length && ["admin", "level-1", "level-2"].includes(role)) {
-            setUserList(users);
-        }
-    }, [users, role])
 
     const columns = [
         {
@@ -39,7 +32,7 @@ const Affiliates = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex]
+                    let user = allStats[dataIndex]
 
                     return (
                         <FlexBox>
@@ -70,17 +63,6 @@ const Affiliates = () => {
             label: 'Membership Level',
             options: {
                 filter: true,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = userList[dataIndex];
-
-                    if (user.membLvl === "watch") {
-                        return "Watch the Discussion";
-                    } else if (user.membLvl === "join") {
-                        return "Join the Discussion";
-                    } else {
-                        return "Not a Member";
-                    }
-                },
             },
         },
         {
@@ -105,14 +87,14 @@ const Affiliates = () => {
                 <Box minWidth={750}>
                     <MUIDataTable
                         title={'Users'}
-                        data={userList}
+                        data={allStats}
                         columns={columns}
                         options={{
                             filterType: 'checkbox',
                             responsive: 'standard',
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
-                              const data = userList[rowState.rowIndex];
+                              const data = allStats[rowState.rowIndex];
                               console.log(`user ${data.uid} clicked`);
                             },
                             // selectableRows: "none", // set checkbox for each row
