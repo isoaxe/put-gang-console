@@ -1,5 +1,5 @@
 import MUIDataTable from 'mui-datatables'
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
@@ -21,9 +21,23 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const Affiliates = () => {
-    const { allStats } = useContext(DataContext);
+    const [ affiliateData, setAffiliateData ] = useState([]);
+    const { users, allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+
+    // Add some user data to allStats to produce affiliateData.
+    function combineData () {
+      const combined = [];
+      for (let i = 0; i < allStats.length; i++) {
+        const currentStat = allStats[i];
+        const currentUser = users.find(user => user.uid === currentStat.uid);
+        currentStat["role"] = currentUser.role;
+        currentStat["name"] = currentUser.name;
+        combined.push(currentStat);
+      }
+      setAffiliateData(combined);
+    }
 
     const columns = [
         {
