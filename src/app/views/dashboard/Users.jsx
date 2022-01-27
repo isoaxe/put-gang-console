@@ -6,7 +6,6 @@ import DataContext from './../../contexts/DataContext';
 import ReceiptsModal from './../modal/ReceiptsModal';
 import { displayReceipts } from './../../utils/helpers';
 import { H5, Paragraph, Small } from 'app/components/Typography'
-import { themeShadows } from 'app/components/MatxTheme/themeColors'
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
