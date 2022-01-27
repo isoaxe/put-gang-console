@@ -4,6 +4,7 @@ import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
 import { H5, Small } from 'app/components/Typography'
+import useAuth from './../../hooks/useAuth';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -25,13 +26,15 @@ const Affiliates = () => {
     const { users, allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const uid = useAuth().user.id;
 
     // Add some user data to allStats to produce affiliateData.
     const combineData = useCallback(
       () => {
+        const reducedStats = allStats.filter(stat => stat.uid !== uid); // Remove self.
         const combined = [];
-        for (let i = 0; i < allStats.length; i++) {
-          const currentStat = allStats[i];
+        for (let i = 0; i < reducedStats.length; i++) {
+          const currentStat = reducedStats[i];
           const currentUser = users.find(user => user.uid === currentStat.uid);
           currentStat["role"] = currentUser.role;
           currentStat["name"] = currentUser.name;
@@ -39,7 +42,7 @@ const Affiliates = () => {
         }
         setAffiliateData(combined);
       },
-      [users, allStats]
+      [uid, users, allStats]
     );
 
     useEffect(() => {
