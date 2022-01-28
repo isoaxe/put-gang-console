@@ -5,5 +5,5 @@
 
 
 // User ID and email for admin.
-export const ADMIN_UID = "3ZYWgsUPFXQ9WgUIb9G2VwClWtB2";
+export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
