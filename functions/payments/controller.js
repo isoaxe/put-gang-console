@@ -244,11 +244,12 @@ export async function stats (req, res) {
 			uids.push(uid);
 		}
 
-		// Populate stats object.
-		for (let i = 0; i < uids.length; i++) {
-			const statsRef = await statsPath.doc(uids[i]).get();
-			stats.push(statsRef.data());
-		}
+		// Populate stats array.
+		const statsRef = await statsPath.where("uid", "in", uids).get();
+		statsRef.forEach(userStats => {
+			const data = userStats.data();
+			stats.push(data);
+		});
 
 		return res.status(200).send(stats);
 	} catch (err) {
