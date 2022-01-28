@@ -66,7 +66,7 @@ const Console = () => {
                     }}
                 >
                     <Span sx={{ fontWeight: '500', color: textMuted }}>
-                        STATISTICS
+                        Activity by Month
                     </Span>
                 </FlexBox>
                 <ComparisonChart2 height={400} />
