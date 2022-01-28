@@ -111,11 +111,20 @@ export async function create (req, res) {
 		const receipts = paymentsPath.doc(uid).collection("receipts").doc("1");
 		receipts.set(receipt);
 
-		// Initialize all stats. These data relate to the user's earnings from their downline.
+		// Initialize the stats totals for admin user.
 		const stats = statsPath.doc(uid);
+		if (role === "admin") {
+			const [totalRevenue, totalMrr] = Array(2).fill(0);
+			await stats.set({
+				totalRevenue,
+				totalMrr
+			});
+		}
+
+		// Initialize all stats. These data relate to the user's earnings from their downline.
 		if (["admin", "level-1", "level-2"].includes(role)) {
 			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
-			await stats.set({
+			stats.set({
 				uid,
 				email,
 				revenue,
@@ -124,15 +133,6 @@ export async function create (req, res) {
 				unpaid,
 				sales,
 				invoiceId
-			});
-		}
-
-		// Initialize the stats totals for admin user.
-		if (role === "admin") {
-			const [totalRevenue, totalMrr] = Array(2).fill(0);
-			stats.set({
-				totalRevenue,
-				totalMrr
 			}, { merge: true });
 		}
 
