@@ -54,7 +54,7 @@ export async function create (req, res) {
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
 		const user = usersPath.doc(uid);
-		user.set({
+		await user.set({
 			uid,
 			email,
 			role,
@@ -67,12 +67,12 @@ export async function create (req, res) {
 
 		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
-			user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
+			await user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
 		}
 
 		// Initialize a downlineUids array and activityId if senior user.
 		if (["admin", "level-1", "level-2"].includes(role)) {
-			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
+			await user.set({ downlineUids: [], activityId: 0 }, { merge: true });
 		}
 
 		if (["level-1", "level-2", "level-3"].includes(role)) {
@@ -115,7 +115,7 @@ export async function create (req, res) {
 		const stats = statsPath.doc(uid);
 		if (["admin", "level-1", "level-2"].includes(role)) {
 			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
-			stats.set({
+			await stats.set({
 				uid,
 				email,
 				revenue,
