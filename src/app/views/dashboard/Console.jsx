@@ -68,9 +68,6 @@ const Console = () => {
                     <Span sx={{ fontWeight: '500', color: textMuted }}>
                         STATISTICS
                     </Span>
-                    <IconButton size="small">
-                        <Icon>more_horiz</Icon>
-                    </IconButton>
                 </FlexBox>
                 <ComparisonChart2 height={400} />
             </Card>
