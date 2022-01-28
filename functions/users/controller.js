@@ -16,6 +16,7 @@ export async function create (req, res) {
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
+		const statsPath = db.collection("stats");
 		const userList = await admin.auth().listUsers();
 		userList.users.forEach(item => ids.push(item.uid));
 		if (ids.includes(refId)) {
@@ -111,7 +112,7 @@ export async function create (req, res) {
 		receipts.set(receipt);
 
 		// Initialize all stats. These data relate to the user's earnings from their downline.
-		const stats = paymentsPath.doc(uid).collection("stats").doc("stats");
+		const stats = statsPath.doc(uid);
 		if (["admin", "level-1", "level-2"].includes(role)) {
 			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
 			stats.set({
