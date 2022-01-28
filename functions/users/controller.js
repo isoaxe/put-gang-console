@@ -116,7 +116,6 @@ export async function create (req, res) {
 		if (["admin", "level-1", "level-2"].includes(role)) {
 			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
 			stats.set({
-				name: "",
 				uid,
 				email,
 				revenue,
