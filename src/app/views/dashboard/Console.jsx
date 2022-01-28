@@ -1,20 +1,13 @@
 import React from 'react'
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
-import StatCard4 from './shared/StatCard4'
-import FollowerCard from './shared/FollowerCard'
-import FollowerCard2 from './shared/FollowerCard2'
 import ComparisonChart2 from './shared/ComparisonChart2'
-import GaugeProgressCard from './shared/GuageProgressCard'
 import { H3, Span } from './../../components/Typography';
 import { styled, useTheme } from '@mui/system'
 import {
     Card,
     TextField,
     MenuItem,
-    IconButton,
-    Icon,
-    Grid,
 } from '@mui/material'
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
@@ -37,6 +30,7 @@ const Console = () => {
 
     return (
         <AnalyticsRoot>
+
             <FlexBox>
                 <H3 sx={{ m: 0 }}>Overview</H3>
                 <TextField
