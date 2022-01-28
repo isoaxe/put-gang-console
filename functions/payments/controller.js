@@ -258,46 +258,19 @@ export async function stats (req, res) {
 }
 
 
-// Returns invoices for user and their downlines.
+// Returns invoices for selected user as specified by params.
 export async function invoices (req, res) {
 	try {
-		const { uid, role } = res.locals;
+		const { uid } = req.params; // NOT calling user's id.
 		const db = admin.firestore();
+		const invoices = [];
 
-		// Get current user data.
-		const userRef = await db.collection("users").doc(uid).get();
-		const userData = userRef.data();
-
-		// Variables used within conditionals below.
-		let uids = [];
-		const invoices = {};
+		// Get all invoices for given user id.
 		const paymentsPath = db.collection("payments");
-
-		// Get level-1 and level-2 users for admin.
-		if (role === "admin") {
-			uids = userData.downlineUids.concat(userData.level2Uids);
-		}
-
-		// Include downline and self for level-1 user.
-		if (role === "level-1") {
-			uids = userData.downlineUids;
-			uids.push(uid);
-		}
-
-		// Only include self for level-2 user.
-		if (role === "level-2") {
-			uids.push(uid);
-		}
-
-		// Populate invoices object.
-		for (let i = 0; i < uids.length; i++) {
-			const userInvoices = {};
-			const userInvoiceRef = await paymentsPath.doc(uids[i]).collection("invoices").get();
-			userInvoiceRef.forEach(invoice => {
-				userInvoices[invoice.id] = invoice.data();
-			});
-			invoices[uids[i]] = userInvoices;
-		}
+		const invoicesRef = await paymentsPath.doc(uid).collection("invoices").get();
+		invoicesRef.forEach(invoice => {
+			invoices.push(invoice.data());
+		});
 
 		return res.status(200).send(invoices);
 	} catch (err) {
