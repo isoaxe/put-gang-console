@@ -103,6 +103,9 @@ export async function all (req, res) {
 			activities.push(activity.data());
 		});
 
+		// Sort activities by date in descending order.
+		activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 		return res.status(200).send(activities);
 	} catch (err) {
 		return handleError(res, err);
