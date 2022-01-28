@@ -16,13 +16,13 @@ export default function paymentsRoute (app) {
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"] }),
 		stats
 	);
-	// Fetch invoices for the user and their downlines.
-	app.get("/payments/invoices",
+	// Fetch invoices for the user as specified in the param.
+	app.get("/payments/invoices/:uid",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"] }),
 		invoices
 	);
-	// Fetch receipts for the user as defined in the param.
+	// Fetch receipts for the user as specified in the param.
 	app.get("/payments/receipts/:uid",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2"] }),
