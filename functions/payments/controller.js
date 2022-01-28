@@ -14,9 +14,9 @@ export async function create (req, res) {
 		// Check if user is a new subscriber.
 		const newSub = newSubscriber(subscribed, type);
 
-		// Get current user and stats data.
-		const usersRef = db.collection("users");
-		const userRef = await usersRef.doc(uid).get();
+		// Get current user data.
+		const usersPath = db.collection("users");
+		const userRef = await usersPath.doc(uid).get();
 		const userData = userRef.data();
 
 		// Get admin stats as payments from all users will accrue here.
@@ -53,7 +53,7 @@ export async function create (req, res) {
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
 			// Get upline user data.
-			const uplineRef = await usersRef.doc(uplineUid).get();
+			const uplineRef = await usersPath.doc(uplineUid).get();
 			const uplineData = uplineRef.data();
 
 			// Get topline stats. Will be level-1 user.
@@ -196,7 +196,7 @@ export async function create (req, res) {
 		// Get receiptId from user data, iterate and save.
 		let { receiptId } = userData;
 		receiptId++;
-		usersRef.doc(uid).set({ receiptId }, { merge: true });
+		usersPath.doc(uid).set({ receiptId }, { merge: true });
 
 		// Save receipts to Firestore with the document name of receiptId.
 		const receipts = paymentsPath.doc(uid).collection("receipts").doc(receiptId.toString());
