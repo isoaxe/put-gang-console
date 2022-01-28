@@ -75,18 +75,6 @@ const Console = () => {
                 <ComparisonChart2 height={400} />
             </Card>
 
-            <Grid container spacing={3}>
-                <Grid item md={4} xs={12}>
-                    <StatCard4 />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                    <GaugeProgressCard />
-                </Grid>
-                <Grid item md={4} xs={12}>
-                    <FollowerCard />
-                    <FollowerCard2 />
-                </Grid>
-            </Grid>
         </AnalyticsRoot>
     )
 }
