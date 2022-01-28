@@ -10,18 +10,18 @@ export async function create (req, res) {
 		const { type } = req.params;
 		const db = admin.firestore();
 		const paymentsPath = db.collection("payments");
+		const statsPath = db.collection("stats");
 
 		// Check if user is a new subscriber.
 		const newSub = newSubscriber(subscribed, type);
 
-		// Get current user and stats data.
-		const usersRef = db.collection("users");
-		const userRef = await usersRef.doc(uid).get();
+		// Get current user data.
+		const usersPath = db.collection("users");
+		const userRef = await usersPath.doc(uid).get();
 		const userData = userRef.data();
 
 		// Get admin stats as payments from all users will accrue here.
-		const adminUser = paymentsPath.doc(ADMIN_UID);
-		const adminStats = adminUser.collection("stats").doc("stats");
+		const adminStats = statsPath.doc(ADMIN_UID);
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
 		let { totalRevenue, totalMrr } = adminStatsData;
@@ -37,7 +37,7 @@ export async function create (req, res) {
 		if (["level-1", "level-2", "level-3"].includes(role)) {
 			uplineUid = userData.uplineUid;
 			upline = paymentsPath.doc(uplineUid);
-			uplineStats = upline.collection("stats").doc("stats");
+			uplineStats = statsPath.doc(uplineUid);
 			const uplineStatsRef = await uplineStats.get();
 			const uplineStatsData = uplineStatsRef.data();
 			uplineRevenue = uplineStatsData.revenue;
@@ -53,13 +53,13 @@ export async function create (req, res) {
 		// Get the upline's upline (will be level-1) for level-3 users.
 		if (role === "level-3") {
 			// Get upline user data.
-			const uplineRef = await usersRef.doc(uplineUid).get();
+			const uplineRef = await usersPath.doc(uplineUid).get();
 			const uplineData = uplineRef.data();
 
 			// Get topline stats. Will be level-1 user.
 			const toplineUid = uplineData.uplineUid; // The upline's upline.
 			topline = paymentsPath.doc(toplineUid);
-			toplineStats = topline.collection("stats").doc("stats");
+			toplineStats = statsPath.doc(toplineUid);
 			const toplineStatsRef = await toplineStats.get();
 			const toplineStatsData = toplineStatsRef.data();
 			toplineRevenue = toplineStatsData.revenue;
@@ -196,7 +196,7 @@ export async function create (req, res) {
 		// Get receiptId from user data, iterate and save.
 		let { receiptId } = userData;
 		receiptId++;
-		usersRef.doc(uid).set({ receiptId }, { merge: true });
+		usersPath.doc(uid).set({ receiptId }, { merge: true });
 
 		// Save receipts to Firestore with the document name of receiptId.
 		const receipts = paymentsPath.doc(uid).collection("receipts").doc(receiptId.toString());
@@ -213,16 +213,19 @@ export async function create (req, res) {
 export async function stats (req, res) {
 	try {
 		const { uid, role } = res.locals;
+
+		// Database and path variables.
 		const db = admin.firestore();
+		const usersPath = db.collection("users");
+		const statsPath = db.collection("stats");
 
 		// Get current user data.
-		const userRef = await db.collection("users").doc(uid).get();
+		const userRef = await usersPath.doc(uid).get();
 		const userData = userRef.data();
 
 		// Variables used within conditionals below.
 		let uids = [];
 		const stats = [];
-		const paymentsPath = db.collection("payments");
 
 		// Get level-1, level-2 and self for admin.
 		if (role === "admin") {
@@ -241,11 +244,12 @@ export async function stats (req, res) {
 			uids.push(uid);
 		}
 
-		// Populate stats object.
-		for (let i = 0; i < uids.length; i++) {
-			const statsRef = await paymentsPath.doc(uids[i]).collection("stats").doc("stats").get();
-			stats.push(statsRef.data());
-		}
+		// Populate stats array.
+		const statsRef = await statsPath.where("uid", "in", uids).get();
+		statsRef.forEach(userStats => {
+			const data = userStats.data();
+			stats.push(data);
+		});
 
 		return res.status(200).send(stats);
 	} catch (err) {

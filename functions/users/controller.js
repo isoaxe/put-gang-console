@@ -16,6 +16,7 @@ export async function create (req, res) {
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
+		const statsPath = db.collection("stats");
 		const userList = await admin.auth().listUsers();
 		userList.users.forEach(item => ids.push(item.uid));
 		if (ids.includes(refId)) {
@@ -53,7 +54,7 @@ export async function create (req, res) {
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
 		const user = usersPath.doc(uid);
-		user.set({
+		await user.set({
 			uid,
 			email,
 			role,
@@ -66,12 +67,12 @@ export async function create (req, res) {
 
 		// Initialize a level2Uids array if admin. Used to reduce cost of getting payments data.
 		if (role === "admin") {
-			user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
+			await user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
 		}
 
 		// Initialize a downlineUids array and activityId if senior user.
 		if (["admin", "level-1", "level-2"].includes(role)) {
-			user.set({ downlineUids: [], activityId: 0 }, { merge: true });
+			await user.set({ downlineUids: [], activityId: 0 }, { merge: true });
 		}
 
 		if (["level-1", "level-2", "level-3"].includes(role)) {
@@ -110,12 +111,20 @@ export async function create (req, res) {
 		const receipts = paymentsPath.doc(uid).collection("receipts").doc("1");
 		receipts.set(receipt);
 
+		// Initialize the stats totals for admin user.
+		const stats = statsPath.doc(uid);
+		if (role === "admin") {
+			const [totalRevenue, totalMrr] = Array(2).fill(0);
+			await stats.set({
+				totalRevenue,
+				totalMrr
+			});
+		}
+
 		// Initialize all stats. These data relate to the user's earnings from their downline.
-		const stats = paymentsPath.doc(uid).collection("stats").doc("stats");
 		if (["admin", "level-1", "level-2"].includes(role)) {
 			const [revenue, mrr, paid, unpaid, sales, invoiceId] = Array(6).fill(0);
 			stats.set({
-				name: "",
 				uid,
 				email,
 				revenue,
@@ -124,15 +133,6 @@ export async function create (req, res) {
 				unpaid,
 				sales,
 				invoiceId
-			});
-		}
-
-		// Initialize the stats totals for admin user.
-		if (role === "admin") {
-			const [totalRevenue, totalMrr] = Array(2).fill(0);
-			stats.set({
-				totalRevenue,
-				totalMrr
 			}, { merge: true });
 		}
 
