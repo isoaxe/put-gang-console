@@ -213,16 +213,19 @@ export async function create (req, res) {
 export async function stats (req, res) {
 	try {
 		const { uid, role } = res.locals;
+
+		// Database and path variables.
 		const db = admin.firestore();
+		const usersPath = db.collection("users");
+		const statsPath = db.collection("stats");
 
 		// Get current user data.
-		const userRef = await db.collection("users").doc(uid).get();
+		const userRef = await usersPath.doc(uid).get();
 		const userData = userRef.data();
 
 		// Variables used within conditionals below.
 		let uids = [];
 		const stats = [];
-		const paymentsPath = db.collection("payments");
 
 		// Get level-1, level-2 and self for admin.
 		if (role === "admin") {
@@ -243,7 +246,7 @@ export async function stats (req, res) {
 
 		// Populate stats object.
 		for (let i = 0; i < uids.length; i++) {
-			const statsRef = await paymentsPath.doc(uids[i]).collection("stats").doc("stats").get();
+			const statsRef = await statsPath.doc(uids[i]).get();
 			stats.push(statsRef.data());
 		}
 
