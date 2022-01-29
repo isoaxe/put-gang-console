@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
 import ComparisonChart2 from './shared/ComparisonChart2'
@@ -27,6 +28,7 @@ const FlexBox = styled('div')(({ theme }) => ({
 const Affiliate = () => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const { uid } = useLocation().state;
 
     return (
         <AnalyticsRoot>
