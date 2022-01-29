@@ -3,12 +3,19 @@ import { useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3';
+import { Breadcrumb } from './../../../app/components';
 import { H3 } from './../../components/Typography';
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
     margin: '30px',
     [theme.breakpoints.down('sm')]: {
         margin: '16px',
+    },
+    '& .breadcrumb': {
+        marginBottom: '30px',
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: '16px',
+        },
     },
 }))
 
@@ -24,6 +31,14 @@ const Affiliate = () => {
 
     return (
         <AnalyticsRoot>
+            <div className="breadcrumb">
+                <Breadcrumb
+                    routeSegments={[
+                        { name: 'Pages', path: '/pages' },
+                        { name: 'Customer List' },
+                    ]}
+                />
+            </div>
 
             <FlexBox>
                 <H3 sx={{ m: 0 }}>Overview</H3>
