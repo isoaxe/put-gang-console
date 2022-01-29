@@ -47,6 +47,12 @@ const Affiliates = () => {
       [uid, users, allStats]
     );
 
+    // Return number as string with leading '$' and two decimal places if not integer.
+    function numToCurrency (num) {
+      const hasDecimal = String(num).indexOf(".") !== -1;
+      return hasDecimal ? `$${num.toFixed(2)}` : `$${num}`;
+    }
+
     useEffect(() => {
       if (users && allStats) {
         combineData();
