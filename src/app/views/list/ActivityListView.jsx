@@ -5,6 +5,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
+import ScrollBar from 'react-perfect-scrollbar';
 import ReceiptsModal from './../modal/ReceiptsModal';
 import { displayReceipts } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography'
@@ -44,6 +45,10 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
+const StyledScrollBar = styled(ScrollBar)(() => ({
+    maxHeight: '800px',
+}))
+
 function actionImage (action, product) {
   if (action === "join" && product === "news") return <MailOutline color="info" />;
   if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
@@ -59,48 +64,50 @@ const ActivityListView = ({ list = [] }) => {
     const textMuted = palette.text.secondary;
 
     return (
-        <div>
-            {list.map((item, index) => (
-                <ListCard
-                    key={item.id}
-                    elevation={3}
-                    sx={{ mb: index < list.length && 2 }}
-                    onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
-                >
-                    <Grid container justify="space-between" alignItems="center">
-                        <Grid item md={10}>
-                            <FlexBox>
-                                {actionImage(item.action, item.product)}
-                                <Box ml={2}>
-                                    <Paragraph sx={{ mb: 1 }}>
-                                        {item.statement}
-                                    </Paragraph>
-                                    <Box display="flex">
-                                        <Small sx={{ color: textMuted }}>
-                                            {new Date(item.date).toLocaleString()}
-                                        </Small>
-                                        <Small sx={{ ml: 3, color: textMuted }}>
-                                            {item.email}
-                                        </Small>
+        <StyledScrollBar>
+            <div>
+                {list.map((item, index) => (
+                    <ListCard
+                        key={item.id}
+                        elevation={3}
+                        sx={{ mb: index < list.length && 2 }}
+                        onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
+                    >
+                        <Grid container justify="space-between" alignItems="center">
+                            <Grid item md={10}>
+                                <FlexBox>
+                                    {actionImage(item.action, item.product)}
+                                    <Box ml={2}>
+                                        <Paragraph sx={{ mb: 1 }}>
+                                            {item.statement}
+                                        </Paragraph>
+                                        <Box display="flex">
+                                            <Small sx={{ color: textMuted }}>
+                                                {new Date(item.date).toLocaleString()}
+                                            </Small>
+                                            <Small sx={{ ml: 3, color: textMuted }}>
+                                                {item.email}
+                                            </Small>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </FlexBox>
+                                </FlexBox>
+                            </Grid>
+                            <Grid item md={2}>
+                                <FlexBox>
+                                    <Avatar src={item.userImage}></Avatar>
+                                    <Span sx={{ ml: '16px' }}>{item.userName}</Span>
+                                </FlexBox>
+                            </Grid>
                         </Grid>
-                        <Grid item md={2}>
-                            <FlexBox>
-                                <Avatar src={item.userImage}></Avatar>
-                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
-                            </FlexBox>
-                        </Grid>
-                    </Grid>
-                </ListCard>
-            ))}
-            <ReceiptsModal
-								visible={visible}
-								setVisible={setVisible}
-                receipts={receipts}
-							/>
-        </div>
+                    </ListCard>
+                ))}
+                <ReceiptsModal
+    								visible={visible}
+    								setVisible={setVisible}
+                    receipts={receipts}
+    							/>
+            </div>
+        </StyledScrollBar>
     )
 }
 

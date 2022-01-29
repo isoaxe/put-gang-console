@@ -11,7 +11,6 @@ const LoadData = () => {
     const [activities, setActivities] = useState([]);
     const [users, setUsers] = useState([]);
     const [allStats, setAllStats] = useState([]);
-    const [allInvoices, setAllInvoices] = useState({});
     const [role, setRole] = useState("");
     const all_pages = useRoutes(AllPages());
     const { user } = useAuth();
@@ -20,7 +19,6 @@ const LoadData = () => {
     const getActivity = () => getData("/activity", setActivities);
     const getUsers = () => getData("/users", setUsers);
     const getStats = () => getData("/payments/stats", setAllStats);
-    const getInvoices = () => getData("/payments/invoices", setAllInvoices);
 
     async function getRole () {
       const user = firebase.auth().currentUser;
@@ -36,12 +34,11 @@ const LoadData = () => {
         getActivity();
         getUsers();
         getStats();
-        getInvoices();
       }
     }, [user, role]);
 
     return (
-        <DataContext.Provider value={{activities, users, allStats, allInvoices, role}}>
+        <DataContext.Provider value={{activities, users, allStats, role}}>
             {all_pages}
             <Routes>
                 <Route path='/' element={<Navigate to="/dashboard/console" />} />

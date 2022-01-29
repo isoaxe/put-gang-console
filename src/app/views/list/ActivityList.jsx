@@ -41,7 +41,6 @@ const ActivityList = () => {
           item.action,
           item.product
         ));
-        activities.reverse();
         setOriginalList(activities);
         setList(activities);
       }, [activities]
