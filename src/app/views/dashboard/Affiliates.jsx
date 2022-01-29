@@ -1,5 +1,6 @@
 import MUIDataTable from 'mui-datatables'
 import React, { useState, useEffect, useContext, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
@@ -28,6 +29,7 @@ const Affiliates = () => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const uid = useAuth().user.id;
+    let navigate = useNavigate();
 
     // Add some user data to allStats to produce affiliateData.
     const combineData = useCallback(
@@ -156,6 +158,7 @@ const Affiliates = () => {
                             onRowClick: (rowData, rowState) => {
                               const data = allStats[rowState.rowIndex];
                               console.log(`user ${data.uid} clicked`);
+                              navigate("/dashboard/affiliate")
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
