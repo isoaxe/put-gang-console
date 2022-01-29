@@ -157,8 +157,7 @@ const Affiliates = () => {
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
                               const data = allStats[rowState.rowIndex];
-                              console.log(`user ${data.uid} clicked`);
-                              navigate("/dashboard/affiliate")
+                              navigate("/dashboard/affiliate", { state: { uid: data.uid } });
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
