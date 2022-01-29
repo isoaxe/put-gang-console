@@ -1,11 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { styled, useTheme } from '@mui/system';
-import { Card } from '@mui/material';
+import { styled } from '@mui/system';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3';
-import ComparisonChart2 from './shared/ComparisonChart2';
-import { H3, Span } from './../../components/Typography';
+import { H3 } from './../../components/Typography';
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -22,8 +20,6 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Affiliate = () => {
-    const { palette } = useTheme();
-    const textMuted = palette.text.secondary;
     const { uid } = useLocation().state;
 
     return (
@@ -37,21 +33,6 @@ const Affiliate = () => {
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList />
-
-            <Card sx={{ mt: '20px', mb: '24px' }} elevation={3}>
-                <FlexBox
-                    sx={{
-                        px: 2,
-                        py: '12px',
-                        background: 'rgba(0, 0, 0, 0.01)',
-                    }}
-                >
-                    <Span sx={{ fontWeight: '500', color: textMuted }}>
-                        Activity by Month
-                    </Span>
-                </FlexBox>
-                <ComparisonChart2 height={400} />
-            </Card>
 
         </AnalyticsRoot>
     )
