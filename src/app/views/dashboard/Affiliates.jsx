@@ -97,6 +97,9 @@ const Affiliates = () => {
             label: 'Paid',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliateData[index]?.paid);
+                },
             },
         },
         {
@@ -104,6 +107,9 @@ const Affiliates = () => {
             label: 'Unpaid',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliateData[index]?.unpaid);
+                },
             },
         },
         {
@@ -111,6 +117,9 @@ const Affiliates = () => {
             label: 'Revenue',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliateData[index]?.revenue);
+                },
             },
         },
         {
@@ -118,6 +127,9 @@ const Affiliates = () => {
             label: 'MRR',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliateData[index]?.mrr);
+                },
             },
         },
         {
