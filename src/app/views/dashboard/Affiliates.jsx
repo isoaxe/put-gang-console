@@ -90,7 +90,7 @@ const Affiliates = () => {
             name: 'paid',
             label: 'Paid',
             options: {
-                filter: true,
+                filter: false,
             },
         },
         {
