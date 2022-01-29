@@ -1,13 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { styled, useTheme } from '@mui/system';
+import { Card } from '@mui/material';
 import ActivityList from './../list/ActivityList';
-import StatCard3 from './shared/StatCard3'
-import ComparisonChart2 from './shared/ComparisonChart2'
+import StatCard3 from './shared/StatCard3';
+import ComparisonChart2 from './shared/ComparisonChart2';
 import { H3, Span } from './../../components/Typography';
-import { styled, useTheme } from '@mui/system'
-import {
-    Card,
-} from '@mui/material'
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
     margin: '30px',
