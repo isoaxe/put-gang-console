@@ -54,7 +54,7 @@ const Affiliates = () => {
     }
 
     useEffect(() => {
-      if (users && allStats) {
+      if (users.length && allStats.length) {
         combineData();
       }
     }, [users, allStats, combineData]);
