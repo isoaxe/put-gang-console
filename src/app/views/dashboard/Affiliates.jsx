@@ -59,19 +59,19 @@ const Affiliates = () => {
             label: 'Name',
             options: {
                 filter: false,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = allStats[dataIndex]
+                customBodyRenderLite: (index) => {
+                    let userData = affiliateData[index]; // Data for one user.
 
                     return (
                         <FlexBox>
                             <Avatar
-                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(user.expiryDate) }}
-                                src={user?.imgUrl}
+                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(userData?.expiryDate) }}
+                                src={userData?.imgUrl}
                             />
                             <Box ml="12px">
-                                <H5 sx={{ fontSize: '15px' }}>{user?.name}</H5>
+                                <H5 sx={{ fontSize: '15px' }}>{userData?.name}</H5>
                                 <Small sx={{ color: textMuted }}>
-                                    {user?.email}
+                                    {userData?.email}
                                 </Small>
                             </Box>
                         </FlexBox>
