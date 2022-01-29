@@ -7,8 +7,6 @@ import { H3, Span } from './../../components/Typography';
 import { styled, useTheme } from '@mui/system'
 import {
     Card,
-    TextField,
-    MenuItem,
 } from '@mui/material'
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
@@ -35,17 +33,6 @@ const Affiliate = () => {
 
             <FlexBox>
                 <H3 sx={{ m: 0 }}>Overview</H3>
-                <TextField
-                    defaultValue="1"
-                    variant="outlined"
-                    size="small"
-                    select
-                >
-                    <MenuItem value="1">This Month</MenuItem>
-                    <MenuItem value="2">Last Month</MenuItem>
-                    <MenuItem value="3">Six Month</MenuItem>
-                    <MenuItem value="4">Last Year</MenuItem>
-                </TextField>
             </FlexBox>
 
             <StatCard3 />
