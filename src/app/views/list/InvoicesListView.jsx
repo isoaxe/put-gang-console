@@ -1,14 +1,9 @@
 import React from 'react';
 import { Card, Avatar, Grid } from '@mui/material';
-import { Box, styled, useTheme } from '@mui/system'
+import { Box, styled, useTheme } from '@mui/system';
+import { MonetizationOn } from '@mui/icons-material';
 import { Small, Span, Paragraph } from 'app/components/Typography';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
-import {
-  AddTask,
-  HighlightOff,
-  MailOutline,
-  MonetizationOn
-} from '@mui/icons-material';
 
 
 const FlexBox = styled(Box)(() => ({
@@ -38,12 +33,12 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-function actionImage (action, product) {
-  if (action === "join" && product === "news") return <MailOutline color="info" />;
-  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
-  if (action === "join") return <AddTask color="success" />;
-  if (action === "cancel") return <HighlightOff color="error" />;
-  if (action === "recur") return <MonetizationOn color="success" />;
+function statusImage (paid) {
+  if (paid) {
+    return <MonetizationOn color="success" />;
+  } else {
+    return <MonetizationOn color="error" />;
+  }
 }
 
 const InvoicesListView = ({ list = [] }) => {
@@ -61,7 +56,7 @@ const InvoicesListView = ({ list = [] }) => {
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
                             <FlexBox>
-                                {actionImage(item.action, item.product)}
+                                {statusImage(item.paid)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
                                         {item.statement}
