@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, useMemo, useCallback } from 're
 import { Hidden } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import { debounce } from 'lodash';
+import { capitalize } from './../../utils/helpers';
 import InvoicesListView from './InvoicesListView';
 import ListSearchbar from './ListSearchbar';
 import DataContext from './../../contexts/DataContext';
@@ -22,10 +23,7 @@ const InvoicesList = (props) => {
 
     // Form a statement for each activity based on data.
     function formatStatement (name, email, sale, product) {
-      let productStatement;
-      if (product === "join") productStatement = "Join the Discussion";
-      if (product === "watch") productStatement = "Watch the Discussion";
-      return `${name ? name : email} made a $${sale} payment for ${productStatement}.`
+      return `${name ? name : email} made a $${sale} payment for ${capitalize(product)} the Discussion.`
     }
 
     const formatInvoicesData = useCallback(
