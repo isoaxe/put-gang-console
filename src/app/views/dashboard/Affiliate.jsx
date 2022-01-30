@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
+import { getData } from './../../utils/helpers';
 import InvoicesList from './../list/InvoicesList';
 import StatCard3 from './shared/StatCard3';
 import { Breadcrumb } from './../../../app/components';
@@ -27,8 +28,15 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Affiliate = () => {
+    const [invoices, setInvoices] = useState([]);
     const { affiliateData } = useLocation().state;
-    const { name, email } = affiliateData;
+    const { uid, name, email } = affiliateData;
+
+    useEffect(() => {
+      if (uid) {
+        getData(`/payments/invoices/${uid}`, setInvoices);
+      }
+    }, [uid]);
 
     return (
         <AnalyticsRoot>
