@@ -21,9 +21,9 @@ const StatCard3 = (props) => {
             title: 'Revenue',
         },
         {
-            icon: 'bar_chart',
-            amount: sales,
-            title: 'Sales',
+            icon: 'ballot',
+            amount: numToCurrency(mrr),
+            title: 'MRR',
         },
         {
             icon: 'price_check',
@@ -36,9 +36,9 @@ const StatCard3 = (props) => {
             title: 'Unpaid',
         },
         {
-            icon: 'ballot',
-            amount: numToCurrency(mrr),
-            title: 'MRR',
+            icon: 'bar_chart',
+            amount: sales,
+            title: 'Sales',
         },
     ]
     const additionalStats = [
