@@ -64,50 +64,48 @@ const ActivityListView = ({ list = [] }) => {
     const textMuted = palette.text.secondary;
 
     return (
-        <StyledScrollBar>
-            <div>
-                {list.map((item, index) => (
-                    <ListCard
-                        key={item.id}
-                        elevation={3}
-                        sx={{ mb: index < list.length && 2 }}
-                        onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
-                    >
-                        <Grid container justify="space-between" alignItems="center">
-                            <Grid item md={10}>
-                                <FlexBox>
-                                    {actionImage(item.action, item.product)}
-                                    <Box ml={2}>
-                                        <Paragraph sx={{ mb: 1 }}>
-                                            {item.statement}
-                                        </Paragraph>
-                                        <Box display="flex">
-                                            <Small sx={{ color: textMuted }}>
-                                                {new Date(item.date).toLocaleString()}
-                                            </Small>
-                                            <Small sx={{ ml: 3, color: textMuted }}>
-                                                {item.email}
-                                            </Small>
-                                        </Box>
+        <div>
+            {list.map((item, index) => (
+                <ListCard
+                    key={item.id}
+                    elevation={3}
+                    sx={{ mb: index < list.length && 2 }}
+                    onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
+                >
+                    <Grid container justify="space-between" alignItems="center">
+                        <Grid item md={10}>
+                            <FlexBox>
+                                {actionImage(item.action, item.product)}
+                                <Box ml={2}>
+                                    <Paragraph sx={{ mb: 1 }}>
+                                        {item.statement}
+                                    </Paragraph>
+                                    <Box display="flex">
+                                        <Small sx={{ color: textMuted }}>
+                                            {new Date(item.date).toLocaleString()}
+                                        </Small>
+                                        <Small sx={{ ml: 3, color: textMuted }}>
+                                            {item.email}
+                                        </Small>
                                     </Box>
-                                </FlexBox>
-                            </Grid>
-                            <Grid item md={2}>
-                                <FlexBox>
-                                    <Avatar src={item.userImage}></Avatar>
-                                    <Span sx={{ ml: '16px' }}>{item.userName}</Span>
-                                </FlexBox>
-                            </Grid>
+                                </Box>
+                            </FlexBox>
                         </Grid>
-                    </ListCard>
-                ))}
-                <ReceiptsModal
-    								visible={visible}
-    								setVisible={setVisible}
-                    receipts={receipts}
-    							/>
-            </div>
-        </StyledScrollBar>
+                        <Grid item md={2}>
+                            <FlexBox>
+                                <Avatar src={item.userImage}></Avatar>
+                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
+                            </FlexBox>
+                        </Grid>
+                    </Grid>
+                </ListCard>
+            ))}
+            <ReceiptsModal
+								visible={visible}
+								setVisible={setVisible}
+                receipts={receipts}
+							/>
+        </div>
     )
 }
 
