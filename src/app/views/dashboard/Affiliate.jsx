@@ -35,8 +35,8 @@ const Affiliate = () => {
             <div className="breadcrumb">
                 <Breadcrumb
                     routeSegments={[
-                        { name: 'Pages', path: '/pages' },
-                        { name: 'Customer List' },
+                        { name: 'Affiliates', path: '/dashboard/affiliates' },
+                        { name: name || email },
                     ]}
                 />
             </div>
