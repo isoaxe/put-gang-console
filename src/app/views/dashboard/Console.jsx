@@ -4,6 +4,7 @@ import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
 import ComparisonChart2 from './shared/ComparisonChart2'
 import { H3, Span } from './../../components/Typography';
+import useAuth from './../../hooks/useAuth';
 import { styled, useTheme } from '@mui/system'
 import {
     Card,
@@ -29,6 +30,7 @@ const Console = () => {
     const { allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const uid = useAuth().user.id;
 
     return (
         <AnalyticsRoot>
