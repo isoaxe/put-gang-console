@@ -45,7 +45,7 @@ const Affiliate = () => {
                 <H3 sx={{ m: 0 }}>Overview</H3>
             </FlexBox>
 
-            <StatCard3 />
+            <StatCard3 userStats={affiliateData} />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList />
