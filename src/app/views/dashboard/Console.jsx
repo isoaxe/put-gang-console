@@ -31,6 +31,7 @@ const Console = () => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const uid = useAuth().user.id;
+    const userStats = allStats.find(stats => stats.uid === uid);
 
     return (
         <AnalyticsRoot>
@@ -50,7 +51,7 @@ const Console = () => {
                 </TextField>
             </FlexBox>
 
-            <StatCard3 />
+            <StatCard3 userStats={userStats} />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList />
