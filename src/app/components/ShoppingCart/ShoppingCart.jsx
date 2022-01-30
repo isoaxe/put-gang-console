@@ -7,7 +7,7 @@ import useSettings from 'app/hooks/useSettings'
 import React, { Fragment, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { themeShadows } from '../MatxTheme/themeColors'
-import { sideNavWidth, topBarHeight } from 'app/utils/constant'
+import { sideNavWidth, topBarHeight } from 'app/utils/constants'
 import {
     getCartList,
     deleteProductFromCart,

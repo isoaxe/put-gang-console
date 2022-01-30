@@ -4,7 +4,7 @@ import { Span } from "../../Typography"
 import useAuth from 'app/hooks/useAuth'
 import { styled, Box } from '@mui/system'
 import useSettings from 'app/hooks/useSettings'
-import { topBarHeight } from 'app/utils/constant'
+import { topBarHeight } from 'app/utils/constants'
 import ShoppingCart from '../../ShoppingCart/ShoppingCart'
 import NotificationBar2 from '../../NotificationBar2/NotificationBar2'
 import { Icon, IconButton, Hidden, MenuItem, Avatar } from '@mui/material'

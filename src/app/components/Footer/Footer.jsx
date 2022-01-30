@@ -3,7 +3,7 @@ import { Span, Paragraph } from '../Typography'
 import useSettings from 'app/hooks/useSettings'
 import { Button, Toolbar, AppBar, ThemeProvider } from '@mui/material'
 import { styled, useTheme } from '@mui/system'
-import { topBarHeight } from 'app/utils/constant'
+import { topBarHeight } from 'app/utils/constants'
 
 const AppFooter = styled(Toolbar)(() => ({
     display: 'flex',

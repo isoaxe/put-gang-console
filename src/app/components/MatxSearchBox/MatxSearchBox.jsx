@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { styled, useTheme } from '@mui/system'
 import { Icon, IconButton } from '@mui/material'
-import { topBarHeight } from 'app/utils/constant'
+import { topBarHeight } from 'app/utils/constants'
 
 const SearchContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
