@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
-import { userStatus } from './../../utils/helpers';
+import { userStatus, numToCurrency } from './../../utils/helpers';
 import { H5, Small } from 'app/components/Typography'
 import useAuth from './../../hooks/useAuth';
 
@@ -48,12 +48,6 @@ const Affiliates = () => {
       },
       [uid, users, allStats]
     );
-
-    // Return number as string with leading '$' and two decimal places if not integer.
-    function numToCurrency (num) {
-      const hasDecimal = String(num).indexOf(".") !== -1;
-      return hasDecimal ? `$${num.toFixed(2)}` : `$${num}`;
-    }
 
     useEffect(() => {
       if (users.length && allStats.length) {
