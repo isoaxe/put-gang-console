@@ -66,6 +66,11 @@ export function numToCurrency (num) {
   return hasDecimal ? `$${num.toFixed(2)}` : `$${num}`;
 }
 
+// Capitalize the first letter of a given string.
+export function capitalize (string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
+
 
 
 /*
