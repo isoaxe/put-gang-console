@@ -56,7 +56,7 @@ const Affiliate = () => {
             <StatCard3 userStats={affiliateData} />
 
             <H3 sx={{ marginTop: 8 }}>Invoices</H3>
-            <InvoicesList />
+            <InvoicesList invoices={invoices} />
 
         </AnalyticsRoot>
     )
