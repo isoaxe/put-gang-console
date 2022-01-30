@@ -60,6 +60,12 @@ export function userStatus (expiry) {
   }
 }
 
+// Return number as string with leading '$' and two decimal places if not integer.
+export function numToCurrency (num) {
+  const hasDecimal = String(num).indexOf(".") !== -1;
+  return hasDecimal ? `$${num.toFixed(2)}` : `$${num}`;
+}
+
 
 
 /*
