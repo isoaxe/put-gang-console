@@ -75,7 +75,7 @@ const InvoicesListView = ({ list = [] }) => {
                         </Grid>
                         <Grid item md={4}>
                             <Paragraph sx={{ fontWeight: 'bold' }}>
-                                Unpaid commission of {numToCurrency(item.commission)}.
+                                {item.paid ? 'Paid' : 'Unpaid'} commission of {numToCurrency(item.commission)}.
                             </Paragraph>
                         </Grid>
                         <Grid item md={0}>
