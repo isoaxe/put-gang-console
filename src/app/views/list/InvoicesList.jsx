@@ -28,12 +28,12 @@ const InvoicesList = (props) => {
       return `${name ? name : email} made a $${sale} payment for ${productStatement}.`
     }
 
-    const formatActivityData = useCallback(
+    const formatInvoicesData = useCallback(
       () => {
         invoices.forEach(item => item["statement"] = formatStatement(
           item.name,
           item.email,
-          item.action,
+          item.sale,
           item.product
         ));
         setOriginalList(invoices);
@@ -59,9 +59,9 @@ const InvoicesList = (props) => {
 
     useEffect(() => {
         if (invoices && ["admin", "level-1", "level-2"].includes(role)) {
-            formatActivityData();
+            formatInvoicesData();
         }
-    }, [invoices, role, formatActivityData])
+    }, [invoices, role, formatInvoicesData])
 
     return (
         <Container className="list">
