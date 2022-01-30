@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box, useTheme } from '@mui/system';
 import { Grid, Card, IconButton, Icon } from '@mui/material';
 import { H3, Paragraph } from 'app/components/Typography';
-import DataContext from './../../../contexts/DataContext';
+import { ADMIN_EMAIL } from './../../../utils/constants';
 
 
 const StatCard3 = (props) => {
-    const { role } = useContext(DataContext);
     const { userStats } = props;
     let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
     if (userStats && Object.keys(userStats).length) {
@@ -53,7 +52,7 @@ const StatCard3 = (props) => {
             title: 'Total MRR',
         },
     ]
-    if (role === "admin") {
+    if (userStats?.email === ADMIN_EMAIL) {
       statList =  statList.concat(additionalStats);
     }
 
