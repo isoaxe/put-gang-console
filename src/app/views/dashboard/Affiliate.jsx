@@ -27,8 +27,8 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Affiliate = () => {
-    const data = useLocation().state.affiliateData;
-    const { uid, name, email, revenue, mrr, paid, unpaid, sales } = data;
+    const { affiliateData } = useLocation().state;
+    const { name, email } = affiliateData;
 
     return (
         <AnalyticsRoot>
