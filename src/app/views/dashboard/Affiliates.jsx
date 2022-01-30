@@ -156,8 +156,8 @@ const Affiliates = () => {
                             responsive: 'standard',
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
-                              const data = allStats[rowState.rowIndex];
-                              navigate("/dashboard/affiliate", { state: { uid: data.uid } });
+                              const affiliateData = allStats[rowState.rowIndex];
+                              navigate("/dashboard/affiliate", { state: { affiliateData } });
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
