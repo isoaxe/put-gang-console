@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Avatar, Grid } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
 import { MonetizationOn } from '@mui/icons-material';
+import { numToCurrency } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
 
@@ -54,7 +55,7 @@ const InvoicesListView = ({ list = [] }) => {
                     sx={{ mb: index < list.length && 2 }}
                 >
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item md={10}>
+                        <Grid item md={7}>
                             <FlexBox>
                                 {statusImage(item.paid)}
                                 <Box ml={2}>
@@ -72,7 +73,12 @@ const InvoicesListView = ({ list = [] }) => {
                                 </Box>
                             </FlexBox>
                         </Grid>
-                        <Grid item md={2}>
+                        <Grid item md={4}>
+                            <Paragraph sx={{ fontWeight: 'bold' }}>
+                                Unpaid commission of {numToCurrency(item.commission)}.
+                            </Paragraph>
+                        </Grid>
+                        <Grid item md={0}>
                             <FlexBox>
                                 <Avatar src={item.userImage}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
