@@ -14,10 +14,11 @@ const Container = styled('div')(({ theme }) => ({
     },
 }))
 
-const InvoicesList = () => {
+const InvoicesList = (props) => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
-    const { role, activities } = useContext(DataContext);
+    const { role } = useContext(DataContext);
+    const invoices = props.invoices;
 
     // Form a statement for each activity based on data.
     function formatStatement (name, email, action, product) {
@@ -36,15 +37,15 @@ const InvoicesList = () => {
 
     const formatActivityData = useCallback(
       () => {
-        activities.forEach(item => item["statement"] = formatStatement(
+        invoices.forEach(item => item["statement"] = formatStatement(
           item.name,
           item.email,
           item.action,
           item.product
         ));
-        setOriginalList(activities);
-        setList(activities);
-      }, [activities]
+        setOriginalList(invoices);
+        setList(invoices);
+      }, [invoices]
     );
 
     const handleInputChange = (event) => {
@@ -64,10 +65,10 @@ const InvoicesList = () => {
     )
 
     useEffect(() => {
-        if (activities && ["admin", "level-1", "level-2"].includes(role)) {
+        if (invoices && ["admin", "level-1", "level-2"].includes(role)) {
             formatActivityData();
         }
-    }, [activities, role, formatActivityData])
+    }, [invoices, role, formatActivityData])
 
     return (
         <Container className="list">
