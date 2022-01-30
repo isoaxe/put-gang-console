@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import DataContext from './../../contexts/DataContext';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
 import ComparisonChart2 from './shared/ComparisonChart2'
@@ -25,6 +26,7 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Console = () => {
+    const { allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
