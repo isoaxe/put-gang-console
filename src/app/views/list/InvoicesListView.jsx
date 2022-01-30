@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, Avatar, Grid } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system'
-import ReceiptsModal from './../modal/ReceiptsModal';
-import { displayReceipts } from './../../utils/helpers';
 import { Small, Span, Paragraph } from 'app/components/Typography';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
 import {
@@ -33,7 +31,6 @@ const ListCard = styled(Card)(({ theme }) => ({
         background: theme.palette.background.paper,
     },
     '&:hover': {
-        cursor: 'pointer',
         '& .card__button-group': {
             display: 'flex',
             alignItems: 'center',
@@ -50,8 +47,6 @@ function actionImage (action, product) {
 }
 
 const InvoicesListView = ({ list = [] }) => {
-    const [visible, setVisible] = useState(false);
-    const [receipts, setReceipts] = useState([]);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
@@ -62,7 +57,6 @@ const InvoicesListView = ({ list = [] }) => {
                     key={item.id}
                     elevation={3}
                     sx={{ mb: index < list.length && 2 }}
-                    onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
                 >
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
@@ -92,11 +86,6 @@ const InvoicesListView = ({ list = [] }) => {
                     </Grid>
                 </ListCard>
             ))}
-            <ReceiptsModal
-								visible={visible}
-								setVisible={setVisible}
-                receipts={receipts}
-							/>
         </div>
     )
 }
