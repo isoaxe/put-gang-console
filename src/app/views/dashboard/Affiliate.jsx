@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
-import ActivityList from './../list/ActivityList';
+import InvoicesList from './../list/InvoicesList';
 import StatCard3 from './shared/StatCard3';
 import { Breadcrumb } from './../../../app/components';
 import { H3 } from './../../components/Typography';
@@ -47,8 +47,8 @@ const Affiliate = () => {
 
             <StatCard3 userStats={affiliateData} />
 
-            <H3 sx={{ marginTop: 8 }}>Activity</H3>
-            <ActivityList />
+            <H3 sx={{ marginTop: 8 }}>Invoices</H3>
+            <InvoicesList />
 
         </AnalyticsRoot>
     )
