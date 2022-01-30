@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, useTheme } from '@mui/system';
 import { Grid, Card, IconButton, Icon } from '@mui/material';
 import { H3, Paragraph } from 'app/components/Typography';
+import { numToCurrency } from './../../../utils/helpers';
 import { ADMIN_EMAIL } from './../../../utils/constants';
 
 
@@ -16,7 +17,7 @@ const StatCard3 = (props) => {
     let statList = [
         {
             icon: 'attach_money',
-            amount: '$' + revenue,
+            amount: numToCurrency(revenue),
             title: 'Revenue',
         },
         {
@@ -26,29 +27,29 @@ const StatCard3 = (props) => {
         },
         {
             icon: 'price_check',
-            amount: '$' + paid,
+            amount: numToCurrency(paid),
             title: 'Paid',
         },
         {
             icon: 'money_off',
-            amount: '$' + unpaid,
+            amount: numToCurrency(unpaid),
             title: 'Unpaid',
         },
         {
             icon: 'ballot',
-            amount: '$' + mrr,
+            amount: numToCurrency(mrr),
             title: 'MRR',
         },
     ]
     const additionalStats = [
         {
             icon: 'attach_money',
-            amount: '$' + totalRevenue,
+            amount: numToCurrency(totalRevenue),
             title: 'Total Revenue',
         },
         {
             icon: 'ballot',
-            amount: '$' + totalMrr,
+            amount: numToCurrency(totalMrr),
             title: 'Total MRR',
         },
     ]
