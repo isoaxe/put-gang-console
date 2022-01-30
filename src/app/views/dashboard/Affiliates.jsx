@@ -24,7 +24,7 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const Affiliates = () => {
-    const [ affiliateData, setAffiliateData ] = useState([]);
+    const [ affiliatesData, setAffiliatesData ] = useState([]);
     const { users, allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
@@ -44,7 +44,7 @@ const Affiliates = () => {
           currentStat["expiryDate"] = currentUser.expiryDate;
           combined.push(currentStat);
         }
-        setAffiliateData(combined);
+        setAffiliatesData(combined);
       },
       [uid, users, allStats]
     );
@@ -68,7 +68,7 @@ const Affiliates = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (index) => {
-                    let userData = affiliateData[index]; // Data for one user.
+                    let userData = affiliatesData[index]; // Data for one user.
 
                     return (
                         <FlexBox>
@@ -100,7 +100,7 @@ const Affiliates = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (index) => {
-                    return numToCurrency(affiliateData[index]?.paid);
+                    return numToCurrency(affiliatesData[index]?.paid);
                 },
             },
         },
@@ -110,7 +110,7 @@ const Affiliates = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (index) => {
-                    return numToCurrency(affiliateData[index]?.unpaid);
+                    return numToCurrency(affiliatesData[index]?.unpaid);
                 },
             },
         },
@@ -120,7 +120,7 @@ const Affiliates = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (index) => {
-                    return numToCurrency(affiliateData[index]?.revenue);
+                    return numToCurrency(affiliatesData[index]?.revenue);
                 },
             },
         },
@@ -130,7 +130,7 @@ const Affiliates = () => {
             options: {
                 filter: false,
                 customBodyRenderLite: (index) => {
-                    return numToCurrency(affiliateData[index]?.mrr);
+                    return numToCurrency(affiliatesData[index]?.mrr);
                 },
             },
         },
@@ -149,7 +149,7 @@ const Affiliates = () => {
                 <Box minWidth={750}>
                     <MUIDataTable
                         title={'Affiliates'}
-                        data={affiliateData}
+                        data={affiliatesData}
                         columns={columns}
                         options={{
                             filterType: 'checkbox',
