@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react';
+import DataContext from './../../contexts/DataContext';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3'
 import ComparisonChart2 from './shared/ComparisonChart2'
 import { H3, Span } from './../../components/Typography';
+import useAuth from './../../hooks/useAuth';
 import { styled, useTheme } from '@mui/system'
 import {
     Card,
@@ -25,8 +27,11 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Console = () => {
+    const { allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
+    const uid = useAuth().user.id;
+    const userStats = allStats.find(stats => stats.uid === uid);
 
     return (
         <AnalyticsRoot>
@@ -46,7 +51,7 @@ const Console = () => {
                 </TextField>
             </FlexBox>
 
-            <StatCard3 />
+            <StatCard3 userStats={userStats} />
 
             <H3 sx={{ marginTop: 8 }}>Activity</H3>
             <ActivityList />

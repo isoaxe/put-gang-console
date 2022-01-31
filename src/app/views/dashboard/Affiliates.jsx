@@ -1,9 +1,10 @@
 import MUIDataTable from 'mui-datatables'
 import React, { useState, useEffect, useContext, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
 import DataContext from './../../contexts/DataContext';
-import { userStatus } from './../../utils/helpers';
+import { userStatus, numToCurrency } from './../../utils/helpers';
 import { H5, Small } from 'app/components/Typography'
 import useAuth from './../../hooks/useAuth';
 
@@ -23,11 +24,12 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const Affiliates = () => {
-    const [ affiliateData, setAffiliateData ] = useState([]);
+    const [ affiliatesData, setAffiliatesData ] = useState([]);
     const { users, allStats } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const uid = useAuth().user.id;
+    let navigate = useNavigate();
 
     // Add some user data to allStats to produce affiliateData.
     const combineData = useCallback(
@@ -42,13 +44,13 @@ const Affiliates = () => {
           currentStat["expiryDate"] = currentUser.expiryDate;
           combined.push(currentStat);
         }
-        setAffiliateData(combined);
+        setAffiliatesData(combined);
       },
       [uid, users, allStats]
     );
 
     useEffect(() => {
-      if (users && allStats) {
+      if (users.length && allStats.length) {
         combineData();
       }
     }, [users, allStats, combineData]);
@@ -59,19 +61,19 @@ const Affiliates = () => {
             label: 'Name',
             options: {
                 filter: false,
-                customBodyRenderLite: (dataIndex) => {
-                    let user = allStats[dataIndex]
+                customBodyRenderLite: (index) => {
+                    let userData = affiliatesData[index]; // Data for one user.
 
                     return (
                         <FlexBox>
                             <Avatar
-                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(user.expiryDate) }}
-                                src={user?.imgUrl}
+                                sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(userData?.expiryDate) }}
+                                src={userData?.imgUrl}
                             />
                             <Box ml="12px">
-                                <H5 sx={{ fontSize: '15px' }}>{user?.name}</H5>
+                                <H5 sx={{ fontSize: '15px' }}>{userData?.name}</H5>
                                 <Small sx={{ color: textMuted }}>
-                                    {user?.email}
+                                    {userData?.email}
                                 </Small>
                             </Box>
                         </FlexBox>
@@ -90,7 +92,10 @@ const Affiliates = () => {
             name: 'paid',
             label: 'Paid',
             options: {
-                filter: true,
+                filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliatesData[index]?.paid);
+                },
             },
         },
         {
@@ -98,6 +103,9 @@ const Affiliates = () => {
             label: 'Unpaid',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliatesData[index]?.unpaid);
+                },
             },
         },
         {
@@ -105,6 +113,9 @@ const Affiliates = () => {
             label: 'Revenue',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliatesData[index]?.revenue);
+                },
             },
         },
         {
@@ -112,6 +123,9 @@ const Affiliates = () => {
             label: 'MRR',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                    return numToCurrency(affiliatesData[index]?.mrr);
+                },
             },
         },
         {
@@ -129,15 +143,15 @@ const Affiliates = () => {
                 <Box minWidth={750}>
                     <MUIDataTable
                         title={'Affiliates'}
-                        data={affiliateData}
+                        data={affiliatesData}
                         columns={columns}
                         options={{
                             filterType: 'checkbox',
                             responsive: 'standard',
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
-                              const data = allStats[rowState.rowIndex];
-                              console.log(`user ${data.uid} clicked`);
+                              const affiliateData = allStats[rowState.rowIndex];
+                              navigate("/dashboard/affiliate", { state: { affiliateData } });
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option

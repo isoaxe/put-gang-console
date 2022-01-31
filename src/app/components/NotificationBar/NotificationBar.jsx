@@ -15,7 +15,7 @@ import {
     Drawer,
     ThemeProvider,
 } from '@mui/material'
-import { sideNavWidth, topBarHeight } from 'app/utils/constant'
+import { sideNavWidth, topBarHeight } from 'app/utils/constants'
 
 const Notification = styled('div')(() => ({
     padding: '16px',

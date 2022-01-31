@@ -16,7 +16,7 @@ import {
     useMediaQuery,
     Hidden,
 } from '@mui/material'
-import { topBarHeight } from 'app/utils/constant'
+import { topBarHeight } from 'app/utils/constants'
 import MatxMenu from 'app/components/MatxMenu/MatxMenu'
 import MatxSearchBox from 'app/components/MatxSearchBox/MatxSearchBox'
 

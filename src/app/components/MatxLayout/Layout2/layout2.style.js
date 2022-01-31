@@ -1,5 +1,5 @@
 import { styled } from '@mui/system'
-import { sideNavWidth } from 'app/utils/constant'
+import { sideNavWidth } from 'app/utils/constants'
 
 export const Layout2Container = styled('div')(() => ({
     '& .layout2': {

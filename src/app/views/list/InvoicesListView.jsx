@@ -1,21 +1,11 @@
-import {
-    Card,
-    Avatar,
-    Grid,
-} from '@mui/material'
-import React, { useState } from 'react'
-import { Box, styled, useTheme } from '@mui/system'
-import ScrollBar from 'react-perfect-scrollbar';
-import ReceiptsModal from './../modal/ReceiptsModal';
-import { displayReceipts } from './../../utils/helpers';
-import { Small, Span, Paragraph } from 'app/components/Typography'
-import { themeShadows } from 'app/components/MatxTheme/themeColors'
-import {
-  AddTask,
-  HighlightOff,
-  MailOutline,
-  MonetizationOn
-} from '@mui/icons-material';
+import React from 'react';
+import { Card, Avatar, Grid } from '@mui/material';
+import { Box, styled, useTheme } from '@mui/system';
+import { MonetizationOn } from '@mui/icons-material';
+import { numToCurrency } from './../../utils/helpers';
+import { Small, Span, Paragraph } from 'app/components/Typography';
+import { themeShadows } from 'app/components/MatxTheme/themeColors';
+
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -37,7 +27,6 @@ const ListCard = styled(Card)(({ theme }) => ({
         background: theme.palette.background.paper,
     },
     '&:hover': {
-        cursor: 'pointer',
         '& .card__button-group': {
             display: 'flex',
             alignItems: 'center',
@@ -45,21 +34,15 @@ const ListCard = styled(Card)(({ theme }) => ({
     },
 }))
 
-const StyledScrollBar = styled(ScrollBar)(() => ({
-    maxHeight: '800px',
-}))
-
-function actionImage (action, product) {
-  if (action === "join" && product === "news") return <MailOutline color="info" />;
-  if (action === "cancel" && product === "news") return <MailOutline color="disabled" />;
-  if (action === "join") return <AddTask color="success" />;
-  if (action === "cancel") return <HighlightOff color="error" />;
-  if (action === "recur") return <MonetizationOn color="success" />;
+function statusImage (paid) {
+  if (paid) {
+    return <MonetizationOn color="success" />;
+  } else {
+    return <MonetizationOn color="error" />;
+  }
 }
 
-const ActivityListView = ({ list = [] }) => {
-    const [visible, setVisible] = useState(false);
-    const [receipts, setReceipts] = useState([]);
+const InvoicesListView = ({ list = [] }) => {
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
@@ -70,12 +53,11 @@ const ActivityListView = ({ list = [] }) => {
                     key={item.id}
                     elevation={3}
                     sx={{ mb: index < list.length && 2 }}
-                    onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
                 >
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item md={10}>
+                        <Grid item md={7}>
                             <FlexBox>
-                                {actionImage(item.action, item.product)}
+                                {statusImage(item.paid)}
                                 <Box ml={2}>
                                     <Paragraph sx={{ mb: 1 }}>
                                         {item.statement}
@@ -91,7 +73,12 @@ const ActivityListView = ({ list = [] }) => {
                                 </Box>
                             </FlexBox>
                         </Grid>
-                        <Grid item md={2}>
+                        <Grid item md={4}>
+                            <Paragraph sx={{ fontWeight: 'bold' }}>
+                                {item.paid ? 'Paid' : 'Unpaid'} commission of {numToCurrency(item.commission)}.
+                            </Paragraph>
+                        </Grid>
+                        <Grid item md={0}>
                             <FlexBox>
                                 <Avatar src={item.userImage}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
@@ -100,13 +87,8 @@ const ActivityListView = ({ list = [] }) => {
                     </Grid>
                 </ListCard>
             ))}
-            <ReceiptsModal
-								visible={visible}
-								setVisible={setVisible}
-                receipts={receipts}
-							/>
         </div>
     )
 }
 
-export default ActivityListView
+export default InvoicesListView;

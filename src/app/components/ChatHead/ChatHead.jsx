@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { cloneElement } from 'react'
 import { styled } from '@mui/system'
 import React, { useState } from 'react'
-import { topBarHeight } from 'app/utils/constant'
+import { topBarHeight } from 'app/utils/constants'
 
 const PopupRoot = styled('div')(({ theme }) => ({
     '& .popupOpen': {

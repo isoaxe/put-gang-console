@@ -1,15 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Box, useTheme } from '@mui/system'
-import { H3, Paragraph } from 'app/components/Typography'
-import DataContext from './../../../contexts/DataContext';
-import useAuth from './../../../hooks/useAuth';
-import { Grid, Card, IconButton, Icon } from '@mui/material'
+import React from 'react';
+import { Box, useTheme } from '@mui/system';
+import { Grid, Card, IconButton, Icon } from '@mui/material';
+import { H3, Paragraph } from 'app/components/Typography';
+import { numToCurrency } from './../../../utils/helpers';
+import { ADMIN_EMAIL } from './../../../utils/constants';
 
-const StatCard3 = () => {
-    const [userStats, setUserStats] = useState({});
-    const { allStats, role } = useContext(DataContext);
-    const { user } = useAuth();
-    const uid = user.id;
+
+const StatCard3 = (props) => {
+    const { userStats } = props;
     let [revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue] = Array(7).fill(0);
     if (userStats && Object.keys(userStats).length) {
       ({ revenue, sales, mrr, paid, unpaid, totalMrr, totalRevenue } = userStats);
@@ -19,51 +17,45 @@ const StatCard3 = () => {
     let statList = [
         {
             icon: 'attach_money',
-            amount: '$' + revenue,
+            amount: numToCurrency(revenue),
             title: 'Revenue',
+        },
+        {
+            icon: 'ballot',
+            amount: numToCurrency(mrr),
+            title: 'MRR',
+        },
+        {
+            icon: 'price_check',
+            amount: numToCurrency(paid),
+            title: 'Paid',
+        },
+        {
+            icon: 'money_off',
+            amount: numToCurrency(unpaid),
+            title: 'Unpaid',
         },
         {
             icon: 'bar_chart',
             amount: sales,
             title: 'Sales',
         },
-        {
-            icon: 'price_check',
-            amount: '$' + paid,
-            title: 'Paid',
-        },
-        {
-            icon: 'money_off',
-            amount: '$' + unpaid,
-            title: 'Unpaid',
-        },
-        {
-            icon: 'ballot',
-            amount: '$' + mrr,
-            title: 'MRR',
-        },
     ]
     const additionalStats = [
         {
             icon: 'attach_money',
-            amount: '$' + totalRevenue,
+            amount: numToCurrency(totalRevenue),
             title: 'Total Revenue',
         },
         {
             icon: 'ballot',
-            amount: '$' + totalMrr,
+            amount: numToCurrency(totalMrr),
             title: 'Total MRR',
         },
     ]
-    if (role === "admin") {
+    if (userStats?.email === ADMIN_EMAIL) {
       statList =  statList.concat(additionalStats);
     }
-
-    useEffect(() => {
-      if (allStats.length) {
-        setUserStats(allStats.find(userData => userData.uid === uid));
-      }
-    }, [allStats, uid]);
 
     return (
         <div>
