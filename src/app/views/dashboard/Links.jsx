@@ -43,10 +43,7 @@ const Links = () => {
 
                     return (
                         <FlexBox>
-                            <Avatar
-                                sx={{ width: 48, height: 48 }}
-                                src={itemData?.imgUrl}
-                            />
+                            {linkIcon(index)}
                             <Box ml="12px">
                                 <H5 sx={{ fontSize: '15px' }}>{itemData?.name}</H5>
                             </Box>
