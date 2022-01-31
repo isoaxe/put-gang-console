@@ -4,6 +4,7 @@ import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H5 } from 'app/components/Typography'
 import useAuth from './../../hooks/useAuth';
+import { LANDING_URL } from './../../utils/constants';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -62,17 +63,17 @@ const Links = () => {
     const data = [
       {
         name: "Site",
-        url: "https://put-gang-landing.web.app/",
+        url: LANDING_URL,
         copy: "copy link button"
       },
       {
         name: "Watch the Discussion",
-        url: "https://put-gang-landing.web.app/",
+        url: LANDING_URL,
         copy: "copy link button"
       },
       {
         name: "Join the Discussion",
-        url: "https://put-gang-landing.web.app/",
+        url: LANDING_URL,
         copy: "copy link button"
       },
     ]
