@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material';
+import { Avatar, Grow, Icon, IconButton, TextField, Snackbar } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
 import { Box, styled } from '@mui/system';
 import { H5 } from 'app/components/Typography';
@@ -24,6 +24,7 @@ const Container = styled('div')(({ theme }) => ({
 }))
 
 const Links = () => {
+    const [msgOpen, setMsgOpen] = useState(false);
     const uid = useAuth().user.id;
 
     const columns = [
@@ -79,10 +80,9 @@ const Links = () => {
       },
     ]
 
-
     function copyToClip (text) {
       return (
-        <CopyToClipboard text={text}>
+        <CopyToClipboard text={text} onCopy={() => setMsgOpen(true)}>
           <ContentCopy color="action" />
         </CopyToClipboard>
       )
@@ -155,6 +155,12 @@ const Links = () => {
                     />
                 </Box>
             </Box>
+            <Snackbar
+              open={msgOpen}
+              onClose={() => setMsgOpen(false)}
+              autoHideDuration={3000}
+              message="Link copied to clipboard!"
+            />
         </Container>
     )
 }
