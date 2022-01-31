@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Avatar, Grow, Icon, IconButton, TextField, Snackbar, Alert } from '@mui/material';
-import { ContentCopy } from '@mui/icons-material';
+import { ContentCopy, Web, Preview, JoinFull } from '@mui/icons-material';
 import { Box, styled } from '@mui/system';
 import { H5 } from 'app/components/Typography';
 import useAuth from './../../hooks/useAuth';
@@ -29,6 +29,9 @@ const Links = () => {
     // Used to position Snackbar message on successful copy of url.
     const vertical = 'top';
     const horizontal = 'center';
+    // Styling of the link icons.
+    const iconSize = { width: 36, height: 36 };
+    const iconColor = 'primary';
 
     const columns = [
         {
@@ -89,6 +92,12 @@ const Links = () => {
           <ContentCopy color="action" />
         </CopyToClipboard>
       )
+    }
+
+    function linkIcon (index) {
+      if (index === 0) return <Web color={iconColor} sx={iconSize} />;
+      if (index === 1) return <Preview color={iconColor} sx={iconSize} />;
+      if (index === 2) return <JoinFull color={iconColor} sx={iconSize} />;
     }
 
     return (
