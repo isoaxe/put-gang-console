@@ -93,6 +93,7 @@ const Links = () => {
                             selectableRows: "none",
                             search: false,
                             filter: false,
+                            sort: false,
                             download: false,
                             print: false,
                             pagination: false,
