@@ -58,6 +58,10 @@ const Links = () => {
             label: 'Clipboard',
             options: {
                 filter: false,
+                customBodyRenderLite: (index) => {
+                  let itemData = data[index];
+                  return copyToClip(itemData.url);
+                }
             },
         },
     ]
