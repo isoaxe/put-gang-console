@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Avatar, Grow, Icon, IconButton, TextField, Snackbar, Alert } from '@mui/material';
+import { Grow, Icon, IconButton, TextField, Snackbar, Alert } from '@mui/material';
 import { ContentCopy, Web, Preview, JoinFull } from '@mui/icons-material';
 import { Box, styled } from '@mui/system';
 import { H5 } from 'app/components/Typography';
