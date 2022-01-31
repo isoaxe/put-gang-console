@@ -9,3 +9,5 @@ export const sideNavWidth = 260
 
 
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
+export const LANDING_URL = "https://put-gang-landing.web.app";
+export const CONSOLE_URL = "https://put-gang-console.web.app";
