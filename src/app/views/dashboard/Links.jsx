@@ -2,6 +2,7 @@ import React from 'react';
 import MUIDataTable from 'mui-datatables';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material';
+import { ContentCopy } from '@mui/icons-material';
 import { Box, styled } from '@mui/system';
 import { H5 } from 'app/components/Typography';
 import useAuth from './../../hooks/useAuth';
@@ -83,7 +84,7 @@ const Links = () => {
     function copyToClip (text) {
       return (
         <CopyToClipboard text={text}>
-          <button>Copy!</button>
+          <ContentCopy color="action" />
         </CopyToClipboard>
       )
     }
