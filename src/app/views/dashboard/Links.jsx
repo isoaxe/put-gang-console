@@ -1,8 +1,9 @@
-import MUIDataTable from 'mui-datatables'
-import React from 'react'
-import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
-import { Box, styled } from '@mui/system'
-import { H5 } from 'app/components/Typography'
+import React from 'react';
+import MUIDataTable from 'mui-datatables';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material';
+import { Box, styled } from '@mui/system';
+import { H5 } from 'app/components/Typography';
 import useAuth from './../../hooks/useAuth';
 import { LANDING_URL, CONSOLE_URL } from './../../utils/constants';
 
