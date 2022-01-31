@@ -17,6 +17,11 @@ export const navigations = [
         icon: 'people_alt',
     },
     {
+        name: 'Links',
+        path: '/dashboard/links',
+        icon: 'link',
+    },
+    {
         name: 'Dashboard',
         path: '/dashboard/default',
         icon: 'dashboard',
