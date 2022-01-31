@@ -8,6 +8,7 @@ const Console = Loadable(lazy(() => import("./Console")));
 const Users = Loadable(lazy(() => import("./Users")));
 const Affiliates = Loadable(lazy(() => import("./Affiliates")));
 const Affiliate = Loadable(lazy(() => import("./Affiliate")));
+const Links = Loadable(lazy(() => import("./Links")));
 const InventoryManagement = Loadable(lazy(() => import("./InventoryManagement")));
 
 export const dashboardRoutes = [
@@ -26,6 +27,10 @@ export const dashboardRoutes = [
     {
         path: '/dashboard/affiliate',
         element: <Affiliate />,
+    },
+    {
+        path: '/dashboard/links',
+        element: <Links />,
     },
     {
         path: '/dashboard/default',
