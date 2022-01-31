@@ -28,7 +28,6 @@ const Links = () => {
             name: 'name',
             label: 'Name',
             options: {
-                filter: false,
                 customBodyRenderLite: (index) => {
                     let itemData = data[index];
 
@@ -49,15 +48,11 @@ const Links = () => {
         {
             name: 'url',
             label: 'URL',
-            options: {
-                filter: true,
-            },
         },
         {
             name: 'copy',
             label: 'Clipboard',
             options: {
-                filter: false,
                 customBodyRenderLite: (index) => {
                   let itemData = data[index];
                   return copyToClip(itemData.url);
