@@ -70,17 +70,14 @@ const Links = () => {
       {
         name: "Site",
         url: `${LANDING_URL}/?refId=${uid}`,
-        copy: "copy link button"
       },
       {
         name: "Watch the Discussion",
         url: `${CONSOLE_URL}/session/signup?refId=${uid}&membLvl=watch`,
-        copy: "copy link button"
       },
       {
         name: "Join the Discussion",
         url: `${CONSOLE_URL}/session/signup?refId=${uid}&membLvl=join`,
-        copy: "copy link button"
       },
     ]
 
