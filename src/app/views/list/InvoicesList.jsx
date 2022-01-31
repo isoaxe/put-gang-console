@@ -21,7 +21,7 @@ const InvoicesList = (props) => {
     const { role } = useContext(DataContext);
     const invoices = props.invoices;
 
-    // Form a statement for each activity based on data.
+    // Form a statement for each invoice based on data.
     function formatStatement (name, email, sale, product) {
       return `${name ? name : email} made a $${sale} payment for ${capitalize(product)} the Discussion.`
     }
