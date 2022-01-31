@@ -4,7 +4,7 @@ import { Avatar, Grow, Icon, IconButton, TextField } from '@mui/material'
 import { Box, styled } from '@mui/system'
 import { H5 } from 'app/components/Typography'
 import useAuth from './../../hooks/useAuth';
-import { LANDING_URL } from './../../utils/constants';
+import { LANDING_URL, CONSOLE_URL } from './../../utils/constants';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
@@ -63,17 +63,17 @@ const Links = () => {
     const data = [
       {
         name: "Site",
-        url: `${LANDING_URL}refId=${uid}`,
+        url: `${LANDING_URL}/?refId=${uid}`,
         copy: "copy link button"
       },
       {
         name: "Watch the Discussion",
-        url: LANDING_URL,
+        url: `${CONSOLE_URL}/session/signup?refId=${uid}&membLvl=watch`,
         copy: "copy link button"
       },
       {
         name: "Join the Discussion",
-        url: LANDING_URL,
+        url: `${CONSOLE_URL}/session/signup?refId=${uid}&membLvl=join`,
         copy: "copy link button"
       },
     ]
