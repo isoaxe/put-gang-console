@@ -79,6 +79,15 @@ const Links = () => {
       },
     ]
 
+
+    function copyToClip (text) {
+      return (
+        <CopyToClipboard text={text}>
+          <button>Copy!</button>
+        </CopyToClipboard>
+      )
+    }
+
     return (
         <Container>
             <Box overflow="auto">
