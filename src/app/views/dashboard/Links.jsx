@@ -89,7 +89,7 @@ const Links = () => {
                             filterType: 'checkbox',
                             responsive: 'standard',
                             resizableColumns: false,
-                            // selectableRows: "none", // set checkbox for each row
+                            selectableRows: "none",
                             search: false,
                             filter: false,
                             download: false,
