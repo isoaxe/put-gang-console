@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Avatar, Grow, Icon, IconButton, TextField, Snackbar } from '@mui/material';
+import { Avatar, Grow, Icon, IconButton, TextField, Snackbar, Alert } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
 import { Box, styled } from '@mui/system';
 import { H5 } from 'app/components/Typography';
@@ -159,8 +159,11 @@ const Links = () => {
               open={msgOpen}
               onClose={() => setMsgOpen(false)}
               autoHideDuration={3000}
-              message="Link copied to clipboard!"
-            />
+            >
+              <Alert severity="success" variant="filled">
+                Copied to clipboard!
+              </Alert>
+            </Snackbar>
         </Container>
     )
 }
