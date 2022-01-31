@@ -63,7 +63,7 @@ const Links = () => {
     const data = [
       {
         name: "Site",
-        url: LANDING_URL,
+        url: `${LANDING_URL}refId=${uid}`,
         copy: "copy link button"
       },
       {
