@@ -26,6 +26,9 @@ const Container = styled('div')(({ theme }) => ({
 const Links = () => {
     const [msgOpen, setMsgOpen] = useState(false);
     const uid = useAuth().user.id;
+    // Used to position Snackbar message on successful copy of url.
+    const vertical = 'top';
+    const horizontal = 'center';
 
     const columns = [
         {
@@ -159,6 +162,7 @@ const Links = () => {
               open={msgOpen}
               onClose={() => setMsgOpen(false)}
               autoHideDuration={3000}
+              anchorOrigin={{ vertical, horizontal }}
             >
               <Alert severity="success" variant="filled">
                 Copied to clipboard!
