@@ -37,6 +37,7 @@ const Settings = () => {
 
   async function updateUser (field) {
     if (field === "name") user["name"] = name;
+    if (field === "insta") user["insta"] = insta;
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
