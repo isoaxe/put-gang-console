@@ -23,5 +23,4 @@ if (process.env.NODE_ENV === "development") {
 	localBaseUrl = "http://localhost:5000/";
 }
 
-const remoteBaseUrl = "https://put-gang-console.web.app";
-export const BASE_URL = ((window.location.hostname === "localhost") ? localBaseUrl : remoteBaseUrl);
+export const BASE_URL = ((window.location.hostname === "localhost") ? localBaseUrl : CONSOLE_URL);
