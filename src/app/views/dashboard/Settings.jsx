@@ -36,8 +36,9 @@ const Settings = () => {
   }
 
   async function updateUser (field) {
-    if (name && field === "name") user["name"] = name;
-    if (insta && field === "insta") user["insta"] = insta;
+    let data;
+    if (name && field === "name") data = name;
+    if (insta && field === "insta") data = insta;
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
@@ -47,14 +48,16 @@ const Settings = () => {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify({user})
+        body: JSON.stringify({ [field]: data })
       };
-      const response = await fetch(`${API_URL}/users/user`, fetchConfig);
-      const jsonResponse = await response.json();
-      console.log(jsonResponse);
-      getData("/users/user", setUser);
-      setName("");
-      setInsta("");
+      if (data) {
+        const response = await fetch(`${API_URL}/users/user`, fetchConfig);
+        const jsonResponse = await response.json();
+        console.log(jsonResponse);
+        getData("/users/user", setUser);
+        setName("");
+        setInsta("");
+      }
     } catch (error) {
       console.log(error);
     }
