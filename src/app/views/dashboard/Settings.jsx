@@ -42,7 +42,7 @@ const Settings = () => {
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
