@@ -147,14 +147,13 @@ export async function create (req, res) {
 export async function edit (req, res) {
 	try {
 		const { uid } = res.locals;
-		const { user } = req.body;
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 
 		const userRef = await usersPath.doc(uid);
-		userRef.set(user, { merge: true} );
+		userRef.set(req.body, { merge: true} );
 
-		return res.status(200).send({ message: `${user.email} successfully edited.` });
+		return res.status(200).send({ message: "User successfully edited." });
 	} catch (err) {
 		return handleError(res, err);
 	}
