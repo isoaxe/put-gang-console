@@ -34,7 +34,6 @@ export async function displayReceipts (uid, setReceipts, setVisible) {
   const receipts = await getData(`/payments/receipts/${uid}`);
   receipts.reverse();
   receipts.forEach(item => item["statement"] = formatReceiptStatement(
-    item.name,
     item.email,
     item.action,
     item.product,
@@ -79,13 +78,13 @@ export function capitalize (string) {
  */
 
  // Form a statement for each receipt based on data.
- function formatReceiptStatement (name, email, action, product, sale) {
+ function formatReceiptStatement (email, action, product, sale) {
    let productStatement, actionStatement;
    if (action === "join") actionStatement = "Subscription started for";
    if (action === "payment") actionStatement = `$${sale} payment made for`;
    if (action === "cancel") actionStatement = "Subscription cancelled for"
    if (product === "join") productStatement = "Join the Discussion";
    if (product === "watch") productStatement = "Watch the Discussion";
-   if (product === "null") productStatement = email;
+   if (product === "none") productStatement = email;
    return `${actionStatement} ${productStatement}.`
  }
