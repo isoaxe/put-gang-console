@@ -18,9 +18,9 @@ export const API_URL = ((window.location.hostname === "localhost") ? localApiUrl
 // If running locally, also detect whether in development or production environment.
 let localBaseUrl = "unassigned";
 if (process.env.NODE_ENV === "development") {
-	localBaseUrl = "http://localhost:3000/";
+	localBaseUrl = "http://localhost:3000";
 } else if (process.env.NODE_ENV === "production") {
-	localBaseUrl = "http://localhost:5000/";
+	localBaseUrl = "http://localhost:5000";
 }
 
 export const BASE_URL = ((window.location.hostname === "localhost") ? localBaseUrl : CONSOLE_URL);
