@@ -20,16 +20,17 @@ const FlexBox = styled('div')(({ theme }) => ({
     marginBottom: '24px',
 }))
 
-async function updateName () {
-  console.log('Placeholder');
-}
-
 const Settings = () => {
+  const [name, setName] = useState("");
+  const { users } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
-  const { users } = useContext(DataContext);
   const uid = useAuth().user.id;
   const user = users.find(item => item.uid === uid);
+
+  async function updateName () {
+    console.log('Placeholder');
+  }
 
   return (
     <Container>
@@ -38,7 +39,11 @@ const Settings = () => {
           Current Name: {user?.name || "Not yet set"}
         </H5>
         <FlexBox>
-          <TextField label="Name" />
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <Button
             variant="outlined"
             sx={{ marginLeft: '1rem' }}
