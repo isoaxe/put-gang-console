@@ -174,8 +174,10 @@ const Layout1Topbar = () => {
                             </Link>
                         </StyledItem>
                         <StyledItem>
-                            <Icon> settings </Icon>
-                            <Span> Settings </Span>
+                            <Link to="/dashboard/settings">
+                                <Icon> settings </Icon>
+                                <Span> Settings </Span>
+                            </Link>
                         </StyledItem>
                         <StyledItem onClick={logout}>
                             <Icon> power_settings_new </Icon>
