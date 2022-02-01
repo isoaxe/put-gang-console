@@ -43,6 +43,7 @@ const Settings = () => {
       const response = await fetch(`${API_URL}/users/user`, fetchConfig);
       const jsonResponse = await response.json();
       console.log(jsonResponse);
+      getData("/users/user", setUser);
     } catch (error) {
       console.log(error);
     }
