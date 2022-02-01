@@ -6,7 +6,7 @@ import { ContentCopy, Web, Preview, JoinFull } from '@mui/icons-material';
 import { Box, styled } from '@mui/system';
 import { H5 } from 'app/components/Typography';
 import useAuth from './../../hooks/useAuth';
-import { LANDING_URL, CONSOLE_URL } from './../../utils/constants';
+import { LANDING_URL, CONSOLE_URL } from './../../utils/urls';
 
 const FlexBox = styled(Box)(() => ({
     display: 'flex',
