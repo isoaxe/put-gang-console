@@ -12,14 +12,16 @@ const Container = styled('div')(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         margin: '16px',
     },
-}))
+}));
 
 const FlexBox = styled('div')(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'left',
     justifyContent: 'flex-start',
+    width: '250px',
     marginBottom: '24px',
-}))
+}));
 
 const Settings = () => {
   const [user, setUser] = useState({});
@@ -57,18 +59,19 @@ const Settings = () => {
   return (
     <Container>
       <H3 sx={{ marginBottom: "2rem" }}>Settings</H3>
-        <H5 sx={{ marginBottom: "10px", color: textMuted }}>
-          Current Name: {user?.name || "Not yet set"}
-        </H5>
         <FlexBox>
+          <H5 sx={{ marginBottom: "10px", color: textMuted }}>
+            Current Name: {user?.name || "Not yet set"}
+          </H5>
           <TextField
+            sx={{ width: '250px', marginBottom: '1rem' }}
             label="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <Button
+            sx={{ width: '100px' }}
             variant="outlined"
-            sx={{ marginLeft: '1rem' }}
             onClick={() => updateUser("name")}
           >
             Update
