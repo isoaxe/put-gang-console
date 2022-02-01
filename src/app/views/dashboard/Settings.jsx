@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/system';
 import { TextField, Button } from '@mui/material';
+import firebase from 'firebase/app';
 import { H3, H5 } from 'app/components/Typography';
 import { getData } from './../../utils/helpers';
 import { API_URL } from './../../utils/urls';
@@ -26,8 +27,25 @@ const Settings = () => {
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
 
-  async function updateUser () {
-    console.log('Placeholder');
+  async function updateUser (field) {
+    if (field === "name") user["name"] = name;
+    try {
+      const token = await firebase.auth().currentUser.getIdToken(true);
+      const fetchConfig = {
+        method: "PUT",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({user})
+      };
+      const response = await fetch(`${API_URL}/users/user`, fetchConfig);
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -49,7 +67,7 @@ const Settings = () => {
           <Button
             variant="outlined"
             sx={{ marginLeft: '1rem' }}
-            onClick={updateUser}
+            onClick={() => updateUser("name")}
           >
             Update
           </Button>
