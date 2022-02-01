@@ -44,6 +44,7 @@ const Settings = () => {
       const jsonResponse = await response.json();
       console.log(jsonResponse);
       getData("/users/user", setUser);
+      setName("");
     } catch (error) {
       console.log(error);
     }
