@@ -143,6 +143,24 @@ export async function create (req, res) {
 }
 
 
+// Edit a user in Firestore.
+export async function edit (req, res) {
+	try {
+		const { uid } = res.locals;
+		const { user } = req.body;
+		const db = admin.firestore();
+		const usersPath = db.collection("users");
+
+		const userRef = await usersPath.doc(uid);
+		userRef.set(user, { merge: true} );
+
+		return res.status(200).send({ message: `${user.email} successfully edited.` });
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
+
+
 // Returns an array of all user data.
 export async function all (req, res) {
 	try {
