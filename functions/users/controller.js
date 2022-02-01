@@ -143,7 +143,7 @@ export async function create (req, res) {
 }
 
 
-// Returns a list of all users.
+// Returns an array of all user data.
 export async function all (req, res) {
 	try {
 		const { role, uid } = res.locals;
@@ -195,6 +195,23 @@ export async function all (req, res) {
 		}
 
 		return res.status(200).send(users);
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
+
+
+// Return the calling users data from Firestore as an object.
+export async function user (req, res) {
+	try {
+		const { uid } = res.locals;
+		const db = admin.firestore();
+		const usersPath = db.collection("users");
+
+		const userRef = await usersPath.doc(uid).get();
+		const userData = userRef.data();
+
+		return res.status(200).send(userData);
 	} catch (err) {
 		return handleError(res, err);
 	}
