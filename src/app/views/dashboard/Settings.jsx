@@ -54,6 +54,7 @@ const Settings = () => {
       console.log(jsonResponse);
       getData("/users/user", setUser);
       setName("");
+      setInsta("");
     } catch (error) {
       console.log(error);
     }
