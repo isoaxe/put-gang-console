@@ -68,7 +68,7 @@ const Settings = () => {
       <H3 sx={{ marginBottom: "2rem" }}>Settings</H3>
         <FlexBox>
           <H5 sx={styles.header}>
-            Current Name: {user?.name || "Not yet set"}
+            Name: {user?.name || "Not yet set"}
           </H5>
           <TextField
             sx={styles.text}
@@ -86,7 +86,7 @@ const Settings = () => {
         </FlexBox>
         <FlexBox>
           <H5 sx={styles.header}>
-            Current Instagram handle: {user?.insta || "Not yet set"}
+            Insta handle: {user?.insta || "Not yet set"}
           </H5>
           <TextField
             sx={styles.text}
