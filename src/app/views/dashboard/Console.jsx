@@ -1,16 +1,13 @@
 import React, { useContext } from 'react';
+import { styled, useTheme } from '@mui/system';
+import { Card } from '@mui/material';
 import DataContext from './../../contexts/DataContext';
 import ActivityList from './../list/ActivityList';
-import StatCard3 from './shared/StatCard3'
-import ComparisonChart2 from './shared/ComparisonChart2'
+import StatCard3 from './shared/StatCard3';
+import ComparisonChart2 from './shared/ComparisonChart2';
 import { H3, Span } from './../../components/Typography';
 import useAuth from './../../hooks/useAuth';
-import { styled, useTheme } from '@mui/system'
-import {
-    Card,
-    TextField,
-    MenuItem,
-} from '@mui/material'
+
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -38,17 +35,6 @@ const Console = () => {
 
             <FlexBox>
                 <H3 sx={{ m: 0 }}>Overview</H3>
-                <TextField
-                    defaultValue="1"
-                    variant="outlined"
-                    size="small"
-                    select
-                >
-                    <MenuItem value="1">This Month</MenuItem>
-                    <MenuItem value="2">Last Month</MenuItem>
-                    <MenuItem value="3">Six Month</MenuItem>
-                    <MenuItem value="4">Last Year</MenuItem>
-                </TextField>
             </FlexBox>
 
             <StatCard3 userStats={userStats} />
