@@ -29,6 +29,11 @@ const Settings = () => {
   const [insta, setInsta] = useState("");
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
+  const styles = {
+    header: { marginBottom: "10px", color: textMuted },
+    text: { width: '250px', marginBottom: '1rem' },
+    button: { width: '100px' }
+  }
 
   async function updateUser (field) {
     if (field === "name") user["name"] = name;
@@ -61,17 +66,17 @@ const Settings = () => {
     <Container>
       <H3 sx={{ marginBottom: "2rem" }}>Settings</H3>
         <FlexBox>
-          <H5 sx={{ marginBottom: "10px", color: textMuted }}>
+          <H5 sx={styles.header}>
             Current Name: {user?.name || "Not yet set"}
           </H5>
           <TextField
-            sx={{ width: '250px', marginBottom: '1rem' }}
+            sx={styles.text}
             label="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <Button
-            sx={{ width: '100px' }}
+            sx={styles.button}
             variant="outlined"
             onClick={() => updateUser("name")}
           >
@@ -79,17 +84,17 @@ const Settings = () => {
           </Button>
         </FlexBox>
         <FlexBox>
-          <H5 sx={{ marginBottom: "10px", color: textMuted }}>
+          <H5 sx={styles.header}>
             Current Instagram handle: {user?.insta || "Not yet set"}
           </H5>
           <TextField
-            sx={{ width: '250px', marginBottom: '1rem' }}
+            sx={styles.text}
             label="Instagram"
             value={insta}
             onChange={(e) => setInsta(e.target.value)}
           />
           <Button
-            sx={{ width: '100px' }}
+            sx={styles.button}
             variant="outlined"
             onClick={() => updateUser("insta")}
           >
