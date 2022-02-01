@@ -1,6 +1,11 @@
 /*
- * Set URLs dynamically based on environment and host.
+ * Set api and base URLs dynamically based on environment and host.
  */
+
+ // These are the static hosted urls displayed in <Links/>.
+ export const LANDING_URL = "https://put-gang-landing.web.app";
+ export const CONSOLE_URL = "https://put-gang-console.web.app";
+
 
 // Set API_URL based on whether locally hosted emulator is running or not.
 const localApiUrl = "http://localhost:5001/put-gang/us-central1/api";
