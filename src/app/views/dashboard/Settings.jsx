@@ -20,7 +20,7 @@ const FlexBox = styled('div')(({ theme }) => ({
     alignItems: 'left',
     justifyContent: 'flex-start',
     width: '250px',
-    marginBottom: '24px',
+    marginBottom: '50px',
 }));
 
 const Settings = () => {
