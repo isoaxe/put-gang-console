@@ -26,6 +26,7 @@ const FlexBox = styled('div')(({ theme }) => ({
 const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
+  const [insta, setInsta] = useState("");
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
 
@@ -73,6 +74,24 @@ const Settings = () => {
             sx={{ width: '100px' }}
             variant="outlined"
             onClick={() => updateUser("name")}
+          >
+            Update
+          </Button>
+        </FlexBox>
+        <FlexBox>
+          <H5 sx={{ marginBottom: "10px", color: textMuted }}>
+            Current Instagram handle: {user?.insta || "Not yet set"}
+          </H5>
+          <TextField
+            sx={{ width: '250px', marginBottom: '1rem' }}
+            label="Instagram"
+            value={insta}
+            onChange={(e) => setInsta(e.target.value)}
+          />
+          <Button
+            sx={{ width: '100px' }}
+            variant="outlined"
+            onClick={() => updateUser("insta")}
           >
             Update
           </Button>
