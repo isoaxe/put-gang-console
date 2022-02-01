@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/system';
 import { TextField, Button } from '@mui/material';
-import DataContext from './../../contexts/DataContext';
 import { H3, H5 } from 'app/components/Typography';
-import useAuth from './../../hooks/useAuth';
+import { getData } from './../../utils/helpers';
+import { API_URL } from './../../utils/urls';
 
 
 const Container = styled('div')(({ theme }) => ({
@@ -21,16 +21,18 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Settings = () => {
+  const [user, setUser] = useState({});
   const [name, setName] = useState("");
-  const { users } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
-  const uid = useAuth().user.id;
-  const user = users.find(item => item.uid === uid);
 
-  async function updateName () {
+  async function updateUser () {
     console.log('Placeholder');
   }
+
+  useEffect(() => {
+    getData("/users/user", setUser);
+  }, []);
 
   return (
     <Container>
@@ -47,7 +49,7 @@ const Settings = () => {
           <Button
             variant="outlined"
             sx={{ marginLeft: '1rem' }}
-            onClick={updateName}
+            onClick={updateUser}
           >
             Update
           </Button>
