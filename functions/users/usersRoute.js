@@ -9,7 +9,7 @@ export default function usersRoute (app) {
 		create
 	);
 	// Update calling users data in Firestore.
-	app.put("/users/user",
+	app.patch("/users/user",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2", "level-3", "standard"] }),
 		edit
