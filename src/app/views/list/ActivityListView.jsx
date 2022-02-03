@@ -24,6 +24,7 @@ const FlexBox = styled(Box)(() => ({
 
 const ListCard = styled(Card)(({ theme }) => ({
     padding: '8px',
+    margin: '0px 18px',
     position: 'relative',
     transition: 'all 0.3s ease',
     boxShadow: themeShadows[12],
@@ -46,7 +47,8 @@ const ListCard = styled(Card)(({ theme }) => ({
 }))
 
 const StyledScrollBar = styled(ScrollBar)(() => ({
-    maxHeight: '800px',
+    maxHeight: '600px',
+    position: 'relative',
 }))
 
 function actionImage (action, product) {
@@ -64,7 +66,7 @@ const ActivityListView = ({ list = [] }) => {
     const textMuted = palette.text.secondary;
 
     return (
-        <div>
+        <StyledScrollBar>
             {list.map((item, index) => (
                 <ListCard
                     key={item.id}
@@ -105,7 +107,7 @@ const ActivityListView = ({ list = [] }) => {
 								setVisible={setVisible}
                 receipts={receipts}
 							/>
-        </div>
+        </StyledScrollBar>
     )
 }
 
