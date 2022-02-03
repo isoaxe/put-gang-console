@@ -4,10 +4,7 @@ import useAuth from 'app/hooks/useAuth'
 import useSettings from 'app/hooks/useSettings'
 import { styled, useTheme, Box } from '@mui/system'
 import { Span } from '../../../components/Typography'
-import ShoppingCart from '../../ShoppingCart/ShoppingCart'
-import NotificationBar from '../../NotificationBar/NotificationBar'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
-import { NotificationProvider } from 'app/contexts/NotificationContext'
 import {
     Icon,
     IconButton,
@@ -18,7 +15,6 @@ import {
 } from '@mui/material'
 import { topBarHeight } from 'app/utils/constants'
 import MatxMenu from 'app/components/MatxMenu/MatxMenu'
-import MatxSearchBox from 'app/components/MatxSearchBox/MatxSearchBox'
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
     color: theme.palette.text.primary,
@@ -78,13 +74,6 @@ const StyledItem = styled(MenuItem)(({ theme }) => ({
     },
 }))
 
-const IconBox = styled('div')(({ theme }) => ({
-    display: 'inherit',
-    [theme.breakpoints.down('md')]: {
-        display: 'none !important',
-    },
-}))
-
 const Layout1Topbar = () => {
     const theme = useTheme()
     const { settings, updateSettings } = useSettings()
@@ -125,13 +114,6 @@ const Layout1Topbar = () => {
                     </StyledIconButton>
                 </Box>
                 <Box display="flex" alignItems="center">
-                    <MatxSearchBox />
-                    <NotificationProvider>
-                        <NotificationBar />
-                    </NotificationProvider>
-
-                    <ShoppingCart />
-
                     <MatxMenu
                         menuButton={
                             <UserMenu>
