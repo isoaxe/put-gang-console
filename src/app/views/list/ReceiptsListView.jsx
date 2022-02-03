@@ -42,6 +42,7 @@ const ListCard = styled(Card)(({ theme }) => ({
 
 const StyledScrollBar = styled(ScrollBar)(() => ({
     maxHeight: '70vh',
+    position: 'relative',
 }))
 
 function actionImage (action) {
