@@ -50,12 +50,6 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
         marginTop: -12,
         marginLeft: -12,
     },
-    '& .socialButton': {
-        width: '100%',
-        '& img': {
-            margin: '0 8px',
-        },
-    },
     '& .labelLink': {
         color: theme.palette.primary.main,
         textDecoration: 'underline',
@@ -114,8 +108,8 @@ const FirebaseRegister = () => {
                     <Grid item lg={5} md={5} sm={5} xs={12}>
                         <ContentBox>
                             <IMG
-                                src="/assets/images/illustrations/posting_photo.svg"
-                                alt=""
+                                src="/assets/images/put-gang-logo.png"
+                                alt="Put Gang Logo"
                             />
                         </ContentBox>
                     </Grid>
