@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 import firebase from 'firebase/app'
 import { Box, styled, useTheme } from '@mui/system'
 import useAuth from 'app/hooks/useAuth'
-import { MatxLogo, MatxDivider } from 'app/components'
+import { MatxLogo } from 'app/components'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Paragraph, Span } from 'app/components/Typography'
 
@@ -22,16 +22,6 @@ const FlexBox = styled(Box)(() => ({
 
 const JustifyBox = styled(FlexBox)(() => ({
     justifyContent: 'center',
-}))
-
-const StyledButton = styled(Button)(() => ({
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow:
-        '0px 5px 5px -3px rgb(0 0 0 / 6%), 0px 8px 10px 1px rgb(0 0 0 / 4%), 0px 3px 14px 2px rgb(0 0 0 / 4%)',
-    backgroundColor: '#e0e0e0',
-    '&:hover': {
-        backgroundColor: '#d5d5d5',
-    },
 }))
 
 const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
@@ -121,7 +111,7 @@ const FirebaseLogin = () => {
         remember: true,
     })
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithEmailAndPassword } = useAuth();
 
     const handleChange = ({ target: { name, value } }) => {
         let temp = { ...userInfo }
@@ -150,17 +140,6 @@ const FirebaseLogin = () => {
         } catch (e) {
             console.log(e)
             setMessage(e.message)
-        }
-    }
-
-    const handleGoogleLogin = async (event) => {
-        try {
-            await signInWithGoogle()
-            navigate('/')
-        } catch (e) {
-            setMessage(e.message)
-            setLoading(false)
-            console.log(e)
         }
     }
 
@@ -206,22 +185,6 @@ const FirebaseLogin = () => {
                         </div>
                     </Grid>
                     <Grid item lg={6} md={6} sm={6} xs={12}>
-                        <Box px={4} pt={4}>
-                            <StyledButton
-                                onClick={handleGoogleLogin}
-                                variant="contained"
-                                className="socialButton"
-                            >
-                                <img
-                                    src="/assets/images/logos/google.svg"
-                                    alt=""
-                                />
-                                Sign In With Google
-                            </StyledButton>
-                        </Box>
-
-                        <MatxDivider sx={{ mt: 3, px: 4 }} text="Or" />
-
                         <Box p={4} height="100%" position="relative">
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator
