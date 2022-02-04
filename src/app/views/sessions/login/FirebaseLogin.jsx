@@ -11,7 +11,6 @@ import React, { useState } from 'react'
 import firebase from 'firebase/app'
 import { Box, styled, useTheme } from '@mui/system'
 import useAuth from 'app/hooks/useAuth'
-import { MatxLogo } from 'app/components'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Paragraph, Span } from 'app/components/Typography'
 
@@ -39,43 +38,13 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
             minWidth: 200,
         },
         '& img': {
-            width: 32,
-            height: 32,
-        },
-    },
-    '& .logo': {
-        display: 'flex',
-        alignItems: 'center',
-        '& span': {
-            fontSize: 26,
-            lineHeight: 1.3,
-            fontWeight: 800,
-        },
-    },
-    '& .mainTitle': {
-        fontSize: 18,
-        lineHeight: 1.3,
-        marginBottom: 24,
-    },
-    '& .features': {
-        '& .item': {
-            position: 'relative',
-            marginBottom: 12,
-            paddingLeft: 20,
-            '&::after': {
-                position: 'absolute',
-                content: '""',
-                width: 4,
-                height: 4,
-                borderRadius: 4,
-                left: 4,
-                top: 7,
-                backgroundColor: theme.palette.error.main,
-            },
+            width: 200,
+            height: 200,
         },
     },
     '& .buttonProgress': {
@@ -84,12 +53,6 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
         left: '50%',
         marginTop: -12,
         marginLeft: -12,
-    },
-    '& .socialButton': {
-        width: '100%',
-        '& img': {
-            margin: '0 8px',
-        },
     },
 }))
 
@@ -153,35 +116,10 @@ const FirebaseLogin = () => {
                 <Grid container>
                     <Grid item lg={6} md={6} sm={5} xs={12}>
                         <div className="cardLeft">
-                            <div className="logo">
-                                <MatxLogo sx={{ mr: 1 }} />{' '}
-                                <span>MatX Pro</span>
-                            </div>
-                            <h1 className="mainTitle">Admin Dashboard</h1>
-                            <div className="features">
-                                <div className="item">
-                                    JWT, FireBase & Auth0 Authentication
-                                </div>
-                                <div className="item">
-                                    Clean & Organised code
-                                </div>
-                                <div className="item">
-                                    Limitless Pages & Components
-                                </div>
-                            </div>
-                            <Span sx={{ flexGrow: 1 }}></Span>
-                            <FlexBox>
-                                <a
-                                    href="https://ui-lib.com/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        src="/assets/images/logos/ui-lib.png"
-                                        alt="UI Lib Logo"
-                                    />
-                                </a>
-                            </FlexBox>
+                            <img
+                                src="/assets/images/put-gang-icon.png"
+                                alt="Put Gang Icon"
+                            />
                         </div>
                     </Grid>
                     <Grid item lg={6} md={6} sm={6} xs={12}>
