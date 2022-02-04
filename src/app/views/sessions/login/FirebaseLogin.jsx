@@ -24,8 +24,8 @@ const JustifyBox = styled(FlexBox)(() => ({
 }))
 
 const IMG = styled('img')(() => ({
-    width: 200,
-    height: 200,
+    width: '100%',
+    maxWidth: 200,
 }))
 
 const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
@@ -46,6 +46,7 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
         justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
             minWidth: 200,
+            alignItems: 'center',
         },
     },
     '& .buttonProgress': {
