@@ -20,6 +20,7 @@ const FlexBox = styled(Box)(() => ({
 
 const ListCard = styled(Card)(({ theme }) => ({
     padding: '8px',
+    margin: '0px 18px',
     position: 'relative',
     transition: 'all 0.3s ease',
     boxShadow: themeShadows[12],
@@ -42,6 +43,7 @@ const ListCard = styled(Card)(({ theme }) => ({
 
 const StyledScrollBar = styled(ScrollBar)(() => ({
     maxHeight: '70vh',
+    position: 'relative',
 }))
 
 function actionImage (action) {

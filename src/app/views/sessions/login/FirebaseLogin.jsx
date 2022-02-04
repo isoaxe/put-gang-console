@@ -11,7 +11,6 @@ import React, { useState } from 'react'
 import firebase from 'firebase/app'
 import { Box, styled, useTheme } from '@mui/system'
 import useAuth from 'app/hooks/useAuth'
-import { MatxLogo, MatxDivider } from 'app/components'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Paragraph, Span } from 'app/components/Typography'
 
@@ -24,14 +23,9 @@ const JustifyBox = styled(FlexBox)(() => ({
     justifyContent: 'center',
 }))
 
-const StyledButton = styled(Button)(() => ({
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow:
-        '0px 5px 5px -3px rgb(0 0 0 / 6%), 0px 8px 10px 1px rgb(0 0 0 / 4%), 0px 3px 14px 2px rgb(0 0 0 / 4%)',
-    backgroundColor: '#e0e0e0',
-    '&:hover': {
-        backgroundColor: '#d5d5d5',
-    },
+const IMG = styled('img')(() => ({
+    width: '100%',
+    maxWidth: 200,
 }))
 
 const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
@@ -49,43 +43,10 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
             minWidth: 200,
-        },
-        '& img': {
-            width: 32,
-            height: 32,
-        },
-    },
-    '& .logo': {
-        display: 'flex',
-        alignItems: 'center',
-        '& span': {
-            fontSize: 26,
-            lineHeight: 1.3,
-            fontWeight: 800,
-        },
-    },
-    '& .mainTitle': {
-        fontSize: 18,
-        lineHeight: 1.3,
-        marginBottom: 24,
-    },
-    '& .features': {
-        '& .item': {
-            position: 'relative',
-            marginBottom: 12,
-            paddingLeft: 20,
-            '&::after': {
-                position: 'absolute',
-                content: '""',
-                width: 4,
-                height: 4,
-                borderRadius: 4,
-                left: 4,
-                top: 7,
-                backgroundColor: theme.palette.error.main,
-            },
+            alignItems: 'center',
         },
     },
     '& .buttonProgress': {
@@ -94,12 +55,6 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
         left: '50%',
         marginTop: -12,
         marginLeft: -12,
-    },
-    '& .socialButton': {
-        width: '100%',
-        '& img': {
-            margin: '0 8px',
-        },
     },
 }))
 
@@ -121,7 +76,7 @@ const FirebaseLogin = () => {
         remember: true,
     })
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithEmailAndPassword } = useAuth();
 
     const handleChange = ({ target: { name, value } }) => {
         let temp = { ...userInfo }
@@ -153,17 +108,6 @@ const FirebaseLogin = () => {
         }
     }
 
-    const handleGoogleLogin = async (event) => {
-        try {
-            await signInWithGoogle()
-            navigate('/')
-        } catch (e) {
-            setMessage(e.message)
-            setLoading(false)
-            console.log(e)
-        }
-    }
-
     const { palette } = useTheme()
     const textError = palette.error.main
     const textPrimary = palette.primary.main
@@ -174,54 +118,13 @@ const FirebaseLogin = () => {
                 <Grid container>
                     <Grid item lg={6} md={6} sm={5} xs={12}>
                         <div className="cardLeft">
-                            <div className="logo">
-                                <MatxLogo sx={{ mr: 1 }} />{' '}
-                                <span>MatX Pro</span>
-                            </div>
-                            <h1 className="mainTitle">Admin Dashboard</h1>
-                            <div className="features">
-                                <div className="item">
-                                    JWT, FireBase & Auth0 Authentication
-                                </div>
-                                <div className="item">
-                                    Clean & Organised code
-                                </div>
-                                <div className="item">
-                                    Limitless Pages & Components
-                                </div>
-                            </div>
-                            <Span sx={{ flexGrow: 1 }}></Span>
-                            <FlexBox>
-                                <a
-                                    href="https://ui-lib.com/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        src="/assets/images/logos/ui-lib.png"
-                                        alt="UI Lib Logo"
-                                    />
-                                </a>
-                            </FlexBox>
+                            <IMG
+                                src="/assets/images/put-gang-icon.png"
+                                alt="Put Gang Icon"
+                            />
                         </div>
                     </Grid>
                     <Grid item lg={6} md={6} sm={6} xs={12}>
-                        <Box px={4} pt={4}>
-                            <StyledButton
-                                onClick={handleGoogleLogin}
-                                variant="contained"
-                                className="socialButton"
-                            >
-                                <img
-                                    src="/assets/images/logos/google.svg"
-                                    alt=""
-                                />
-                                Sign In With Google
-                            </StyledButton>
-                        </Box>
-
-                        <MatxDivider sx={{ mt: 3, px: 4 }} text="Or" />
-
                         <Box p={4} height="100%" position="relative">
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator

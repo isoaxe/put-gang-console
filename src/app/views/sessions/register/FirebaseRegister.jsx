@@ -12,8 +12,8 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
-import { Paragraph, Span } from 'app/components/Typography'
-import { API_URL } from './../../../utils/urls'
+import { Paragraph, Span, H3 } from 'app/components/Typography'
+import { API_URL } from 'app/utils/urls'
 
 
 const FlexBox = styled(Box)(() => ({
@@ -35,14 +35,9 @@ const IMG = styled('img')(() => ({
     width: '100%',
 }))
 
-const StyledButton = styled(Button)(() => ({
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow:
-        '0px 5px 5px -3px rgb(0 0 0 / 6%), 0px 8px 10px 1px rgb(0 0 0 / 4%), 0px 3px 14px 2px rgb(0 0 0 / 4%)',
-    backgroundColor: '#e0e0e0',
-    '&:hover': {
-        backgroundColor: '#d5d5d5',
-    },
+const Header = styled(H3)(({ theme }) => ({
+    color: theme.palette.text.secondary,
+    marginBottom: '15px',
 }))
 
 const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
@@ -60,12 +55,6 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
         marginTop: -12,
         marginLeft: -12,
     },
-    '& .socialButton': {
-        width: '100%',
-        '& img': {
-            margin: '0 8px',
-        },
-    },
     '& .labelLink': {
         color: theme.palette.primary.main,
         textDecoration: 'underline',
@@ -77,24 +66,21 @@ const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle, refId, membLvl } = useAuth()
+    const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
+    let { email, password, agreement } = state;
+    const { palette } = useTheme();
+    const textError = palette.error.main;
+
+    function setHeader () {
+        if (membLvl === 'join') return <Header>Signing up to Join the Discussion</Header>;
+        if (membLvl === 'watch') return <Header>Signing up to Watch the Discussion</Header>
+    }
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
             [name]: value,
         })
-    }
-
-    const handleGoogleRegister = async (event) => {
-        try {
-            await signInWithGoogle()
-            navigate('/')
-        } catch (e) {
-            setMessage(e.message)
-            setLoading(false)
-            console.log(e)
-        }
     }
 
     const handleFormSubmit = async () => {
@@ -124,9 +110,6 @@ const FirebaseRegister = () => {
             console.log(e)
         }
     }
-    let { email, password, agreement } = state
-    const { palette } = useTheme()
-    const textError = palette.error.main
 
     return (
         <RegisterRoot>
@@ -135,27 +118,14 @@ const FirebaseRegister = () => {
                     <Grid item lg={5} md={5} sm={5} xs={12}>
                         <ContentBox>
                             <IMG
-                                src="/assets/images/illustrations/posting_photo.svg"
-                                alt=""
+                                src="/assets/images/put-gang-logo.png"
+                                alt="Put Gang Logo"
                             />
                         </ContentBox>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <Box px={4} pt={4}>
-                            <StyledButton
-                                onClick={handleGoogleRegister}
-                                variant="contained"
-                                className="socialButton"
-                            >
-                                <img
-                                    src="/assets/images/logos/google.svg"
-                                    alt=""
-                                />
-                                Sign Up With Google
-                            </StyledButton>
-                        </Box>
-                        <Paragraph sx={{ textAlign: 'center' }}>Or</Paragraph>
                         <Box p={4} height="100%">
+                            {setHeader()}
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator
                                     sx={{ mb: 3, width: '100%' }}

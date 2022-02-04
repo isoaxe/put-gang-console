@@ -1,20 +1,12 @@
 import React from 'react'
-import { Span } from '../../components/Typography'
 import { styled, Box } from '@mui/system'
 import useSettings from 'app/hooks/useSettings'
-import MatxLogo from '../MatxLogo/MatxLogo'
 
 const BrandRoot = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '20px 18px 20px 29px',
-}))
-
-const StyledSpan = styled(Span)(({ theme, mode }) => ({
-    fontSize: 18,
-    marginLeft: '.5rem',
-    display: mode === 'compact' ? 'none' : 'block',
 }))
 
 const Brand = ({ children }) => {
@@ -24,12 +16,11 @@ const Brand = ({ children }) => {
 
     return (
         <BrandRoot>
-            <Box display="flex" alignItems="center">
-                <MatxLogo />
-                <StyledSpan mode={mode} className="sidenavHoverShow">
-                    Matx
-                </StyledSpan>
-            </Box>
+            <img
+                src="/assets/images/put-gang-logo.png"
+                alt="Put Gang Banner"
+                width='150px'
+            />
             <Box
                 className="sidenavHoverShow"
                 sx={{ display: mode === 'compact' ? 'none' : 'block' }}
