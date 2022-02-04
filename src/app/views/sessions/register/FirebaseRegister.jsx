@@ -12,8 +12,8 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
-import { Paragraph, Span } from 'app/components/Typography'
-import { API_URL } from './../../../utils/urls'
+import { Paragraph, Span, H3 } from 'app/components/Typography'
+import { API_URL } from 'app/utils/urls'
 
 
 const FlexBox = styled(Box)(() => ({
@@ -33,6 +33,11 @@ const ContentBox = styled(JustifyBox)(() => ({
 
 const IMG = styled('img')(() => ({
     width: '100%',
+}))
+
+const Header = styled(H3)(({ theme }) => ({
+    color: theme.palette.text.secondary,
+    marginBottom: '15px',
 }))
 
 const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
@@ -62,6 +67,14 @@ const FirebaseRegister = () => {
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
     const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
+    let { email, password, agreement } = state;
+    const { palette } = useTheme();
+    const textError = palette.error.main;
+
+    function setHeader () {
+        if (membLvl === 'join') return <Header>Signing up to Join the Discussion</Header>;
+        if (membLvl === 'watch') return <Header>Signing up to Watch the Discussion</Header>
+    }
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -97,9 +110,6 @@ const FirebaseRegister = () => {
             console.log(e)
         }
     }
-    let { email, password, agreement } = state
-    const { palette } = useTheme()
-    const textError = palette.error.main
 
     return (
         <RegisterRoot>
@@ -115,6 +125,7 @@ const FirebaseRegister = () => {
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
                         <Box p={4} height="100%">
+                            {setHeader()}
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator
                                     sx={{ mb: 3, width: '100%' }}
