@@ -23,6 +23,11 @@ const JustifyBox = styled(FlexBox)(() => ({
     justifyContent: 'center',
 }))
 
+const IMG = styled('img')(() => ({
+    width: 200,
+    height: 200,
+}))
+
 const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
     background: '#1A2038',
     minHeight: '100vh !important',
@@ -41,10 +46,6 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
         justifyContent: 'center',
         [theme.breakpoints.down('sm')]: {
             minWidth: 200,
-        },
-        '& img': {
-            width: 200,
-            height: 200,
         },
     },
     '& .buttonProgress': {
@@ -116,7 +117,7 @@ const FirebaseLogin = () => {
                 <Grid container>
                     <Grid item lg={6} md={6} sm={5} xs={12}>
                         <div className="cardLeft">
-                            <img
+                            <IMG
                                 src="/assets/images/put-gang-icon.png"
                                 alt="Put Gang Icon"
                             />
