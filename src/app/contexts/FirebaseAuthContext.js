@@ -43,7 +43,6 @@ const AuthContext = createContext({
     ...initialAuthState,
     method: 'FIREBASE',
     signInWithEmailAndPassword: () => Promise.resolve(),
-    signInWithGoogle: () => Promise.resolve(),
     logout: () => Promise.resolve(),
 })
 
@@ -52,12 +51,6 @@ export const AuthProvider = ({ children }) => {
 
     const signInWithEmailAndPassword = (email, password) => {
         return firebase.auth().signInWithEmailAndPassword(email, password)
-    }
-
-    const signInWithGoogle = () => {
-        const provider = new firebase.auth.GoogleAuthProvider()
-
-        return firebase.auth().signInWithPopup(provider)
     }
 
     const logout = () => {
@@ -103,7 +96,6 @@ export const AuthProvider = ({ children }) => {
                 ...state,
                 method: 'FIREBASE',
                 signInWithEmailAndPassword,
-                signInWithGoogle,
                 logout,
             }}
         >
