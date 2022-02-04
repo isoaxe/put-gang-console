@@ -35,16 +35,6 @@ const IMG = styled('img')(() => ({
     width: '100%',
 }))
 
-const StyledButton = styled(Button)(() => ({
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow:
-        '0px 5px 5px -3px rgb(0 0 0 / 6%), 0px 8px 10px 1px rgb(0 0 0 / 4%), 0px 3px 14px 2px rgb(0 0 0 / 4%)',
-    backgroundColor: '#e0e0e0',
-    '&:hover': {
-        backgroundColor: '#d5d5d5',
-    },
-}))
-
 const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
     background: '#1A2038',
     minHeight: '100vh !important',
@@ -77,24 +67,13 @@ const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle, refId, membLvl } = useAuth()
+    const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
             [name]: value,
         })
-    }
-
-    const handleGoogleRegister = async (event) => {
-        try {
-            await signInWithGoogle()
-            navigate('/')
-        } catch (e) {
-            setMessage(e.message)
-            setLoading(false)
-            console.log(e)
-        }
     }
 
     const handleFormSubmit = async () => {
@@ -141,20 +120,6 @@ const FirebaseRegister = () => {
                         </ContentBox>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <Box px={4} pt={4}>
-                            <StyledButton
-                                onClick={handleGoogleRegister}
-                                variant="contained"
-                                className="socialButton"
-                            >
-                                <img
-                                    src="/assets/images/logos/google.svg"
-                                    alt=""
-                                />
-                                Sign Up With Google
-                            </StyledButton>
-                        </Box>
-                        <Paragraph sx={{ textAlign: 'center' }}>Or</Paragraph>
                         <Box p={4} height="100%">
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator
