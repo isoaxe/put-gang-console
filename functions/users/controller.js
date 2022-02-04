@@ -153,6 +153,10 @@ export async function edit (req, res) {
 		const userRef = await usersPath.doc(uid);
 		userRef.set(req.body, { merge: true} );
 
+		if (req.body.name) {
+			admin.auth().updateUser(uid, { displayName: req.body.name });
+		}
+
 		return res.status(200).send({ message: "User successfully edited." });
 	} catch (err) {
 		return handleError(res, err);
