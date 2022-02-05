@@ -14,6 +14,7 @@ const LoadData = () => {
     const [role, setRole] = useState("");
     const all_pages = useRoutes(AllPages());
     const { user } = useAuth();
+    const isSenior = ["admin", "level-1", "level-2"].includes(role);
 
     // Fetch most data.
     const getActivity = () => getData("/activity", setActivities);
@@ -30,12 +31,12 @@ const LoadData = () => {
       if (user) {
         getRole();
       }
-      if (user && ["admin", "level-1", "level-2"].includes(role)) {
+      if (user && isSenior) {
         getActivity();
         getUsers();
         getStats();
       }
-    }, [user, role]);
+    }, [user, isSenior]);
 
     return (
         <DataContext.Provider value={{activities, users, allStats, role}}>
