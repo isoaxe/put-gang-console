@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
+import DataContext from 'app/contexts/DataContext';
 import useAuth from 'app/hooks/useAuth'
 import useSettings from 'app/hooks/useSettings'
 import { styled, useTheme, Box } from '@mui/system'
@@ -79,6 +80,8 @@ const Layout1Topbar = () => {
     const { settings, updateSettings } = useSettings()
     const { logout, user } = useAuth()
     const isMdScreen = useMediaQuery(theme.breakpoints.down('md'))
+    const { role } = useContext(DataContext);
+    const isSenior = ["admin", "level-1", "level-2"].includes(role);
 
     const updateSidebarMode = (sidebarSettings) => {
         updateSettings({
@@ -109,9 +112,9 @@ const Layout1Topbar = () => {
         <TopbarRoot>
             <TopbarContainer>
                 <Box display="flex">
-                    <StyledIconButton onClick={handleSidebarToggle}>
+                    {isSenior && <StyledIconButton onClick={handleSidebarToggle}>
                         <Icon>menu</Icon>
-                    </StyledIconButton>
+                    </StyledIconButton>}
                 </Box>
                 <Box display="flex" alignItems="center">
                     <MatxMenu

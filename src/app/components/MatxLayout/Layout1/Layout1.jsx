@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom'
+import DataContext from 'app/contexts/DataContext';
 import Footer from '../../Footer/Footer'
 import Layout1Topbar from './Layout1Topbar'
 import Layout1Sidenav from './Layout1Sidenav'
 import Scrollbar from 'react-perfect-scrollbar'
 import useSettings from 'app/hooks/useSettings'
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { sideNavWidth } from 'app/utils/constants'
 import { styled, Box, useTheme } from '@mui/system'
 import { ThemeProvider, useMediaQuery } from '@mui/material'
@@ -48,12 +49,15 @@ const LayoutContainer = styled(Box)(({ width, secondarySidebar }) => ({
 }))
 
 const Layout1 = () => {
+    const { role } = useContext(DataContext);
     const { settings, updateSettings } = useSettings()
     const { layout1Settings, secondarySidebar } = settings
     const topbarTheme = settings.themes[layout1Settings.topbar.theme]
-    const {
+    let {
         leftSidebar: { mode: sidenavMode, show: showSidenav },
     } = layout1Settings
+    const isSenior = ["admin", "level-1", "level-2"].includes(role);
+    if (!isSenior) sidenavMode = 'close';
 
     const getSidenavWidth = () => {
         switch (sidenavMode) {

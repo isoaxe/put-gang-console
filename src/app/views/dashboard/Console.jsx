@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { styled, useTheme } from '@mui/system';
 import { Card } from '@mui/material';
-import DataContext from './../../contexts/DataContext';
+import DataContext from 'app/contexts/DataContext';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3';
 import ComparisonChart2 from './shared/ComparisonChart2';
-import { H3, Span } from './../../components/Typography';
-import useAuth from './../../hooks/useAuth';
+import { H3, Span } from 'app/components/Typography';
+import useAuth from 'app/hooks/useAuth';
 
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
@@ -24,11 +24,14 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Console = () => {
-    const { allStats } = useContext(DataContext);
+    const { allStats, role } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const uid = useAuth().user.id;
-    const userStats = allStats.find(stats => stats.uid === uid);
+    let userStats = {};
+    if (allStats.length && ["admin", "level-1", "level-2"].includes(role)) {
+        userStats = allStats.find(stats => stats.uid === uid);
+    }
 
     return (
         <AnalyticsRoot>

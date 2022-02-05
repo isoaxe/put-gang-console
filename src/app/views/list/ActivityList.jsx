@@ -63,7 +63,7 @@ const ActivityList = () => {
     )
 
     useEffect(() => {
-        if (activities && ["admin", "level-1", "level-2"].includes(role)) {
+        if (activities.length && ["admin", "level-1", "level-2"].includes(role)) {
             formatActivityData();
         }
     }, [activities, role, formatActivityData])
