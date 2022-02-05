@@ -56,8 +56,8 @@ const Layout1 = () => {
     let {
         leftSidebar: { mode: sidenavMode, show: showSidenav },
     } = layout1Settings
-    const isJunior = ["level-3", "standard"].includes(role);
-    if (isJunior) sidenavMode = 'close';
+    const isSenior = ["admin", "level-1", "level-2"].includes(role);
+    if (!isSenior) sidenavMode = 'close';
 
     const getSidenavWidth = () => {
         switch (sidenavMode) {
