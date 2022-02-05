@@ -24,11 +24,14 @@ const FlexBox = styled('div')(({ theme }) => ({
 }))
 
 const Console = () => {
-    const { allStats } = useContext(DataContext);
+    const { allStats, role } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
     const uid = useAuth().user.id;
-    const userStats = allStats.find(stats => stats.uid === uid);
+    let userStats = {};
+    if (allStats.length && ["admin", "level-1", "level-2"].includes(role)) {
+        userStats = allStats.find(stats => stats.uid === uid);
+    }
 
     return (
         <AnalyticsRoot>
