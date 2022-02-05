@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { styled, useTheme } from '@mui/system';
 import { Card } from '@mui/material';
-import DataContext from './../../contexts/DataContext';
+import DataContext from 'app/contexts/DataContext';
 import ActivityList from './../list/ActivityList';
 import StatCard3 from './shared/StatCard3';
 import ComparisonChart2 from './shared/ComparisonChart2';
-import { H3, Span } from './../../components/Typography';
-import useAuth from './../../hooks/useAuth';
+import { H3, Span } from 'app/components/Typography';
+import useAuth from 'app/hooks/useAuth';
 
 
 const AnalyticsRoot = styled('div')(({ theme }) => ({
