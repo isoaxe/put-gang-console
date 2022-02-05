@@ -1,8 +1,3 @@
-export const auth0Config = {
-    client_id: 'XmminWIs0S8gR3gIRBydYLWbF58x81vK',
-    domain: 'matx.us.auth0.com',
-}
-
 // TODO: Remove the databaseURL field before production release. Just dummy data, have not set up Realtime Database for the project, using Firestore instead.
 
 export var firebaseConfig = {
