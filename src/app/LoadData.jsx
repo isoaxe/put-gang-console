@@ -42,7 +42,7 @@ const LoadData = () => {
         <DataContext.Provider value={{activities, users, allStats, role}}>
             {all_pages}
             <Routes>
-                <Route path='/' element={<Navigate to="/dashboard/console" />} />
+                {role && <Route path='/' element={<Navigate to={isSenior ? "/dashboard/console" : "/dashboard/settings"} />} />}
             </Routes>
         </DataContext.Provider>
     )
