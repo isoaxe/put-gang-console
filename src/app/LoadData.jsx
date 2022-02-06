@@ -43,6 +43,7 @@ const LoadData = () => {
             {all_pages}
             <Routes>
                 {role && <Route path='/' element={<Navigate to={isSenior ? "/dashboard/console" : "/dashboard/settings"} />} />}
+                {!role && <Route path='/' element={<Navigate to="/dashboard/settings" />} />}
             </Routes>
         </DataContext.Provider>
     )
