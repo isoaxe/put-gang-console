@@ -147,13 +147,14 @@ export async function create (req, res) {
 export async function edit (req, res) {
 	try {
 		const { uid } = res.locals;
+		const { name, insta } = req.body;
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 
 		const userRef = await usersPath.doc(uid);
 		userRef.set(req.body, { merge: true} );
 
-		if (req.body.name) {
+		if (name) {
 			admin.auth().updateUser(uid, { displayName: req.body.name });
 		}
 
