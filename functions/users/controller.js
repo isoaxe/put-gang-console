@@ -1,4 +1,5 @@
 import admin from "firebase-admin";
+import fetch from "node-fetch";
 import { addMonth } from "./../util/helpers.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
@@ -151,11 +152,32 @@ export async function edit (req, res) {
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 
+		// Set name or insta in Firestore user data.
 		const userRef = await usersPath.doc(uid);
-		userRef.set(req.body, { merge: true} );
+		await userRef.set(req.body, { merge: true} );
 
+		// Set name in Firebase auth.
 		if (name) {
-			admin.auth().updateUser(uid, { displayName: req.body.name });
+			admin.auth().updateUser(uid, { displayName: name });
+		}
+
+		// Fetch configuration for Instagram profile photo request.
+		const url = `https://www.instagram.com/${insta}/?__a=1`;
+		const fetchConfig = {
+			method: "GET",
+			url,
+			headers: {
+				host: "www.instagram.com"
+			}
+		};
+
+		// Fetch Instagram profile photo and save to Firestore.
+		if (insta) {
+			const response = await fetch(url, fetchConfig);
+			const jsonResponse = await response.json();
+			const photoUrl = jsonResponse.graphql?.user?.profile_pic_url_hd;
+			userRef.set({ photoUrl }, { merge: true });
+			admin.auth().updateUser(uid, { photoUrl });
 		}
 
 		return res.status(200).send({ message: "User successfully edited." });
