@@ -36,16 +36,6 @@ const Settings = () => {
     button: { width: '100px' }
   }
 
-  async function getInstaPic () {
-    try {
-      const authWindow = `https://api.instagram.com/oauth/authorize?client_id=${INSTAGRAM_APP_ID}&redirect_uri=${CONSOLE_URL}/dashboard/settings&scope=user_profile`;
-      const result = await fetch(authWindow);
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function updateUser (field) {
     let data;
     if (name && field === "name") data = name;
