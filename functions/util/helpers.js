@@ -57,3 +57,13 @@ async function uploadAvatar (imageBuffer, username) {
   await file.makePublic();
   return file.publicUrl();
 }
+
+async function getAvatarFromCache (username) {
+  let file = storage.file(`${bucketPath}/${username}.png`);
+  let exists = await file.exists();
+  if (exists[0]) {
+    return { exists: true, url: file.publicUrl() };
+  } else {
+    return { exists: false, url: null };
+  }
+}
