@@ -9,4 +9,3 @@ export const sideNavWidth = 260
 
 
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
-export const INSTAGRAM_APP_ID = "368773887923080";
