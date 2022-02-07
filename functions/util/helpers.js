@@ -1,7 +1,8 @@
 /*
  * Various helper functions used throughout the project.
  */
- import fetch from "node-fetch";
+import admin from "firebase-admin";
+import fetch from "node-fetch";
 
 
 // Add 31 days to the supplied date.
@@ -21,8 +22,11 @@ export function newSubscriber (alreadySubbed, paymentType) {
  *   Helper functions for the above helpers.
  *   As such, these do not get exported.
  */
+const bucketPath = "avatars";
+const bucketId = "gs://put-gang.appspot.com";
+const storage = admin.storage().bucket(bucketId);
 
-async function getAvatarUrl(username) {
+async function getAvatarUrl (username) {
   const fetchConfig = {
     method: "GET",
     headers: {
@@ -33,4 +37,16 @@ async function getAvatarUrl(username) {
   const jsonResponse = await response.json();
   const photoUrl = jsonResponse.graphql?.user?.profile_pic_url_hd;
   return photoUrl;
+}
+
+async function uploadAvatar (imageBuffer, username) {
+  const file = storage.file(`${bucketPath}/${username}.png`)
+  await file.save(imageBuffer, {
+    metadata: {
+      contentType: "image/png",
+      origin: ["*"],
+    }
+  })
+  await file.makePublic();
+  return file.publicUrl();
 }
