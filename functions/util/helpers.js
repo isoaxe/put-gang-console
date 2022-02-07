@@ -39,14 +39,21 @@ async function getAvatarUrl (username) {
   return photoUrl;
 }
 
+async function getAvatarImage (url) {
+  let response = await fetch(url);
+  let data = await response.arrayBuffer();
+  const buffer = Buffer.from(data);
+  return buffer;
+}
+
 async function uploadAvatar (imageBuffer, username) {
-  const file = storage.file(`${bucketPath}/${username}.png`)
+  const file = storage.file(`${bucketPath}/${username}.png`);
   await file.save(imageBuffer, {
     metadata: {
       contentType: "image/png",
       origin: ["*"],
     }
-  })
+  });
   await file.makePublic();
   return file.publicUrl();
 }
