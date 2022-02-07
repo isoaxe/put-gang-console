@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
-import { addMonth, getAvatar } from "./../util/helpers.js";
+import { addMonth } from "./../util/helpers.js";
+import { getAvatar } from "./instagramAvatar.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
 
