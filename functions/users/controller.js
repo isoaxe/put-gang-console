@@ -161,25 +161,6 @@ export async function edit (req, res) {
 			admin.auth().updateUser(uid, { displayName: name });
 		}
 
-		// Fetch configuration for Instagram profile photo request.
-		const url = `https://www.instagram.com/${insta}/?__a=1`;
-		const fetchConfig = {
-			method: "GET",
-			url,
-			headers: {
-				host: "www.instagram.com"
-			}
-		};
-
-		// Fetch Instagram profile photo and save to Firestore.
-		if (insta) {
-			const response = await fetch(url, fetchConfig);
-			const jsonResponse = await response.json();
-			const photoUrl = jsonResponse.graphql?.user?.profile_pic_url_hd;
-			userRef.set({ photoUrl }, { merge: true });
-			admin.auth().updateUser(uid, { photoUrl });
-		}
-
 		return res.status(200).send({ message: "User successfully edited." });
 	} catch (err) {
 		return handleError(res, err);
