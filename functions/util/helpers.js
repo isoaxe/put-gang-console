@@ -40,7 +40,6 @@ export async function getAvatar (username) {
  */
 const bucketPath = "avatars";
 const bucketId = "gs://put-gang.appspot.com";
-const storage = admin.storage().bucket(bucketId);
 
 async function getAvatarUrl (username) {
   const fetchConfig = {
@@ -63,6 +62,7 @@ async function getAvatarImage (url) {
 }
 
 async function uploadAvatar (imageBuffer, username) {
+  const storage = admin.storage().bucket(bucketId);
   const file = storage.file(`${bucketPath}/${username}.png`);
   await file.save(imageBuffer, {
     metadata: {
@@ -75,6 +75,7 @@ async function uploadAvatar (imageBuffer, username) {
 }
 
 async function getAvatarFromCache (username) {
+  const storage = admin.storage().bucket(bucketId);
   let file = storage.file(`${bucketPath}/${username}.png`);
   let exists = await file.exists();
   if (exists[0]) {
