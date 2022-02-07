@@ -16,6 +16,22 @@ export function newSubscriber (alreadySubbed, paymentType) {
   return !alreadySubbed && (paymentType === "join" || paymentType === "watch");
 }
 
+export async function getAvatar (username) {
+  let url = null;
+  let from_cache = false;
+
+  const cache = await getAvatarFromCache(username);
+  if (cache.exists) {
+    url = cache.url;
+    from_cache = true;
+  } else {
+    const picUrl = await getAvatarUrl(username);
+    const imgBuffer = await getAvatarImage(picUrl);
+    url = await uploadAvatar(imgBuffer, username);
+  }
+  return { url, from_cache };
+}
+
 
 
 /*
