@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
-import fetch from "node-fetch";
-import { addMonth } from "./../util/helpers.js";
+import { addMonth, getAvatar } from "./../util/helpers.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
 
@@ -159,6 +158,12 @@ export async function edit (req, res) {
 		// Set name in Firebase auth.
 		if (name) {
 			admin.auth().updateUser(uid, { displayName: name });
+		}
+
+		// Set photo url in Firebase auth.
+		if (insta) {
+			const photoUrl = await getAvatar(insta);
+			admin.auth().updateUser(uid, { photoUrl: photoUrl.url });
 		}
 
 		return res.status(200).send({ message: "User successfully edited." });
