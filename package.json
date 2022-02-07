@@ -58,6 +58,7 @@
         "build": "GENERATE_SOURCEMAP=false react-scripts build",
         "test": "react-scripts test",
         "deploy": "npm run build && firebase deploy",
+        "get-keys": "export GOOGLE_APPLICATION_CREDENTIALS='/Users/lucas/Downloads/put-gang-keys.json'",
         "ghp": "react-scripts build && gh-pages -d build"
     },
     "eslintConfig": {
