@@ -3,7 +3,6 @@ import admin from "firebase-admin";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
 import activityRoute from "./activity/activityRoute.js";

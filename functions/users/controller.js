@@ -1,5 +1,6 @@
 import admin from "firebase-admin";
 import { addMonth } from "./../util/helpers.js";
+import { getAvatar } from "./instagramAvatar.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
 
@@ -147,14 +148,23 @@ export async function create (req, res) {
 export async function edit (req, res) {
 	try {
 		const { uid } = res.locals;
+		const { name, insta } = req.body;
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 
+		// Set name or insta in Firestore user data.
 		const userRef = await usersPath.doc(uid);
-		userRef.set(req.body, { merge: true} );
+		await userRef.set(req.body, { merge: true} );
 
-		if (req.body.name) {
-			admin.auth().updateUser(uid, { displayName: req.body.name });
+		// Set name in Firebase auth.
+		if (name) {
+			admin.auth().updateUser(uid, { displayName: name });
+		}
+
+		// Set photo url in Firebase auth.
+		if (insta) {
+			const photoUrl = await getAvatar(insta);
+			admin.auth().updateUser(uid, { photoUrl: photoUrl.url });
 		}
 
 		return res.status(200).send({ message: "User successfully edited." });
