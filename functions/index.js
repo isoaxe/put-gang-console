@@ -3,17 +3,13 @@ import admin from "firebase-admin";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import fs from "fs";
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
 import activityRoute from "./activity/activityRoute.js";
 
-const firebaseCreds = "/Users/lucas/keys/put-gang-admin-sdk-keys.json";
-const rawdata = fs.readFileSync(firebaseCreds);
-const serviceAccount = JSON.parse(rawdata);
 
 // Initialise the firebase-admin SDK in order to access its services.
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+admin.initializeApp();
 
 const app = express();
 
