@@ -4,8 +4,7 @@ import { TextField, Button } from '@mui/material';
 import firebase from 'firebase/app';
 import { H3, H5 } from 'app/components/Typography';
 import { getData } from './../../utils/helpers';
-import { CONSOLE_URL, API_URL } from './../../utils/urls';
-import { INSTAGRAM_APP_ID } from './../../utils/constants';
+import { API_URL } from './../../utils/urls';
 
 
 const Container = styled('div')(({ theme }) => ({
