@@ -1,5 +1,5 @@
 .overlay {
-  z-index: 1000; /* MUIDataTable resizableColumns property has index of 999 */
+  z-index: 1002; /* MUIDataTable resizableColumns property has index of 999 */
   position: fixed;
   top: 0;
   left: 0;

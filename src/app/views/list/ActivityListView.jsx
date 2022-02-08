@@ -3,12 +3,13 @@ import {
     Avatar,
     Grid,
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Box, styled, useTheme } from '@mui/system'
 import ScrollBar from 'react-perfect-scrollbar';
 import ReceiptsModal from './../modal/ReceiptsModal';
+import DataContext from './../../contexts/DataContext';
 import { displayReceipts } from './../../utils/helpers';
-import { Small, Span, Paragraph } from 'app/components/Typography'
+import { Small, Paragraph } from 'app/components/Typography'
 import { themeShadows } from 'app/components/MatxTheme/themeColors'
 import {
   AddTask,
@@ -62,6 +63,8 @@ function actionImage (action, product) {
 const ActivityListView = ({ list = [] }) => {
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
+    const [selectedUser, setSelectedUser] = useState({});
+    const { users } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
 
@@ -72,7 +75,11 @@ const ActivityListView = ({ list = [] }) => {
                     key={item.id}
                     elevation={3}
                     sx={{ mb: index < list.length && 2 }}
-                    onClick={() => displayReceipts(item.uid, setReceipts, setVisible)}
+                    onClick={() => {
+                      displayReceipts(item.uid, setReceipts, setVisible);
+                      const currentUser = users.find(user => user.uid === item.uid);
+                      setSelectedUser(currentUser);
+                    }}
                 >
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item md={10}>
@@ -102,10 +109,11 @@ const ActivityListView = ({ list = [] }) => {
                 </ListCard>
             ))}
             <ReceiptsModal
-								visible={visible}
-								setVisible={setVisible}
+                visible={visible}
+                setVisible={setVisible}
                 receipts={receipts}
-							/>
+                selectedUser={selectedUser}
+						/>
         </StyledScrollBar>
     )
 }
