@@ -146,9 +146,9 @@ const Users = () => {
                             responsive: 'standard',
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
-                              const data = users[rowState.rowIndex];
-                              setSelectedUser(data);
-                              displayReceipts(data.uid, setReceipts, setVisible);
+                              const clickedUser = users[rowState.rowIndex];
+                              setSelectedUser(clickedUser);
+                              displayReceipts(clickedUser.uid, setReceipts, setVisible);
                             },
                             // selectableRows: "none", // set checkbox for each row
                             // search: false, // set search option
