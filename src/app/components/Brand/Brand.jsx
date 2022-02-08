@@ -17,7 +17,7 @@ const Brand = ({ children }) => {
     return (
         <BrandRoot>
             <img
-                src="/assets/images/put-gang-logo.png"
+                src="/assets/images/put-gang-banner.png"
                 alt="Put Gang Banner"
                 width='150px'
             />
