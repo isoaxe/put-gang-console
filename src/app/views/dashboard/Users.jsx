@@ -25,6 +25,7 @@ const Container = styled('div')(({ theme }) => ({
 const Users = () => {
     const [visible, setVisible] = useState(false);
     const [receipts, setReceipts] = useState([]);
+    const [selectedUser, setSelectedUser] = useState({});
     const { users } = useContext(DataContext);
     const { palette } = useTheme();
     const textMuted = palette.text.secondary;
@@ -146,6 +147,7 @@ const Users = () => {
                             resizableColumns: true,
                             onRowClick: (rowData, rowState) => {
                               const data = users[rowState.rowIndex];
+                              setSelectedUser(data);
                               displayReceipts(data.uid, setReceipts, setVisible);
                             },
                             // selectableRows: "none", // set checkbox for each row
@@ -206,6 +208,7 @@ const Users = () => {
                 visible={visible}
                 setVisible={setVisible}
                 receipts={receipts}
+                selectedUser={selectedUser}
             />
         </Container>
     )
