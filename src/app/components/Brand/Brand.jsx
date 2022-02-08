@@ -16,11 +16,21 @@ const Brand = ({ children }) => {
 
     return (
         <BrandRoot>
-            <img
-                src="/assets/images/put-gang-banner.png"
-                alt="Put Gang Banner"
-                width='150px'
-            />
+            <Box>
+              {mode === 'compact' ?
+                <img
+                  src="/assets/images/put-gang-icon.png"
+                  alt="Put Gang Icon"
+                  width='50px'
+                  style={{ marginLeft: '-14px' }}
+                />
+                :
+                <img
+                  src="/assets/images/put-gang-banner.png"
+                  alt="Put Gang Banner"
+                  width='150px'
+              />}
+            </Box>
             <Box
                 className="sidenavHoverShow"
                 sx={{ display: mode === 'compact' ? 'none' : 'block' }}
