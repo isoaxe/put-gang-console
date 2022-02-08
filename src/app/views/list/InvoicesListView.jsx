@@ -81,7 +81,6 @@ const InvoicesListView = ({ list = [] }) => {
                         <Grid item md={0}>
                             <FlexBox>
                                 <Avatar src={item.avatarUrl}></Avatar>
-                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
                             </FlexBox>
                         </Grid>
                     </Grid>
