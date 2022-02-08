@@ -18,7 +18,7 @@ const Container = styled('div')(({ theme }) => ({
 const InvoicesList = (props) => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
-    const { role } = useContext(DataContext);
+    const { role, users } = useContext(DataContext);
     const invoices = props.invoices;
 
     // Form a statement for each invoice based on data.
@@ -28,15 +28,23 @@ const InvoicesList = (props) => {
 
     const formatInvoicesData = useCallback(
       () => {
-        invoices.forEach(item => item["statement"] = formatStatement(
+        const combinedInvoices = [];
+        for (let i = 0; i < invoices.length; i++) {
+          const currentInvoice = invoices[i];
+          const currentUser = users.find(user => user.uid === currentInvoice.uid);
+          currentInvoice["name"] = currentUser.name;
+          currentInvoice["avatarUrl"] = currentUser.avatarUrl;
+          combinedInvoices.push(currentInvoice);
+        }
+        combinedInvoices.forEach(item => item["statement"] = formatStatement(
           item.name,
           item.email,
           item.sale,
           item.product
         ));
-        setOriginalList(invoices);
-        setList(invoices);
-      }, [invoices]
+        setOriginalList(combinedInvoices);
+        setList(combinedInvoices);
+      }, [users, invoices]
     );
 
     const handleInputChange = (event) => {
@@ -56,10 +64,10 @@ const InvoicesList = (props) => {
     )
 
     useEffect(() => {
-        if (invoices && ["admin", "level-1", "level-2"].includes(role)) {
+        if (users.length && invoices.length && ["admin", "level-1", "level-2"].includes(role)) {
             formatInvoicesData();
         }
-    }, [invoices, role, formatInvoicesData])
+    }, [users, invoices, role, formatInvoicesData])
 
     return (
         <Container className="list">
