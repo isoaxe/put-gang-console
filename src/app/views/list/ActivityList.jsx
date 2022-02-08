@@ -71,10 +71,10 @@ const ActivityList = () => {
     )
 
     useEffect(() => {
-        if (activities.length && ["admin", "level-1", "level-2"].includes(role)) {
+        if (users.length && activities.length && ["admin", "level-1", "level-2"].includes(role)) {
             formatActivityData();
         }
-    }, [activities, role, formatActivityData])
+    }, [users, activities, role, formatActivityData])
 
     return (
         <Container className="list">
