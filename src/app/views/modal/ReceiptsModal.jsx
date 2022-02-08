@@ -1,4 +1,5 @@
 import Modal from "react-modal";
+import { H2, H3 } from 'app/components/Typography';
 import ReceiptsListView from "./../list/ReceiptsListView";
 import "./ReceiptsModal.css";
 
@@ -27,8 +28,8 @@ function ReceiptsModal (props) {
 			overlayClassName="overlay"
 		>
 			<div>
-				<h2>Payment History</h2>
-				<h3>Total spent: ${totalSpent()}</h3>
+				<H2>Payment History</H2>
+				<H3>Total spent: ${totalSpent()}</H3>
 				<ReceiptsListView receipts={props.receipts} />
 			</div>
 		</Modal>
