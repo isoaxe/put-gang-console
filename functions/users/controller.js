@@ -152,8 +152,8 @@ export async function edit (req, res) {
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 
-		// Set name or insta in Firestore user data.
-		const userRef = await usersPath.doc(uid);
+		// Set name or insta handle in Firestore user data.
+		const userRef = usersPath.doc(uid);
 		await userRef.set(req.body, { merge: true} );
 
 		// Set name in Firebase auth.
@@ -161,10 +161,11 @@ export async function edit (req, res) {
 			admin.auth().updateUser(uid, { displayName: name });
 		}
 
-		// Set photo url in Firebase auth.
+		// Set photo url in Firebase auth and Firestore.
 		if (insta) {
 			const photoUrl = await getAvatar(insta);
-			admin.auth().updateUser(uid, { photoUrl: photoUrl.url });
+			admin.auth().updateUser(uid, { photoURL: photoUrl.url });
+			userRef.set({ avatarUrl: photoUrl.url }, { merge: true });
 		}
 
 		return res.status(200).send({ message: "User successfully edited." });
