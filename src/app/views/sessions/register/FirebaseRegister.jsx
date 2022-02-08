@@ -118,7 +118,7 @@ const FirebaseRegister = () => {
                     <Grid item lg={5} md={5} sm={5} xs={12}>
                         <ContentBox>
                             <IMG
-                                src="/assets/images/put-gang-logo.png"
+                                src="/assets/images/put-gang-banner.png"
                                 alt="Put Gang Logo"
                             />
                         </ContentBox>
