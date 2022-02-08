@@ -6,6 +6,7 @@ import "./ReceiptsModal.css";
 
 function ReceiptsModal (props) {
 	Modal.setAppElement("#root");
+	const { name, email } = props.selectedUser;
 
 	function close () {
 		props.setVisible(false);
@@ -29,6 +30,7 @@ function ReceiptsModal (props) {
 		>
 			<div>
 				<H2>Payment History</H2>
+				<H3>{name || email}</H3>
 				<H3>Total spent: ${totalSpent()}</H3>
 				<ReceiptsListView receipts={props.receipts} />
 			</div>
