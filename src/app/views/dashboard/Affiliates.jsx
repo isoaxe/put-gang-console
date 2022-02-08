@@ -42,6 +42,7 @@ const Affiliates = () => {
           currentStat["role"] = currentUser.role;
           currentStat["name"] = currentUser.name;
           currentStat["expiryDate"] = currentUser.expiryDate;
+          currentStat["avatarUrl"] = currentUser.avatarUrl;
           combined.push(currentStat);
         }
         setAffiliatesData(combined);
@@ -68,7 +69,7 @@ const Affiliates = () => {
                         <FlexBox>
                             <Avatar
                                 sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(userData?.expiryDate) }}
-                                src={userData?.imgUrl}
+                                src={userData?.avatarUrl}
                             />
                             <Box ml="12px">
                                 <H5 sx={{ fontSize: '15px' }}>{userData?.name}</H5>

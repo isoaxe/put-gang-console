@@ -119,7 +119,7 @@ const FirebaseLogin = () => {
                     <Grid item lg={6} md={6} sm={5} xs={12}>
                         <div className="cardLeft">
                             <IMG
-                                src="/assets/images/put-gang-icon.png"
+                                src="/assets/images/put-gang-logo.png"
                                 alt="Put Gang Icon"
                             />
                         </div>

@@ -54,7 +54,7 @@ const Settings = () => {
         const response = await fetch(`${API_URL}/users/user`, fetchConfig);
         const jsonResponse = await response.json();
         console.log(jsonResponse);
-        getData("/users/user", setUser);
+        await getData("/users/user", setUser);
         if (insta) document.location.reload(); // Force a reload to update photo.
         setName("");
         setInsta("");

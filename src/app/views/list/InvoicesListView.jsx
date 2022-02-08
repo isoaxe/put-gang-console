@@ -80,8 +80,7 @@ const InvoicesListView = ({ list = [] }) => {
                         </Grid>
                         <Grid item md={0}>
                             <FlexBox>
-                                <Avatar src={item.userImage}></Avatar>
-                                <Span sx={{ ml: '16px' }}>{item.userName}</Span>
+                                <Avatar src={item.avatarUrl}></Avatar>
                             </FlexBox>
                         </Grid>
                     </Grid>

@@ -16,7 +16,7 @@ const Container = styled('div')(({ theme }) => ({
 const ActivityList = () => {
     const [originalList, setOriginalList] = useState([])
     const [list, setList] = useState([])
-    const { role, activities } = useContext(DataContext);
+    const { role, users, activities } = useContext(DataContext);
 
     // Form a statement for each activity based on data.
     function formatStatement (name, email, action, product) {
@@ -35,15 +35,23 @@ const ActivityList = () => {
 
     const formatActivityData = useCallback(
       () => {
-        activities.forEach(item => item["statement"] = formatStatement(
+        const combinedactivities = [];
+        for (let i = 0; i < activities.length; i++) {
+          const currentActivity = activities[i];
+          const currentUser = users.find(user => user.uid === currentActivity.uid);
+          currentActivity["name"] = currentUser.name;
+          currentActivity["avatarUrl"] = currentUser.avatarUrl;
+          combinedactivities.push(currentActivity);
+        }
+        combinedactivities.forEach(item => item["statement"] = formatStatement(
           item.name,
           item.email,
           item.action,
           item.product
         ));
-        setOriginalList(activities);
-        setList(activities);
-      }, [activities]
+        setOriginalList(combinedactivities);
+        setList(combinedactivities);
+      }, [users, activities]
     );
 
     const handleInputChange = (event) => {
@@ -63,10 +71,10 @@ const ActivityList = () => {
     )
 
     useEffect(() => {
-        if (activities.length && ["admin", "level-1", "level-2"].includes(role)) {
+        if (users.length && activities.length && ["admin", "level-1", "level-2"].includes(role)) {
             formatActivityData();
         }
-    }, [activities, role, formatActivityData])
+    }, [users, activities, role, formatActivityData])
 
     return (
         <Container className="list">

@@ -54,7 +54,7 @@ const Users = () => {
                         <FlexBox>
                             <Avatar
                                 sx={{ width: 48, height: 48, border: '2px solid ' + userStatus(user.expiryDate) }}
-                                src={user?.imgUrl}
+                                src={user?.avatarUrl}
                             />
                             <Box ml="12px">
                                 <H5 sx={{ fontSize: '15px' }}>{user?.name}</H5>
