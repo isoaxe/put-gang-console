@@ -95,7 +95,7 @@ const ActivityListView = ({ list = [] }) => {
                         </Grid>
                         <Grid item md={2}>
                             <FlexBox>
-                                <Avatar src={item.userImage}></Avatar>
+                                <Avatar src={item.avatarUrl}></Avatar>
                                 <Span sx={{ ml: '16px' }}>{item.userName}</Span>
                             </FlexBox>
                         </Grid>
