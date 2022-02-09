@@ -1,7 +1,8 @@
-import { Span } from '../Typography'
-import React from 'react'
-import MatxCustomizer from '../MatxCustomizer/MatxCustomizer'
-import { styled } from '@mui/system'
+import React from 'react';
+import { styled } from '@mui/system';
+import { Span } from '../Typography';
+import MatxCustomizer from '../MatxCustomizer/MatxCustomizer';
+
 
 const SidebarRoot = styled('div')(({ theme, width }) => ({
     position: 'fixed',
