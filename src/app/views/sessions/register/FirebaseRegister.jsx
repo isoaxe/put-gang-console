@@ -2,8 +2,6 @@ import {
     Card,
     Grid,
     Button,
-    Checkbox,
-    FormControlLabel,
     CircularProgress,
 } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
@@ -153,32 +151,6 @@ const FirebaseRegister = () => {
                                     value={password || ''}
                                     validators={['required']}
                                     errorMessages={['this field is required']}
-                                />
-                                <FormControlLabel
-                                    sx={{ mb: '16px' }}
-                                    name="agreement"
-                                    onChange={(e) =>
-                                        handleChange({
-                                            target: {
-                                                name: 'agreement',
-                                                value: e.target.checked,
-                                            },
-                                        })
-                                    }
-                                    control={
-                                        <Checkbox
-                                            size="small"
-                                            checked={agreement || false}
-                                        />
-                                    }
-                                    label={
-                                        <>
-                                            I have read and agree to the{' '}
-                                            <a href="/" className="labelLink">
-                                                terms of service.
-                                            </a>
-                                        </>
-                                    }
                                 />
                                 {message && (
                                     <Paragraph sx={{ color: textError }}>
