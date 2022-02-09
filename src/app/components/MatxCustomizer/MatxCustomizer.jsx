@@ -1,4 +1,4 @@
-import { H5, Span } from '../Typography'
+import { H5 } from '../Typography'
 import BadgeSelected from './BadgeSelected'
 import Scrollbar from 'react-perfect-scrollbar'
 import useSettings from 'app/hooks/useSettings'
@@ -11,27 +11,9 @@ import {
     Link,
     Button,
     Drawer,
-    Tooltip,
     IconButton,
     ThemeProvider,
 } from '@mui/material'
-
-const Label = styled(Span)(({ theme }) => ({
-    color: theme.palette.secondary.main,
-    backgroundColor: theme.palette.primary.dark,
-    fontWeight: 700,
-    transform: 'rotate(90deg)',
-    marginBottom: '2.5rem',
-    padding: '.25rem .5rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    letterSpacing: '1.5px',
-    fontSize: '1rem',
-    '&:hover, &.open': {
-        backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.secondary.contrastText,
-    },
-}))
 
 const MaxCustomaizer = styled('div')(({ theme }) => ({
     height: '100vh',
@@ -91,14 +73,15 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
 }))
 
 const MatxCustomizer = (props) => {
-    const [open, setOpen] = useState(false)
     const [tabIndex, setTabIndex] = useState(0)
     const { settings, updateSettings } = useSettings()
     const theme = useTheme()
     const secondary = theme.palette.text.secondary
 
     const tooglePanel = () => {
-        setOpen(!open)
+        updateSettings({
+            secondarySidebar: { open: false },
+        })
     }
     const handleTabChange = (index) => {
         setTabIndex(index)
@@ -107,16 +90,10 @@ const MatxCustomizer = (props) => {
 
     return (
         <Fragment>
-            <Tooltip title="Theme Settings" placement="left">
-                <Label className="open" onClick={tooglePanel}>
-                    DEMOS
-                </Label>
-            </Tooltip>
-
             <ThemeProvider theme={activeTheme}>
                 <Drawer
                     anchor={'right'}
-                    open={open}
+                    open={true}
                     variant="temporary"
                     onClose={tooglePanel}
                     ModalProps={{
