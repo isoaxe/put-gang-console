@@ -78,7 +78,7 @@ const MatxCustomizer = (props) => {
     const theme = useTheme()
     const secondary = theme.palette.text.secondary
 
-    const tooglePanel = () => {
+    const closeSidebar = () => {
         updateSettings({
             secondarySidebar: { open: false },
         })
@@ -95,7 +95,7 @@ const MatxCustomizer = (props) => {
                     anchor={'right'}
                     open={true}
                     variant="temporary"
-                    onClose={tooglePanel}
+                    onClose={closeSidebar}
                     ModalProps={{
                         keepMounted: true,
                     }}
@@ -110,7 +110,7 @@ const MatxCustomizer = (props) => {
                                     Theme Settings
                                 </H5>
                             </Box>
-                            <IconButton onClick={tooglePanel}>
+                            <IconButton onClick={closeSidebar}>
                                 <Icon className="icon">close</Icon>
                             </IconButton>
                         </Controller>
