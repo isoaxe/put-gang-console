@@ -1,6 +1,5 @@
 import React from 'react';
 import { styled } from '@mui/system';
-import { Span } from '../Typography';
 import MatxCustomizer from '../MatxCustomizer/MatxCustomizer';
 
 
@@ -40,9 +39,7 @@ const SecondarySidebarContent = ({ chatTheme }) => {
 
     return (
         <SidebarRoot width={'50px'} className="secondary-sidebar">
-            <Span sx={{ m: 'auto' }}></Span>
             <MatxCustomizer />
-            <Span sx={{ m: 'auto' }}></Span>
         </SidebarRoot>
     )
 }
