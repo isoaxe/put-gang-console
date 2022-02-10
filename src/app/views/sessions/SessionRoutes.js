@@ -3,8 +3,8 @@ import Loadable from 'app/components/Loadable/Loadable';
 
 const NotFound = Loadable(lazy(() => import("./NotFound")));
 const ForgotPassword = Loadable(lazy(() => import("./ForgotPassword")));
-const FirebaseLogin = Loadable(lazy(() => import("./login/FirebaseLogin")));
-const FirebaseRegister = Loadable(lazy(() => import("./register/FirebaseRegister")));
+const FirebaseLogin = Loadable(lazy(() => import("./FirebaseLogin")));
+const FirebaseRegister = Loadable(lazy(() => import("./FirebaseRegister")));
 
 const sessionRoutes = [
     {
