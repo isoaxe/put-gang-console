@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import { addMonth } from "./../util/helpers.js";
-import { getAvatar } from "./instagramAvatar.js";
+import { storeProfilePic } from "./instagramAvatar.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
 
@@ -163,12 +163,16 @@ export async function edit (req, res) {
 
 		// Set photo url in Firebase auth and Firestore.
 		if (insta) {
-			const photoUrl = await getAvatar(insta);
-			admin.auth().updateUser(uid, { photoURL: photoUrl.url });
-			userRef.set({ avatarUrl: photoUrl.url }, { merge: true });
+			const url = await storeProfilePic(insta);
+			if (url) {
+				admin.auth().updateUser(uid, { photoURL: url });
+				userRef.set({ avatarUrl: url }, { merge: true });
+				return res.status(200).send({ message: "User successfully edited." });
+			} else {
+				console.log("not found");
+				return res.status(404).end("not found");
+			}
 		}
-
-		return res.status(200).send({ message: "User successfully edited." });
 	} catch (err) {
 		return handleError(res, err);
 	}
