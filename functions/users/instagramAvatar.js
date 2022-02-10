@@ -92,3 +92,11 @@ async function getAvatarFromCache (username) {
     return { exists: false, url: null };
   }
 }
+
+// Store Instagram cookies in Firestore after login for use later.
+async function setSessionCache (cookie) {
+  await instagramDb.doc("__session").set({
+    cookie: cookie,
+    created: Date.now()
+  });
+}
