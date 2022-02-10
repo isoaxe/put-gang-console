@@ -156,3 +156,72 @@ async function login (username, password) {
   }
   return cookies;
 }
+
+// Get profile_pic_hd url.
+async function getProfilePicUrl (user) {
+  // Check cache first.
+  let doc = await instagramDb.doc(user).get();
+  let data = doc.data();
+  if (data && data.profile_pic_url_hd) {
+    return data.profile_pic_url_hd;
+  }
+  // Check if session exists or not.
+  let sessionCookie = await getSessionCache();
+  if (!sessionCookie) {
+    sessionCookie = await login(username, password);
+    await setSessionCache(sessionCookie);
+  }
+  // profile_pic_url_hd can be parsed from user html page itself or from Public api.
+  // Public api needs more testing.
+  // Try with Public api first, fallback to page parsing after.
+  let profile_pic_hd = defaultPicUrl;
+  try {
+    let response = await fetch(`https://instagram.com/${user}/?__a=1`, {
+      headers: {
+        cookie: sessionCookie
+      }
+    })
+    let page = await response.json();
+    if (saveUserInfo) {
+      try {
+        let userInfo = page.graphql?.user;
+        await instagramDb.doc(user).set({
+          id: userInfo.id,
+          username: userInfo.username,
+          profile_pic_url_hd: userInfo.profile_pic_url_hd,
+          profile_pic_url: userInfo.profile_pic_url,
+          full_name: userInfo.full_name,
+          fbid: userInfo.fbid,
+          external_url: userInfo.external_url,
+          biography: userInfo.biography
+        })
+      } catch (e) {
+        console.log("Can't collect user_info from api", e);
+      }
+    }
+
+    profile_pic_hd = page.graphql?.user?.profile_pic_url_hd;
+  } catch (e) {
+    console.log(e);
+    let response = await fetch(`https://instagram.com/${user}`, {
+      headers: {
+        cookie: sessionCookie
+      }
+    })
+    let page = await response.text();
+    let match = page.match(/profile_pic_url_hd":"(.+?)"/);
+
+    profile_pic_hd = match !== null ? JSON.parse(`["${match[1]}"]`)[0] : null;
+    if (saveUserInfo) {
+      try {
+        await instagramDb.doc(user).set({
+          username: user,
+          profile_pic_hd: profile_pic_hd
+        });
+      } catch (e) {
+        console.log("Can't collect user_info from parsing", e);
+      }
+    }
+  }
+  return profile_pic_hd;
+}
