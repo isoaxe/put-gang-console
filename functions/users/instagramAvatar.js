@@ -124,3 +124,35 @@ async function csrfToken () {
   let csrf = page.match(/csrf_token\":\"(.*?)\"/);
   return csrf !== null ? csrf[1] : null;
 }
+
+// Do login and return resulting cookie string.
+async function login (username, password) {
+  let url = "https://www.instagram.com/accounts/login/ajax/";
+  let csrf = await csrfToken();
+  let options = {
+    method: "POST",
+    headers: {
+      "user-agent": userAgent,
+      "x-csrftoken": csrf,
+      "x-requested-with": "XMLHttpRequest",
+      "referer": "https://www.instagram.com/accounts/login/"
+    },
+    body: new URLSearchParams({
+      enc_password: `#PWD_INSTAGRAM_BROWSER:0:${Date.now()}:${password}`,
+      username: username,
+      queryParams: "{}",
+      optIntoOneTap: "false"
+    })
+  }
+  let response = await fetch(url, options);
+  let setCookie = response.headers.raw()["set-cookie"];
+  let cookies = "";
+
+  for (let i = 0; i < setCookie.length; i++) {
+    let match = setCookie[i].match(/^[^;]+;/);
+    if (match) {
+      cookies = `${cookies} ${match[0]}`;
+    }
+  }
+  return cookies;
+}
