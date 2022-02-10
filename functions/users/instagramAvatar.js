@@ -19,6 +19,48 @@ const storage = new Storage();
 const instagramDb = db.collection(bucketPath);
 const bucket = storage.bucket(bucketId);
 
+// Returns avatar url from Firebase Storage. Gets and stores it if not present.
+export async function storeProfilePic (user) {
+  // Return avatar if it already exists.
+  const file = bucket.file(`${bucketPath}/${user}.png`);
+  let exists = await file.exists();
+  if (exists[0]) {
+    return file.publicUrl();
+  }
+
+  // Get url.
+  let url = await getProfilePicUrl(user);
+  if (url) {
+    // Load image.
+    try {
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          referer: "https://www.instagram.com/"
+        }
+      });
+      let data = await response.arrayBuffer();
+      const buffer = Buffer.from(data);
+
+      // store img file in bucket
+      await file.save(buffer, {
+        metadata: {
+          contentType: "image/png",
+          origin: ["*"],
+          instagram_pic_url: url
+        }
+      });
+      await file.makePublic();
+      return file.publicUrl();
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  } else {
+    return null;
+  }
+}
+
 // Checks to see if photo is already in Firebase Storage first. If not, retrieve
 // url from Instagram, save photo to Storage and return that url.
 // This prevents excessive calls and avoids Instagram blocking our requests.
