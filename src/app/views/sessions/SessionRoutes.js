@@ -3,17 +3,17 @@ import Loadable from 'app/components/Loadable/Loadable';
 
 const NotFound = Loadable(lazy(() => import("./NotFound")));
 const ForgotPassword = Loadable(lazy(() => import("./ForgotPassword")));
-const FirebaseLogin = Loadable(lazy(() => import("./FirebaseLogin")));
-const FirebaseRegister = Loadable(lazy(() => import("./FirebaseRegister")));
+const Login = Loadable(lazy(() => import("./Login")));
+const Register = Loadable(lazy(() => import("./Register")));
 
 const sessionRoutes = [
     {
         path: '/session/signup',
-        element: <FirebaseRegister />,
+        element: <Register />,
     },
     {
         path: '/session/signin',
-        element: <FirebaseLogin />,
+        element: <Login />,
     },
     {
         path: '/session/forgot-password',

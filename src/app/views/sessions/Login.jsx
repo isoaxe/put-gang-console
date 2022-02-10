@@ -67,7 +67,7 @@ function getBearerToken () {
   });
 }
 
-const FirebaseLogin = () => {
+const Login = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [userInfo, setUserInfo] = useState({
@@ -229,4 +229,4 @@ const FirebaseLogin = () => {
     )
 }
 
-export default FirebaseLogin
+export default Login;

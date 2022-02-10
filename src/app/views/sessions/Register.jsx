@@ -59,7 +59,7 @@ const RegisterRoot = styled(JustifyBox)(({ theme }) => ({
     },
 }))
 
-const FirebaseRegister = () => {
+const Register = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
@@ -191,4 +191,4 @@ const FirebaseRegister = () => {
     )
 }
 
-export default FirebaseRegister
+export default Register;
