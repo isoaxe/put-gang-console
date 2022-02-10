@@ -1,6 +1,23 @@
+import Firestore from "@google-cloud/firestore";
+import { Storage } from "@google-cloud/storage";
 import admin from "firebase-admin";
 import fetch from "node-fetch";
 
+
+// Declare variables.
+const username = "";
+const password = "";
+const saveUserInfo = true;
+const defaultPicUrl = null;
+const bucketPath = "avatars";
+const bucketId = "gs://put-gang.appspot.com";
+const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"
+
+// Initialize Firebase products.
+const db = new Firestore();
+const storage = new Storage();
+const instagramDb = db.collection(bucketPath);
+const bucket = storage.bucket(bucketId);
 
 // Checks to see if photo is already in Firebase Storage first. If not, retrieve
 // url from Instagram, save photo to Storage and return that url.
@@ -27,8 +44,6 @@ export async function getAvatar (username) {
  *   Helper functions for the above function.
  *   As such, these do not get exported.
  */
-const bucketPath = "avatars";
-const bucketId = "gs://put-gang.appspot.com";
 
 // Returns the users instagram profile photo from the Public api.
 async function getAvatarUrl (username) {
