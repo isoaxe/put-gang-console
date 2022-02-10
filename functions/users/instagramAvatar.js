@@ -100,3 +100,11 @@ async function setSessionCache (cookie) {
     created: Date.now()
   });
 }
+
+// Return session cache from Firestore if it exists.
+async function getSessionCache () {
+  let doc = await instagramDb.doc("__session").get();
+  let data = doc.data();
+  let cookie = data ? data.cookie : null;
+  return cookie;
+}
