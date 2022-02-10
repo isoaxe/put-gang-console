@@ -40,11 +40,12 @@ const SecondarySidebarToggle = () => {
                     <Icon sx={{ color: textColor }}>close</Icon>
                 </IconButton>
             )}
-            {!settings.secondarySidebar.open && (
+            {/* TODO: Uncomment this to render settings FAB when implementing themes.
+              !settings.secondarySidebar.open && (
                 <Fab color="primary" aria-label="expand" onClick={toggle}>
                     <Icon sx={{ color: textColor }}>settings</Icon>
                 </Fab>
-            )}
+            )*/}
         </Toggle>
     )
 }

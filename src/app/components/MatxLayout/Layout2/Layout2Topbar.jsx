@@ -5,11 +5,8 @@ import useAuth from 'app/hooks/useAuth'
 import { styled, Box } from '@mui/system'
 import useSettings from 'app/hooks/useSettings'
 import { topBarHeight } from 'app/utils/constants'
-import ShoppingCart from '../../ShoppingCart/ShoppingCart'
-import NotificationBar2 from '../../NotificationBar2/NotificationBar2'
 import { Icon, IconButton, Hidden, MenuItem, Avatar } from '@mui/material'
 import MatxToolbarMenu from 'app/components/MatxToolbarMenu/MatxToolbarMenu'
-import MatxSearchBox from 'app/components/MatxSearchBox/MatxSearchBox'
 import MatxMenu from 'app/components/MatxMenu/MatxMenu'
 
 const TopbarContainer = styled('div')(({ theme }) => ({
@@ -103,9 +100,6 @@ const Layout2Topbar = () => {
                 </MatxLogo>
                 <Box display="flex" alignItems="center">
                     <MatxToolbarMenu offsetTop="64px">
-                        <MatxSearchBox />
-                        <NotificationBar2 />
-                        <ShoppingCart />
 
                         <MatxMenu
                             menuButton={<UserProfile src={user.avatar} />}
