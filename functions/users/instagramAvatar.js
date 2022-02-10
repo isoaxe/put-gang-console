@@ -108,3 +108,19 @@ async function getSessionCache () {
   let cookie = data ? data.cookie : null;
   return cookie;
 }
+
+// Need to get CSRF token before login.
+async function csrfToken () {
+  let url = "https://www.instagram.com/accounts/login/";
+  let options = {
+    "method": "GET",
+    "headers": {
+      "Host": "www.instagram.com",
+      "user-agent": userAgent
+    }
+  };
+  let response = await fetch(url, options);
+  let page = await response.text();
+  let csrf = page.match(/csrf_token\":\"(.*?)\"/);
+  return csrf !== null ? csrf[1] : null;
+}
