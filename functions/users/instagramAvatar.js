@@ -87,10 +87,10 @@ async function getSessionCache () {
 // Need to get CSRF token before login.
 async function csrfToken () {
   let options = {
-    "method": "GET",
-    "headers": {
-      "Host": "www.instagram.com",
-      "user-agent": userAgent
+    method: "GET",
+    headers: {
+      host: "www.instagram.com",
+      userAgent
     }
   };
   let response = await fetch(loginUrl, options);
@@ -107,14 +107,14 @@ async function login (username, password) {
   let options = {
     method: "POST",
     headers: {
-      "user-agent": userAgent,
+      userAgent,
       "x-csrftoken": csrf,
       "x-requested-with": "XMLHttpRequest",
-      "referer": loginUrl
+      referer: loginUrl
     },
     body: new URLSearchParams({
       enc_password: `#PWD_INSTAGRAM_BROWSER:0:${Date.now()}:${password}`,
-      username: username,
+      username,
       queryParams: "{}",
       optIntoOneTap: "false"
     })
