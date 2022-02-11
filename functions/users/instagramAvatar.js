@@ -4,8 +4,8 @@ import fetch from "node-fetch";
 
 
 // Declare variables.
-const username = "";
-const password = "";
+const username = process.env.INSTAGRAM_HANDLE;
+const password = process.env.INSTAGRAM_PASSWORD;
 const saveUserInfo = true;
 const defaultPicUrl = null;
 const bucketPath = "avatars";
