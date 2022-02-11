@@ -163,6 +163,7 @@ async function csrfToken () {
   };
   let response = await fetch(url, options);
   let page = await response.text();
+  /* eslint-disable no-useless-escape */
   let csrf = page.match(/csrf_token\":\"(.*?)\"/);
   return csrf !== null ? csrf[1] : null;
 }
