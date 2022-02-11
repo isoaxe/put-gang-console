@@ -10,6 +10,7 @@ const saveUserInfo = true;
 const defaultPicUrl = null;
 const bucketPath = "avatars";
 const bucketId = "gs://put-gang.appspot.com";
+const loginUrl = "https://www.instagram.com/accounts/login";
 const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"
 
 // Initialize Firebase products.
@@ -85,7 +86,6 @@ async function getSessionCache () {
 
 // Need to get CSRF token before login.
 async function csrfToken () {
-  let url = "https://www.instagram.com/accounts/login/";
   let options = {
     "method": "GET",
     "headers": {
@@ -93,7 +93,7 @@ async function csrfToken () {
       "user-agent": userAgent
     }
   };
-  let response = await fetch(url, options);
+  let response = await fetch(loginUrl, options);
   let page = await response.text();
   /* eslint-disable no-useless-escape */
   let csrf = page.match(/csrf_token\":\"(.*?)\"/);
@@ -102,7 +102,7 @@ async function csrfToken () {
 
 // Do login and return resulting cookie string.
 async function login (username, password) {
-  let url = "https://www.instagram.com/accounts/login/ajax/";
+  let url = `${loginUrl}/ajax`;
   let csrf = await csrfToken();
   let options = {
     method: "POST",
@@ -110,7 +110,7 @@ async function login (username, password) {
       "user-agent": userAgent,
       "x-csrftoken": csrf,
       "x-requested-with": "XMLHttpRequest",
-      "referer": "https://www.instagram.com/accounts/login/"
+      "referer": loginUrl
     },
     body: new URLSearchParams({
       enc_password: `#PWD_INSTAGRAM_BROWSER:0:${Date.now()}:${password}`,
