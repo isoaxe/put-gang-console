@@ -88,7 +88,7 @@ async function csrfToken () {
     method: "GET",
     headers: {
       host: "www.instagram.com",
-      userAgent
+      "user-agent": userAgent
     }
   };
   let response = await fetch(loginUrl, options);
@@ -105,7 +105,7 @@ async function login (username, password) {
   let options = {
     method: "POST",
     headers: {
-      userAgent,
+      "user-agent": userAgent,
       "x-csrftoken": csrf,
       "x-requested-with": "XMLHttpRequest",
       referer: loginUrl
