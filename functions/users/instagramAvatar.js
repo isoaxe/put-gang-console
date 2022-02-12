@@ -50,8 +50,8 @@ export async function storeProfilePic (user) {
       });
       await file.makePublic();
       return file.publicUrl();
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log("Saving of profile photo file failed:", err);
       return null;
     }
   } else {
@@ -168,14 +168,14 @@ async function getProfilePicUrl (user) {
           external_url: userInfo.external_url,
           biography: userInfo.biography
         })
-      } catch (e) {
-        console.log("Can't collect user_info from api", e);
+      } catch (err) {
+        console.log("Saving of data from Public api to Firestore failed:", err);
       }
     }
 
     profile_pic_hd = page.graphql?.user?.profile_pic_url_hd;
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.log("Public api request failed. Now attempting to parse page:", err);
     let response = await fetch(`https://instagram.com/${user}`, {
       headers: {
         cookie: sessionCookie
@@ -191,8 +191,8 @@ async function getProfilePicUrl (user) {
           username: user,
           profile_pic_hd: profile_pic_hd
         });
-      } catch (e) {
-        console.log("Can't collect user_info from parsing", e);
+      } catch (err) {
+        console.log("Saving of parsed user data to Firestore failed:", err);
       }
     }
   }
