@@ -7,10 +7,9 @@ import fetch from "node-fetch";
 const username = process.env.INSTAGRAM_HANDLE;
 const password = process.env.INSTAGRAM_PASSWORD;
 const saveUserInfo = true;
-const defaultPicUrl = null;
 const bucketId = "gs://put-gang.appspot.com";
 const loginUrl = "https://www.instagram.com/accounts/login";
-const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"
+const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36";
 
 // Initialize Firebase products.
 const db = new Firestore();
@@ -148,7 +147,7 @@ async function getProfilePicUrl (user) {
   // profile_pic_url_hd can be parsed from user html page itself or from Public api.
   // Public api needs more testing.
   // Try with Public api first, fallback to page parsing after.
-  let profile_pic_hd = defaultPicUrl;
+  let profile_pic_hd = null;
   try {
     let response = await fetch(`https://instagram.com/${user}/?__a=1`, {
       headers: {
