@@ -52,8 +52,8 @@ const Charts = () => {
             <SimpleCard title="Revenues">
                 <StackedAreaChart data={chartData} />
             </SimpleCard>
-            <SimpleCard title="simple line chart">
-                <SimpleLineChart />
+            <SimpleCard title="Subscribers">
+                <SimpleLineChart data={chartData} />
             </SimpleCard>
         </Container>
     )
