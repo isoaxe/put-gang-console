@@ -4,6 +4,7 @@ import { styled, Box } from '@mui/system';
 import SimpleCard from 'app/components/cards/SimpleCard';
 import SimpleLineChart from './shared/SimpleLineChart';
 import StackedAreaChart from './shared/StackedAreaChart';
+import { H4 } from 'app/components/Typography';
 import { monthName } from 'app/utils/helpers';
 import { rawData } from './shared/dummyData';
 
@@ -57,7 +58,9 @@ const Charts = () => {
     return (
         <Container>
             <FlexBox>
+                <H4>Discrete</H4>
                 <Switch />
+                <H4>Cumulative</H4>
             </FlexBox>
             <SimpleCard title="Revenues">
                 <StackedAreaChart data={chartData} />
