@@ -2,82 +2,9 @@ import RechartCreator from 'app/components/charts/RechartCreator'
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 
-const data = [
-    {
-        name: 'January',
-        OnePlus: 4000,
-        Mi: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'February',
-        OnePlus: 3000,
-        Mi: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'March',
-        OnePlus: 2000,
-        Mi: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'April',
-        OnePlus: 2780,
-        Mi: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'May',
-        OnePlus: 1890,
-        Mi: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'June',
-        OnePlus: 2390,
-        Mi: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'July',
-        OnePlus: 3490,
-        Mi: 4300,
-        amt: 2100,
-    },
-    {
-        name: 'August',
-        OnePlus: 3000,
-        Mi: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'September',
-        OnePlus: 2000,
-        Mi: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'October',
-        OnePlus: 2780,
-        Mi: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'November',
-        OnePlus: 1890,
-        Mi: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'December',
-        OnePlus: 2000,
-        Mi: 9800,
-        amt: 2290,
-    },
-]
 
-const SimpleLineChart = ({ height, width }) => {
+const SimpleLineChart = (props) => {
+    const { data, height, width } = props;
     return (
         <RechartCreator height={height} width={width}>
             <LineChart
@@ -90,21 +17,27 @@ const SimpleLineChart = ({ height, width }) => {
                 }}
             >
                 <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
                 {/* <Legend /> */}
                 <Line
                     type="monotone"
-                    dataKey="Mi"
+                    dataKey="Subscriptions"
                     stroke="#8884d8"
                     activeDot={{ r: 8 }}
                 />
                 <Line
                     type="monotone"
-                    dataKey="OnePlus"
+                    dataKey="Cancellations"
                     activeDot={{ r: 5 }}
                     stroke="#82ca9d"
+                />
+                <Line
+                    type="monotone"
+                    dataKey="Net Movement"
+                    activeDot={{ r: 5 }}
+                    stroke="#ffc658"
                 />
             </LineChart>
         </RechartCreator>
