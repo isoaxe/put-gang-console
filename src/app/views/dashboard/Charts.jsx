@@ -1,7 +1,5 @@
 import React from 'react';
 import { useTheme, styled } from '@mui/system';
-import { Card } from '@mui/material';
-import { H2 } from 'app/components/Typography'
 import SimpleCard from 'app/components/cards/SimpleCard';
 import SimpleLineChart from './shared/SimpleLineChart';
 import AdvanceLineChart from './shared/AdvanceLineChart';
@@ -26,8 +24,7 @@ const Charts = () => {
 
     return (
         <Container>
-            <Card sx={{ py: 2, pl: 1, pr: 2 }}>
-                <H2 sx={{ pl: 2 }}>Apex Line Chart</H2>
+            <SimpleCard title="apex line chart">
                 <AdvanceLineChart
                     chartData={[
                         {
@@ -38,7 +35,7 @@ const Charts = () => {
                     colors={[textPrimary]}
                     height={300}
                 />
-            </Card>
+            </SimpleCard>
             <SimpleCard title="simple line chart">
                 <SimpleLineChart />
             </SimpleCard>
