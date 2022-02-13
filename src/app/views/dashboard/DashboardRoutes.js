@@ -5,6 +5,7 @@ const Users = Loadable(lazy(() => import("./Users")));
 const Affiliates = Loadable(lazy(() => import("./Affiliates")));
 const Affiliate = Loadable(lazy(() => import("./Affiliate")));
 const Links = Loadable(lazy(() => import("./Links")));
+const Charts = Loadable(lazy(() => import("./Charts")));
 const Settings = Loadable(lazy(() => import("./Settings")));
 
 
@@ -28,6 +29,10 @@ export const dashboardRoutes = [
     {
         path: '/dashboard/links',
         element: <Links />,
+    },
+    {
+        path: '/dashboard/charts',
+        element: <Charts />,
     },
     {
         path: '/dashboard/settings',
