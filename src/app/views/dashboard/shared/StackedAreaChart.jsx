@@ -4,10 +4,11 @@ import RechartCreator from 'app/components/charts/RechartCreator'
 
 
 const StackedAreaChart = (props) => {
+    const { data, height, width } = props;
     return (
-        <RechartCreator>
+        <RechartCreator height={height} width={width}>
             <AreaChart
-                data={props.data}
+                data={data}
                 margin={{
                     top: 10,
                     right: 30,
