@@ -20,8 +20,8 @@ const Container = styled('div')(({ theme }) => ({
     },
 }));
 
-function revenueData (rawData) {
-    const revenues = [];
+function formatData (rawData) {
+    const chartData = [];
     rawData.forEach(month => {
         const monthData = {};
         const keyName = Object.keys(month)[0];
@@ -35,22 +35,22 @@ function revenueData (rawData) {
         monthData["Subscriptions"] = joined;
         monthData["Cancellations"] = cancelled;
         monthData["Net Movement"] = netMovement;
-        revenues.push(monthData);
+        chartData.push(monthData);
     });
-    return revenues;
+    return chartData;
 }
 
 const Charts = () => {
-    const [revenues, setRevenues] = useState([]);
+    const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
-      setRevenues(revenueData(rawData));
+      setChartData(formatData(rawData));
     }, []);
 
     return (
         <Container>
             <SimpleCard title="Revenues">
-                <StackedAreaChart revenues={revenues} />
+                <StackedAreaChart data={chartData} />
             </SimpleCard>
             <SimpleCard title="simple line chart">
                 <SimpleLineChart />
