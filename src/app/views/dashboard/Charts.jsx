@@ -25,12 +25,16 @@ function revenueData (rawData) {
     rawData.forEach(month => {
         const monthData = {};
         const keyName = Object.keys(month)[0];
-        const { totalRevenues, netRevenues } = month[keyName];
+        const { totalRevenues, netRevenues, joined, cancelled } = month[keyName];
         const affiliateRevenues = totalRevenues - netRevenues;
+        const netMovement = joined - cancelled;
         const label = monthName(keyName.split('-')[1]);
         monthData["name"] = label;
         monthData["Net Revenues"] = netRevenues;
         monthData["Affiliate Revenues"] = affiliateRevenues;
+        monthData["Subscriptions"] = joined;
+        monthData["Cancellations"] = cancelled;
+        monthData["Net Movement"] = netMovement;
         revenues.push(monthData);
     });
     return revenues;
