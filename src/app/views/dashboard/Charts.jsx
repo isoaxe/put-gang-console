@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/system';
+import { Switch } from '@mui/material';
+import { styled, Box } from '@mui/system';
 import SimpleCard from 'app/components/cards/SimpleCard';
 import SimpleLineChart from './shared/SimpleLineChart';
 import StackedAreaChart from './shared/StackedAreaChart';
@@ -18,6 +19,12 @@ const Container = styled('div')(({ theme }) => ({
             marginBottom: '16px',
         },
     },
+}));
+
+const FlexBox = styled(Box)(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 }));
 
 function formatData (rawData) {
@@ -49,6 +56,9 @@ const Charts = () => {
 
     return (
         <Container>
+            <FlexBox>
+                <Switch />
+            </FlexBox>
             <SimpleCard title="Revenues">
                 <StackedAreaChart data={chartData} />
             </SimpleCard>
