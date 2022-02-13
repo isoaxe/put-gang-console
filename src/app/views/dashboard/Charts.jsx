@@ -60,7 +60,7 @@ const Charts = () => {
                     height={300}
                 />
             </SimpleCard>
-            <SimpleCard title="stacked area chart">
+            <SimpleCard title="Revenues">
                 <StackedAreaChart revenues={revenues} />
             </SimpleCard>
             <SimpleCard title="simple line chart">
