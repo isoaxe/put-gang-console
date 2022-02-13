@@ -16,7 +16,7 @@ const StackedAreaChart = (props) => {
                 }}
             >
                 <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
                 <Area
