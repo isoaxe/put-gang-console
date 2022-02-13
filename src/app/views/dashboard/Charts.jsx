@@ -2,6 +2,7 @@ import React from 'react';
 import { useTheme, styled } from '@mui/system';
 import SimpleCard from 'app/components/cards/SimpleCard';
 import SimpleLineChart from './shared/SimpleLineChart';
+import StackedAreaChart from './shared/StackedAreaChart';
 import AdvanceLineChart from './shared/AdvanceLineChart';
 
 
@@ -35,6 +36,9 @@ const Charts = () => {
                     colors={[textPrimary]}
                     height={300}
                 />
+            </SimpleCard>
+            <SimpleCard title="stacked area chart">
+                <StackedAreaChart />
             </SimpleCard>
             <SimpleCard title="simple line chart">
                 <SimpleLineChart />
