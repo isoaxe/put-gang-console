@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme, styled } from '@mui/system';
+import { styled } from '@mui/system';
 import SimpleCard from 'app/components/cards/SimpleCard';
 import SimpleLineChart from './shared/SimpleLineChart';
 import StackedAreaChart from './shared/StackedAreaChart';
-import AdvanceLineChart from './shared/AdvanceLineChart';
 import { monthName } from 'app/utils/helpers';
 import { rawData } from './shared/dummyData';
 
@@ -39,8 +38,6 @@ function revenueData (rawData) {
 
 const Charts = () => {
     const [revenues, setRevenues] = useState([]);
-    const { palette } = useTheme();
-    const textPrimary = palette.primary.main;
 
     useEffect(() => {
       setRevenues(revenueData(rawData));
@@ -48,18 +45,6 @@ const Charts = () => {
 
     return (
         <Container>
-            <SimpleCard title="apex line chart">
-                <AdvanceLineChart
-                    chartData={[
-                        {
-                            name: 'A',
-                            data: [40, 80, 20, 90, 145, 80, 125, 60, 120, 70],
-                        },
-                    ]}
-                    colors={[textPrimary]}
-                    height={300}
-                />
-            </SimpleCard>
             <SimpleCard title="Revenues">
                 <StackedAreaChart revenues={revenues} />
             </SimpleCard>
