@@ -7,7 +7,7 @@ const StackedAreaChart = (props) => {
     return (
         <RechartCreator>
             <AreaChart
-                data={props.revenues}
+                data={props.data}
                 margin={{
                     top: 10,
                     right: 30,
