@@ -29,7 +29,7 @@ function formatData (rawData) {
         const affiliateRevenues = totalRevenues - netRevenues;
         const netMovement = joined - cancelled;
         const label = monthName(keyName.split('-')[1]);
-        monthData["name"] = label;
+        monthData["month"] = label;
         monthData["Net Revenues"] = netRevenues;
         monthData["Affiliate Revenues"] = affiliateRevenues;
         monthData["Subscriptions"] = joined;
