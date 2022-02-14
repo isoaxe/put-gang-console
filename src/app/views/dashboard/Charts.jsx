@@ -70,10 +70,12 @@ function formatCumulativeData (rawData) {
 
 const Charts = () => {
     const [discreteData, setDiscreteData] = useState([]);
+    const [cumulativeData, setCumulativeData] = useState([]);
     const [useDiscreteData, toggle] = useState(true);
 
     useEffect(() => {
       setDiscreteData(formatDiscreteData(rawData));
+      setCumulativeData(formatCumulativeData(rawData));
     }, []);
 
     return (
