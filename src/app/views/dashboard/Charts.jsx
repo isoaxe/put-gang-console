@@ -23,7 +23,7 @@ const FlexBox = styled(Box)(() => ({
     marginBottom: '20px',
 }));
 
-function formatData (rawData) {
+function formatDiscreteData (rawData) {
     const chartData = [];
     rawData.forEach(month => {
         const monthData = {};
@@ -44,11 +44,11 @@ function formatData (rawData) {
 }
 
 const Charts = () => {
-    const [chartData, setChartData] = useState([]);
+    const [discreteData, setDiscreteData] = useState([]);
     const [useDiscreteData, toggle] = useState(true);
 
     useEffect(() => {
-      setChartData(formatData(rawData));
+      setDiscreteData(formatDiscreteData(rawData));
     }, []);
 
     return (
@@ -59,10 +59,10 @@ const Charts = () => {
                 <H4>Cumulative</H4>
             </FlexBox>
             <SimpleCard title="Revenues">
-                <StackedAreaChart data={chartData} />
+                <StackedAreaChart data={discreteData} />
             </SimpleCard>
             <SimpleCard title="Subscribers">
-                <SimpleLineChart data={chartData} />
+                <SimpleLineChart data={discreteData} />
             </SimpleCard>
         </Container>
     )
