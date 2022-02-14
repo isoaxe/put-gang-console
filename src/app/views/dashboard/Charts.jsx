@@ -26,6 +26,7 @@ const FlexBox = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: '20px',
 }));
 
 function formatData (rawData) {
