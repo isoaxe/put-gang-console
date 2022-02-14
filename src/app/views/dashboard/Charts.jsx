@@ -86,10 +86,10 @@ const Charts = () => {
                 <H4>Cumulative</H4>
             </FlexBox>
             <SimpleCard title="Revenues">
-                <StackedAreaChart data={discreteData} />
+                <StackedAreaChart data={useDiscreteData ? discreteData : cumulativeData} />
             </SimpleCard>
             <SimpleCard title="Subscribers">
-                <SimpleLineChart data={discreteData} />
+                <SimpleLineChart data={useDiscreteData ? discreteData : cumulativeData} />
             </SimpleCard>
         </Container>
     )
