@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { addMonth } from "./../util/helpers.js";
+import { addMonth, currentMonthKey, chartExists, initChartData } from "./../util/helpers.js";
 import { storeProfilePic } from "./instagramAvatar.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
@@ -17,6 +17,21 @@ export async function create (req, res) {
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
 		const statsPath = db.collection("stats");
+		const chartsPath = db.collection("charts");
+
+		// Iterate chart data tracking number of paying subscribers.
+		if (membLvl !== "none") {
+			const key = currentMonthKey();
+			const exists = await chartExists(key);
+			if (!exists) {
+				initChartData();
+			}
+			const chartsRef = chartsPath.doc(key);
+			const charts = await chartsRef.get();
+			let { joined } = charts.data();
+			joined++;
+			chartsRef.set({ joined }, { merge: true });
+		}
 
 		// Get all uids and check if refId is amongst them.
 		// If present, set uplineUid and uplineRole based on this.
