@@ -1,5 +1,5 @@
 /*
- * Various helper functions used throughout the project.
+ * Various helper functions used throughout Firebase Functions.
  */
 import admin from "firebase-admin";
 
