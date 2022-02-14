@@ -7,17 +7,22 @@ import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 // Create new user.
 export async function create (req, res) {
 	try {
-		// Check Firestore for referrer id param and set uplineUid based on this.
-		let uplineUid = "";
-		let uplineRole = "";
-		const ids = [];
+		// Declare variables from params and body.
 		let { refId, membLvl } = req.params;
 		const { email, password } = req.body;
 		if (membLvl === "null") membLvl = "none";
+
+		// Initialize Firestore database and paths.
 		const db = admin.firestore();
 		const usersPath = db.collection("users");
 		const paymentsPath = db.collection("payments");
 		const statsPath = db.collection("stats");
+
+		// Get all uids and check if refId is amongst them.
+		// If present, set uplineUid and uplineRole based on this.
+		let uplineUid = "";
+		let uplineRole = "";
+		const ids = [];
 		const userList = await admin.auth().listUsers();
 		userList.users.forEach(item => ids.push(item.uid));
 		if (ids.includes(refId)) {
