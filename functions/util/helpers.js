@@ -13,3 +13,13 @@ export function addMonth (date) {
 export function newSubscriber (alreadySubbed, paymentType) {
   return !alreadySubbed && (paymentType === "join" || paymentType === "watch");
 }
+
+
+// Generate the document name for the Firestore charts collection this month.
+export function currentMonthKey () {
+  const now = new Date();
+  const year = now.getFullYear().toString();
+  let month = (now.getMonth() + 1).toString();
+  if (month.length === 1) month = "0" + month;
+  return `${year}-${month}`;
+}
