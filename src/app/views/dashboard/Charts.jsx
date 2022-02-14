@@ -45,6 +45,7 @@ function formatData (rawData) {
 
 const Charts = () => {
     const [chartData, setChartData] = useState([]);
+    const [useDiscreteData, toggle] = useState(true);
 
     useEffect(() => {
       setChartData(formatData(rawData));
@@ -54,7 +55,7 @@ const Charts = () => {
         <Container>
             <FlexBox>
                 <H4>Discrete</H4>
-                <Switch />
+                <Switch onChange={() => toggle(!useDiscreteData)} />
                 <H4>Cumulative</H4>
             </FlexBox>
             <SimpleCard title="Revenues">
