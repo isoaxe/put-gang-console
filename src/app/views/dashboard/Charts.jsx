@@ -43,6 +43,31 @@ function formatDiscreteData (rawData) {
     return chartData;
 }
 
+function formatCumulativeData (rawData) {
+    const chartData = [];
+    let [cumTotalRevenues, cumNetRevenues, cumJoined, cumCancelled] = Array(4).fill(0);
+    rawData.forEach(month => {
+        const monthData = {};
+        const keyName = Object.keys(month)[0];
+        const { totalRevenues, netRevenues, joined, cancelled } = month[keyName];
+        cumTotalRevenues += totalRevenues;
+        cumNetRevenues += netRevenues;
+        cumJoined += joined;
+        cumCancelled += cancelled;
+        const cumAffiliateRevenues = cumTotalRevenues - cumNetRevenues;
+        const cumNetMovement = cumJoined - cumCancelled;
+        const label = monthName(keyName.split('-')[1]);
+        monthData["month"] = label;
+        monthData["Net Revenues"] = cumNetRevenues;
+        monthData["Affiliate Revenues"] = cumAffiliateRevenues;
+        monthData["Subscriptions"] = cumJoined;
+        monthData["Cancellations"] = cumCancelled;
+        monthData["Net Movement"] = cumNetMovement;
+        chartData.push(monthData);
+    });
+    return chartData;
+}
+
 const Charts = () => {
     const [discreteData, setDiscreteData] = useState([]);
     const [useDiscreteData, toggle] = useState(true);
