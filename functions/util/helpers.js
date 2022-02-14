@@ -1,6 +1,7 @@
 /*
  * Various helper functions used throughout the project.
  */
+import admin from "firebase-admin";
 
 
 // Add 31 days to the supplied date.
@@ -22,4 +23,18 @@ export function currentMonthKey () {
   let month = (now.getMonth() + 1).toString();
   if (month.length === 1) month = "0" + month;
   return `${year}-${month}`;
+}
+
+
+// Initialize chart data for a new month in Firestore if not present.
+export async function initChartData () {
+  const db = admin.firestore();
+  const key = currentMonthKey();
+  const currentMonth = db.collection("charts").doc(key);
+  await currentMonth.set({
+    totalRevenues: 0,
+    netRevenues: 0,
+    joined: 0,
+    cancelled: 0
+  });
 }
