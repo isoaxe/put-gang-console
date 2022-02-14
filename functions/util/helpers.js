@@ -26,6 +26,14 @@ export function currentMonthKey () {
 }
 
 
+// Check if a chart corresponding to the provided document name exists in Firestore.
+export async function chartExists (key) {
+  const db = admin.firestore();
+  const currentMonth = await db.collection("charts").doc(key).get();
+  return currentMonth.exists;
+}
+
+
 // Initialize chart data for a new month in Firestore if not present.
 export async function initChartData () {
   const db = admin.firestore();
