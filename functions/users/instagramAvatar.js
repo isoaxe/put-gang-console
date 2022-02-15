@@ -7,7 +7,6 @@ import fetch from "node-fetch";
 const username = process.env.INSTAGRAM_HANDLE;
 const password = process.env.INSTAGRAM_PASSWORD;
 const saveUserInfo = true;
-const bucketId = "gs://put-gang.appspot.com";
 const loginUrl = "https://www.instagram.com/accounts/login";
 const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36";
 
@@ -15,7 +14,7 @@ const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/5
 const db = new Firestore();
 const storage = new Storage();
 const instagramDb = db.collection("avatars");
-const bucket = storage.bucket(bucketId);
+const bucket = storage.bucket("gs://put-gang.appspot.com");
 
 // Returns avatar url from Firebase Storage. Gets and stores it if not present.
 export async function storeProfilePic (user) {
