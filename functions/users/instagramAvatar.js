@@ -6,7 +6,6 @@ import fetch from "node-fetch";
 // Declare variables.
 const username = process.env.INSTAGRAM_HANDLE;
 const password = process.env.INSTAGRAM_PASSWORD;
-const saveUserInfo = true;
 const loginUrl = "https://www.instagram.com/accounts/login";
 const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36";
 
@@ -154,23 +153,6 @@ async function getProfilePicUrl (user) {
       }
     })
     let page = await response.json();
-    if (saveUserInfo) {
-      try {
-        let userInfo = page.graphql?.user;
-        await instagramDb.doc(user).set({
-          id: userInfo.id,
-          username: userInfo.username,
-          profile_pic_url_hd: userInfo.profile_pic_url_hd,
-          profile_pic_url: userInfo.profile_pic_url,
-          full_name: userInfo.full_name,
-          fbid: userInfo.fbid,
-          external_url: userInfo.external_url,
-          biography: userInfo.biography
-        })
-      } catch (err) {
-        console.log("Saving of data from Public api to Firestore failed:", err);
-      }
-    }
 
     profile_pic_hd = page.graphql?.user?.profile_pic_url_hd;
   } catch (err) {
@@ -184,16 +166,6 @@ async function getProfilePicUrl (user) {
     let match = page.match(/profile_pic_url_hd":"(.+?)"/);
 
     profile_pic_hd = match !== null ? JSON.parse(`["${match[1]}"]`)[0] : null;
-    if (saveUserInfo) {
-      try {
-        await instagramDb.doc(user).set({
-          username: user,
-          profile_pic_hd: profile_pic_hd
-        });
-      } catch (err) {
-        console.log("Saving of parsed user data to Firestore failed:", err);
-      }
-    }
   }
   return profile_pic_hd;
 }
