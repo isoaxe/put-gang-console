@@ -106,20 +106,20 @@ async function getProfilePicUrl (user, uid) {
   return profile_pic_hd;
 }
 
-// Store Instagram cookies in Firestore after login for use later.
-async function setSessionCache (cookie) {
-  await usersPath.doc("__session").set({
-    cookie: cookie,
-    created: Date.now()
-  });
-}
-
 // Return session cache from Firestore if it exists.
 async function getSessionCache () {
   let doc = await usersPath.doc("__session").get();
   let data = doc.data();
   let cookie = data ? data.cookie : null;
   return cookie;
+}
+
+// Store Instagram cookies in Firestore after login for use later.
+async function setSessionCache (cookie) {
+  await usersPath.doc("__session").set({
+    cookie: cookie,
+    created: Date.now()
+  });
 }
 
 // Need to get CSRF token before login.
