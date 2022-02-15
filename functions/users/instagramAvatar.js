@@ -100,7 +100,7 @@ async function csrfToken () {
 
 // Do login and return resulting cookie string.
 async function login (username, password) {
-  let url = `${loginUrl}/ajax`;
+  let url = `${loginUrl}/ajax/`;
   let csrf = await csrfToken();
   let options = {
     method: "POST",
