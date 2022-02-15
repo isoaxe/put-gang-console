@@ -64,6 +64,48 @@ export async function storeProfilePic (user, uid) {
  *   As such, these do not get exported.
  */
 
+// Get profile_pic_hd url.
+async function getProfilePicUrl (user, uid) {
+  // Check Firestore user data first.
+  let userRef = await usersPath.doc(uid).get();
+  let data = userRef.data();
+  if (data.avatarUrl?.includes(user)) {
+    return data.avatarUrl;
+  }
+  // Check if session exists or not.
+  let sessionCookie = await getSessionCache();
+  if (!sessionCookie) {
+    sessionCookie = await login(username, password);
+    await setSessionCache(sessionCookie);
+  }
+  // profile_pic_url_hd can be parsed from user html page itself or from Public api.
+  // Public api needs more testing.
+  // Try with Public api first, fallback to page parsing after.
+  let profile_pic_hd = null;
+  try {
+    let response = await fetch(`https://instagram.com/${user}/?__a=1`, {
+      headers: {
+        cookie: sessionCookie
+      }
+    });
+    let page = await response.json();
+
+    profile_pic_hd = page.graphql?.user?.profile_pic_url_hd;
+  } catch (err) {
+    console.log("Public api request failed. Now attempting to parse page:", err);
+    let response = await fetch(`https://instagram.com/${user}`, {
+      headers: {
+        cookie: sessionCookie
+      }
+    });
+    let page = await response.text();
+    let match = page.match(/profile_pic_url_hd":"(.+?)"/);
+
+    profile_pic_hd = match !== null ? JSON.parse(`["${match[1]}"]`)[0] : null;
+  }
+  return profile_pic_hd;
+}
+
 // Store Instagram cookies in Firestore after login for use later.
 async function setSessionCache (cookie) {
   await usersPath.doc("__session").set({
@@ -126,46 +168,4 @@ async function login (username, password) {
     }
   }
   return cookies;
-}
-
-// Get profile_pic_hd url.
-async function getProfilePicUrl (user, uid) {
-  // Check Firestore user data first.
-  let userRef = await usersPath.doc(uid).get();
-  let data = userRef.data();
-  if (data.avatarUrl?.includes(user)) {
-    return data.avatarUrl;
-  }
-  // Check if session exists or not.
-  let sessionCookie = await getSessionCache();
-  if (!sessionCookie) {
-    sessionCookie = await login(username, password);
-    await setSessionCache(sessionCookie);
-  }
-  // profile_pic_url_hd can be parsed from user html page itself or from Public api.
-  // Public api needs more testing.
-  // Try with Public api first, fallback to page parsing after.
-  let profile_pic_hd = null;
-  try {
-    let response = await fetch(`https://instagram.com/${user}/?__a=1`, {
-      headers: {
-        cookie: sessionCookie
-      }
-    })
-    let page = await response.json();
-
-    profile_pic_hd = page.graphql?.user?.profile_pic_url_hd;
-  } catch (err) {
-    console.log("Public api request failed. Now attempting to parse page:", err);
-    let response = await fetch(`https://instagram.com/${user}`, {
-      headers: {
-        cookie: sessionCookie
-      }
-    })
-    let page = await response.text();
-    let match = page.match(/profile_pic_url_hd":"(.+?)"/);
-
-    profile_pic_hd = match !== null ? JSON.parse(`["${match[1]}"]`)[0] : null;
-  }
-  return profile_pic_hd;
 }
