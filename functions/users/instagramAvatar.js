@@ -12,11 +12,11 @@ const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/5
 // Initialize Firebase products.
 const db = new Firestore();
 const storage = new Storage();
-const instagramDb = db.collection("avatars");
+const usersPath = db.collection("users");
 const bucket = storage.bucket("gs://put-gang.appspot.com");
 
 // Returns avatar url from Firebase Storage. Gets and stores it if not present.
-export async function storeProfilePic (user) {
+export async function storeProfilePic (user, uid) {
   // Return avatar if it already exists.
   const file = bucket.file(`avatars/${user}.png`);
   let exists = await file.exists();
@@ -25,7 +25,7 @@ export async function storeProfilePic (user) {
   }
 
   // Get url.
-  let url = await getProfilePicUrl(user);
+  let url = await getProfilePicUrl(user, uid);
   if (url) {
     // Load image.
     try {
@@ -66,7 +66,7 @@ export async function storeProfilePic (user) {
 
 // Store Instagram cookies in Firestore after login for use later.
 async function setSessionCache (cookie) {
-  await instagramDb.doc("__session").set({
+  await usersPath.doc("__session").set({
     cookie: cookie,
     created: Date.now()
   });
@@ -74,7 +74,7 @@ async function setSessionCache (cookie) {
 
 // Return session cache from Firestore if it exists.
 async function getSessionCache () {
-  let doc = await instagramDb.doc("__session").get();
+  let doc = await usersPath.doc("__session").get();
   let data = doc.data();
   let cookie = data ? data.cookie : null;
   return cookie;
@@ -129,12 +129,12 @@ async function login (username, password) {
 }
 
 // Get profile_pic_hd url.
-async function getProfilePicUrl (user) {
-  // Check cache first.
-  let doc = await instagramDb.doc(user).get();
-  let data = doc.data();
-  if (data && data.profile_pic_url_hd) {
-    return data.profile_pic_url_hd;
+async function getProfilePicUrl (user, uid) {
+  // Check Firestore user data first.
+  let userRef = await usersPath.doc(uid).get();
+  let data = userRef.data();
+  if (data.avatarUrl?.includes(user)) {
+    return data.avatarUrl;
   }
   // Check if session exists or not.
   let sessionCookie = await getSessionCache();
