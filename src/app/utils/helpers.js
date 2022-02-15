@@ -67,7 +67,53 @@ export function numToCurrency (num) {
 
 // Capitalize the first letter of a given string.
 export function capitalize (string) {
-    return string[0].toUpperCase() + string.slice(1);
+  return string[0].toUpperCase() + string.slice(1);
+}
+
+// Convert number cast as string to month name.
+export function monthName (number) {
+  let month;
+  switch (number) {
+    case "01":
+      month = "Jan";
+      break;
+    case "02":
+      month = "Feb";
+      break;
+    case "03":
+      month = "Mar";
+      break;
+    case "04":
+      month = "Apr";
+      break;
+    case "05":
+      month = "May";
+      break;
+    case "06":
+      month = "Jun";
+      break;
+    case "07":
+      month = "Jul";
+      break;
+    case "08":
+      month = "Aug";
+      break;
+    case "09":
+      month = "Sep";
+      break;
+    case "10":
+      month = "Oct";
+      break;
+    case "11":
+      month = "Nov";
+      break;
+    case "12":
+      month = "Dec";
+      break;
+    default:
+      month = "Error";
+  }
+  return month;
 }
 
 

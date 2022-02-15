@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { newSubscriber } from "./../util/helpers.js";
+import { newSubscriber, currentMonthKey, chartExists, initChartData } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
@@ -11,6 +11,7 @@ export async function create (req, res) {
 		const db = admin.firestore();
 		const paymentsPath = db.collection("payments");
 		const statsPath = db.collection("stats");
+		const chartsPath = db.collection("charts");
 
 		// Check if user is a new subscriber.
 		const newSub = newSubscriber(subscribed, type);
@@ -148,6 +149,24 @@ export async function create (req, res) {
 		}
 
 		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
+
+
+		// Increase revenues in charts data.
+		const key = currentMonthKey();
+		const exists = await chartExists(key);
+		if (!exists) {
+			initChartData();
+		}
+		const chartsRef = chartsPath.doc(key);
+		const charts = await chartsRef.get();
+		let { totalRevenues, netRevenues } = charts.data();
+		totalRevenues += value;
+		if (role === "admin" || role === "standard") {
+			netRevenues += value;
+		} else {
+			netRevenues += value / 2;
+		}
+		chartsRef.set({ totalRevenues, netRevenues }, { merge: true });
 
 
 		// Now add the commission invoices.

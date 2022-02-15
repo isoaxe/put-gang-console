@@ -42,9 +42,6 @@ const Console = () => {
 
             <StatCard3 userStats={userStats} />
 
-            <H3 sx={{ marginTop: 8 }}>Activity</H3>
-            <ActivityList />
-
             <Card sx={{ mt: '20px', mb: '24px' }} elevation={3}>
                 <FlexBox
                     sx={{
@@ -59,6 +56,9 @@ const Console = () => {
                 </FlexBox>
                 <ComparisonChart2 height={400} />
             </Card>
+
+            <H3 sx={{ marginTop: 8 }}>Activity</H3>
+            <ActivityList />
 
         </AnalyticsRoot>
     )

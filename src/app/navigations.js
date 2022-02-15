@@ -22,11 +22,16 @@ export const navigations = [
         icon: 'link',
     },
     {
+        name: 'Charts',
+        path: '/dashboard/charts',
+        icon: 'trending_up',
+    },
+    {
         label: 'Temporary Items',
         type: 'label',
     },
     {
-        name: 'Charts',
+        name: 'Chart Templates',
         icon: 'trending_up',
 
         children: [
