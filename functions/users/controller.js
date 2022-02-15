@@ -183,7 +183,7 @@ export async function edit (req, res) {
 
 		// Set photo url in Firebase auth and Firestore.
 		if (insta) {
-			const url = await storeProfilePic(insta);
+			const url = await storeProfilePic(insta, uid);
 			if (url) {
 				admin.auth().updateUser(uid, { photoURL: url });
 				userRef.set({ avatarUrl: url }, { merge: true });
