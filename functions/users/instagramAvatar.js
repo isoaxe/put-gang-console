@@ -122,22 +122,6 @@ async function setSessionCache (cookie) {
   });
 }
 
-// Need to get CSRF token before login.
-async function csrfToken () {
-  let options = {
-    method: "GET",
-    headers: {
-      host: "www.instagram.com",
-      "user-agent": userAgent
-    }
-  };
-  let response = await fetch(loginUrl, options);
-  let page = await response.text();
-  /* eslint-disable no-useless-escape */
-  let csrf = page.match(/csrf_token\":\"(.*?)\"/);
-  return csrf !== null ? csrf[1] : null;
-}
-
 // Do login and return resulting cookie string.
 async function login (username, password) {
   let url = `${loginUrl}/ajax/`;
@@ -168,4 +152,20 @@ async function login (username, password) {
     }
   }
   return cookies;
+}
+
+// Need to get CSRF token before login.
+async function csrfToken () {
+  let options = {
+    method: "GET",
+    headers: {
+      host: "www.instagram.com",
+      "user-agent": userAgent
+    }
+  };
+  let response = await fetch(loginUrl, options);
+  let page = await response.text();
+  /* eslint-disable no-useless-escape */
+  let csrf = page.match(/csrf_token\":\"(.*?)\"/);
+  return csrf !== null ? csrf[1] : null;
 }
