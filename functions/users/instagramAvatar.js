@@ -64,7 +64,7 @@ export async function storeProfilePic (user, uid) {
  *   As such, these do not get exported.
  */
 
-// Get profile_pic_hd url.
+// Get profile_pic_url_hd value from Instagram.
 async function getProfilePicUrl (user, uid) {
   // Check Firestore user data first.
   let userRef = await usersPath.doc(uid).get();
