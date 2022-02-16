@@ -13,6 +13,7 @@ const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/5
 const db = new Firestore();
 const storage = new Storage();
 const usersPath = db.collection("users");
+const instaPath = db.collection("instagram");
 const bucket = storage.bucket("gs://put-gang.appspot.com");
 
 // Returns avatar url from Firebase Storage. Gets and stores it if not present.
@@ -108,7 +109,7 @@ async function getProfilePicUrl (user, uid) {
 
 // Return session cache from Firestore if it exists.
 async function getSessionCache () {
-  let doc = await usersPath.doc("__session").get();
+  let doc = await instaPath.doc("__session").get();
   let data = doc.data();
   let cookie = data ? data.cookie : null;
   return cookie;
@@ -116,7 +117,7 @@ async function getSessionCache () {
 
 // Store Instagram cookies in Firestore after login for use later.
 async function setSessionCache (cookie) {
-  await usersPath.doc("__session").set({
+  await instaPath.doc("__session").set({
     cookie: cookie,
     created: Date.now()
   });
