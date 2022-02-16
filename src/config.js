@@ -1,9 +1,8 @@
-// TODO: Remove the databaseURL field before production release. Just dummy data, have not set up Realtime Database for the project, using Firestore instead.
+// Settings for initializing Firebase.
 
 export var firebaseConfig = {
     apiKey: "AIzaSyB6wghPLxzvAH7QCpkddSHM3zNlawiqdf8",
     authDomain: "put-gang.firebaseapp.com",
-    databaseURL: 'https://matx-15ede.firebaseio.com', // Remove before prod release.
     projectId: "put-gang",
     storageBucket: "put-gang.appspot.com",
     messagingSenderId: "1081481290914",
