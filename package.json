@@ -32,7 +32,8 @@
         "recharts": "^2.1.6",
         "redux": "^4.1.2",
         "redux-thunk": "^2.4.0",
-        "shortid": "^2.2.16"
+        "shortid": "^2.2.16",
+        "stripe": "^8.203.0"
     },
     "scripts": {
         "start": "react-app-rewired start",
