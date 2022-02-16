@@ -1,4 +1,3 @@
-import '../fake-db'
 import React from 'react'
 import { Store } from './redux/Store'
 import { Provider } from 'react-redux'
