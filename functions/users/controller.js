@@ -187,12 +187,12 @@ export async function edit (req, res) {
 			if (url) {
 				admin.auth().updateUser(uid, { photoURL: url });
 				userRef.set({ avatarUrl: url }, { merge: true });
-				return res.status(200).send({ message: "User successfully edited." });
 			} else {
 				console.log("not found");
 				return res.status(404).end("not found");
 			}
 		}
+		return res.status(200).send({ message: "User successfully edited." });
 	} catch (err) {
 		return handleError(res, err);
 	}
