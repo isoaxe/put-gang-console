@@ -26,7 +26,12 @@ paymentsRoute(app);
 activityRoute(app);
 
 // Define secrets available in the app.
-const secrets = { secrets: ["INSTAGRAM_HANDLE", "INSTAGRAM_PASSWORD"] };
+const secrets = { secrets: [
+  "INSTAGRAM_HANDLE",
+  "INSTAGRAM_PASSWORD",
+  "STRIPE_SECRET_KEY_TEST",
+  "STRIPE_SECRET_KEY_LIVE"
+] };
 
 // Expose Express API as a single Cloud Function.
 export const api = functions.runWith(secrets).https.onRequest(app);
