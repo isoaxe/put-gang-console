@@ -1,4 +1,4 @@
-import { create, stats, invoices, receipts } from "./controller.js";
+import { stripe, create, stats, invoices, receipts } from "./controller.js";
 import { isAuthenticated } from "./../auth/authenticated.js";
 import { isAuthorized } from "./../auth/authorized.js";
 
@@ -8,6 +8,7 @@ export default function paymentsRoute (app) {
 	app.post("/payments/:type",
 		isAuthenticated,
 		isAuthorized({ hasRole: ["admin", "level-1", "level-2", "level-3", "standard"] }),
+		stripe,
 		create
 	);
 	// Fetch statistics for the user and their downlines.
