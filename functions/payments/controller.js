@@ -1,6 +1,30 @@
 import admin from "firebase-admin";
+import fetch from "node-fetch";
 import { newSubscriber, currentMonthKey, chartExists, initChartData } from "./../util/helpers.js";
-import { ADMIN_UID } from "./../util/constants.js";
+import { ADMIN_UID, STRIPE_API } from "./../util/constants.js";
+
+
+// Make a payment via Stripe.
+export async function stripe (req, res, next) {
+	try {
+		const secret = process.env.STRIPE_SECRET_KEY_TEST;
+		// secret only works in prod. Is undefined in dev. Insta env vars are fine...
+		const fetchConfig = {
+			method: "GET",
+			headers: {
+				authorization: `Bearer ${secret}`,
+				"Content-Type": "application/x-www-form-urlencoded",
+				"Accept": "*/*"
+			},
+		};
+		let response = await fetch(`${STRIPE_API}/v1/balance`, fetchConfig);
+		let jsonResponse = await response.json();
+		console.log(jsonResponse);
+		return next();
+	} catch (err) {
+		return handleError(res, err);
+	}
+}
 
 
 // Create a new payment.
