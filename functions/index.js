@@ -5,6 +5,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
+import stripeRoute from "./stripe/stripeRoute.js";
 import activityRoute from "./activity/activityRoute.js";
 
 
@@ -22,6 +23,8 @@ app.use(bodyParser.json());
 usersRoute(app);
 // Set handler for payment information.
 paymentsRoute(app);
+// Set handler for Stripe actions.
+stripeRoute(app);
 // Set handler for activities.
 activityRoute(app);
 
