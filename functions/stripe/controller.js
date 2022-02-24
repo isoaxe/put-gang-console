@@ -31,9 +31,9 @@ export async function createPaymentsIntent (req, res) {
 // Create a new customer in Stripe. Required for subscription payments.
 export async function createCustomer (req, res) {
 	try {
-		const customer = await stripe.customers.create({
-			email: req.body.email,
-		});
+		const email = req.body.email;
+		const customer = await stripe.customers.create({ email });
+
 		res.send({ customer });
 	} catch (err) {
 		return handleError(res, err);
