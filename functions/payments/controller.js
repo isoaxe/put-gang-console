@@ -1,22 +1,6 @@
 import admin from "firebase-admin";
-import Stripe from "stripe";
 import { newSubscriber, currentMonthKey, chartExists, initChartData } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
-
-
-// Make a payment via Stripe.
-export async function stripe (req, res, next) {
-	try {
-		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_TEST, {
-			apiVersion: "2020-08-27"
-		});
-		const customers = await stripe.customers.list();
-		console.log("Customers:", customers);
-		return next();
-	} catch (err) {
-		return handleError(res, err);
-	}
-}
 
 
 // Create a new payment.
