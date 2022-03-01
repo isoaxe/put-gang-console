@@ -186,6 +186,7 @@ const Register = () => {
                                     <Button
                                         sx={{ textTransform: 'capitalize' }}
                                         onClick={() => navigate("/session/signin")}
+                                        disabled={passedEmail}
                                     >
                                         Sign In
                                     </Button>
