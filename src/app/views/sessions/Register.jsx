@@ -139,6 +139,7 @@ const Register = () => {
                                     size="small"
                                     label="Email"
                                     onChange={handleChange}
+                                    disabled={passedEmail}
                                     type="email"
                                     name="email"
                                     value={email || ''}
