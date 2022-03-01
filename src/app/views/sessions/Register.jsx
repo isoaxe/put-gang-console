@@ -64,10 +64,14 @@ const Register = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
     let { email, password, agreement } = state;
+
+    const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
     const { palette } = useTheme();
     const textError = palette.error.main;
+
+    const currentUrl = new URL(window.location.href);
+    const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
 
     function setHeader () {
         if (membLvl === 'join') return <Header>Signing up to Join the Discussion</Header>;
