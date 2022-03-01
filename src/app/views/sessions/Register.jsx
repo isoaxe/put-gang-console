@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span, H3 } from 'app/components/Typography'
+import { makePayment } from 'app/utils/helpers'
 import { API_URL } from 'app/utils/urls'
 
 
@@ -103,6 +104,7 @@ const Register = () => {
               console.log(jsonResponse)
             } else {
               await signInWithEmailAndPassword(email, password);
+              if (membLvl) makePayment(membLvl);
               navigate('/')
             }
         } catch (e) {
