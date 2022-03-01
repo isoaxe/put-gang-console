@@ -29,6 +29,27 @@ export async function getData (endpoint, setterFunction) {
 }
 
 
+// Make a subscription payment.
+export async function makePayment (type) {
+  try {
+    const token = await firebase.auth().currentUser.getIdToken(true);
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    const response = await fetch(`${API_URL}/payments/${type}`, fetchConfig);
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 // Fetch receipts from api, format and then save to state and turn on modal.
 export async function displayReceipts (uid, setReceipts, setVisible) {
   const receipts = await getData(`/payments/receipts/${uid}`);
