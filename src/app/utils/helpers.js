@@ -123,14 +123,14 @@ export function monthName (number) {
  *   As such, these do not get exported.
  */
 
- // Form a statement for each receipt based on data.
- function formatReceiptStatement (email, action, product, sale) {
-   let productStatement, actionStatement;
-   if (action === "join") actionStatement = "Subscription started for";
-   if (action === "payment") actionStatement = `$${sale} payment made for`;
-   if (action === "cancel") actionStatement = "Subscription cancelled for"
-   if (product === "join") productStatement = "Join the Discussion";
-   if (product === "watch") productStatement = "Watch the Discussion";
-   if (product === "none") productStatement = email;
-   return `${actionStatement} ${productStatement}.`
- }
+// Form a statement for each receipt based on data.
+function formatReceiptStatement (email, action, product, sale) {
+  let productStatement, actionStatement;
+  if (action === "join") actionStatement = "Subscription started for";
+  if (action === "payment") actionStatement = `$${sale} payment made for`;
+  if (action === "cancel") actionStatement = "Subscription cancelled for"
+  if (product === "join") productStatement = "Join the Discussion";
+  if (product === "watch") productStatement = "Watch the Discussion";
+  if (product === "none") productStatement = email;
+  return `${actionStatement} ${productStatement}.`
+}
