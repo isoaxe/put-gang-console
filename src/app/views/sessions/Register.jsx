@@ -5,7 +5,7 @@ import {
     CircularProgress,
 } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import "firebase/auth"
@@ -112,6 +112,10 @@ const Register = () => {
             console.log(e)
         }
     }
+
+    useEffect(() => {
+      if (passedEmail) setState({ email: passedEmail });
+    }, [passedEmail]);
 
     return (
         <RegisterRoot>
