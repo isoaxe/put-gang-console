@@ -74,8 +74,7 @@ const Register = () => {
     const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
 
     function setHeader () {
-        if (membLvl === 'join') return <Header>Signing up to Join the Discussion</Header>;
-        if (membLvl === 'watch') return <Header>Signing up to Watch the Discussion</Header>
+        if (passedEmail) return <Header>Create a password</Header>;
     }
 
     const handleChange = ({ target: { name, value } }) => {
