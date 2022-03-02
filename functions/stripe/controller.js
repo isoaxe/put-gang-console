@@ -1,4 +1,3 @@
-import admin from "firebase-admin";
 import Stripe from "stripe";
 
 
@@ -12,10 +11,6 @@ export async function createCustomer (req, res) {
 		const email = req.body.email;
 		const customer = await stripe.customers.create({ email });
 		const stripeUid = customer.id;
-
-		const db = admin.firestore();
-		const stripeUser = db.collection("stripe").doc(stripeUid);
-		stripeUser.set({ stripeUid, email });
 
 		res.send({ stripeUid });
 	} catch (err) {
