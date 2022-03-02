@@ -8,9 +8,10 @@ import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 export async function create (req, res) {
 	try {
 		// Declare variables from params and body.
-		let { refId, membLvl } = req.params;
+		let { refId, membLvl, stripeUid } = req.params;
 		const { email, password } = req.body;
 		if (membLvl === "null") membLvl = "none";
+		if (stripeUid === "null") stripeUid = "none";
 
 		// Initialize Firestore database and paths.
 		const db = admin.firestore();
@@ -80,6 +81,7 @@ export async function create (req, res) {
 			email,
 			role,
 			membLvl,
+			stripeUid,
 			joinDate,
 			expiryDate,
 			receiptId: 1,
