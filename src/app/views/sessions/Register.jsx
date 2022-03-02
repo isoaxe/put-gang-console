@@ -73,6 +73,7 @@ const Register = () => {
 
     const currentUrl = new URL(window.location.href);
     const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
+    const stripeUid = currentUrl.searchParams.get("stripeUid");
 
     function setHeader () {
         if (passedEmail) return <Header>Create a password</Header>;
@@ -96,7 +97,7 @@ const Register = () => {
           		},
               body: JSON.stringify(state)
           	};
-            const response = await fetch(`${API_URL}/users/${refId}/${membLvl}`, fetchConfig);
+            const response = await fetch(`${API_URL}/users/${refId}/${membLvl}/${stripeUid}`, fetchConfig);
             const jsonResponse = await response.json();
             if (jsonResponse.error) {
               setLoading(false)
