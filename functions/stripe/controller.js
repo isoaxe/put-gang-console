@@ -42,6 +42,32 @@ export async function createSubscription (req, res) {
 }
 
 
+// Function for admin console actions when customer gets re-billed by Stripe.
+export async function subscriptionPayment (req, res) {
+	let event = req.rawBody;
+	try {
+		const endpointSecret = "whsec_a93f68cea823803686857ea0881d9d930c72c16e62752052fa6b8ccf1f9a6b82";
+		const sig = req.headers["stripe-signature"];
+		event = await stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+	} catch (err) {
+		console.log("⚠️  Webhook signature verification failed.", err.message);
+		return handleError(res, err);
+	}
+
+	// Handle the event.
+	let invoicePaid;
+	switch (event.type) {
+		case "invoice.paid":
+			invoicePaid = event.data.object;
+			console.log("invoicePaid", invoicePaid.paid);
+			break;
+		default:
+			console.log(`Unhandled event type ${event.type}.`);
+	}
+	res.status(200).send();
+}
+
+
 // Standard error helper function.
 function handleError (res, err) {
 	return res.status(500).send({ error: `${err}` });
