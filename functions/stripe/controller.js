@@ -59,12 +59,14 @@ export async function subscriptionPayment (req, res) {
 	switch (event.type) {
 		case "invoice.paid":
 			invoicePaid = event.data.object;
-			console.log("invoicePaid", invoicePaid.paid);
+			if (invoicePaid.paid) {
+				console.log("Payment made.");
+				res.status(200).send();
+			}
 			break;
 		default:
 			console.log(`Unhandled event type ${event.type}.`);
 	}
-	res.status(200).send();
 }
 
 
