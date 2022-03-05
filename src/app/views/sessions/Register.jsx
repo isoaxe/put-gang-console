@@ -5,12 +5,13 @@ import {
     CircularProgress,
 } from '@mui/material'
 import { Box, styled, useTheme } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { useNavigate } from 'react-router-dom'
 import "firebase/auth"
 import useAuth from 'app/hooks/useAuth'
 import { Paragraph, Span, H3 } from 'app/components/Typography'
+import { makePayment } from 'app/utils/helpers'
 import { API_URL } from 'app/utils/urls'
 
 
@@ -64,14 +65,18 @@ const Register = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
     let { email, password, agreement } = state;
+
+    const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
     const { palette } = useTheme();
     const textError = palette.error.main;
 
+    const currentUrl = new URL(window.location.href);
+    const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
+    const stripeUid = currentUrl.searchParams.get("stripeUid");
+
     function setHeader () {
-        if (membLvl === 'join') return <Header>Signing up to Join the Discussion</Header>;
-        if (membLvl === 'watch') return <Header>Signing up to Watch the Discussion</Header>
+        if (passedEmail) return <Header>Create a password</Header>;
     }
 
     const handleChange = ({ target: { name, value } }) => {
@@ -92,7 +97,7 @@ const Register = () => {
           		},
               body: JSON.stringify(state)
           	};
-            const response = await fetch(`${API_URL}/users/${refId}/${membLvl}`, fetchConfig);
+            const response = await fetch(`${API_URL}/users/${refId}/${membLvl}/${stripeUid}`, fetchConfig);
             const jsonResponse = await response.json();
             if (jsonResponse.error) {
               setLoading(false)
@@ -100,6 +105,7 @@ const Register = () => {
               console.log(jsonResponse)
             } else {
               await signInWithEmailAndPassword(email, password);
+              if (membLvl) makePayment(membLvl);
               navigate('/')
             }
         } catch (e) {
@@ -108,6 +114,10 @@ const Register = () => {
             console.log(e)
         }
     }
+
+    useEffect(() => {
+      if (passedEmail) setState({ email: passedEmail });
+    }, [passedEmail]);
 
     return (
         <RegisterRoot>
@@ -131,6 +141,7 @@ const Register = () => {
                                     size="small"
                                     label="Email"
                                     onChange={handleChange}
+                                    disabled={passedEmail}
                                     type="email"
                                     name="email"
                                     value={email || ''}
@@ -178,6 +189,7 @@ const Register = () => {
                                     <Button
                                         sx={{ textTransform: 'capitalize' }}
                                         onClick={() => navigate("/session/signin")}
+                                        disabled={passedEmail}
                                     >
                                         Sign In
                                     </Button>

@@ -5,7 +5,7 @@ import { isAuthorized } from "./../auth/authorized.js";
 
 export default function usersRoute (app) {
 	// Create a new user.
-	app.post("/users/:refId/:membLvl",
+	app.post("/users/:refId/:membLvl/:stripeUid",
 		create
 	);
 	// Update calling users data in Firestore.

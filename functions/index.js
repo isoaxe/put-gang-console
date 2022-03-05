@@ -5,6 +5,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
+import stripeRoute from "./stripe/stripeRoute.js";
 import activityRoute from "./activity/activityRoute.js";
 
 
@@ -22,11 +23,18 @@ app.use(bodyParser.json());
 usersRoute(app);
 // Set handler for payment information.
 paymentsRoute(app);
+// Set handler for Stripe actions.
+stripeRoute(app);
 // Set handler for activities.
 activityRoute(app);
 
 // Define secrets available in the app.
-const secrets = { secrets: ["INSTAGRAM_HANDLE", "INSTAGRAM_PASSWORD"] };
+const secrets = { secrets: [
+  "INSTAGRAM_HANDLE",
+  "INSTAGRAM_PASSWORD",
+  "STRIPE_SECRET_KEY_TEST",
+  "STRIPE_SECRET_KEY_LIVE"
+] };
 
 // Expose Express API as a single Cloud Function.
 export const api = functions.runWith(secrets).https.onRequest(app);
