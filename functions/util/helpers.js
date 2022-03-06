@@ -2,6 +2,7 @@
  * Various helper functions used throughout Firebase Functions.
  */
 import admin from "firebase-admin";
+import { MODE } from "./constants.js";
 
 
 // Add 31 days to the supplied date.
@@ -45,4 +46,20 @@ export async function initChartData () {
     joined: 0,
     cancelled: 0
   });
+}
+
+
+// Return requested Stripe secret.
+export function stripeSecrets (type) {
+  if (type === "api" && MODE === "test") {
+    return process.env.STRIPE_SECRET_KEY_TEST;
+  } else if (type === "webhook" && MODE === "test") {
+    return process.env.STRIPE_WEBHOOK_SECRET_TEST;
+  } else if (type === "api" && MODE === "live") {
+    return process.env.STRIPE_SECRET_KEY_LIVE;
+  } else if (type === "webhook" && MODE === "live") {
+    return process.env.STRIPE_WEBHOOK_SECRET_LIVE;
+  } else {
+    console.log("There was an error retrieving Stripe secret.");
+  }
 }
