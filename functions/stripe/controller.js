@@ -60,12 +60,15 @@ export async function subscriptionPayment (req, res) {
 		case "invoice.paid":
 			invoicePaid = event.data.object;
 			if (invoicePaid.paid) {
-				console.log("Payment made.");
-				res.status(200).send();
+				console.log("✅  Payment made and confirmed.");
+			} else {
+				console.log("⚠️  Payment was not made.");
 			}
+			res.status(200).send();
 			break;
 		default:
 			console.log(`Unhandled event type ${event.type}.`);
+			res.status(404).send();
 	}
 }
 
