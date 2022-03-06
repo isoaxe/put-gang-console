@@ -59,6 +59,8 @@ export function stripeSecrets (type) {
     return process.env.STRIPE_SECRET_KEY_LIVE;
   } else if (type === "webhook" && MODE === "live") {
     return process.env.STRIPE_WEBHOOK_SECRET_LIVE;
+  } else if (type === "webhook-local") {
+    return process.env.STRIPE_WEBHOOK_SECRET_LOCAL;
   } else {
     console.log("There was an error retrieving Stripe secret.");
   }
