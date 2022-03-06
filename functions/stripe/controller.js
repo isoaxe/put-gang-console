@@ -1,7 +1,8 @@
 import Stripe from "stripe";
+import { stripeSecrets } from "./../utils/helpers.js";
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_TEST, {
+const stripe = new Stripe(stripeSecrets("api"), {
 	apiVersion: "2020-08-27"
 });
 
