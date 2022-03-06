@@ -4,8 +4,9 @@
  */
 
 
+// Manually switch between test and live modes.
+export const MODE = "test"; // enum 'test' || 'live'
+
 // User ID and email for admin.
 export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
-
-// Stripe API details.
