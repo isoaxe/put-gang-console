@@ -33,7 +33,9 @@ const secrets = { secrets: [
   "INSTAGRAM_HANDLE",
   "INSTAGRAM_PASSWORD",
   "STRIPE_SECRET_KEY_TEST",
-  "STRIPE_SECRET_KEY_LIVE"
+  "STRIPE_SECRET_KEY_LIVE",
+  "STRIPE_WEBHOOK_SECRET_TEST",
+  "STRIPE_WEBHOOK_SECRET_LIVE"
 ] };
 
 // Expose Express API as a single Cloud Function.
