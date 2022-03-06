@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { stripeSecrets } from "./../utils/helpers.js";
+import { stripeSecrets } from "./../util/helpers.js";
 
 
 const stripe = new Stripe(stripeSecrets("api"), {
