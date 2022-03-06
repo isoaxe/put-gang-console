@@ -9,5 +9,3 @@ export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
 
 // Stripe API details.
-export const STRIPE_API = "https://api.stripe.com";
-/* NOTE: Stripe secret keys are set as Firebase Secrets env vars in the shell. */
