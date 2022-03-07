@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import Stripe from "stripe";
-import { stripeSecrets } from "./../util/helpers.js";
+import { stripeSecrets, wasRecent } from "./../util/helpers.js";
 
 
 const stripe = new Stripe(stripeSecrets("api"), {
@@ -57,11 +57,17 @@ export async function subscriptionPayment (req, res) {
 	}
 
 	// Handle the event.
-	let invoicePaid, customerId;
+	let invoicePaid, customerId, customer;
 	switch (event.type) {
 		case "invoice.paid":
 			invoicePaid = event.data.object;
 			customerId = invoicePaid.customer;
+			customer = await stripe.customers.retrieve(customerId);
+			if (wasRecent(customer.created)) {
+				console.log("Customer was created recently.");
+				console.log("Payment data captured via client api call instead.");
+				res.status(200).send();
+			}
 			if (invoicePaid.paid) {
 				const db = admin.firestore();
 				const usersPath = db.collection("users");
