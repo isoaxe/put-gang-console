@@ -1,3 +1,4 @@
+import admin from "firebase-admin";
 import Stripe from "stripe";
 import { stripeSecrets } from "./../util/helpers.js";
 
@@ -56,11 +57,17 @@ export async function subscriptionPayment (req, res) {
 	}
 
 	// Handle the event.
-	let invoicePaid;
+	let invoicePaid, customerId;
 	switch (event.type) {
 		case "invoice.paid":
 			invoicePaid = event.data.object;
+			customerId = invoicePaid.customer;
 			if (invoicePaid.paid) {
+				const db = admin.firestore();
+				const usersPath = db.collection("users");
+				const userRef = await usersPath.where("stripeUid", "==", customerId).get();
+				const userData = userRef.data();
+				const { uid, role, email, membLvl } = userData;
 				console.log("✅  Payment made and confirmed.");
 			} else {
 				console.log("⚠️  Payment was not made.");
