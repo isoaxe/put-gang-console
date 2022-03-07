@@ -17,6 +17,14 @@ export function newSubscriber (alreadySubbed, paymentType) {
 }
 
 
+// Checks if provided UNIX date was in last 24 hours.
+export function wasRecent (date) {
+  const now = Math.floor(Date.now() / 1000);
+  const interval = now - date;
+  return (interval < 24*60*60);
+}
+
+
 // Generate the document name for the Firestore charts collection this month.
 export function currentMonthKey () {
   const now = new Date();
