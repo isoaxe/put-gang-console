@@ -64,7 +64,7 @@ export async function subscriptionPayment (req, res) {
 			customerId = invoicePaid.customer;
 			customer = await stripe.customers.retrieve(customerId);
 			if (wasRecent(customer.created)) {
-				console.log("Customer was created recently.");
+				console.log("ℹ️  Customer was created recently.");
 				console.log("Payment data captured via client api call instead.");
 				res.status(200).send();
 				break;
