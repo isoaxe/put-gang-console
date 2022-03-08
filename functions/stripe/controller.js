@@ -67,6 +67,7 @@ export async function subscriptionPayment (req, res) {
 				console.log("Customer was created recently.");
 				console.log("Payment data captured via client api call instead.");
 				res.status(200).send();
+				break;
 			}
 			if (invoicePaid.paid) {
 				const db = admin.firestore();
