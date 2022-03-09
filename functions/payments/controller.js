@@ -3,8 +3,9 @@ import { recurringPayment } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
-// Create a new payment.
-export async function create (req, res) {
+// Initialize the first payment. Can also be used to restart cancelled subscription.
+// This increments MRR, then calls helper for all other functions.
+export async function init (req, res) {
 	try {
 		const { uid, role, email } = res.locals;
 		const { type } = req.params;
