@@ -1,18 +1,15 @@
 import admin from "firebase-admin";
-import { newSubscriber, recurringPayment } from "./../util/helpers.js";
+import { recurringPayment } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
 // Create a new payment.
 export async function create (req, res) {
 	try {
-		const { uid, role, subscribed, email } = res.locals;
+		const { uid, role, email } = res.locals;
 		const { type } = req.params;
 		const db = admin.firestore();
 		const statsPath = db.collection("stats");
-
-		// Check if user is a new subscriber.
-		const newSub = newSubscriber(subscribed, type);
 
 		// Get current user data.
 		const usersPath = db.collection("users");
@@ -60,15 +57,14 @@ export async function create (req, res) {
 		if (type === "join") value = 150;
 		if (type === "watch") value = 50;
 
-		// Add to admin MRR if new subscriber and not admin.
-		if (newSub && role !== "admin") {
+		// Add to admin MRR if not admin.
+		if (role !== "admin") {
 			totalMrr += value;
 			if (role === "level-2" || role === "level-3") adminMrr += value / 2;
 			if (role === "level-1" || role === "standard") adminMrr += value;
 		}
 
-		// Admin sales will always increment for all users.
-		// The amount of revenue accruing to admin depends on user role.
+		// The amount of MRR accruing to admin depends on user role.
 		// This covers level-1 and standard users fully.
 		adminStats.set({
 			totalMrr,
@@ -77,7 +73,7 @@ export async function create (req, res) {
 
 		// Set stats for level-1 if level-2 user.
 		if (role === "level-2") {
-			if (newSub) uplineMrr += value / 2;
+			uplineMrr += value / 2;
 			uplineStats.set({
 				mrr: uplineMrr
 			}, { merge: true });
@@ -85,10 +81,8 @@ export async function create (req, res) {
 
 		// Set stats for level-1 and level-2 if level-3 user.
 		if (role === "level-3") {
-			if (newSub) {
-				uplineMrr += value / 4;
-				toplineMrr += value / 4;
-			}
+			uplineMrr += value / 4;
+			toplineMrr += value / 4;
 			toplineStats.set({
 				mrr: toplineMrr
 			}, { merge: true });
@@ -97,8 +91,6 @@ export async function create (req, res) {
 				mrr: uplineMrr
 			}, { merge: true });
 		}
-
-		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
 
 		recurringPayment(uid, role, email, type);
 
