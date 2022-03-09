@@ -55,11 +55,11 @@ export async function initChartData () {
 export function stripeSecrets (type) {
   if (type === "api" && MODE === "test") {
     return process.env.STRIPE_SECRET_KEY_TEST;
-  } else if (type === "webhook" && MODE === "test") {
+  } else if (type === "webhook-remote" && MODE === "test") {
     return process.env.STRIPE_WEBHOOK_SECRET_TEST;
   } else if (type === "api" && MODE === "live") {
     return process.env.STRIPE_SECRET_KEY_LIVE;
-  } else if (type === "webhook" && MODE === "live") {
+  } else if (type === "webhook-remote" && MODE === "live") {
     return process.env.STRIPE_WEBHOOK_SECRET_LIVE;
   } else if (type === "webhook-local") {
     return process.env.STRIPE_WEBHOOK_SECRET_LOCAL;
