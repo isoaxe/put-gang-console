@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { newSubscriber } from "./../util/helpers.js";
+import { newSubscriber, recurringPayment } from "./../util/helpers.js";
 import { ADMIN_UID } from "./../util/constants.js";
 
 
@@ -99,6 +99,8 @@ export async function create (req, res) {
 		}
 
 		if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
+
+		recurringPayment(uid, role, email, type);
 
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
 	} catch (err) {
