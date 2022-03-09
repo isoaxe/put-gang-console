@@ -77,14 +77,10 @@ export function stripeSecrets (type) {
 
 // Save recurring payment data to Firestore for admin console.
 export async function recurringPayment (uid, role, email, type) {
-	let subscribed;
 	const db = admin.firestore();
 	const paymentsPath = db.collection("payments");
 	const statsPath = db.collection("stats");
 	const chartsPath = db.collection("charts");
-
-	// Check if user is a new subscriber.
-	const newSub = newSubscriber(subscribed, type);
 
 	// Get current user data.
 	const usersPath = db.collection("users");
@@ -95,14 +91,13 @@ export async function recurringPayment (uid, role, email, type) {
 	const adminStats = statsPath.doc(ADMIN_UID);
 	const adminStatsRef = await adminStats.get();
 	const adminStatsData = adminStatsRef.data();
-	let { totalRevenue, totalMrr } = adminStatsData;
+	let { totalRevenue } = adminStatsData;
 	let adminRevenue = adminStatsData.revenue;
-	let adminMrr = adminStatsData.mrr;
 	let adminUnpaid = adminStatsData.unpaid;
 	let adminSales = adminStatsData.sales;
 
 	// Initialize variables for use below.
-	let upline, uplineUid, uplineRevenue, uplineMrr, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
+	let upline, uplineUid, uplineRevenue, uplineUnpaid, uplineSales, uplineInvoiceId, uplineStats;
 
 	// Get upline stats. Same as admin if level-1 user.
 	if (["level-1", "level-2", "level-3"].includes(role)) {
@@ -112,14 +107,13 @@ export async function recurringPayment (uid, role, email, type) {
 		const uplineStatsRef = await uplineStats.get();
 		const uplineStatsData = uplineStatsRef.data();
 		uplineRevenue = uplineStatsData.revenue;
-		uplineMrr = uplineStatsData.mrr;
 		uplineUnpaid = uplineStatsData.unpaid;
 		uplineSales = uplineStatsData.sales;
 		uplineInvoiceId = uplineStatsData.invoiceId;
 	}
 
 	// Initialize variables for use below.
-	let topline, toplineRevenue, toplineMrr, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
+	let topline, toplineRevenue, toplineUnpaid, toplineSales, toplineInvoiceId, toplineStats;
 
 	// Get the upline's upline (will be level-1) for level-3 users.
 	if (role === "level-3") {
@@ -134,7 +128,6 @@ export async function recurringPayment (uid, role, email, type) {
 		const toplineStatsRef = await toplineStats.get();
 		const toplineStatsData = toplineStatsRef.data();
 		toplineRevenue = toplineStatsData.revenue;
-		toplineMrr = toplineStatsData.mrr;
 		toplineUnpaid = toplineStatsData.unpaid;
 		toplineSales = toplineStatsData.sales;
 		toplineInvoiceId = toplineStatsData.invoiceId;
@@ -144,13 +137,6 @@ export async function recurringPayment (uid, role, email, type) {
 	let value;
 	if (type === "join") value = 150;
 	if (type === "watch") value = 50;
-
-	// Add to admin MRR if new subscriber and not admin.
-	if (newSub && role !== "admin") {
-		totalMrr += value;
-		if (role === "level-2" || role === "level-3") adminMrr += value / 2;
-		if (role === "level-1" || role === "standard") adminMrr += value;
-	}
 
 	// Admin sales will always increment for all users.
 	// The amount of revenue accruing to admin depends on user role.
@@ -164,23 +150,19 @@ export async function recurringPayment (uid, role, email, type) {
 	adminSales++;
 	adminStats.set({
 		totalRevenue,
-		totalMrr,
 		revenue: adminRevenue,
-		mrr: adminMrr,
 		unpaid: adminUnpaid,
 		sales: adminSales
 	}, { merge: true });
 
 	// Set stats for level-1 if level-2 user.
 	if (role === "level-2") {
-		if (newSub) uplineMrr += value / 2;
 		uplineRevenue += value / 2;
 		uplineUnpaid += value / 2;
 		uplineSales++;
 		uplineInvoiceId++;
 		uplineStats.set({
 			revenue: uplineRevenue,
-			mrr: uplineMrr,
 			unpaid: uplineUnpaid,
 			sales: uplineSales,
 			invoiceId: uplineInvoiceId
@@ -189,17 +171,12 @@ export async function recurringPayment (uid, role, email, type) {
 
 	// Set stats for level-1 and level-2 if level-3 user.
 	if (role === "level-3") {
-		if (newSub) {
-			uplineMrr += value / 4;
-			toplineMrr += value / 4;
-		}
 		toplineRevenue += value / 4;
 		toplineUnpaid += value / 4;
 		toplineSales++;
 		toplineInvoiceId++;
 		toplineStats.set({
 			revenue: toplineRevenue,
-			mrr: toplineMrr,
 			unpaid: toplineUnpaid,
 			sales: toplineSales,
 			invoiceId: toplineInvoiceId
@@ -211,14 +188,11 @@ export async function recurringPayment (uid, role, email, type) {
 		uplineInvoiceId++;
 		uplineStats.set({
 			revenue: uplineRevenue,
-			mrr: uplineMrr,
 			unpaid: uplineUnpaid,
 			sales: uplineSales,
 			invoiceId: uplineInvoiceId
 		}, { merge: true });
 	}
-
-	if (newSub) await admin.auth().setCustomUserClaims(uid, { role, subscribed: true });
 
 
 	// Increase revenues in charts data.
