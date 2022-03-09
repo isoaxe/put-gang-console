@@ -20,7 +20,7 @@ export async function create (req, res) {
 		const adminStats = statsPath.doc(ADMIN_UID);
 		const adminStatsRef = await adminStats.get();
 		const adminStatsData = adminStatsRef.data();
-		let { totalMrr } = adminStatsData;
+		let totalMrr = adminStatsData.totalMrr;
 		let adminMrr = adminStatsData.mrr;
 
 		// Initialize variables for use below.
@@ -66,7 +66,7 @@ export async function create (req, res) {
 
 		// The amount of MRR accruing to admin depends on user role.
 		// This covers level-1 and standard users fully.
-		adminStats.set({
+		await adminStats.set({
 			totalMrr,
 			mrr: adminMrr
 		}, { merge: true });
@@ -74,7 +74,7 @@ export async function create (req, res) {
 		// Set stats for level-1 if level-2 user.
 		if (role === "level-2") {
 			uplineMrr += value / 2;
-			uplineStats.set({
+			await uplineStats.set({
 				mrr: uplineMrr
 			}, { merge: true });
 		}
@@ -83,15 +83,16 @@ export async function create (req, res) {
 		if (role === "level-3") {
 			uplineMrr += value / 4;
 			toplineMrr += value / 4;
-			toplineStats.set({
+			await toplineStats.set({
 				mrr: toplineMrr
 			}, { merge: true });
 
-			uplineStats.set({
+			await uplineStats.set({
 				mrr: uplineMrr
 			}, { merge: true });
 		}
 
+		// Adds the rest of the Firestore data.
 		recurringPayment(uid, role, email, type);
 
 		return res.status(200).send({ message: `${email} has made a ${type} payment` });
