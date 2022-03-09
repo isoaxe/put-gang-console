@@ -11,12 +11,6 @@ export function addMonth (date) {
 }
 
 
-// Returns true if user has not subscribed before and payment is subscription type.
-export function newSubscriber (alreadySubbed, paymentType) {
-  return !alreadySubbed && (paymentType === "join" || paymentType === "watch");
-}
-
-
 // Checks if provided UNIX date was in last 24 hours.
 export function wasRecent (date) {
   const now = Math.floor(Date.now() / 1000);
