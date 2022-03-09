@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import Stripe from "stripe";
-import { stripeSecrets, wasRecent } from "./../util/helpers.js";
+import { stripeSecrets, wasRecent, recurringPayment } from "./../util/helpers.js";
 
 
 const stripe = new Stripe(stripeSecrets("api"), {
@@ -75,6 +75,7 @@ export async function subscriptionPayment (req, res) {
 				const userRef = await usersPath.where("stripeUid", "==", customerId).get();
 				const userData = userRef.docs[0].data();
 				const { uid, role, email, membLvl } = userData;
+				recurringPayment(uid, role, email, membLvl);
 				console.log("✅  Payment made and confirmed.");
 			} else {
 				console.log("⚠️  Payment was not made.");
