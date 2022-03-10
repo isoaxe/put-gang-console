@@ -57,12 +57,18 @@ export async function subscriptionPayment (req, res) {
 	}
 
 	// Handle the event.
-	let invoicePaid, customerId, customer;
+	let invoicePaid, customerId, customer, subscription, subExpires, subExpiresAsInt;
 	switch (event.type) {
 		case "invoice.paid":
 			invoicePaid = event.data.object;
 			customerId = invoicePaid.customer;
 			customer = await stripe.customers.retrieve(customerId);
+			subscription = await stripe.subscriptions.list({ customer: customerId });
+			if (subscription) {
+				// Assumes only a single subscription active.
+				subExpiresAsInt = subscription.data[0].current_period_end;
+				subExpires = new Date(subExpiresAsInt*1000).toISOString();
+			}
 			if (wasRecent(customer.created)) {
 				console.log("ℹ️  Customer was created recently.");
 				console.log("Payment data captured via client api call instead.");
