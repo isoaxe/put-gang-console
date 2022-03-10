@@ -67,12 +67,9 @@ export async function create (req, res) {
 		const joinDate = now.toISOString();
 		const expiryDate = addMonth(now).toISOString();
 
-		// Track if customer is recurring and has paid at least once.
-		const subscribed = false;
-
 		// Create user and set their claims.
 		const { uid } = await admin.auth().createUser({ email, password });
-		await admin.auth().setCustomUserClaims(uid, { role, subscribed });
+		await admin.auth().setCustomUserClaims(uid, { role });
 
 		// Not all required user data can be stored by auth. Use Firestore instead.
 		const user = usersPath.doc(uid);

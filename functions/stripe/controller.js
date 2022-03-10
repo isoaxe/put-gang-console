@@ -1,7 +1,9 @@
+import admin from "firebase-admin";
 import Stripe from "stripe";
+import { stripeSecrets, wasRecent, recurringPayment } from "./../util/helpers.js";
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY_TEST, {
+const stripe = new Stripe(stripeSecrets("api"), {
 	apiVersion: "2020-08-27"
 });
 
@@ -46,7 +48,7 @@ export async function createSubscription (req, res) {
 export async function subscriptionPayment (req, res) {
 	let event = req.rawBody;
 	try {
-		const endpointSecret = "whsec_a93f68cea823803686857ea0881d9d930c72c16e62752052fa6b8ccf1f9a6b82";
+		const endpointSecret = stripeSecrets("webhook-remote");
 		const sig = req.headers["stripe-signature"];
 		event = await stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
 	} catch (err) {
@@ -55,17 +57,41 @@ export async function subscriptionPayment (req, res) {
 	}
 
 	// Handle the event.
-	let invoicePaid;
+	let invoicePaid, customerId, customer, subscription, subExpires, subExpiresAsInt;
 	switch (event.type) {
 		case "invoice.paid":
 			invoicePaid = event.data.object;
-			if (invoicePaid.paid) {
-				console.log("Payment made.");
-				res.status(200).send();
+			customerId = invoicePaid.customer;
+			customer = await stripe.customers.retrieve(customerId);
+			subscription = await stripe.subscriptions.list({ customer: customerId });
+			if (subscription) {
+				// Assumes only a single subscription active.
+				subExpiresAsInt = subscription.data[0].current_period_end;
+				subExpires = new Date(subExpiresAsInt*1000).toISOString();
 			}
+			if (wasRecent(customer.created)) {
+				console.log("ℹ️  Customer was created recently.");
+				console.log("Payment data captured via client api call instead.");
+				res.status(200).send();
+				break;
+			}
+			if (invoicePaid.paid) {
+				const db = admin.firestore();
+				const usersPath = db.collection("users");
+				const userRef = await usersPath.where("stripeUid", "==", customerId).get();
+				const userData = userRef.docs[0].data();
+				const { uid, role, email, membLvl } = userData;
+				await usersPath.doc(uid).set({ expiryDate: subExpires }, { merge: true });
+				recurringPayment(uid, role, email, membLvl);
+				console.log("✅  Payment made and confirmed.");
+			} else {
+				console.log("⚠️  Payment was not made.");
+			}
+			res.status(200).send();
 			break;
 		default:
 			console.log(`Unhandled event type ${event.type}.`);
+			res.status(404).send();
 	}
 }
 
