@@ -48,7 +48,7 @@ export async function createSubscription (req, res) {
 export async function subscriptionPayment (req, res) {
 	let event = req.rawBody;
 	try {
-		const endpointSecret = stripeSecrets("webhook-local");
+		const endpointSecret = stripeSecrets("webhook-remote");
 		const sig = req.headers["stripe-signature"];
 		event = await stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
 	} catch (err) {
