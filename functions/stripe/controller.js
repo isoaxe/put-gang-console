@@ -81,6 +81,7 @@ export async function subscriptionPayment (req, res) {
 				const userRef = await usersPath.where("stripeUid", "==", customerId).get();
 				const userData = userRef.docs[0].data();
 				const { uid, role, email, membLvl } = userData;
+				await usersPath.doc(uid).set({ expiryDate: subExpires }, { merge: true });
 				recurringPayment(uid, role, email, membLvl);
 				console.log("✅  Payment made and confirmed.");
 			} else {
