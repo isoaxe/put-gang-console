@@ -65,7 +65,7 @@ const Register = () => {
     const [loading, setLoading] = useState(false)
     const [state, setState] = useState({})
     const [message, setMessage] = useState('')
-    let { email, password, agreement } = state;
+    let { email, password } = state;
 
     const { signInWithEmailAndPassword, refId, membLvl } = useAuth()
     const { palette } = useTheme();
