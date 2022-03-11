@@ -84,6 +84,7 @@ const Layout1 = () => {
             let mode = isMdScreen ? 'close' : sidebarMode
             updateSettings({ layout1Settings: { leftSidebar: { mode } } })
         }
+    /* eslint-disable-next-line */
     }, [isMdScreen])
 
     return (
