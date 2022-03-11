@@ -23,9 +23,11 @@ export const navigations = [
         path: '/dashboard/links',
         icon: 'link',
     },
+    /*
     {
         name: 'Charts',
         path: '/dashboard/charts',
         icon: 'trending_up',
     },
+    */
 ]
