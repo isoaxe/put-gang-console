@@ -1,3 +1,5 @@
+// TODO: Implement authRoles to conditionally render Charts for admin user only.
+/* eslint-disable-next-line */
 import { authRoles } from './auth/authRoles'
 
 export const navigations = [
