@@ -3,7 +3,7 @@ import { Card, Avatar, Grid } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
 import { MonetizationOn } from '@mui/icons-material';
 import { numToCurrency } from './../../utils/helpers';
-import { Small, Span, Paragraph } from 'app/components/Typography';
+import { Small, Paragraph } from 'app/components/Typography';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
 
 
