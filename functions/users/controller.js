@@ -1,6 +1,7 @@
 import admin from "firebase-admin";
 import { addMonth, currentMonthKey, chartExists, initChartData } from "./../util/helpers.js";
 import { storeProfilePic } from "./instagramAvatar.js";
+import { createActivity } from "./../util/helpers.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
 
@@ -155,6 +156,9 @@ export async function create (req, res) {
 				invoiceId
 			}, { merge: true });
 		}
+
+		// Also save the user creation event to activities.
+		await createActivity(uid, role, email, "join", membLvl);
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {
