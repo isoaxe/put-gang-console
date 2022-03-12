@@ -103,16 +103,10 @@ const Register = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
-            const user = createUser();
-            if (user.error) {
-              setLoading(false)
-              setMessage(user.error)
-              console.log(user)
-            } else {
-              await signInWithEmailAndPassword(email, password);
-              if (membLvl) makePayment(membLvl);
-              navigate('/')
-            }
+            await createUser();
+            await signInWithEmailAndPassword(email, password);
+            if (membLvl) makePayment(membLvl);
+            navigate('/')
         } catch (e) {
             setLoading(false)
             setMessage(e.message)
