@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux'
-import NavigationReducer from './NavigationReducer'
+import { combineReducers } from "redux";
+import NavigationReducer from "./NavigationReducer";
 
 const RootReducer = combineReducers({
-    navigations: NavigationReducer,
-})
+  navigations: NavigationReducer,
+});
 
-export default RootReducer
+export default RootReducer;

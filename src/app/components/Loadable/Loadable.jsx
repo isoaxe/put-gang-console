@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
-import Loading from '../MatxLoading/MatxLoading'
+import React, { Suspense } from "react";
+import Loading from "../MatxLoading/MatxLoading";
 
-const Loadable = (Component) => (props) => (
-   <Suspense fallback={<Loading />}>
+const Loadable = (Component) => (props) =>
+  (
+    <Suspense fallback={<Loading />}>
       <Component {...props} />
-   </Suspense>
-);
+    </Suspense>
+  );
 
 export default Loadable;

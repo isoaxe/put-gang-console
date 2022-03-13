@@ -1,67 +1,64 @@
-import React, { useContext } from 'react';
-import { styled, useTheme } from '@mui/system';
-import { Card } from '@mui/material';
-import DataContext from 'app/contexts/DataContext';
-import ActivityList from './../list/ActivityList';
-import StatCard3 from './shared/StatCard3';
-import ComparisonChart2 from './shared/ComparisonChart2';
-import { H3, Span } from 'app/components/Typography';
-import useAuth from 'app/hooks/useAuth';
+import React, { useContext } from "react";
+import { styled, useTheme } from "@mui/system";
+import { Card } from "@mui/material";
+import DataContext from "app/contexts/DataContext";
+import ActivityList from "./../list/ActivityList";
+import StatCard3 from "./shared/StatCard3";
+import ComparisonChart2 from "./shared/ComparisonChart2";
+import { H3, Span } from "app/components/Typography";
+import useAuth from "app/hooks/useAuth";
 
+const AnalyticsRoot = styled("div")(({ theme }) => ({
+  margin: "30px",
+  [theme.breakpoints.down("sm")]: {
+    margin: "16px",
+  },
+}));
 
-const AnalyticsRoot = styled('div')(({ theme }) => ({
-    margin: '30px',
-    [theme.breakpoints.down('sm')]: {
-        margin: '16px',
-    },
-}))
-
-const FlexBox = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: '24px',
-}))
+const FlexBox = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  marginBottom: "24px",
+}));
 
 const Console = () => {
-    const { allStats, role } = useContext(DataContext);
-    const { palette } = useTheme();
-    const textMuted = palette.text.secondary;
-    const uid = useAuth().user.id;
-    let userStats = {};
-    if (allStats.length && ["admin", "level-1", "level-2"].includes(role)) {
-        userStats = allStats.find(stats => stats.uid === uid);
-    }
+  const { allStats, role } = useContext(DataContext);
+  const { palette } = useTheme();
+  const textMuted = palette.text.secondary;
+  const uid = useAuth().user.id;
+  let userStats = {};
+  if (allStats.length && ["admin", "level-1", "level-2"].includes(role)) {
+    userStats = allStats.find((stats) => stats.uid === uid);
+  }
 
-    return (
-        <AnalyticsRoot>
+  return (
+    <AnalyticsRoot>
+      <FlexBox>
+        <H3 sx={{ m: 0 }}>Overview</H3>
+      </FlexBox>
 
-            <FlexBox>
-                <H3 sx={{ m: 0 }}>Overview</H3>
-            </FlexBox>
+      <StatCard3 userStats={userStats} />
 
-            <StatCard3 userStats={userStats} />
+      <Card sx={{ mt: "20px", mb: "24px" }} elevation={3}>
+        <FlexBox
+          sx={{
+            px: 2,
+            py: "12px",
+            background: "rgba(0, 0, 0, 0.01)",
+          }}
+        >
+          <Span sx={{ fontWeight: "500", color: textMuted }}>
+            Activity by Month
+          </Span>
+        </FlexBox>
+        <ComparisonChart2 height={400} />
+      </Card>
 
-            <Card sx={{ mt: '20px', mb: '24px' }} elevation={3}>
-                <FlexBox
-                    sx={{
-                        px: 2,
-                        py: '12px',
-                        background: 'rgba(0, 0, 0, 0.01)',
-                    }}
-                >
-                    <Span sx={{ fontWeight: '500', color: textMuted }}>
-                        Activity by Month
-                    </Span>
-                </FlexBox>
-                <ComparisonChart2 height={400} />
-            </Card>
+      <H3 sx={{ marginTop: 8 }}>Activity</H3>
+      <ActivityList />
+    </AnalyticsRoot>
+  );
+};
 
-            <H3 sx={{ marginTop: 8 }}>Activity</H3>
-            <ActivityList />
-
-        </AnalyticsRoot>
-    )
-}
-
-export default Console
+export default Console;
