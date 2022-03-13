@@ -26,11 +26,9 @@ export async function create(req, res) {
     // Check if user is already a paying subscriber in Stripe.
     const customer = await stripe.customers.retrieve(stripeUid);
     if (email !== customer.email) {
-      return res
-        .status(400)
-        .send({
-          error: `${email} is the wrong email for this Stripe customer`,
-        });
+      return res.status(400).send({
+        error: `${email} is the wrong email for this Stripe customer`,
+      });
     }
 
     // Initialize Firestore database and paths.

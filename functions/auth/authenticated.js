@@ -9,11 +9,9 @@ export async function isAuthenticated(req, res, next) {
       .send({ message: "No authorization field in header." });
 
   if (!authorization.startsWith("Bearer"))
-    return res
-      .status(401)
-      .send({
-        message: "Unauthorized due to token missing the 'Bearer' prefix",
-      });
+    return res.status(401).send({
+      message: "Unauthorized due to token missing the 'Bearer' prefix",
+    });
 
   const split = authorization.split("Bearer ");
   if (split.length !== 2)
