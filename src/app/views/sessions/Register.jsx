@@ -100,7 +100,7 @@ const Register = () => {
       return jsonResponse;
     }
 
-    const handleFormSubmit = async () => {
+    async function handleFormSubmit () {
         try {
             setLoading(true)
             const user = await createUser();
