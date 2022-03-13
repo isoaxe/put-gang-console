@@ -1,0 +1,26 @@
+# These are copied from .gitignore:
+
+# dependencies
+node_modules/
+/docs/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/.firebase
+*.log
+
+
+# These are specific to prettier:
+README.md

@@ -2,7 +2,7 @@ import AuthGuard from "app/auth/AuthGuard";
 import NotFound from "app/views/sessions/NotFound";
 import { dashboardRoutes } from "app/views/dashboard/DashboardRoutes";
 import sessionRoutes from "app/views/sessions/SessionRoutes";
-import MatxLayout from '../components/MatxLayout/MatxLayout';
+import MatxLayout from "../components/MatxLayout/MatxLayout";
 
 export const AllPages = () => {
   const all_routes = [
@@ -13,9 +13,7 @@ export const AllPages = () => {
           <MatxLayout />
         </AuthGuard>
       ),
-      children: [
-        ...dashboardRoutes,
-      ],
+      children: [...dashboardRoutes],
     },
     ...sessionRoutes,
     {
@@ -25,4 +23,4 @@ export const AllPages = () => {
   ];
 
   return all_routes;
-}
+};

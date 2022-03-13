@@ -3,7 +3,6 @@
  * Better to have a single point of reference that can changed as necessary.
  */
 
-
 // Manually switch between test and live modes.
 export const MODE = "test"; // enum 'test' || 'live'
 

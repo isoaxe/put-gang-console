@@ -1,53 +1,53 @@
-import clsx from 'clsx'
-import React from 'react'
-import { styled, useTheme } from '@mui/system'
-import useSettings from 'app/hooks/useSettings'
-import { IconButton, Icon } from '@mui/material'
+import clsx from "clsx";
+import React from "react";
+import { styled, useTheme } from "@mui/system";
+import useSettings from "app/hooks/useSettings";
+import { IconButton, Icon } from "@mui/material";
 
-const Toggle = styled('div')(() => ({
-    position: 'fixed',
-    right: '30px',
-    bottom: '50px',
-    zIndex: 99,
-    transition: 'all 0.15s ease',
-    '&.open': {
-        right: '10px',
-    },
-}))
+const Toggle = styled("div")(() => ({
+  position: "fixed",
+  right: "30px",
+  bottom: "50px",
+  zIndex: 99,
+  transition: "all 0.15s ease",
+  "&.open": {
+    right: "10px",
+  },
+}));
 
 const SecondarySidebarToggle = () => {
-    const { settings, updateSettings } = useSettings()
+  const { settings, updateSettings } = useSettings();
 
-    const toggle = () => {
-        updateSettings({
-            secondarySidebar: { open: !settings.secondarySidebar.open },
-        })
-    }
+  const toggle = () => {
+    updateSettings({
+      secondarySidebar: { open: !settings.secondarySidebar.open },
+    });
+  };
 
-    // useEffect(() => {
-    //   updateSettings({
-    //     secondarySidebar: { open: !isMobile },
-    //   });
-    // }, [isMobile]);
+  // useEffect(() => {
+  //   updateSettings({
+  //     secondarySidebar: { open: !isMobile },
+  //   });
+  // }, [isMobile]);
 
-    const { palette } = useTheme()
-    const textColor = palette.primary.contrastText
+  const { palette } = useTheme();
+  const textColor = palette.primary.contrastText;
 
-    return (
-        <Toggle className={clsx({ open: settings.secondarySidebar.open })}>
-            {settings.secondarySidebar.open && (
-                <IconButton onClick={toggle} size="small" aria-label="toggle">
-                    <Icon sx={{ color: textColor }}>close</Icon>
-                </IconButton>
-            )}
-            {/* TODO: Uncomment this to render settings FAB when implementing themes.
+  return (
+    <Toggle className={clsx({ open: settings.secondarySidebar.open })}>
+      {settings.secondarySidebar.open && (
+        <IconButton onClick={toggle} size="small" aria-label="toggle">
+          <Icon sx={{ color: textColor }}>close</Icon>
+        </IconButton>
+      )}
+      {/* TODO: Uncomment this to render settings FAB when implementing themes.
               !settings.secondarySidebar.open && (
                 <Fab color="primary" aria-label="expand" onClick={toggle}>
                     <Icon sx={{ color: textColor }}>settings</Icon>
                 </Fab>
             )*/}
-        </Toggle>
-    )
-}
+    </Toggle>
+  );
+};
 
-export default SecondarySidebarToggle
+export default SecondarySidebarToggle;
