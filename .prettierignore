@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# These are copied from .gitignore:
 
 # dependencies
 node_modules/
@@ -20,3 +20,7 @@ node_modules/
 .env.production.local
 /.firebase
 *.log
+
+
+# These are specific to prettier:
+README.md
