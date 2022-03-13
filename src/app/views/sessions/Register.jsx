@@ -86,23 +86,27 @@ const Register = () => {
         })
     }
 
-    const handleFormSubmit = async () => {
+    async function createUser () {
+      const fetchConfig = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(state)
+      };
+      const response = await fetch(`${API_URL}/users/${refId}/${membLvl}/${stripeUid}`, fetchConfig);
+      const jsonResponse = await response.json();
+      return jsonResponse;
+    }
+
+    async function handleFormSubmit () {
         try {
             setLoading(true)
-            const fetchConfig = {
-          		method: "POST",
-          		headers: {
-          			"Content-Type": "application/json",
-          			"Accept": "application/json"
-          		},
-              body: JSON.stringify(state)
-          	};
-            const response = await fetch(`${API_URL}/users/${refId}/${membLvl}/${stripeUid}`, fetchConfig);
-            const jsonResponse = await response.json();
-            if (jsonResponse.error) {
-              setLoading(false)
-              setMessage(jsonResponse.error)
-              console.log(jsonResponse)
+            const user = await createUser();
+            if (user.error) {
+              setLoading(false);
+              setMessage(user.error);
             } else {
               await signInWithEmailAndPassword(email, password);
               if (membLvl) makePayment(membLvl);

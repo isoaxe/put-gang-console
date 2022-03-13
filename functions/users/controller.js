@@ -1,8 +1,14 @@
 import admin from "firebase-admin";
+import Stripe from "stripe";
 import { addMonth, currentMonthKey, chartExists, initChartData } from "./../util/helpers.js";
 import { storeProfilePic } from "./instagramAvatar.js";
+import { createActivity, stripeSecrets } from "./../util/helpers.js";
 import { ADMIN_EMAIL, ADMIN_UID } from "./../util/constants.js";
 
+
+const stripe = new Stripe(stripeSecrets("api"), {
+	apiVersion: "2020-08-27"
+});
 
 // Create new user.
 export async function create (req, res) {
@@ -12,6 +18,12 @@ export async function create (req, res) {
 		const { email, password } = req.body;
 		if (membLvl === "null") membLvl = "none";
 		if (stripeUid === "null") stripeUid = "none";
+
+		// Check if user is already a paying subscriber in Stripe.
+		const customer = await stripe.customers.retrieve(stripeUid);
+		if (email !== customer.email) {
+			return res.status(400).send({ error: `${email} is the wrong email for this Stripe customer` });
+		}
 
 		// Initialize Firestore database and paths.
 		const db = admin.firestore();
@@ -155,6 +167,9 @@ export async function create (req, res) {
 				invoiceId
 			}, { merge: true });
 		}
+
+		// Also save the user creation event to activities.
+		await createActivity(uid, role, email, "join", membLvl);
 
 		return res.status(200).send({ message: `${role} user created for ${email}` });
 	} catch (err) {
