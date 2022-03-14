@@ -5,7 +5,7 @@ export async function createLinkToken(req, res) {
   try {
     const plaidClient = new plaid.Client(
       "{{PLAID_CLIENT_ID}}",
-      "{{PLAID_SECRET}}",
+      process.env.PLAID_SECRET_KEY_SANDBOX,
       plaid.environments.sandbox
     );
 
