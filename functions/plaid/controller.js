@@ -16,7 +16,7 @@ export async function createLinkToken(req, res) {
         user: {
           client_user_id: clientUserId,
         },
-        client_name: "My App",
+        client_name: "Put Gang",
         products: ["auth"],
         country_codes: ["US"],
         language: "en",
