@@ -18,13 +18,13 @@ app.use(cors({ origin: true }));
 
 app.use(bodyParser.json());
 
-// Set handler for user accounts.
+// Set handler for Firebase & Firestore user accounts.
 usersRoute(app);
-// Set handler for payment information.
+// Set handler for payment information. This is admin console payments.
 paymentsRoute(app);
-// Set handler for Stripe actions.
+// Set handler for Stripe actions. This handles real payments.
 stripeRoute(app);
-// Set handler for activities.
+// Set handler for activities. These get displayed in the admin console.
 activityRoute(app);
 
 // Define secrets available in the app.
