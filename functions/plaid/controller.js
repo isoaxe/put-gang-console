@@ -9,7 +9,8 @@ export async function createLinkToken(req, res) {
       plaid.environments.sandbox
     );
 
-    const clientUserId = "Stripe test";
+    // TODO: Can I add Firebase uid later?
+    const clientUserId = "Firebase uid here...";
 
     plaidClient.createLinkToken(
       {
