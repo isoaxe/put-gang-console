@@ -1,4 +1,10 @@
-import { Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+import {
+  Configuration,
+  PlaidApi,
+  PlaidEnvironments,
+  Products,
+  CountryCode,
+} from "plaid";
 import { PLAID_CLIENT_ID } from "./../util/constants.js";
 
 const configuration = new Configuration({
@@ -24,10 +30,10 @@ export async function createLinkToken(req, res) {
       client_user_id: clientUserId,
     },
     client_name: "Put Gang",
-    products: ["auth"],
+    products: [Products.Auth],
     language: "en",
     webhook: "https://webhook.example.com",
-    country_codes: ["US"],
+    country_codes: [CountryCode.Us],
   };
   try {
     const createTokenResponse = await client.linkTokenCreate(request);
