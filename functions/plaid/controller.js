@@ -1,10 +1,11 @@
 import plaid from "plaid";
+import { PLAID_CLIENT_ID } from "./../util/constants.js";
 
 // Create a link_token for initialization of Plaid Link.
 export async function createLinkToken(req, res) {
   try {
     const plaidClient = new plaid.Client(
-      "{{PLAID_CLIENT_ID}}",
+      PLAID_CLIENT_ID,
       process.env.PLAID_SECRET_KEY_SANDBOX,
       plaid.environments.sandbox
     );
