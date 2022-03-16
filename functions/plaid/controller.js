@@ -47,7 +47,8 @@ export async function createLinkToken(req, res) {
 // Exchange a public token for an access token.
 export async function exchangeTokens(req, res) {
   try {
-    const response = await client.itemPublicTokenExchange(req.body);
+    const { public_token, account_id } = req.body;
+    const response = await client.itemPublicTokenExchange({ public_token });
     // Probably need to save access_token and item_id temp to Firestore?
     console.log("Access token data:", response.data);
     res.status(200).send(response.data);
