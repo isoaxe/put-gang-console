@@ -54,7 +54,7 @@ export async function exchangeTokens(req, res) {
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
     const bankAccountToken = stripeTokenResponse.data.stripe_bank_account_token;
-    res.status(200).send(response.data);
+    res.status(200).send({ message: "Bank details saved to Stripe" });
   } catch (err) {
     handleError(res, err);
   }
