@@ -44,6 +44,17 @@ export async function createLinkToken(req, res) {
   }
 }
 
+// Exchange a public token for an access token.
+export async function exchangeTokens(req, res) {
+  try {
+    const response = await client.itemPublicTokenExchange(req.body);
+    console.log(response);
+    res.status(200).send(response);
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
 // Standard error helper function.
 function handleError(res, err) {
   return res.status(500).send({ error: `${err}` });
