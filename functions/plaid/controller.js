@@ -49,8 +49,6 @@ export async function exchangeTokens(req, res) {
   try {
     const { public_token, account_id } = req.body;
     const response = await client.itemPublicTokenExchange({ public_token });
-    // Probably need to save access_token and item_id temp to Firestore?
-    console.log("Access token data:", response.data);
     const { access_token } = response.data;
     const request = { access_token, account_id };
     const stripeTokenResponse =
