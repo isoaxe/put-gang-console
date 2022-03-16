@@ -48,8 +48,9 @@ export async function createLinkToken(req, res) {
 export async function exchangeTokens(req, res) {
   try {
     const response = await client.itemPublicTokenExchange(req.body);
-    console.log(response);
-    res.status(200).send(response);
+    // Probably need to save access_token and item_id temp to Firestore?
+    console.log("Access token data:", response.data);
+    res.status(200).send(response.data);
   } catch (err) {
     handleError(res, err);
   }
