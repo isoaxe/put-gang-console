@@ -5,7 +5,13 @@ import {
   Products,
   CountryCode,
 } from "plaid";
+import Stripe from "stripe";
+import { stripeSecrets } from "./../util/helpers.js";
 import { PLAID_CLIENT_ID } from "./../util/constants.js";
+
+const stripe = new Stripe(stripeSecrets("api"), {
+  apiVersion: "2020-08-27",
+});
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox,
@@ -47,13 +53,17 @@ export async function createLinkToken(req, res) {
 // Exchange a public token for an access token.
 export async function exchangeTokens(req, res) {
   try {
-    const { public_token, account_id } = req.body;
+    const { public_token, account_id, stripeUid } = req.body;
     const response = await client.itemPublicTokenExchange({ public_token });
     const { access_token } = response.data;
     const request = { access_token, account_id };
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
     const bankAccountToken = stripeTokenResponse.data.stripe_bank_account_token;
+    const bankAccount = await stripe.customers.createSource(stripeUid, {
+      source: bankAccountToken,
+    });
+    console.log("bankAccount:", bankAccount);
     res.status(200).send({ message: "Bank details saved to Stripe" });
   } catch (err) {
     handleError(res, err);
