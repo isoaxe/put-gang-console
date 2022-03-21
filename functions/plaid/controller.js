@@ -1,3 +1,5 @@
+import admin from "firebase-admin";
+import Stripe from "stripe";
 import {
   Configuration,
   PlaidApi,
@@ -5,7 +7,6 @@ import {
   Products,
   CountryCode,
 } from "plaid";
-import Stripe from "stripe";
 import { stripeSecrets } from "./../util/helpers.js";
 import { PLAID_CLIENT_ID } from "./../util/constants.js";
 
@@ -53,10 +54,14 @@ export async function createLinkToken(req, res) {
 // Exchange a public token for an access token.
 export async function exchangeTokens(req, res) {
   try {
-    const { public_token, account_id, stripeUid } = req.body;
+    const { public_token, account_id } = req.body;
     const response = await client.itemPublicTokenExchange({ public_token });
     const { access_token } = response.data;
-    res.status(200).send({ message: "Bank details saved to Stripe" });
+
+    const db = admin.firestore();
+    const plaidRef = db.collection("plaid").doc(account_id);
+    await plaidRef.set({ account_id, access_token });
+    res.status(200).send({ success: "access token temporarily cached" });
   } catch (err) {
     handleError(res, err);
   }
