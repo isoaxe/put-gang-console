@@ -70,11 +70,13 @@ export async function exchangeTokens(req, res) {
 // Create a bank account with Plaid access_token and save to Stripe customer.
 export async function saveBankAccount(req, res) {
   try {
+    // Get required variables from request body and Firestore.
     const { accountId, stripeUid } = req.body;
     const db = admin.firestore();
     const plaid = await db.collection("plaid").doc(accountId).get();
     const { access_token } = plaid.data();
 
+    // Use access_token to get bank details and save to Stripe customer.
     const request = { access_token, accountId };
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
