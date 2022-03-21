@@ -10,5 +10,5 @@ export default function plaidRoute(app) {
   // Exchange a public_token for an access_token.
   app.post("/plaid/exchange-tokens", exchangeTokens);
   // Save bank details to Stripe customer object.
-  app.post("plaid/save-bank", saveBankAccount);
+  app.post("/plaid/save-bank", saveBankAccount);
 }
