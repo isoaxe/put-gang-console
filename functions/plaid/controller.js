@@ -70,8 +70,12 @@ export async function exchangeTokens(req, res) {
 // Create a bank account with Plaid access_token and save to Stripe customer.
 export async function saveBankAccount(req, res) {
   try {
-    const { access_token, account_id, stripeUid } = req.body;
-    const request = { access_token, account_id };
+    const { accountId, stripeUid } = req.body;
+    const db = admin.firestore();
+    const plaid = await db.collection("plaid").doc(accountId).get();
+    const { access_token } = plaid.data();
+
+    const request = { access_token, accountId };
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
     const bankAccountToken = stripeTokenResponse.data.stripe_bank_account_token;
@@ -79,7 +83,7 @@ export async function saveBankAccount(req, res) {
       source: bankAccountToken,
     });
     console.log("bankAccount:", bankAccount);
-    res.status(200).send({ message: "Bank details saved to Stripe" });
+    res.status(200).send({ success: "Bank details saved to Stripe" });
   } catch (err) {
     handleError(res, err);
   }
