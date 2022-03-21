@@ -77,7 +77,7 @@ export async function saveBankAccount(req, res) {
     const { access_token } = plaid.data();
 
     // Use access_token to get bank details and save to Stripe customer.
-    const request = { access_token, accountId };
+    const request = { access_token, account_id: accountId };
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
     const bankAccountToken = stripeTokenResponse.data.stripe_bank_account_token;
