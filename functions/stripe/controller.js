@@ -15,9 +15,9 @@ export async function createCustomer(req, res) {
   try {
     const email = req.body.email;
     const customer = await stripe.customers.create({ email });
-    const stripeUid = customer.id;
+    const stripe_uid = customer.id;
 
-    res.send({ stripeUid });
+    res.send({ stripe_uid });
   } catch (err) {
     return handleError(res, err);
   }

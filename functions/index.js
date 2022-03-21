@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
 import stripeRoute from "./stripe/stripeRoute.js";
+import plaidRoute from "./plaid/plaidRoute.js";
 import activityRoute from "./activity/activityRoute.js";
 
 // Initialise the firebase-admin SDK in order to access its services.
@@ -18,13 +19,15 @@ app.use(cors({ origin: true }));
 
 app.use(bodyParser.json());
 
-// Set handler for user accounts.
+// Set handler for Firebase & Firestore user accounts.
 usersRoute(app);
-// Set handler for payment information.
+// Set handler for payment information. This is admin console payments.
 paymentsRoute(app);
-// Set handler for Stripe actions.
+// Set handler for Stripe actions. This handles real payments.
 stripeRoute(app);
-// Set handler for activities.
+// Set handler for Plaid actions. This processes ACH payment data.
+plaidRoute(app);
+// Set handler for activities. These get displayed in the admin console.
 activityRoute(app);
 
 // Define secrets available in the app.
@@ -37,6 +40,8 @@ const secrets = {
     "STRIPE_WEBHOOK_SECRET_LOCAL",
     "STRIPE_WEBHOOK_SECRET_TEST",
     "STRIPE_WEBHOOK_SECRET_LIVE",
+    "PLAID_SECRET_KEY_SANDBOX",
+    "PLAID_SECRET_KEY_DEV",
   ],
 };
 
