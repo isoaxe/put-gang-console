@@ -56,6 +56,16 @@ export async function exchangeTokens(req, res) {
     const { public_token, account_id, stripeUid } = req.body;
     const response = await client.itemPublicTokenExchange({ public_token });
     const { access_token } = response.data;
+    res.status(200).send({ message: "Bank details saved to Stripe" });
+  } catch (err) {
+    handleError(res, err);
+  }
+}
+
+// Create a bank account with Plaid access_token and save to Stripe customer.
+export async function saveBankAccount(req, res) {
+  try {
+    const { access_token, account_id, stripeUid } = req.body;
     const request = { access_token, account_id };
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
