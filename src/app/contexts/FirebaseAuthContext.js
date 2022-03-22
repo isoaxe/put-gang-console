@@ -6,7 +6,7 @@ import { MatxLoading } from "app/components";
 
 const currentUrl = new URL(window.location.href);
 const membLvl = currentUrl.searchParams.get("membLvl"); // Membership level.
-const refId = currentUrl.searchParams.get("refId"); // Referrer ID.
+const refId = currentUrl.searchParams.get("refId") || "none"; // Referrer ID.
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
