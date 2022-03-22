@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 import Stripe from "stripe";
 import { Configuration, PlaidApi, Products, CountryCode } from "plaid";
-import { stripeSecrets, setPlaidEnv } from "./../util/helpers.js";
+import { stripeSecrets, plaidSecrets, setPlaidEnv } from "./../util/helpers.js";
 import { PLAID_CLIENT_ID } from "./../util/constants.js";
 
 const stripe = new Stripe(stripeSecrets("api"), {
@@ -13,7 +13,7 @@ const configuration = new Configuration({
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": PLAID_CLIENT_ID,
-      "PLAID-SECRET": process.env.PLAID_SECRET_KEY_SANDBOX,
+      "PLAID-SECRET": plaidSecrets("sand"),
     },
   },
 });
