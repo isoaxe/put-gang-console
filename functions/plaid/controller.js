@@ -75,7 +75,10 @@ export async function saveBankAccount(req, res) {
       source: bankAccountToken,
     });
     console.log("bankAccount:", bankAccount);
-    res.status(200).send({ success: "Bank details saved to Stripe" });
+    res.status(200).send({
+      success: "Bank details saved to Stripe",
+      bank_account_id: bankAccount.id,
+    });
   } catch (err) {
     handleError(res, err);
   }
