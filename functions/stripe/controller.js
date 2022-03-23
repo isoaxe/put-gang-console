@@ -29,11 +29,7 @@ export async function createSubscription(req, res) {
     const { priceId, customerId } = req.body;
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
-      items: [
-        {
-          price: priceId,
-        },
-      ],
+      items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
       expand: ["latest_invoice.payment_intent"],
     });
