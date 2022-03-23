@@ -41,6 +41,7 @@ export async function createSubscription(req, res) {
     res.send({
       subscription_id: subscription.id,
       client_secret: subscription.latest_invoice.payment_intent.client_secret,
+      payment_intent_id: subscription.payment_intent.id,
     });
   } catch (err) {
     return handleError(res, err);
