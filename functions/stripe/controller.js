@@ -17,7 +17,7 @@ export async function createCustomer(req, res) {
     const customer = await stripe.customers.create({ email });
     const stripe_uid = customer.id;
 
-    res.send({ stripe_uid });
+    res.status(201).send({ stripe_uid });
   } catch (err) {
     return handleError(res, err);
   }
@@ -34,7 +34,7 @@ export async function createSubscription(req, res) {
       expand: ["latest_invoice.payment_intent"],
     });
 
-    res.send({
+    res.status(201).send({
       subscription_id: subscription.id,
       client_secret: subscription.latest_invoice.payment_intent.client_secret,
       payment_intent_id: subscription.latest_invoice.payment_intent.id,
