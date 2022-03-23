@@ -47,8 +47,10 @@ export async function createSubscription(req, res) {
 // Make a payment by completing a PaymentIntent.
 export async function achPayment(req, res) {
   try {
-    const { paymentIntentId } = req.body;
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const { bankAccountId, paymentIntentId } = req.body;
+    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+      payment_method: bankAccountId,
+    });
     console.log(paymentIntent);
     res.status(200).send(paymentIntent);
   } catch (err) {
