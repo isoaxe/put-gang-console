@@ -22,14 +22,8 @@ const client = new PlaidApi(configuration);
 
 // Create a link_token for initialization of Plaid Link.
 export async function createLinkToken(req, res) {
-  // TODO: Can I add Firebase uid later?
-  const clientUserId = "Firebase uid here...";
-
   const request = {
-    user: {
-      // This should correspond to a unique id for the current user.
-      client_user_id: clientUserId,
-    },
+    user: { client_user_id: "Firebase uid unknown" },
     client_name: "Put Gang",
     products: [Products.Auth],
     language: "en",
