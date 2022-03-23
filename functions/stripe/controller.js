@@ -39,8 +39,8 @@ export async function createSubscription(req, res) {
     });
 
     res.send({
-      subscriptionId: subscription.id,
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+      subscription_id: subscription.id,
+      client_secret: subscription.latest_invoice.payment_intent.client_secret,
     });
   } catch (err) {
     return handleError(res, err);
