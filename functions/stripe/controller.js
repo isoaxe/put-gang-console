@@ -50,6 +50,7 @@ export async function achPayment(req, res) {
     const { paymentIntentId } = req.body;
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     console.log(paymentIntent);
+    res.status(200).send(paymentIntent);
   } catch (err) {
     return handleError(res, err);
   }
