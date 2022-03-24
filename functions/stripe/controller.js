@@ -80,7 +80,8 @@ export async function subscriptionPayment(req, res) {
     customer,
     subscription,
     subExpires,
-    subExpiresAsInt;
+    subExpiresAsInt,
+    dataObject;
   switch (event.type) {
     case "invoice.paid":
       invoicePaid = event.data.object;
@@ -115,6 +116,21 @@ export async function subscriptionPayment(req, res) {
         console.log("⚠️  Payment was not made.");
       }
       res.status(200).send();
+      break;
+    case "invoice.payment_succeeded":
+      dataObject = event.data.object;
+      if (dataObject["billing_reason"] == "subscription_create") {
+        const subscription_id = dataObject["subscription"];
+        const payment_intent_id = dataObject["payment_intent"];
+        // Retrieve the payment intent used to pay the subscription.
+        const payment_intent = await stripe.paymentIntents.retrieve(
+          payment_intent_id
+        );
+        const subscription = await stripe.subscriptions.update(
+          subscription_id,
+          { default_payment_method: payment_intent.payment_method }
+        );
+      }
       break;
     default:
       console.log(`Unhandled event type ${event.type}.`);
