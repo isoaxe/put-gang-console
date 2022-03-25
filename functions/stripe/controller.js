@@ -117,17 +117,19 @@ export async function subscriptionPayment(req, res) {
       }
       res.status(200).send();
       break;
+    // Update customer with default payment method when subcription is created.
     case "invoice.payment_succeeded":
       dataObject = event.data.object;
       if (dataObject["billing_reason"] == "subscription_create") {
-        const subscription_id = dataObject["subscription"];
+        const customerId = dataObject["customer"];
         const payment_intent_id = dataObject["payment_intent"];
-        // Retrieve the payment intent used to pay the subscription.
         const payment_intent = await stripe.paymentIntents.retrieve(
           payment_intent_id
         );
-        await stripe.subscriptions.update(subscription_id, {
-          default_payment_method: payment_intent.payment_method,
+        await stripe.customers.update(customerId, {
+          invoice_settings: {
+            default_payment_method: payment_intent.payment_method,
+          },
         });
         console.log({ success: "✅  Payment method is now default" });
         res.status(200).send();
