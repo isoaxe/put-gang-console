@@ -126,11 +126,14 @@ export async function subscriptionPayment(req, res) {
         const payment_intent = await stripe.paymentIntents.retrieve(
           payment_intent_id
         );
-        const subscription = await stripe.subscriptions.update(
-          subscription_id,
-          { default_payment_method: payment_intent.payment_method }
-        );
+        await stripe.subscriptions.update(subscription_id, {
+          default_payment_method: payment_intent.payment_method,
+        });
+        console.log("Success: Payment method now default");
+        res.status(200).send();
       }
+      console.log("Error: Payment method not set to default");
+      res.status(500).send();
       break;
     default:
       console.log(`Unhandled event type ${event.type}.`);
