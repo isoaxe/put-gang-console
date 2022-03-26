@@ -49,9 +49,8 @@ export async function achPayment(req, res) {
   try {
     const { bankAccountId, paymentIntentId } = req.body;
     const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
-      payment_method: bankAccountId,
+      payment_method: bankAccountId, // TODO: Needs to be PaymentMethod or Source
     });
-    console.log(paymentIntent);
     res.status(200).send(paymentIntent);
   } catch (err) {
     return handleError(res, err);
