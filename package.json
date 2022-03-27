@@ -10,8 +10,6 @@
     "@mui/styles": "^5.4.4",
     "clsx": "^1.1.1",
     "date-fns": "^2.26.0",
-    "echarts": "^5.2.2",
-    "echarts-for-react": "^3.0.2",
     "firebase": "^8.6.7",
     "lodash": "^4.17.19",
     "mui-datatables": "^4.0.0",

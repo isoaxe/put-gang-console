@@ -1,13 +1,7 @@
 import admin from "firebase-admin";
 import Stripe from "stripe";
-import {
-  Configuration,
-  PlaidApi,
-  PlaidEnvironments,
-  Products,
-  CountryCode,
-} from "plaid";
-import { stripeSecrets } from "./../util/helpers.js";
+import { Configuration, PlaidApi, Products, CountryCode } from "plaid";
+import { stripeSecrets, plaidSecrets, setPlaidEnv } from "./../util/helpers.js";
 import { PLAID_CLIENT_ID } from "./../util/constants.js";
 
 const stripe = new Stripe(stripeSecrets("api"), {
@@ -15,11 +9,11 @@ const stripe = new Stripe(stripeSecrets("api"), {
 });
 
 const configuration = new Configuration({
-  basePath: PlaidEnvironments.sandbox,
+  basePath: setPlaidEnv("sand"),
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": PLAID_CLIENT_ID,
-      "PLAID-SECRET": process.env.PLAID_SECRET_KEY_SANDBOX,
+      "PLAID-SECRET": plaidSecrets("sand"),
     },
   },
 });
@@ -28,14 +22,8 @@ const client = new PlaidApi(configuration);
 
 // Create a link_token for initialization of Plaid Link.
 export async function createLinkToken(req, res) {
-  // TODO: Can I add Firebase uid later?
-  const clientUserId = "Firebase uid here...";
-
   const request = {
-    user: {
-      // This should correspond to a unique id for the current user.
-      client_user_id: clientUserId,
-    },
+    user: { client_user_id: "Firebase uid unknown" },
     client_name: "Put Gang",
     products: [Products.Auth],
     language: "en",
@@ -71,15 +59,15 @@ export async function exchangeTokens(req, res) {
 export async function saveBankAccount(req, res) {
   try {
     // Get required variables from request body and Firestore.
-    const { accountId, stripeUid } = req.body;
+    const { plaidAccountId, stripeUid } = req.body;
     const db = admin.firestore();
-    const plaidRef = db.collection("plaid").doc(accountId);
+    const plaidRef = db.collection("plaid").doc(plaidAccountId);
     const plaid = await plaidRef.get();
     const { access_token } = plaid.data();
     plaidRef.delete();
 
     // Use access_token to get bank details and save to Stripe customer.
-    const request = { access_token, account_id: accountId };
+    const request = { access_token, account_id: plaidAccountId };
     const stripeTokenResponse =
       await client.processorStripeBankAccountTokenCreate(request);
     const bankAccountToken = stripeTokenResponse.data.stripe_bank_account_token;
@@ -87,7 +75,10 @@ export async function saveBankAccount(req, res) {
       source: bankAccountToken,
     });
     console.log("bankAccount:", bankAccount);
-    res.status(200).send({ success: "Bank details saved to Stripe" });
+    res.status(200).send({
+      success: "Bank details saved to Stripe",
+      bank_account_id: bankAccount.id,
+    });
   } catch (err) {
     handleError(res, err);
   }

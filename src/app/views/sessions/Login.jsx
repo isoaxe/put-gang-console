@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import firebase from "firebase/app";
 import { Box, styled, useTheme } from "@mui/system";
 import useAuth from "app/hooks/useAuth";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -58,19 +57,6 @@ const FirebaseRoot = styled(JustifyBox)(({ theme }) => ({
   },
 }));
 
-// Temporary function to generate tokens for testing with Postman.
-function getBearerToken() {
-  firebase
-    .auth()
-    .currentUser.getIdToken(true)
-    .then(function (idToken) {
-      console.log("Bearer token:", idToken);
-    })
-    .catch(function (error) {
-      console.error("There was a problem with the token generation...");
-    });
-}
-
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -99,18 +85,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
-  // Temporary function to login without redirecting to console.
-  async function signInNoRedirect(event) {
-    try {
-      await signInWithEmailAndPassword(userInfo.email, userInfo.password);
-      console.log(`${userInfo.email} signed in!`);
-      window.alert(`${userInfo.email} signed in!`);
-    } catch (e) {
-      console.log(e);
-      setMessage(e.message);
-    }
-  }
 
   const { palette } = useTheme();
   const textError = palette.error.main;
@@ -209,12 +183,6 @@ const Login = () => {
                   Forgot password?
                 </Button>
               </ValidatorForm>
-              <button style={{ marginTop: "8px" }} onClick={signInNoRedirect}>
-                Sign In: No Redirect
-              </button>
-              <button style={{ margin: "8px" }} onClick={getBearerToken}>
-                Get a token
-              </button>
             </Box>
           </Grid>
         </Grid>

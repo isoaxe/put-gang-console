@@ -17,7 +17,7 @@ export async function createCustomer(req, res) {
     const customer = await stripe.customers.create({ email });
     const stripe_uid = customer.id;
 
-    res.send({ stripe_uid });
+    res.status(201).send({ stripe_uid });
   } catch (err) {
     return handleError(res, err);
   }
@@ -29,19 +29,29 @@ export async function createSubscription(req, res) {
     const { priceId, customerId } = req.body;
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
-      items: [
-        {
-          price: priceId,
-        },
-      ],
+      items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
       expand: ["latest_invoice.payment_intent"],
     });
 
-    res.send({
-      subscriptionId: subscription.id,
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+    res.status(201).send({
+      subscription_id: subscription.id,
+      client_secret: subscription.latest_invoice.payment_intent.client_secret,
+      payment_intent_id: subscription.latest_invoice.payment_intent.id,
     });
+  } catch (err) {
+    return handleError(res, err);
+  }
+}
+
+// Make a payment by completing a PaymentIntent.
+export async function achPayment(req, res) {
+  try {
+    const { bankAccountId, paymentIntentId } = req.body;
+    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+      payment_method: bankAccountId, // TODO: Needs to be PaymentMethod or Source
+    });
+    res.status(200).send(paymentIntent);
   } catch (err) {
     return handleError(res, err);
   }
@@ -69,7 +79,8 @@ export async function subscriptionPayment(req, res) {
     customer,
     subscription,
     subExpires,
-    subExpiresAsInt;
+    subExpiresAsInt,
+    dataObject;
   switch (event.type) {
     case "invoice.paid":
       invoicePaid = event.data.object;
@@ -104,6 +115,27 @@ export async function subscriptionPayment(req, res) {
         console.log("⚠️  Payment was not made.");
       }
       res.status(200).send();
+      break;
+    // Update customer with default payment method when subcription is created.
+    case "invoice.payment_succeeded":
+      dataObject = event.data.object;
+      if (dataObject["billing_reason"] == "subscription_create") {
+        const customerId = dataObject["customer"];
+        const payment_intent_id = dataObject["payment_intent"];
+        const payment_intent = await stripe.paymentIntents.retrieve(
+          payment_intent_id
+        );
+        await stripe.customers.update(customerId, {
+          invoice_settings: {
+            default_payment_method: payment_intent.payment_method,
+          },
+        });
+        console.log({ success: "✅  Payment method is now default" });
+        res.status(200).send();
+      } else {
+        console.log({ message: "Subsequent subscription payment, so ignore" });
+        res.status(204).send();
+      }
       break;
     default:
       console.log(`Unhandled event type ${event.type}.`);

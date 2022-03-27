@@ -2,6 +2,7 @@
  * Various helper functions used throughout Firebase Functions.
  */
 import admin from "firebase-admin";
+import { PlaidEnvironments } from "plaid";
 import { MODE, ADMIN_UID } from "./constants.js";
 
 // Add 31 days to the supplied date.
@@ -59,6 +60,32 @@ export function stripeSecrets(type) {
     return process.env.STRIPE_WEBHOOK_SECRET_LOCAL;
   } else {
     console.log("There was an error retrieving Stripe secret.");
+  }
+}
+
+// Return requested Plaid secret.
+export function plaidSecrets(env) {
+  if (MODE === "test" && env === "sand") {
+    return process.env.PLAID_SECRET_KEY_SANDBOX;
+  } else if (MODE === "test" && env === "dev") {
+    return process.env.PLAID_SECRET_KEY_DEV;
+  } else if (MODE === "live") {
+    console.log("Placeholder for PLAID_SECRET_KEY_PROD");
+  } else {
+    console.log("There was an error retrieving Plaid secret");
+  }
+}
+
+// Set the Plaid environment via Node bindings.
+export function setPlaidEnv(env) {
+  if (MODE === "test" && env === "sand") {
+    return PlaidEnvironments.sandbox;
+  } else if (MODE === "test" && env === "dev") {
+    return PlaidEnvironments.development;
+  } else if (MODE === "live") {
+    return PlaidEnvironments.production;
+  } else {
+    console.log("There was an error setting the Plaid environment.");
   }
 }
 
