@@ -67,6 +67,7 @@ const Settings = () => {
   }
 
   async function togglePaymentChoices() {
+    setPaymentChoices(!paymentChoices);
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
