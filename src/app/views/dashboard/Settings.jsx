@@ -28,6 +28,7 @@ const Settings = () => {
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
   const [paymentChoices, setPaymentChoices] = useState(false);
+  const [config, setConfig] = useState({});
   const { role } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
@@ -88,6 +89,16 @@ const Settings = () => {
   useEffect(() => {
     getData("/users/user", setUser);
   }, []);
+
+  useEffect(() => {
+    async function configure() {
+      await getData("/config/all", setConfig);
+      if (config.paymentChoices) {
+        setPaymentChoices(config.paymentChoices);
+      }
+    }
+    configure();
+  }, [config.paymentChoices]);
 
   return (
     <Container>
