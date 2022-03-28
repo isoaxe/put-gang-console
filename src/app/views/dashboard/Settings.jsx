@@ -29,6 +29,7 @@ const Settings = () => {
   const [insta, setInsta] = useState("");
   const [paymentChoices, setPaymentChoices] = useState(false);
   const [config, setConfig] = useState({});
+  const [disabled, setDisabled] = useState(false);
   const { role } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
@@ -69,6 +70,7 @@ const Settings = () => {
 
   async function togglePaymentChoices() {
     setPaymentChoices(!paymentChoices);
+    setDisabled(true);
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
@@ -81,6 +83,7 @@ const Settings = () => {
         body: JSON.stringify({ paymentChoices: !paymentChoices }),
       };
       await fetch(`${API_URL}/config/payment-options`, fetchConfig);
+      setDisabled(false);
     } catch (error) {
       console.log(error);
     }
@@ -141,6 +144,7 @@ const Settings = () => {
             <Switch checked={paymentChoices} onChange={togglePaymentChoices} />
           }
           label="Allow card payments"
+          disabled={disabled}
         />
       )}
     </Container>
