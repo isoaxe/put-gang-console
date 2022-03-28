@@ -13,7 +13,7 @@ const stripe = new Stripe(stripeSecrets("api"), {
 // Create a new customer in Stripe. Required for subscription payments.
 export async function createCustomer(req, res) {
   try {
-    const email = req.body.email;
+    const { email } = req.body;
     const customer = await stripe.customers.create({ email });
     const stripe_uid = customer.id;
 

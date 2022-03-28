@@ -8,6 +8,7 @@ import paymentsRoute from "./payments/paymentsRoute.js";
 import stripeRoute from "./stripe/stripeRoute.js";
 import plaidRoute from "./plaid/plaidRoute.js";
 import activityRoute from "./activity/activityRoute.js";
+import configRoute from "./config/configRoute.js";
 
 // Initialise the firebase-admin SDK in order to access its services.
 admin.initializeApp();
@@ -29,6 +30,8 @@ stripeRoute(app);
 plaidRoute(app);
 // Set handler for activities. These get displayed in the admin console.
 activityRoute(app);
+// Set handler for configuration options. These are set by admin and accessed by all.
+configRoute(app);
 
 // Define secrets available in the app.
 const secrets = {

@@ -14,7 +14,6 @@ export { MatxLayouts } from "./MatxLayout/index";
 export { default as MatxLayout } from "./MatxLayout/MatxLayout";
 export { default as MatxTheme } from "./MatxTheme/MatxTheme";
 
-export { EchartTheme } from "./MatxTheme/EchartTheme";
 export { default as RechartCreator } from "./charts/RechartCreator";
 
 export { default as SimpleCard } from "./cards/SimpleCard";
