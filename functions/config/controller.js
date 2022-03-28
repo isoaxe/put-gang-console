@@ -19,7 +19,7 @@ export async function setPaymentOptions(req, res) {
     const { paymentChoices } = req.body;
     const db = admin.firestore();
     const config = db.collection("config").doc("config");
-    config.set({ paymentChoices }, { merge: true });
+    await config.set({ paymentChoices }, { merge: true });
 
     res.sendStatus(204);
   } catch (err) {
