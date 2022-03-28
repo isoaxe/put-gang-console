@@ -78,7 +78,7 @@ const Settings = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ paymentChoices }),
+        body: JSON.stringify({ paymentChoices: !paymentChoices }),
       };
       await fetch(`${API_URL}/config/payment-options`, fetchConfig);
     } catch (error) {
