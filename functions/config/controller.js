@@ -18,10 +18,10 @@ export async function setPaymentOptions(req, res) {
   try {
     const { paymentChoices } = req.body;
     const db = admin.firestore();
-    const config = await db.collection("config").doc("config");
+    const config = db.collection("config").doc("config");
     config.set({ paymentChoices }, { merge: true });
 
-    res.status(204).send({ success: "Payment options toggled" });
+    res.sendStatus(204);
   } catch (err) {
     return handleError(res, err);
   }
