@@ -1,13 +1,13 @@
 import admin from "firebase-admin";
 
 // Check whether card payment option should be shown to the user.
-export async function getPaymentOptions(req, res) {
+export async function getConfigData(req, res) {
   try {
     const db = admin.firestore();
     const configRef = await db.collection("config").doc("config").get();
-    const { paymentChoices } = configRef.data();
+    const configData = configRef.data();
 
-    res.status(200).send({ paymentChoices });
+    res.status(200).send(configData);
   } catch (err) {
     return handleError(res, err);
   }
