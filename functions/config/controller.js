@@ -21,7 +21,7 @@ export async function setPaymentOptions(req, res) {
     const config = await db.collection("config").doc("config");
     config.set({ paymentChoices }, { merge: true });
 
-    res.status(201).send({ success: "Payment options toggled" });
+    res.status(204).send({ success: "Payment options toggled" });
   } catch (err) {
     return handleError(res, err);
   }
