@@ -79,12 +79,7 @@ const Settings = () => {
         },
         body: JSON.stringify({ paymentChoices }),
       };
-      const response = await fetch(
-        `${API_URL}/config/payment-options`,
-        fetchConfig
-      );
-      const jsonResponse = await response.json();
-      console.log(jsonResponse);
+      await fetch(`${API_URL}/config/payment-options`, fetchConfig);
     } catch (error) {
       console.log(error);
     }
