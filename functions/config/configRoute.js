@@ -4,5 +4,5 @@ export default function configRoute(app) {
   // Check whether card payment option should be shown to the user.
   app.get("/config/payment-options", getPaymentOptions);
   // Specify if card payment option should be shown to the user.
-  app.post("/config/payment-options", setPaymentOptions);
+  app.patch("/config/payment-options", setPaymentOptions);
 }
