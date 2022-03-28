@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 
-// Check whether payment choices should be displayed on the ChoiceModal.
-export async function getPaymentConfig(req, res) {
+// Check whether card payment option should be shown to the user.
+export async function getPaymentOptions(req, res) {
   try {
     const db = admin.firestore();
     const configRef = await db.collection("config").doc("config").get();
