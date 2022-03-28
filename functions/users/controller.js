@@ -216,7 +216,7 @@ export async function edit(req, res) {
         return res.status(404).end("not found");
       }
     }
-    return res.status(204).send({ message: "User successfully edited." });
+    return res.sendStatus(204);
   } catch (err) {
     return handleError(res, err);
   }
