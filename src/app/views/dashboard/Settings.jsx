@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { styled, useTheme } from "@mui/system";
 import { TextField, Button } from "@mui/material";
 import firebase from "firebase/app";
+import DataContext from "app/contexts/DataContext";
 import { H3, H5 } from "app/components/Typography";
 import { getData } from "./../../utils/helpers";
 import { API_URL } from "./../../utils/urls";
@@ -26,6 +27,7 @@ const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
+  const { role } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
   const styles = {
