@@ -66,6 +66,29 @@ const Settings = () => {
     }
   }
 
+  async function togglePaymentChoices() {
+    try {
+      const token = await firebase.auth().currentUser.getIdToken(true);
+      const fetchConfig = {
+        method: "PATCH",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ paymentChoices }),
+      };
+      const response = await fetch(
+        `${API_URL}/config/payment-options`,
+        fetchConfig
+      );
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getData("/users/user", setUser);
   }, []);
@@ -107,7 +130,9 @@ const Settings = () => {
       </FlexBox>
       {role === "admin" && (
         <FormControlLabel
-          control={<Switch checked={paymentChoices} />}
+          control={
+            <Switch checked={paymentChoices} onChange={togglePaymentChoices} />
+          }
           label="Allow card payments"
         />
       )}
