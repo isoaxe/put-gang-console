@@ -11,6 +11,16 @@ export async function test(req, res) {
       console.log("Ready!");
     });
 
+    client.on("interactionCreate", async (interaction) => {
+      if (!interaction.isCommand()) return;
+
+      const { commandName } = interaction;
+
+      const role = await interaction.options.getRole("Gangsta");
+      const member = await interaction.options.getMember("testuser");
+      member.roles.add(role);
+    });
+
     // Login to Discord with your client's token
     client.login(process.env.DISCORD_SECRET_TOKEN);
 
