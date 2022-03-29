@@ -45,6 +45,7 @@ const secrets = {
     "STRIPE_WEBHOOK_SECRET_LIVE",
     "PLAID_SECRET_KEY_SANDBOX",
     "PLAID_SECRET_KEY_DEV",
+    "DISCORD_SECRET_TOKEN",
   ],
 };
 
