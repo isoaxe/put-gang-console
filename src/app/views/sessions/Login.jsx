@@ -12,6 +12,7 @@ import { Box, styled, useTheme } from "@mui/system";
 import useAuth from "app/hooks/useAuth";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Paragraph, Span } from "app/components/Typography";
+import { API_URL } from "app/utils/urls";
 
 const FlexBox = styled(Box)(() => ({
   display: "flex",
@@ -85,6 +86,12 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  async function callDiscord() {
+    const response = await fetch(API_URL + "/discord/test");
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+  }
 
   const { palette } = useTheme();
   const textError = palette.error.main;
@@ -183,6 +190,9 @@ const Login = () => {
                   Forgot password?
                 </Button>
               </ValidatorForm>
+              <button style={{ marginTop: "8px" }} onClick={callDiscord}>
+                Discord
+              </button>
             </Box>
           </Grid>
         </Grid>
