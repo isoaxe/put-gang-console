@@ -16,6 +16,10 @@ export async function test(req, res) {
 
       const { commandName } = interaction;
 
+      if (commandName === "ping") {
+        await interaction.reply("pong");
+      }
+
       const role = await interaction.options.getRole("Gangsta");
       const member = await interaction.options.getMember("testuser");
       member.roles.add(role);
