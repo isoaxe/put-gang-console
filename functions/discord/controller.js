@@ -19,10 +19,15 @@ export async function role(req, res) {
       if (commandName === "ping") {
         await interaction.reply("pong");
       }
+      if (commandName === "join") {
+        await interaction.reply("Access granted");
+      }
 
+      /*
       const role = await interaction.options.getRole("Gangsta");
       const member = await interaction.options.getMember("testuser");
       member.roles.add(role);
+      */
     });
 
     // Login to Discord with your client's token
