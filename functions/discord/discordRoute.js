@@ -1,6 +1,6 @@
-import { test } from "./controller.js";
+import { role } from "./controller.js";
 
 export default function discordRoute(app) {
-  // A simple test function for Discord...
-  app.get("/discord/test", test);
+  // Assign or remove the appropriate role to requesting user.
+  app.get("/discord/role", role);
 }
