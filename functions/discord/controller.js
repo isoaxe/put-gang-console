@@ -25,12 +25,6 @@ export async function role(req, res) {
         member.roles.add(GANGSTA_ID);
         await interaction.reply({ content: "Access granted", ephemeral: true });
       }
-
-      /*
-      const role = await interaction.options.getRole("Gangsta");
-      const member = await interaction.options.getMember("testuser");
-      member.roles.add(role);
-      */
     });
 
     // Login to Discord with your client's token
