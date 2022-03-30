@@ -1,4 +1,5 @@
 import { Client, Intents } from "discord.js";
+import { GANGSTA_ID, SUPER_GANGSTA_ID } from "./../util/constants.js";
 
 // Test function to get started with Discord.
 export async function role(req, res) {
@@ -20,6 +21,8 @@ export async function role(req, res) {
         await interaction.reply({ content: "pong", ephemeral: true });
       }
       if (commandName === "join") {
+        const { member } = await interaction;
+        member.roles.add(GANGSTA_ID);
         await interaction.reply({ content: "Access granted", ephemeral: true });
       }
 
