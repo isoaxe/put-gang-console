@@ -15,7 +15,7 @@ const commands = [
     .setDescription("Replies with pong!"),
   new SlashCommandBuilder()
     .setName("join")
-    .setDescription("Request access to the discord group."),
+    .setDescription("Request access to the Put Gang Discord community."),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "9" }).setToken(
