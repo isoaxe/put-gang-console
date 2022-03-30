@@ -17,10 +17,10 @@ export async function role(req, res) {
       const { commandName } = interaction;
 
       if (commandName === "ping") {
-        await interaction.reply("pong");
+        await interaction.reply({ content: "pong", ephemeral: true });
       }
       if (commandName === "join") {
-        await interaction.reply("Access granted");
+        await interaction.reply({ content: "Access granted", ephemeral: true });
       }
 
       /*
