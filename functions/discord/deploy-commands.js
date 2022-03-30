@@ -16,6 +16,8 @@ const commands = [
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "9" }).setToken(
+  // Run 'firebase functions:secrets:access DISCORD_SECRET_TOKEN'.
+  // Temporarily hardcode the response here to deploy commands. DO NOT COMMIT!
   process.env.DISCORD_SECRET_TOKEN
 );
 
