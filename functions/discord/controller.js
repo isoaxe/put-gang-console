@@ -30,7 +30,7 @@ export async function role(req, res) {
     // Login to Discord with your client's token
     client.login(process.env.DISCORD_SECRET_TOKEN);
 
-    res.status(200).send({ success: "Discord api accessed!" });
+    res.status(200).send({ success: "Discord bot reset!" });
   } catch (err) {
     handleError(res, err);
   }
