@@ -1,7 +1,7 @@
 import { Client, Intents } from "discord.js";
 
 // Test function to get started with Discord.
-export async function test(req, res) {
+export async function role(req, res) {
   try {
     // Create a new client instance
     const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
