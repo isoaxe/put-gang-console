@@ -26,7 +26,7 @@ export async function role(req, res) {
         const { member } = await interaction;
 
         const db = admin.firestore();
-        const usersArrayRef = db
+        const usersArrayRef = await db
           .collection("users")
           .where("discord", "==", username)
           .get();
