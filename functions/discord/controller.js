@@ -23,6 +23,7 @@ export async function role(req, res) {
       const { username, tag } = interaction.user;
       const { member } = await interaction;
 
+      const now = new Date();
       const db = admin.firestore();
       const usersPath = db.collection("users");
       const findTag = await usersPath.where("discord", "==", tag).get();
@@ -50,7 +51,6 @@ export async function role(req, res) {
           const userData = userFromName.data();
           const { membLvl, uid, expiryDate } = userData;
           const expiryDateMs = new Date(expiryDate).getTime();
-          const now = new Date();
           if (expiryDateMs < now) {
             // ...but subscription has expired.
             await interaction.reply({
@@ -89,6 +89,13 @@ export async function role(req, res) {
               ephemeral: true,
             });
           } else {
+            const expiredUsers = [];
+            const usersRef = await usersPath.get();
+            usersRef.forEach((doc) => {
+              const { discord, expiryDate } = doc.data();
+              const expiryDateMs = new Date(expiryDate).getTime();
+              if (expiryDateMs < now) expiredUsers.push(discord);
+            });
             await interaction.reply({
               content: "Subscriptions purged.",
               ephemeral: true,
