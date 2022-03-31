@@ -31,15 +31,27 @@ export async function role(req, res) {
           .where("discord", "==", username)
           .get();
         const userRef = usersArrayRef.docs[0];
-        const userData = userRef.data();
-        userData.set({ discord: tag }, { merge: true });
-        const { membLvl } = userData;
-        if (membLvl === "watch") {
-          member.roles.add(GANGSTA_ID);
-        } else if (membLvl === "join") {
-          member.roles.add(SUPER_GANGSTA_ID);
+        if (!userRef) {
+          // User not found in Firestore.
+          await interaction.reply({
+            content: "Access denied. You need to signup first.",
+            ephemeral: true,
+          });
+        } else {
+          // User found in Firestore.
+          const userData = userRef.data();
+          userData.set({ discord: tag }, { merge: true });
+          const { membLvl } = userData;
+          if (membLvl === "watch") {
+            member.roles.add(GANGSTA_ID);
+          } else if (membLvl === "join") {
+            member.roles.add(SUPER_GANGSTA_ID);
+          }
+          await interaction.reply({
+            content: "Access granted",
+            ephemeral: true,
+          });
         }
-        await interaction.reply({ content: "Access granted", ephemeral: true });
       }
     });
 
