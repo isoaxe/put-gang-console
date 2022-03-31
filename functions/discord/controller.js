@@ -81,10 +81,19 @@ export async function role(req, res) {
             ephemeral: true,
           });
         } else {
-          await interaction.reply({
-            content: "Subscriptions purged.",
-            ephemeral: true,
-          });
+          const userData = userFromTag.data();
+          const { role } = userData;
+          if (role !== "admin") {
+            await interaction.reply({
+              content: "Hey! You need to be an admin to do that.",
+              ephemeral: true,
+            });
+          } else {
+            await interaction.reply({
+              content: "Subscriptions purged.",
+              ephemeral: true,
+            });
+          }
         }
       }
     });
