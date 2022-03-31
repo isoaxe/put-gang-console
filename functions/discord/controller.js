@@ -13,6 +13,9 @@ export async function role(req, res) {
       console.log("Ready!");
     });
 
+    // Login to Discord with your client's token
+    client.login(process.env.DISCORD_SECRET_TOKEN);
+
     client.on("interactionCreate", async (interaction) => {
       if (!interaction.isCommand()) return;
 
@@ -75,9 +78,6 @@ export async function role(req, res) {
         });
       }
     });
-
-    // Login to Discord with your client's token
-    client.login(process.env.DISCORD_SECRET_TOKEN);
 
     res.status(200).send({ success: "Discord bot reset!" });
   } catch (err) {
