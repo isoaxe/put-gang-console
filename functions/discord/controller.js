@@ -73,10 +73,17 @@ export async function role(req, res) {
 
       // Remove access for users whose subscriptions have lapsed.
       if (commandName === "purge") {
-        await interaction.reply({
-          content: "Subscriptions purged.",
-          ephemeral: true,
-        });
+        if (!userFromTag) {
+          await interaction.reply({
+            content: "You're not a current subscriber, let alone the admin!",
+            ephemeral: true,
+          });
+        } else {
+          await interaction.reply({
+            content: "Subscriptions purged.",
+            ephemeral: true,
+          });
+        }
       }
     });
 
