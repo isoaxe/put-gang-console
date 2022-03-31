@@ -34,7 +34,7 @@ export async function role(req, res) {
         if (!userRef) {
           // User not found in Firestore.
           await interaction.reply({
-            content: "Access denied. You need to signup first.",
+            content: "Access denied. Set username in settings first.",
             ephemeral: true,
           });
         } else {
