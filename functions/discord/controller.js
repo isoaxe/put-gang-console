@@ -18,6 +18,7 @@ export async function role(req, res) {
 
       const { commandName } = interaction;
 
+      // Assign Discord role to caller and grant access.
       if (commandName === "enter") {
         const { username, tag } = interaction.user;
         const { member } = await interaction;
