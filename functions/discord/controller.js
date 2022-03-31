@@ -26,12 +26,12 @@ export async function role(req, res) {
         const { member } = await interaction;
 
         const db = admin.firestore();
-        const usersArrayRef = await db
-          .collection("users")
+        const usersPath = db.collection("users");
+        const usersArray = await usersPath
           .where("discord", "==", username)
           .get();
-        const userRef = usersArrayRef.docs[0];
-        if (!userRef) {
+        const user = usersArray.docs[0];
+        if (!user) {
           // User not found in Firestore.
           await interaction.reply({
             content: "Access denied. Set username in settings first.",
@@ -39,9 +39,9 @@ export async function role(req, res) {
           });
         } else {
           // User found in Firestore.
-          const userData = userRef.data();
-          userData.set({ discord: tag }, { merge: true });
-          const { membLvl } = userData;
+          const userData = user.data();
+          const { membLvl, uid } = userData;
+          usersPath.doc(uid).set({ discord: tag }, { merge: true });
           if (membLvl === "watch") {
             member.roles.add(GANGSTA_ID);
           } else if (membLvl === "join") {
