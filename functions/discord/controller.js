@@ -46,17 +46,26 @@ export async function role(req, res) {
         } else {
           // User found in Firestore.
           const userData = userFromName.data();
-          const { membLvl, uid } = userData;
-          usersPath.doc(uid).set({ discord: tag }, { merge: true });
-          if (membLvl === "watch") {
-            member.roles.add(GANGSTA_ID);
-          } else if (membLvl === "join") {
-            member.roles.add(SUPER_GANGSTA_ID);
+          const { membLvl, uid, expiryDate } = userData;
+          const expiryDateMs = new Date(expiryDate).getTime();
+          const now = new Date();
+          if (expiryDateMs < now) {
+            await interaction.reply({
+              content: "Subscription expired. Please renew.",
+              ephemeral: true,
+            });
+          } else {
+            usersPath.doc(uid).set({ discord: tag }, { merge: true });
+            if (membLvl === "watch") {
+              member.roles.add(GANGSTA_ID);
+            } else if (membLvl === "join") {
+              member.roles.add(SUPER_GANGSTA_ID);
+            }
+            await interaction.reply({
+              content: "Access granted.",
+              ephemeral: true,
+            });
           }
-          await interaction.reply({
-            content: "Access granted",
-            ephemeral: true,
-          });
         }
       }
     });
