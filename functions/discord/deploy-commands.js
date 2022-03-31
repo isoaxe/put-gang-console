@@ -16,6 +16,11 @@ const commands = [
   new SlashCommandBuilder()
     .setName("enter")
     .setDescription("Request access to the Put Gang Discord community."),
+  new SlashCommandBuilder()
+    .setName("purge")
+    .setDescription(
+      "Remove access for expired subscriptions. For admin use only."
+    ),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: "9" }).setToken(
