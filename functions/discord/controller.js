@@ -18,9 +18,6 @@ export async function role(req, res) {
 
       const { commandName } = interaction;
 
-      if (commandName === "ping") {
-        await interaction.reply({ content: "pong", ephemeral: true });
-      }
       if (commandName === "enter") {
         const { username, tag } = interaction.user;
         const { member } = await interaction;
