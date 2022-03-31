@@ -11,9 +11,6 @@ import { DISCORD_CLIENT_ID, DISCORD_GUILD_ID } from "./../util/constants.js";
 
 const commands = [
   new SlashCommandBuilder()
-    .setName("ping")
-    .setDescription("Replies with pong!"),
-  new SlashCommandBuilder()
     .setName("enter")
     .setDescription("Request access to the Put Gang Discord community."),
   new SlashCommandBuilder()
