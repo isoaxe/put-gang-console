@@ -14,7 +14,7 @@ const commands = [
     .setName("ping")
     .setDescription("Replies with pong!"),
   new SlashCommandBuilder()
-    .setName("join")
+    .setName("enter")
     .setDescription("Request access to the Put Gang Discord community."),
 ].map((command) => command.toJSON());
 
