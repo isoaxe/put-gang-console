@@ -44,7 +44,7 @@ const Settings = () => {
     let data;
     if (name && field === "name") data = name;
     if (insta && field === "insta") data = insta;
-    if (discord && field === "discord") data = discord;
+    if (discord && field === "discord") data = discord.split("#")[0];
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
