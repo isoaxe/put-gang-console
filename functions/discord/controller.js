@@ -21,7 +21,9 @@ export async function role(req, res) {
         await interaction.reply({ content: "pong", ephemeral: true });
       }
       if (commandName === "join") {
+        const { username, tag } = interaction.user;
         const { member } = await interaction;
+
         member.roles.add(GANGSTA_ID);
         await interaction.reply({ content: "Access granted", ephemeral: true });
       }
