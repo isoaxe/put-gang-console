@@ -27,11 +27,17 @@ export async function role(req, res) {
 
         const db = admin.firestore();
         const usersPath = db.collection("users");
-        const usersArray = await usersPath
-          .where("discord", "==", username)
-          .get();
-        const user = usersArray.docs[0];
-        if (!user) {
+        const findName = await usersPath.where("discord", "==", username).get();
+        const findTag = await usersPath.where("discord", "==", tag).get();
+        const userFromName = findName.docs[0];
+        const userFromTag = findTag.docs[0];
+        if (userFromTag) {
+          // User already saved by tag in Firestore.
+          await interaction.reply({
+            content: "You already have access.",
+            ephemeral: true,
+          });
+        } else if (!userFromName) {
           // User not found in Firestore.
           await interaction.reply({
             content: "Access denied. Set username in settings first.",
@@ -39,7 +45,7 @@ export async function role(req, res) {
           });
         } else {
           // User found in Firestore.
-          const userData = user.data();
+          const userData = userFromName.data();
           const { membLvl, uid } = userData;
           usersPath.doc(uid).set({ discord: tag }, { merge: true });
           if (membLvl === "watch") {
