@@ -1,3 +1,4 @@
+import admin from "firebase-admin";
 import { Client, Intents } from "discord.js";
 import { GANGSTA_ID, SUPER_GANGSTA_ID } from "./../util/constants.js";
 
@@ -24,7 +25,20 @@ export async function role(req, res) {
         const { username, tag } = interaction.user;
         const { member } = await interaction;
 
-        member.roles.add(GANGSTA_ID);
+        const db = admin.firestore();
+        const usersArrayRef = db
+          .collection("users")
+          .where("discord", "==", username)
+          .get();
+        const userRef = usersArrayRef.docs[0];
+        const userData = userRef.data();
+        userData.set({ discord: tag }, { merge: true });
+        const { membLvl } = userData;
+        if (membLvl === "watch") {
+          member.roles.add(GANGSTA_ID);
+        } else if (membLvl === "join") {
+          member.roles.add(SUPER_GANGSTA_ID);
+        }
         await interaction.reply({ content: "Access granted", ephemeral: true });
       }
     });
