@@ -46,17 +46,19 @@ export async function role(req, res) {
             ephemeral: true,
           });
         } else {
-          // User found in Firestore.
+          // User found in Firestore...
           const userData = userFromName.data();
           const { membLvl, uid, expiryDate } = userData;
           const expiryDateMs = new Date(expiryDate).getTime();
           const now = new Date();
           if (expiryDateMs < now) {
+            // ...but subscription has expired.
             await interaction.reply({
               content: "Subscription expired. Please renew.",
               ephemeral: true,
             });
           } else {
+            // ...and has paid, so set role.
             usersPath.doc(uid).set({ discord: tag }, { merge: true });
             if (membLvl === "watch") {
               member.roles.add(GANGSTA_ID);
