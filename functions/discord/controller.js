@@ -20,18 +20,19 @@ export async function role(req, res) {
       if (!interaction.isCommand()) return;
 
       const { commandName } = interaction;
+      const { username, tag } = interaction.user;
+      const { member } = await interaction;
+
+      const db = admin.firestore();
+      const usersPath = db.collection("users");
+      const findTag = await usersPath.where("discord", "==", tag).get();
+      const userFromTag = findTag.docs[0];
 
       // Assign Discord role to caller and grant access.
       if (commandName === "enter") {
-        const { username, tag } = interaction.user;
-        const { member } = await interaction;
-
-        const db = admin.firestore();
-        const usersPath = db.collection("users");
         const findName = await usersPath.where("discord", "==", username).get();
-        const findTag = await usersPath.where("discord", "==", tag).get();
         const userFromName = findName.docs[0];
-        const userFromTag = findTag.docs[0];
+
         if (userFromTag) {
           // User already saved by tag in Firestore.
           await interaction.reply({
