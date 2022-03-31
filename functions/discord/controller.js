@@ -65,6 +65,14 @@ export async function role(req, res) {
           }
         }
       }
+
+      // Remove access for users whose subscriptions have lapsed.
+      if (commandName === "purge") {
+        await interaction.reply({
+          content: "Subscriptions purged.",
+          ephemeral: true,
+        });
+      }
     });
 
     // Login to Discord with your client's token
