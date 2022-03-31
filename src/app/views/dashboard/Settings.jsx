@@ -27,6 +27,7 @@ const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
+  const [discord, setDiscord] = useState(""); // Username here, bot changes to tag.
   const [paymentChoices, setPaymentChoices] = useState(false);
   const [config, setConfig] = useState({});
   const [disabled, setDisabled] = useState(false);
@@ -43,6 +44,7 @@ const Settings = () => {
     let data;
     if (name && field === "name") data = name;
     if (insta && field === "insta") data = insta;
+    if (discord && field === "discord") data = discord;
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
@@ -60,6 +62,7 @@ const Settings = () => {
         if (insta) document.location.reload(); // Force a reload to update photo.
         setName("");
         setInsta("");
+        setDiscord("");
       }
     } catch (error) {
       console.log(error);
@@ -132,6 +135,22 @@ const Settings = () => {
           sx={styles.button}
           variant="outlined"
           onClick={() => updateUser("insta")}
+        >
+          Update
+        </Button>
+      </FlexBox>
+      <FlexBox>
+        <H5 sx={styles.header}>Discord: {user?.discord || "Not yet set"}</H5>
+        <TextField
+          sx={styles.text}
+          label="Discord"
+          value={discord}
+          onChange={(e) => setDiscord(e.target.value)}
+        />
+        <Button
+          sx={styles.button}
+          variant="outlined"
+          onClick={() => updateUser("discord")}
         >
           Update
         </Button>
