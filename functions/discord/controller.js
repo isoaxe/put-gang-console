@@ -99,9 +99,10 @@ export async function role(req, res) {
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
             const allMembers = await interaction.guild.members.fetch();
+            const membsWthRoles = allMembers.filter((mem) => mem._roles.length);
             const expiredMembers = [];
             expiredUsers.forEach((user) => {
-              const member = allMembers.find((mem) => {
+              const member = membsWthRoles.find((mem) => {
                 const tag = `${mem.user.username}#${mem.user.discriminator}`;
                 return tag === user;
               });
