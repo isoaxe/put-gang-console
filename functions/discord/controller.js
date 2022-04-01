@@ -108,7 +108,10 @@ export async function role(req, res) {
               });
               expiredMembers.push(member);
             });
-            const numExpired = expiredMembers.size;
+            const numExpired = expiredMembers.length;
+            expiredMembers.forEach((mem) => {
+              mem.roles.remove([GANGSTA_ID, SUPER_GANGSTA_ID]);
+            });
             await interaction.reply({
               content: `${numExpired} subscriptions purged.`,
               ephemeral: true,
