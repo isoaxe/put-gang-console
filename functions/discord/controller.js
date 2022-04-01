@@ -115,7 +115,7 @@ export async function role(req, res) {
               mem.roles.remove([GANGSTA_ID, SUPER_GANGSTA_ID]);
             });
             await interaction.reply({
-              content: `${numExpired} subscriptions purged.`,
+              content: `Subscriptions removed: ${numExpired}`,
               ephemeral: true,
             });
           }
