@@ -35,8 +35,8 @@ export async function role(req, res) {
         const findName = await usersPath.where("discord", "==", username).get();
         const userFromName = findName.docs[0];
 
-        if (userFromTag) {
-          // User already saved by tag in Firestore.
+        if (member._roles.length) {
+          // User already has a role assigned.
           await interaction.reply({
             content: "You already have access.",
             ephemeral: true,
