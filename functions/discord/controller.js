@@ -6,7 +6,9 @@ import { GANGSTA_ID, SUPER_GANGSTA_ID } from "./../util/constants.js";
 export async function role(req, res) {
   try {
     // Create a new client instance
-    const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+    const client = new Client({
+      intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
+    });
 
     // When the client is ready, run this code (only once)
     client.once("ready", () => {
@@ -97,6 +99,7 @@ export async function role(req, res) {
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
             const numExpired = expiredUsers.length;
+            const members = await interaction.guild.members.fetch();
             await interaction.reply({
               content: `${numExpired} subscriptions purged.`,
               ephemeral: true,
