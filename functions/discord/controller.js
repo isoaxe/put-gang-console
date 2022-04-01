@@ -96,8 +96,9 @@ export async function role(req, res) {
               const expiryDateMs = new Date(expiryDate).getTime();
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
+            const numExpired = expiredUsers.length;
             await interaction.reply({
-              content: "Subscriptions purged.",
+              content: `${numExpired} subscriptions purged.`,
               ephemeral: true,
             });
           }
