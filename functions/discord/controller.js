@@ -99,7 +99,14 @@ export async function role(req, res) {
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
             const numExpired = expiredUsers.length;
-            const members = await interaction.guild.members.fetch();
+            const allMembers = await interaction.guild.members.fetch();
+            const expiredMembers = [];
+            expiredUsers.forEach((user) => {
+              allMembers.find((mem) => {
+                const tag = `${mem.user.username}#${mem.user.discriminator}`;
+                if (tag === user) expiredMembers.push(mem);
+              });
+            });
             await interaction.reply({
               content: `${numExpired} subscriptions purged.`,
               ephemeral: true,
