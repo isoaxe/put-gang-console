@@ -88,15 +88,7 @@ const Login = () => {
   };
 
   async function callDiscord() {
-    const fetchConfig = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ test: "data" }),
-    };
-    const response = await fetch(API_URL + "/discord/role", fetchConfig);
+    const response = await fetch(API_URL + "/discord/role");
     const jsonResponse = await response.json();
     console.log(jsonResponse);
   }
