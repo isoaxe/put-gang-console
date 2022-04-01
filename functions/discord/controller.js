@@ -99,17 +99,19 @@ export async function role(req, res) {
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
             const allMembers = await interaction.guild.members.fetch();
-            const membsWthRoles = allMembers.filter((mem) => mem._roles.length);
             const expiredMembers = [];
             expiredUsers.forEach((user) => {
-              const member = membsWthRoles.find((mem) => {
+              const member = allMembers.find((mem) => {
                 const tag = `${mem.user.username}#${mem.user.discriminator}`;
                 return tag === user;
               });
               expiredMembers.push(member);
             });
-            const numExpired = expiredMembers.length;
-            expiredMembers.forEach((mem) => {
+            const expiredWithRole = expiredMembers.filter(
+              (mem) => mem._roles.length
+            );
+            const numExpired = expiredWithRole.length;
+            expiredWithRole.forEach((mem) => {
               mem.roles.remove([GANGSTA_ID, SUPER_GANGSTA_ID]);
             });
             await interaction.reply({
