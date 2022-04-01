@@ -21,9 +21,8 @@ export async function role(req, res) {
     client.on("interactionCreate", async (interaction) => {
       if (!interaction.isCommand()) return;
 
-      const { commandName } = interaction;
+      const { commandName, member, guild } = await interaction;
       const { username, tag } = interaction.user;
-      const { member } = await interaction;
 
       const now = new Date();
       const db = admin.firestore();
@@ -98,7 +97,7 @@ export async function role(req, res) {
               const expiryDateMs = new Date(expiryDate).getTime();
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
-            const allMembers = await interaction.guild.members.fetch();
+            const allMembers = await guild.members.fetch();
             const expiredMembers = [];
             expiredUsers.forEach((user) => {
               const member = allMembers.find((mem) => {
