@@ -91,14 +91,13 @@ export async function role(req, res) {
               ephemeral: true,
             });
           } else {
-            const expiredUsers = [];
+            const expiredUsers = []; // Includes expired but no role.
             const usersRef = await usersPath.get();
             usersRef.forEach((doc) => {
               const { discord, expiryDate } = doc.data();
               const expiryDateMs = new Date(expiryDate).getTime();
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
-            const numExpired = expiredUsers.length;
             const allMembers = await interaction.guild.members.fetch();
             const expiredMembers = [];
             expiredUsers.forEach((user) => {
@@ -108,6 +107,7 @@ export async function role(req, res) {
               });
               expiredMembers.push(member);
             });
+            const numExpired = expiredMembers.size;
             await interaction.reply({
               content: `${numExpired} subscriptions purged.`,
               ephemeral: true,
