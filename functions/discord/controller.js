@@ -102,10 +102,11 @@ export async function role(req, res) {
             const allMembers = await interaction.guild.members.fetch();
             const expiredMembers = [];
             expiredUsers.forEach((user) => {
-              allMembers.find((mem) => {
+              const member = allMembers.find((mem) => {
                 const tag = `${mem.user.username}#${mem.user.discriminator}`;
-                if (tag === user) expiredMembers.push(mem);
+                return tag === user;
               });
+              expiredMembers.push(member);
             });
             await interaction.reply({
               content: `${numExpired} subscriptions purged.`,
