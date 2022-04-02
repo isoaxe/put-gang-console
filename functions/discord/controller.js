@@ -78,7 +78,7 @@ export async function role(req, res) {
         const findTag = await usersPath.where("discord", "==", tag).get();
         const userFromTag = findTag.docs[0];
 
-        if (!userFromTag) {
+        if (!hasRole) {
           await interaction.reply({
             content: "You're not a current subscriber, let alone the admin!",
             ephemeral: true,
