@@ -87,12 +87,6 @@ const Login = () => {
     }
   };
 
-  async function callDiscord() {
-    const response = await fetch(API_URL + "/discord/role");
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-  }
-
   const { palette } = useTheme();
   const textError = palette.error.main;
   const textPrimary = palette.primary.main;
@@ -190,9 +184,6 @@ const Login = () => {
                   Forgot password?
                 </Button>
               </ValidatorForm>
-              <button style={{ marginTop: "8px" }} onClick={callDiscord}>
-                Discord
-              </button>
             </Box>
           </Grid>
         </Grid>
