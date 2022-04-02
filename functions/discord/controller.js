@@ -79,28 +79,34 @@ export async function role(req, res) {
         const userFromTag = findTag.docs[0];
 
         if (!hasRole) {
+          // User does not have role.
           await interaction.reply({
             content: "You're not a current subscriber, let alone the admin!",
             ephemeral: true,
           });
         } else {
+          // User has role...
           const userData = userFromTag.data();
           const { role } = userData;
           if (role !== "admin") {
+            // ...but is not admin.
             await interaction.reply({
               content: "Hey! You need to be an admin to do that.",
               ephemeral: true,
             });
           } else {
+            // ...and is admin.
             const expiredUsers = []; // Includes expired but no role.
             const usersRef = await usersPath.get();
+            // Go through each Firestore user and check if expired.
             usersRef.forEach((doc) => {
               const { discord, expiryDate } = doc.data();
               const expiryDateMs = new Date(expiryDate).getTime();
               if (expiryDateMs < now) expiredUsers.push(discord);
             });
             const allMembers = await guild.members.fetch();
-            const expiredMembers = [];
+            const expiredMembers = []; // Same as expiredUsers, but <Member>.
+            // Go through each expiredUser to find corresponding <Member>.
             expiredUsers.forEach((user) => {
               const member = allMembers.find((mem) => {
                 const tag = `${mem.user.username}#${mem.user.discriminator}`;
@@ -108,10 +114,12 @@ export async function role(req, res) {
               });
               expiredMembers.push(member);
             });
+            // Filter out members without roles.
             const expiredWithRole = expiredMembers.filter(
               (mem) => mem._roles.length
             );
             const numExpired = expiredWithRole.length;
+            // Remove all roles from members with role who have expired.
             expiredWithRole.forEach((mem) => {
               mem.roles.remove([GANGSTA_ID, SUPER_GANGSTA_ID]);
             });
