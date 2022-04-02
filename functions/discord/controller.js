@@ -27,8 +27,6 @@ export async function role(req, res) {
       const now = new Date();
       const db = admin.firestore();
       const usersPath = db.collection("users");
-      const findTag = await usersPath.where("discord", "==", tag).get();
-      const userFromTag = findTag.docs[0];
 
       // Assign Discord role to caller and grant access.
       if (commandName === "enter") {
@@ -76,6 +74,9 @@ export async function role(req, res) {
 
       // Remove access for users whose subscriptions have lapsed.
       if (commandName === "purge") {
+        const findTag = await usersPath.where("discord", "==", tag).get();
+        const userFromTag = findTag.docs[0];
+
         if (!userFromTag) {
           await interaction.reply({
             content: "You're not a current subscriber, let alone the admin!",
