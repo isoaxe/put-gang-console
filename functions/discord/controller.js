@@ -27,13 +27,14 @@ export async function role(req, res) {
       const now = new Date();
       const db = admin.firestore();
       const usersPath = db.collection("users");
+      const hasRole = member._roles.length;
 
       // Assign Discord role to caller and grant access.
       if (commandName === "enter") {
         const findName = await usersPath.where("discord", "==", username).get();
         const userFromName = findName.docs[0];
 
-        if (member._roles.length) {
+        if (hasRole) {
           // User already has a role assigned.
           await interaction.reply({
             content: "You already have access.",
