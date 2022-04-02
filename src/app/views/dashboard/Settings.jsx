@@ -38,6 +38,7 @@ const Settings = () => {
     header: { marginBottom: "10px", color: textMuted },
     text: { width: "250px", marginBottom: "1rem" },
     button: { width: "100px" },
+    toggle: { marginBottom: "20px" },
   };
 
   async function updateUser(field) {
@@ -170,6 +171,7 @@ const Settings = () => {
                 onChange={togglePaymentChoices}
               />
             }
+            sx={styles.toggle}
             label="Allow card payments"
             disabled={disabled}
           />
