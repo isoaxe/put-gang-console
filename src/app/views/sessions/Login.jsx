@@ -12,7 +12,6 @@ import { Box, styled, useTheme } from "@mui/system";
 import useAuth from "app/hooks/useAuth";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Paragraph, Span } from "app/components/Typography";
-import { API_URL } from "app/utils/urls";
 
 const FlexBox = styled(Box)(() => ({
   display: "flex",
