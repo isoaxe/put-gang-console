@@ -27,6 +27,7 @@ const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
+  const [discord, setDiscord] = useState(""); // Username here, bot changes to tag.
   const [paymentChoices, setPaymentChoices] = useState(false);
   const [config, setConfig] = useState({});
   const [disabled, setDisabled] = useState(false);
@@ -37,12 +38,14 @@ const Settings = () => {
     header: { marginBottom: "10px", color: textMuted },
     text: { width: "250px", marginBottom: "1rem" },
     button: { width: "100px" },
+    toggle: { marginBottom: "20px" },
   };
 
   async function updateUser(field) {
     let data;
     if (name && field === "name") data = name;
     if (insta && field === "insta") data = insta;
+    if (discord && field === "discord") data = discord.split("#")[0];
     try {
       const token = await firebase.auth().currentUser.getIdToken(true);
       const fetchConfig = {
@@ -60,6 +63,7 @@ const Settings = () => {
         if (insta) document.location.reload(); // Force a reload to update photo.
         setName("");
         setInsta("");
+        setDiscord("");
       }
     } catch (error) {
       console.log(error);
@@ -85,6 +89,12 @@ const Settings = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function resetDiscord() {
+    const response = await fetch(API_URL + "/discord/role");
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
   }
 
   useEffect(() => {
@@ -136,14 +146,43 @@ const Settings = () => {
           Update
         </Button>
       </FlexBox>
-      {role === "admin" && (
-        <FormControlLabel
-          control={
-            <Switch checked={paymentChoices} onChange={togglePaymentChoices} />
-          }
-          label="Allow card payments"
-          disabled={disabled}
+      <FlexBox>
+        <H5 sx={styles.header}>Discord: {user?.discord || "Not yet set"}</H5>
+        <TextField
+          sx={styles.text}
+          label="Discord"
+          value={discord}
+          onChange={(e) => setDiscord(e.target.value)}
         />
+        <Button
+          sx={styles.button}
+          variant="outlined"
+          onClick={() => updateUser("discord")}
+        >
+          Update
+        </Button>
+      </FlexBox>
+      {role === "admin" && (
+        <FlexBox>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={paymentChoices}
+                onChange={togglePaymentChoices}
+              />
+            }
+            sx={styles.toggle}
+            label="Allow card payments"
+            disabled={disabled}
+          />
+          <Button
+            sx={styles.button}
+            variant="outlined"
+            onClick={() => resetDiscord()}
+          >
+            Reset Bot
+          </Button>
+        </FlexBox>
       )}
     </Container>
   );
