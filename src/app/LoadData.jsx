@@ -12,6 +12,7 @@ const LoadData = () => {
   const [users, setUsers] = useState([]);
   const [allStats, setAllStats] = useState([]);
   const [role, setRole] = useState("");
+  const [level2Mlm, setLevel2Mlm] = useState(false);
   const all_pages = useRoutes(AllPages());
   const { user } = useAuth();
   const isSenior = ["admin", "level-1", "level-2"].includes(role);
@@ -25,6 +26,16 @@ const LoadData = () => {
     const user = firebase.auth().currentUser;
     const result = await user.getIdTokenResult(true);
     setRole(result.claims.role);
+  }
+
+  function hasMlm() {
+    if (role === "admin" || role === "level-1") {
+      return true;
+    } else if (role === "level-2" && level2Mlm) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   useEffect(() => {
