@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import firebase from "firebase/app";
 import { useRoutes } from "react-router-dom";
 import DataContext from "./contexts/DataContext";
@@ -15,7 +15,6 @@ const LoadData = () => {
   const [level2Mlm, setLevel2Mlm] = useState(false);
   const all_pages = useRoutes(AllPages());
   const { user } = useAuth();
-  const isSenior = ["admin", "level-1", "level-2"].includes(role);
 
   // Fetch most data.
   const getActivity = () => getData("/activity", setActivities);
@@ -28,7 +27,7 @@ const LoadData = () => {
     setRole(result.claims.role);
   }
 
-  function hasMlm() {
+  const hasMlm = useCallback(() => {
     if (role === "admin" || role === "level-1") {
       return true;
     } else if (role === "level-2" && level2Mlm) {
@@ -36,18 +35,18 @@ const LoadData = () => {
     } else {
       return false;
     }
-  }
+  }, [role, level2Mlm]);
 
   useEffect(() => {
     if (user) {
       getRole();
     }
-    if (user && isSenior) {
+    if (user && hasMlm) {
       getActivity();
       getUsers();
       getStats();
     }
-  }, [user, isSenior]);
+  }, [user, hasMlm]);
 
   return (
     <DataContext.Provider value={{ activities, users, allStats, role }}>
@@ -58,7 +57,7 @@ const LoadData = () => {
             path="/"
             element={
               <Navigate
-                to={isSenior ? "/dashboard/console" : "/dashboard/settings"}
+                to={hasMlm ? "/dashboard/console" : "/dashboard/settings"}
               />
             }
           />
