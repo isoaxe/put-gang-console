@@ -12,6 +12,7 @@ const LoadData = () => {
   const [users, setUsers] = useState([]);
   const [allStats, setAllStats] = useState([]);
   const [role, setRole] = useState("");
+  const [mlmAccess, setMlmAccess] = useState(false);
   const [level2Mlm, setLevel2Mlm] = useState(false);
   const all_pages = useRoutes(AllPages());
   const { user } = useAuth();
@@ -27,11 +28,11 @@ const LoadData = () => {
     setRole(result.claims.role);
   }
 
-  const hasMlm = useCallback(() => {
+  const checkMlmAllowed = useCallback(() => {
     if (role === "admin" || role === "level-1") {
-      return true;
+      setMlmAccess(true);
     } else if (role === "level-2" && level2Mlm) {
-      return true;
+      setMlmAccess(true);
     } else {
       return false;
     }
@@ -41,12 +42,15 @@ const LoadData = () => {
     if (user) {
       getRole();
     }
-    if (user && hasMlm) {
+    if (role) {
+      checkMlmAllowed();
+    }
+    if (user && mlmAccess) {
       getActivity();
       getUsers();
       getStats();
     }
-  }, [user, hasMlm]);
+  }, [user, role, mlmAccess, checkMlmAllowed]);
 
   return (
     <DataContext.Provider value={{ activities, users, allStats, role }}>
@@ -57,7 +61,7 @@ const LoadData = () => {
             path="/"
             element={
               <Navigate
-                to={hasMlm ? "/dashboard/console" : "/dashboard/settings"}
+                to={mlmAccess ? "/dashboard/console" : "/dashboard/settings"}
               />
             }
           />
