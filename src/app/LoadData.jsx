@@ -31,7 +31,6 @@ const LoadData = () => {
   const getLevel2Mlm = useCallback(async () => {
     const userData = await getData("/users/user");
     setLevel2Mlm(userData.mlmAccess);
-    setNavReady(true);
   }, []);
 
   const checkMlmAccess = useCallback(() => {
