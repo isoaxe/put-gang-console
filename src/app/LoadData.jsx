@@ -12,8 +12,8 @@ const LoadData = () => {
   const [users, setUsers] = useState([]);
   const [allStats, setAllStats] = useState([]);
   const [role, setRole] = useState("");
-  const [mlmAccess, setMlmAccess] = useState(false);
   const [level2Mlm, setLevel2Mlm] = useState(false);
+  const [mlmAccess, setMlmAccess] = useState(false);
   const [accessFetched, setAccessFetched] = useState(false);
   const all_pages = useRoutes(AllPages());
   const { user } = useAuth();
@@ -29,7 +29,7 @@ const LoadData = () => {
     setRole(result.claims.role);
   }
 
-  const getMlmAllowed = useCallback(async () => {
+  const getLevel2Mlm = useCallback(async () => {
     try {
       if (user) {
         const userData = await getData("/users/user");
@@ -64,8 +64,8 @@ const LoadData = () => {
   }, [user, role, mlmAccess, checkMlmAllowed]);
 
   useEffect(() => {
-    if (role === "level-2") getMlmAllowed();
-  }, [role, getMlmAllowed]);
+    if (role === "level-2") getLevel2Mlm();
+  }, [role, getLevel2Mlm]);
 
   return (
     <DataContext.Provider value={{ activities, users, allStats, role }}>
