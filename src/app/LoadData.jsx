@@ -61,7 +61,9 @@ const LoadData = () => {
   }, [role, getLevel2Mlm]);
 
   return (
-    <DataContext.Provider value={{ activities, users, allStats, role }}>
+    <DataContext.Provider
+      value={{ activities, users, allStats, role, mlmAccess }}
+    >
       {all_pages}
       <Routes>
         {navReady && (
