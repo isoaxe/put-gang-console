@@ -28,7 +28,7 @@ const LoadData = () => {
     setRole(result.claims.role);
   }
 
-  async function getMlmAllowed() {
+  const getMlmAllowed = useCallback(async () => {
     try {
       if (user) {
         const userData = await getData("/users/user");
@@ -37,7 +37,7 @@ const LoadData = () => {
     } catch (err) {
       console.log(err);
     }
-  }
+  }, [user]);
 
   const checkMlmAllowed = useCallback(() => {
     if (role === "admin" || role === "level-1") {
@@ -65,7 +65,7 @@ const LoadData = () => {
 
   useEffect(() => {
     getMlmAllowed();
-  }, []);
+  }, [getMlmAllowed]);
 
   return (
     <DataContext.Provider value={{ activities, users, allStats, role }}>
