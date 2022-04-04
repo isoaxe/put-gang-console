@@ -29,12 +29,10 @@ const LoadData = () => {
   }
 
   const getLevel2Mlm = useCallback(async () => {
-    if (user) {
-      const userData = await getData("/users/user");
-      setLevel2Mlm(userData.mlmAccess);
-      setNavReady(true);
-    }
-  }, [user]);
+    const userData = await getData("/users/user");
+    setLevel2Mlm(userData.mlmAccess);
+    setNavReady(true);
+  }, []);
 
   const checkMlmAccess = useCallback(() => {
     if (role === "admin" || role === "level-1") {
