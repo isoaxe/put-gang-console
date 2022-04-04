@@ -28,6 +28,15 @@ const LoadData = () => {
     setRole(result.claims.role);
   }
 
+  async function getMlmAllowed() {
+    try {
+      const userData = await getData("/users/user");
+      setLevel2Mlm(userData.mlmAccess);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const checkMlmAllowed = useCallback(() => {
     if (role === "admin" || role === "level-1") {
       setMlmAccess(true);
@@ -51,6 +60,10 @@ const LoadData = () => {
       getStats();
     }
   }, [user, role, mlmAccess, checkMlmAllowed]);
+
+  useEffect(() => {
+    getMlmAllowed();
+  }, []);
 
   return (
     <DataContext.Provider value={{ activities, users, allStats, role }}>
