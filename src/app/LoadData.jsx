@@ -64,7 +64,7 @@ const LoadData = () => {
     <DataContext.Provider value={{ activities, users, allStats, role }}>
       {all_pages}
       <Routes>
-        {role && navReady && (
+        {navReady && (
           <Route
             path="/"
             element={
