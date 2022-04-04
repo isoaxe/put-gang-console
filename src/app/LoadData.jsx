@@ -30,8 +30,10 @@ const LoadData = () => {
 
   async function getMlmAllowed() {
     try {
-      const userData = await getData("/users/user");
-      setLevel2Mlm(userData.mlmAccess);
+      if (user) {
+        const userData = await getData("/users/user");
+        setLevel2Mlm(userData.mlmAccess);
+      }
     } catch (err) {
       console.log(err);
     }
