@@ -46,8 +46,6 @@ const LoadData = () => {
       setMlmAccess(true);
     } else if (role === "level-2" && level2Mlm) {
       setMlmAccess(true);
-    } else {
-      return false;
     }
   }, [role, level2Mlm]);
 
