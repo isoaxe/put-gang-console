@@ -66,8 +66,8 @@ const LoadData = () => {
   }, [user, role, mlmAccess, checkMlmAllowed]);
 
   useEffect(() => {
-    getMlmAllowed();
-  }, [getMlmAllowed]);
+    if (role === "level-2") getMlmAllowed();
+  }, [role, getMlmAllowed]);
 
   return (
     <DataContext.Provider value={{ activities, users, allStats, role }}>
