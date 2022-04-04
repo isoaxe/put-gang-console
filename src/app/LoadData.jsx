@@ -41,7 +41,7 @@ const LoadData = () => {
     }
   }, [user]);
 
-  const checkMlmAllowed = useCallback(() => {
+  const checkMlmAccess = useCallback(() => {
     if (role === "admin" || role === "level-1") {
       setMlmAccess(true);
     } else if (role === "level-2" && level2Mlm) {
@@ -54,14 +54,14 @@ const LoadData = () => {
       getRole();
     }
     if (role) {
-      checkMlmAllowed();
+      checkMlmAccess();
     }
     if (user && mlmAccess) {
       getActivity();
       getUsers();
       getStats();
     }
-  }, [user, role, mlmAccess, checkMlmAllowed]);
+  }, [user, role, mlmAccess, checkMlmAccess]);
 
   useEffect(() => {
     if (role === "level-2") getLevel2Mlm();
