@@ -30,14 +30,10 @@ const LoadData = () => {
   }
 
   const getLevel2Mlm = useCallback(async () => {
-    try {
-      if (user) {
-        const userData = await getData("/users/user");
-        setLevel2Mlm(userData.mlmAccess);
-        setAccessFetched(true);
-      }
-    } catch (err) {
-      console.log(err);
+    if (user) {
+      const userData = await getData("/users/user");
+      setLevel2Mlm(userData.mlmAccess);
+      setAccessFetched(true);
     }
   }, [user]);
 
