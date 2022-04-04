@@ -108,6 +108,17 @@ export async function create(req, res) {
       await user.set({ level2Uids: [], expiryDate: "" }, { merge: true });
     }
 
+    // Add user to level2Uids array of admin and set mlmAccess.
+    if (role === "level-2") {
+      const adminDocRef = usersPath.doc(ADMIN_UID);
+      const adminDoc = await adminDocRef.get();
+      const level2Uids = adminDoc.data().level2Uids;
+      level2Uids.push(uid);
+      adminDocRef.set({ level2Uids }, { merge: true });
+
+      await user.set({ mlmAccess: false }, { merge: true });
+    }
+
     // Initialize a downlineUids array and activityId if senior user.
     if (["admin", "level-1", "level-2"].includes(role)) {
       await user.set({ downlineUids: [], activityId: 0 }, { merge: true });
@@ -123,15 +134,6 @@ export async function create(req, res) {
 
       // Only initialize uplineUid for below users.
       user.set({ uplineUid }, { merge: true });
-    }
-
-    // Add user to level2Uids array of admin.
-    if (role === "level-2") {
-      const adminDocRef = usersPath.doc(ADMIN_UID);
-      const adminDoc = await adminDocRef.get();
-      const level2Uids = adminDoc.data().level2Uids;
-      level2Uids.push(uid);
-      adminDocRef.set({ level2Uids }, { merge: true });
     }
 
     // Add a receipt to payments to indicate that a user has joined.
