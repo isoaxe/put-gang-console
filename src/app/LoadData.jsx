@@ -14,6 +14,7 @@ const LoadData = () => {
   const [role, setRole] = useState("");
   const [mlmAccess, setMlmAccess] = useState(false);
   const [level2Mlm, setLevel2Mlm] = useState(false);
+  const [accessFetched, setAccessFetched] = useState(false);
   const all_pages = useRoutes(AllPages());
   const { user } = useAuth();
 
@@ -33,6 +34,7 @@ const LoadData = () => {
       if (user) {
         const userData = await getData("/users/user");
         setLevel2Mlm(userData.mlmAccess);
+        setAccessFetched(true);
       }
     } catch (err) {
       console.log(err);
@@ -71,7 +73,7 @@ const LoadData = () => {
     <DataContext.Provider value={{ activities, users, allStats, role }}>
       {all_pages}
       <Routes>
-        {role && (
+        {role && accessFetched && (
           <Route
             path="/"
             element={
