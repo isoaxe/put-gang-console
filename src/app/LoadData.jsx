@@ -24,8 +24,7 @@ const LoadData = () => {
   const getStats = () => getData("/payments/stats", setAllStats);
 
   async function getRole() {
-    const user = firebase.auth().currentUser;
-    const result = await user.getIdTokenResult(true);
+    const result = await firebase.auth().currentUser.getIdTokenResult(true);
     setRole(result.claims.role);
   }
 
