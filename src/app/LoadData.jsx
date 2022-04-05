@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import firebase from "firebase/app";
 import { useRoutes } from "react-router-dom";
 import DataContext from "./contexts/DataContext";
@@ -12,9 +12,11 @@ const LoadData = () => {
   const [users, setUsers] = useState([]);
   const [allStats, setAllStats] = useState([]);
   const [role, setRole] = useState("");
+  const [level2Mlm, setLevel2Mlm] = useState(false);
+  const [mlmAccess, setMlmAccess] = useState(false);
+  const [navReady, setNavReady] = useState(false);
   const all_pages = useRoutes(AllPages());
   const { user } = useAuth();
-  const isSenior = ["admin", "level-1", "level-2"].includes(role);
 
   // Fetch most data.
   const getActivity = () => getData("/activity", setActivities);
@@ -22,32 +24,54 @@ const LoadData = () => {
   const getStats = () => getData("/payments/stats", setAllStats);
 
   async function getRole() {
-    const user = firebase.auth().currentUser;
-    const result = await user.getIdTokenResult(true);
+    const result = await firebase.auth().currentUser.getIdTokenResult(true);
     setRole(result.claims.role);
   }
+
+  const getLevel2Mlm = useCallback(async () => {
+    const userData = await getData("/users/user");
+    setLevel2Mlm(userData.mlmAccess);
+  }, []);
+
+  const checkMlmAccess = useCallback(() => {
+    if (role === "admin" || role === "level-1") {
+      setMlmAccess(true);
+    } else if (role === "level-2" && level2Mlm) {
+      setMlmAccess(true);
+    }
+    setNavReady(true);
+  }, [role, level2Mlm]);
 
   useEffect(() => {
     if (user) {
       getRole();
     }
-    if (user && isSenior) {
+    if (role) {
+      checkMlmAccess();
+    }
+    if (user && mlmAccess) {
       getActivity();
       getUsers();
       getStats();
     }
-  }, [user, isSenior]);
+  }, [user, role, mlmAccess, checkMlmAccess]);
+
+  useEffect(() => {
+    if (role === "level-2") getLevel2Mlm();
+  }, [role, getLevel2Mlm]);
 
   return (
-    <DataContext.Provider value={{ activities, users, allStats, role }}>
+    <DataContext.Provider
+      value={{ activities, users, allStats, role, mlmAccess }}
+    >
       {all_pages}
       <Routes>
-        {role && (
+        {navReady && (
           <Route
             path="/"
             element={
               <Navigate
-                to={isSenior ? "/dashboard/console" : "/dashboard/settings"}
+                to={mlmAccess ? "/dashboard/console" : "/dashboard/settings"}
               />
             }
           />

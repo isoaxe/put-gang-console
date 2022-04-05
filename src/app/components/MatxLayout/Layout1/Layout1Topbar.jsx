@@ -80,8 +80,7 @@ const Layout1Topbar = () => {
   const { settings, updateSettings } = useSettings();
   const { logout, user } = useAuth();
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const { role } = useContext(DataContext);
-  const isSenior = ["admin", "level-1", "level-2"].includes(role);
+  const { mlmAccess } = useContext(DataContext);
 
   const updateSidebarMode = (sidebarSettings) => {
     updateSettings({
@@ -108,7 +107,7 @@ const Layout1Topbar = () => {
     <TopbarRoot>
       <TopbarContainer>
         <Box display="flex">
-          {isSenior && (
+          {mlmAccess && (
             <StyledIconButton onClick={handleSidebarToggle}>
               <Icon>menu</Icon>
             </StyledIconButton>

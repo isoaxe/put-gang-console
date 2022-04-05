@@ -49,15 +49,14 @@ const LayoutContainer = styled(Box)(({ width, secondarySidebar }) => ({
 }));
 
 const Layout1 = () => {
-  const { role } = useContext(DataContext);
+  const { mlmAccess } = useContext(DataContext);
   const { settings, updateSettings } = useSettings();
   const { layout1Settings, secondarySidebar } = settings;
   const topbarTheme = settings.themes[layout1Settings.topbar.theme];
   let {
     leftSidebar: { mode: sidenavMode, show: showSidenav },
   } = layout1Settings;
-  const isSenior = ["admin", "level-1", "level-2"].includes(role);
-  if (!isSenior) sidenavMode = "close";
+  if (!mlmAccess) sidenavMode = "close";
 
   const getSidenavWidth = () => {
     switch (sidenavMode) {
