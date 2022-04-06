@@ -64,9 +64,10 @@ export async function achPayment(req, res) {
         routing_number,
       },
     });
+    const payment_method_id = paymentMethod.id;
 
     const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
-      payment_method: bankAccountId, // TODO: Needs to be PaymentMethod or Source
+      payment_method: payment_method_id,
     });
     res.status(200).send(paymentIntent);
   } catch (err) {
