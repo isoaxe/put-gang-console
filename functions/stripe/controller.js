@@ -59,8 +59,8 @@ export async function achPayment(req, res) {
     const paymentMethod = await stripe.paymentMethods.create({
       type: "us_bank_account",
       us_bank_account: {
-        account_holder_type: "individual",
-        account_type: "checking",
+        account_holder_type: "individual", // TODO: Remove after testing.
+        account_type: "checking", // TODO: Remove after testing.
         routing_number,
       },
     });
