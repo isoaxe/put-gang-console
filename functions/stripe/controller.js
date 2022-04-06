@@ -55,6 +55,16 @@ export async function achPayment(req, res) {
     const { account_holder_type, account_type, routing_number } = bank.data();
     bankRef.delete();
 
+    // Create a new PaymentMethod and use to update PaymentIntent.
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: "us_bank_account",
+      us_bank_account: {
+        account_holder_type: "individual",
+        account_type: "checking",
+        routing_number,
+      },
+    });
+
     const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
       payment_method: bankAccountId, // TODO: Needs to be PaymentMethod or Source
     });
