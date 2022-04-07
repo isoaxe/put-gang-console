@@ -30,7 +30,7 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 const Users = () => {
-  const [visible, setVisible] = useState(false);
+  const [receiptsOpen, setReceiptsOpen] = useState(false);
   const [receipts, setReceipts] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
   const { users, role } = useContext(DataContext);
@@ -166,7 +166,7 @@ const Users = () => {
               onRowClick: (rowData, rowState) => {
                 const clickedUser = users[rowState.rowIndex];
                 setSelectedUser(clickedUser);
-                displayReceipts(clickedUser.uid, setReceipts, setVisible);
+                displayReceipts(clickedUser.uid, setReceipts, setReceiptsOpen);
               },
               // selectableRows: "none", // set checkbox for each row
               // search: false, // set search option
@@ -214,8 +214,8 @@ const Users = () => {
         </Box>
       </Box>
       <ReceiptsModal
-        visible={visible}
-        setVisible={setVisible}
+        visible={receiptsOpen}
+        setVisible={setReceiptsOpen}
         receipts={receipts}
         selectedUser={selectedUser}
       />
