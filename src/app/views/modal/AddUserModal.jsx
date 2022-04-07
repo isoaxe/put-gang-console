@@ -5,6 +5,7 @@ import { TextField, Button } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { H2 } from "app/components/Typography";
+import { addMonth } from "app/utils/helpers";
 import "./css/shared.css";
 
 const FlexBox = styled(Box)(() => ({
@@ -15,9 +16,11 @@ const FlexBox = styled(Box)(() => ({
 
 function AddUserModal(props) {
   Modal.setAppElement("#root");
+  const now = new Date();
+  const oneMonthsTime = addMonth(now);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [expiry, setExpiry] = useState(null);
+  const [expiry, setExpiry] = useState(oneMonthsTime);
   const { visible, setVisible } = props;
   const styles = {
     header: { marginBottom: "1rem", marginTop: "0.5rem" },
@@ -56,6 +59,7 @@ function AddUserModal(props) {
             value={expiry}
             label="Expiry Date"
             minutesStep={5}
+            minDate={oneMonthsTime}
             onChange={(date) => setExpiry(date)}
             renderInput={(params) => <TextField sx={styles.text} {...params} />}
           />
