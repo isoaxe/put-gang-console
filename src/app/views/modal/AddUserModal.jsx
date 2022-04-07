@@ -51,7 +51,10 @@ function AddUserModal(props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <DateTimePicker onChange={(e) => null} renderInput={(e) => null} />
+          <DateTimePicker
+            onChange={(e) => null}
+            renderInput={(params) => <TextField {...params} />}
+          />
         </FlexBox>
       </LocalizationProvider>
     </Modal>
