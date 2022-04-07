@@ -33,7 +33,7 @@ const Users = () => {
   const [visible, setVisible] = useState(false);
   const [receipts, setReceipts] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
-  const { users } = useContext(DataContext);
+  const { users, role } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
 
@@ -148,9 +148,11 @@ const Users = () => {
 
   return (
     <Container>
-      <Button sx={styles.button} variant="outlined" onClick={() => null}>
-        Add User
-      </Button>
+      {role === "admin" && (
+        <Button sx={styles.button} variant="outlined" onClick={() => null}>
+          Add User
+        </Button>
+      )}
       <Box overflow="auto">
         <Box minWidth={750}>
           <MUIDataTable
