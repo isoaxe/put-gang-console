@@ -13,6 +13,7 @@ const FlexBox = styled(Box)(() => ({
 function AddUserModal(props) {
   Modal.setAppElement("#root");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { visible, setVisible } = props;
   const styles = {
     header: { marginBottom: "1rem" },
@@ -40,6 +41,12 @@ function AddUserModal(props) {
             label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            sx={styles.text}
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FlexBox>
       </div>
