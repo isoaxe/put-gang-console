@@ -54,6 +54,8 @@ function AddUserModal(props) {
           />
           <DateTimePicker
             value={expiry}
+            label="Expiry Date"
+            minutesStep={5}
             onChange={(date) => setExpiry(date)}
             renderInput={(params) => <TextField sx={styles.text} {...params} />}
           />
