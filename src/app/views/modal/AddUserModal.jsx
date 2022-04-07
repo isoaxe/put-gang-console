@@ -17,6 +17,7 @@ function AddUserModal(props) {
   Modal.setAppElement("#root");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [expiry, setExpiry] = useState(null);
   const { visible, setVisible } = props;
   const styles = {
     header: { marginBottom: "1rem" },
@@ -52,7 +53,8 @@ function AddUserModal(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
           <DateTimePicker
-            onChange={(e) => null}
+            value={expiry}
+            onChange={(date) => setExpiry(date)}
             renderInput={(params) => <TextField {...params} />}
           />
         </FlexBox>
