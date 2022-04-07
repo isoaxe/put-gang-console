@@ -7,7 +7,8 @@ import "./css/shared.css";
 
 const FlexBox = styled(Box)(() => ({
   display: "flex",
-  justifyContent: "center",
+  flexDirection: "column",
+  alignItems: "center",
 }));
 
 function AddUserModal(props) {
