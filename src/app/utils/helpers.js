@@ -136,6 +136,11 @@ export function monthName(number) {
   return month;
 }
 
+// Add 31 days to the supplied date.
+export function addMonth(date) {
+  return new Date(date.setMonth(date.getMonth() + 1));
+}
+
 /*
  *   Helper functions for the above helpers.
  *   As such, these do not get exported.
