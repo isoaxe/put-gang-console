@@ -47,6 +47,28 @@ export async function makePayment(type) {
   }
 }
 
+// Create a new user that does not have to pay.
+export async function createFreeUser(refId, membLvl, email, password, expiry) {
+  try {
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email, password, expiry }),
+    };
+    const response = await fetch(
+      `${API_URL}/users/${refId}/${membLvl}/none`,
+      fetchConfig
+    );
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // Fetch receipts from api, format and then save to state and turn on modal.
 export async function displayReceipts(uid, setReceipts, setVisible) {
   const receipts = await getData(`/payments/receipts/${uid}`);
