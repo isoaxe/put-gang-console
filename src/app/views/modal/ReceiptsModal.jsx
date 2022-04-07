@@ -3,7 +3,7 @@ import { Avatar } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import { H2, H3 } from "app/components/Typography";
 import ReceiptsListView from "./../list/ReceiptsListView";
-import "./ReceiptsModal.css";
+import "./css/shared.css";
 
 const FlexBox = styled(Box)(() => ({
   display: "flex",
