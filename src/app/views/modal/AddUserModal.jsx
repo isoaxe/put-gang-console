@@ -12,7 +12,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { H2 } from "app/components/Typography";
-import { addMonth } from "app/utils/helpers";
+import { addMonth, createFreeUser } from "app/utils/helpers";
 import "./css/shared.css";
 
 const FlexBox = styled(Box)(() => ({
@@ -85,7 +85,13 @@ function AddUserModal(props) {
             onChange={(date) => setExpiry(date)}
             renderInput={(params) => <TextField sx={styles.text} {...params} />}
           />
-          <Button sx={styles.button} variant="outlined" onClick={() => null}>
+          <Button
+            sx={styles.button}
+            variant="outlined"
+            onClick={() => {
+              createFreeUser(membLvl, email, password, expiry, true);
+            }}
+          >
             Create User
           </Button>
         </FlexBox>
