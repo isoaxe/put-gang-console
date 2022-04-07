@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import DataContext from "./../../contexts/DataContext";
 import ReceiptsModal from "./../modal/ReceiptsModal";
+import AddUserModal from "./../modal/AddUserModal";
 import { userStatus, displayReceipts } from "./../../utils/helpers";
 import { H5, Paragraph, Small } from "app/components/Typography";
 
@@ -31,6 +32,7 @@ const Container = styled("div")(({ theme }) => ({
 
 const Users = () => {
   const [receiptsOpen, setReceiptsOpen] = useState(false);
+  const [addUserOpen, setAddUserOpen] = useState(false);
   const [receipts, setReceipts] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
   const { users, role } = useContext(DataContext);
@@ -219,6 +221,7 @@ const Users = () => {
         receipts={receipts}
         selectedUser={selectedUser}
       />
+      <AddUserModal visible={addUserOpen} setVisible={setAddUserOpen} />
     </Container>
   );
 };
