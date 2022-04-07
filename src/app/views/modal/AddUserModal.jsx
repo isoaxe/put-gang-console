@@ -1,5 +1,7 @@
+import { useState } from "react";
 import Modal from "react-modal";
 import { Box, styled } from "@mui/system";
+import { TextField } from "@mui/material";
 import { H2 } from "app/components/Typography";
 import "./css/shared.css";
 
@@ -10,7 +12,12 @@ const FlexBox = styled(Box)(() => ({
 
 function AddUserModal(props) {
   Modal.setAppElement("#root");
+  const [email, setEmail] = useState("");
   const { visible, setVisible } = props;
+  const styles = {
+    text: { width: "250px", marginBottom: "1rem" },
+    button: { width: "100px" },
+  };
 
   function close() {
     setVisible(false);
@@ -26,7 +33,14 @@ function AddUserModal(props) {
     >
       <div>
         <H2>Add Free User</H2>
-        <FlexBox></FlexBox>
+        <FlexBox>
+          <TextField
+            sx={styles.text}
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </FlexBox>
       </div>
     </Modal>
   );
