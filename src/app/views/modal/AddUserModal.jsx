@@ -10,14 +10,15 @@ const FlexBox = styled(Box)(() => ({
 
 function AddUserModal(props) {
   Modal.setAppElement("#root");
+  const { visible, setVisible } = props;
 
   function close() {
-    props.setVisible(false);
+    setVisible(false);
   }
 
   return (
     <Modal
-      isOpen={props.visible}
+      isOpen={visible}
       onRequestClose={close}
       contentLabel="Add Free User Modal"
       className="content"
