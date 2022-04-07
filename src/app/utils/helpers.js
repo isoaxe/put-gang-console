@@ -3,6 +3,7 @@
  */
 import firebase from "firebase/app";
 import { API_URL } from "./urls";
+import { ADMIN_UID } from "./constants";
 const msSinceEpoch = Date.now();
 
 // Get data from Firestore at given endpoint and optionally save to state.
@@ -48,7 +49,7 @@ export async function makePayment(type) {
 }
 
 // Create a new user that does not have to pay.
-export async function createFreeUser(refId, membLvl, email, password, expiry) {
+export async function createFreeUser(membLvl, email, password, expiry, free) {
   try {
     const fetchConfig = {
       method: "POST",
@@ -56,10 +57,10 @@ export async function createFreeUser(refId, membLvl, email, password, expiry) {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ email, password, expiry }),
+      body: JSON.stringify({ email, password, expiry, free }),
     };
     const response = await fetch(
-      `${API_URL}/users/${refId}/${membLvl}/none`,
+      `${API_URL}/users/${ADMIN_UID}/${membLvl}/none`,
       fetchConfig
     );
     const jsonResponse = await response.json();
