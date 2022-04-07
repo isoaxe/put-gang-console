@@ -19,7 +19,7 @@ export async function create(req, res) {
   try {
     // Declare variables from params and body.
     let { refId, membLvl, stripeUid } = req.params;
-    const { email, password, expiry } = req.body;
+    const { email, password, expiry, free } = req.body;
     if (membLvl === "null") membLvl = "none";
     if (stripeUid === "null") stripeUid = "none";
 
@@ -39,7 +39,7 @@ export async function create(req, res) {
     const chartsPath = db.collection("charts");
 
     // Iterate chart data tracking number of paying subscribers.
-    if (membLvl !== "none") {
+    if (!free) {
       const key = currentMonthKey();
       const exists = await chartExists(key);
       if (!exists) {
