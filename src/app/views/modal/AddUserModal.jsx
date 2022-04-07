@@ -68,6 +68,7 @@ function AddUserModal(props) {
             <Select
               sx={styles.text}
               labelId="membership-select"
+              label="Membership Level"
               value={membLvl}
               onChange={(event) => setMembLvl(event.target.value)}
             >
