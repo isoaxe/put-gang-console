@@ -5,6 +5,13 @@ import { isAuthorized } from "./../auth/authorized.js";
 export default function usersRoute(app) {
   // Create a new user.
   app.post("/users/:refId/:membLvl/:stripeUid", create);
+  // Create a new non-paying user.
+  app.post(
+    "/users/free/:refId/:membLvl/:stripeUid",
+    isAuthenticated,
+    isAuthorized({ hasRole: ["admin"] }),
+    create
+  );
   // Update calling users data in Firestore.
   app.patch(
     "/users/user",
