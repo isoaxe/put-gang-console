@@ -60,7 +60,7 @@ export async function createFreeUser(membLvl, email, password, expiry, free) {
       body: JSON.stringify({ email, password, expiry, free }),
     };
     const response = await fetch(
-      `${API_URL}/users/${ADMIN_UID}/${membLvl}/none`,
+      `${API_URL}/users/free/${ADMIN_UID}/${membLvl}/none`,
       fetchConfig
     );
     const jsonResponse = await response.json();
