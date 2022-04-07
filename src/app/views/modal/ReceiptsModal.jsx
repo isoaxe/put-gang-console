@@ -12,16 +12,17 @@ const FlexBox = styled(Box)(() => ({
 
 function ReceiptsModal(props) {
   Modal.setAppElement("#root");
-  const { name, email, avatarUrl } = props.selectedUser;
+  const { visible, setVisible, receipts, selectedUser } = props;
+  const { name, email, avatarUrl } = selectedUser;
   const avatarStyles = { width: "130px", height: "130px" };
 
   function close() {
-    props.setVisible(false);
+    setVisible(false);
   }
 
   function totalSpent() {
     let total = 0;
-    props.receipts.forEach((item) => {
+    receipts.forEach((item) => {
       total += item.sale;
     });
     return total;
@@ -29,7 +30,7 @@ function ReceiptsModal(props) {
 
   return (
     <Modal
-      isOpen={props.visible}
+      isOpen={visible}
       onRequestClose={close}
       contentLabel="Payment Receipts Modal"
       className="content"
@@ -42,7 +43,7 @@ function ReceiptsModal(props) {
         </FlexBox>
         <H3>{name || email}</H3>
         <H3>Total spent: ${totalSpent()}</H3>
-        <ReceiptsListView receipts={props.receipts} />
+        <ReceiptsListView receipts={receipts} />
       </div>
     </Modal>
   );
