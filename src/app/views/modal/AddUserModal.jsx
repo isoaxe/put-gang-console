@@ -2,6 +2,8 @@ import { useState } from "react";
 import Modal from "react-modal";
 import { Box, styled } from "@mui/system";
 import { TextField } from "@mui/material";
+import { LocalizationProvider } from "@mui/lab";
+import DateAdapter from "@mui/lab/AdapterDateFns";
 import { H2 } from "app/components/Typography";
 import "./css/shared.css";
 
@@ -34,7 +36,7 @@ function AddUserModal(props) {
       className="content"
       overlayClassName="overlay"
     >
-      <div>
+      <LocalizationProvider dateAdapter={DateAdapter}>
         <H2 style={styles.header}>Add Free User</H2>
         <FlexBox>
           <TextField
@@ -50,7 +52,7 @@ function AddUserModal(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FlexBox>
-      </div>
+      </LocalizationProvider>
     </Modal>
   );
 }
