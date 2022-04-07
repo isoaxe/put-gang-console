@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { Box, styled } from "@mui/system";
-import { TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { H2 } from "app/components/Typography";
@@ -20,9 +20,9 @@ function AddUserModal(props) {
   const [expiry, setExpiry] = useState(null);
   const { visible, setVisible } = props;
   const styles = {
-    header: { marginBottom: "1rem" },
+    header: { marginBottom: "1rem", marginTop: "0.5rem" },
     text: { width: "250px", marginBottom: "1rem" },
-    button: { width: "100px" },
+    button: { marginBottom: "1rem" },
   };
 
   function close() {
@@ -59,6 +59,9 @@ function AddUserModal(props) {
             onChange={(date) => setExpiry(date)}
             renderInput={(params) => <TextField sx={styles.text} {...params} />}
           />
+          <Button sx={styles.button} variant="outlined" onClick={() => null}>
+            Create User
+          </Button>
         </FlexBox>
       </LocalizationProvider>
     </Modal>
