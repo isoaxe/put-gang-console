@@ -74,6 +74,11 @@ export async function saveBankAccount(req, res) {
     const bankAccount = await stripe.customers.createSource(stripeUid, {
       source: bankAccountToken,
     });
+    const { account_holder_type, account_type, routing_number } = bankAccount;
+
+    const bankRef = db.collection("plaid").doc(bankAccount.id);
+    await bankRef.set({ account_holder_type, account_type, routing_number });
+
     console.log("bankAccount:", bankAccount);
     res.status(200).send({
       success: "Bank details saved to Stripe",

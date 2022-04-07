@@ -48,8 +48,26 @@ export async function createSubscription(req, res) {
 export async function achPayment(req, res) {
   try {
     const { bankAccountId, paymentIntentId } = req.body;
+
+    const db = admin.firestore();
+    const bankRef = db.collection("plaid").doc(bankAccountId);
+    const bank = await bankRef.get();
+    const { account_holder_type, account_type, routing_number } = bank.data();
+    bankRef.delete();
+
+    // Create a new PaymentMethod and use to update PaymentIntent.
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: "us_bank_account",
+      us_bank_account: {
+        account_holder_type: "individual", // TODO: Remove after testing.
+        account_type: "checking", // TODO: Remove after testing.
+        routing_number,
+      },
+    });
+    const payment_method_id = paymentMethod.id;
+
     const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
-      payment_method: bankAccountId, // TODO: Needs to be PaymentMethod or Source
+      payment_method: payment_method_id,
     });
     res.status(200).send(paymentIntent);
   } catch (err) {
