@@ -55,7 +55,7 @@ function AddUserModal(props) {
           <DateTimePicker
             value={expiry}
             onChange={(date) => setExpiry(date)}
-            renderInput={(params) => <TextField {...params} />}
+            renderInput={(params) => <TextField sx={styles.text} {...params} />}
           />
         </FlexBox>
       </LocalizationProvider>
