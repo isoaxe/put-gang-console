@@ -19,7 +19,7 @@ export async function create(req, res) {
   try {
     // Declare variables from params and body.
     let { refId, membLvl, stripeUid } = req.params;
-    const { email, password } = req.body;
+    const { email, password, expiry } = req.body;
     if (membLvl === "null") membLvl = "none";
     if (stripeUid === "null") stripeUid = "none";
 
@@ -83,7 +83,7 @@ export async function create(req, res) {
     // Set creation and expiry dates.
     const now = new Date();
     const joinDate = now.toISOString();
-    const expiryDate = addMonth(now).toISOString();
+    const expiryDate = (expiry || addMonth(now)).toISOString();
 
     // Create user and set their claims.
     const { uid } = await admin.auth().createUser({ email, password });
