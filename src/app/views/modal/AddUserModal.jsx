@@ -15,6 +15,7 @@ function AddUserModal(props) {
   const [email, setEmail] = useState("");
   const { visible, setVisible } = props;
   const styles = {
+    header: { marginBottom: "1rem" },
     text: { width: "250px", marginBottom: "1rem" },
     button: { width: "100px" },
   };
@@ -32,7 +33,7 @@ function AddUserModal(props) {
       overlayClassName="overlay"
     >
       <div>
-        <H2>Add Free User</H2>
+        <H2 style={styles.header}>Add Free User</H2>
         <FlexBox>
           <TextField
             sx={styles.text}
