@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "react-modal";
 import { Box, styled } from "@mui/system";
 import { TextField } from "@mui/material";
-import { LocalizationProvider } from "@mui/lab";
+import { LocalizationProvider, DateTimePicker } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { H2 } from "app/components/Typography";
 import "./css/shared.css";
@@ -51,6 +51,7 @@ function AddUserModal(props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <DateTimePicker onChange={(e) => null} renderInput={(e) => null} />
         </FlexBox>
       </LocalizationProvider>
     </Modal>
