@@ -1,9 +1,16 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { Box, styled } from "@mui/system";
-import { TextField, Button } from "@mui/material";
 import { LocalizationProvider, DateTimePicker } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDateFns";
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { H2 } from "app/components/Typography";
 import { addMonth } from "app/utils/helpers";
 import "./css/shared.css";
@@ -20,6 +27,7 @@ function AddUserModal(props) {
   const oneMonthsTime = addMonth(now);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [membLvl, setMembLvl] = useState("");
   const [expiry, setExpiry] = useState(oneMonthsTime);
   const { visible, setVisible } = props;
   const styles = {
@@ -55,6 +63,18 @@ function AddUserModal(props) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <FormControl>
+            <InputLabel id="membership-select">Membership Level</InputLabel>
+            <Select
+              sx={styles.text}
+              labelId="membership-select"
+              value={membLvl}
+              onChange={(event) => setMembLvl(event.target.value)}
+            >
+              <MenuItem value="watch">Watch the Discussion</MenuItem>
+              <MenuItem value="join">Join the Discussion</MenuItem>
+            </Select>
+          </FormControl>
           <DateTimePicker
             value={expiry}
             label="Expiry Date"
