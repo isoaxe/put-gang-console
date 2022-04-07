@@ -1,7 +1,14 @@
 import MUIDataTable from "mui-datatables";
 import React, { useState, useContext } from "react";
-import { Avatar, Grow, Icon, IconButton, TextField } from "@mui/material";
 import { Box, styled, useTheme } from "@mui/system";
+import {
+  Avatar,
+  Grow,
+  Icon,
+  IconButton,
+  TextField,
+  Button,
+} from "@mui/material";
 import DataContext from "./../../contexts/DataContext";
 import ReceiptsModal from "./../modal/ReceiptsModal";
 import { userStatus, displayReceipts } from "./../../utils/helpers";
@@ -29,6 +36,10 @@ const Users = () => {
   const { users } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
+
+  const styles = {
+    button: { width: "100px", marginBottom: "30px" },
+  };
 
   // Converts an ISO string to DD/MM/YYYY local string.
   function formatDate(date) {
@@ -137,6 +148,9 @@ const Users = () => {
 
   return (
     <Container>
+      <Button sx={styles.button} variant="outlined" onClick={() => null}>
+        Add User
+      </Button>
       <Box overflow="auto">
         <Box minWidth={750}>
           <MUIDataTable
