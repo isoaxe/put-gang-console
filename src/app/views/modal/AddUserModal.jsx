@@ -33,6 +33,7 @@ function AddUserModal(props) {
   const styles = {
     header: { marginBottom: "1rem", marginTop: "0.5rem" },
     text: { width: "250px", marginBottom: "1rem" },
+    select: { textAlign: "left" },
     button: { marginBottom: "1rem" },
   };
 
@@ -66,7 +67,7 @@ function AddUserModal(props) {
           <FormControl>
             <InputLabel id="membership-select">Membership Level</InputLabel>
             <Select
-              sx={styles.text}
+              sx={{ ...styles.text, ...styles.select }}
               labelId="membership-select"
               label="Membership Level"
               value={membLvl}
