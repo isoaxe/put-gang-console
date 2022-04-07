@@ -151,7 +151,11 @@ const Users = () => {
   return (
     <Container>
       {role === "admin" && (
-        <Button sx={styles.button} variant="outlined" onClick={() => null}>
+        <Button
+          sx={styles.button}
+          variant="outlined"
+          onClick={() => setAddUserOpen(true)}
+        >
           Add User
         </Button>
       )}
