@@ -3,6 +3,7 @@
  */
 import firebase from "firebase/app";
 import { API_URL } from "./urls";
+import { ADMIN_UID } from "./constants";
 const msSinceEpoch = Date.now();
 
 // Get data from Firestore at given endpoint and optionally save to state.
@@ -40,6 +41,30 @@ export async function makePayment(type) {
       },
     };
     const response = await fetch(`${API_URL}/payments/${type}`, fetchConfig);
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// Create a new user that does not have to pay.
+export async function createFreeUser(membLvl, email, password, expiry, free) {
+  try {
+    const token = await firebase.auth().currentUser.getIdToken(true);
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ email, password, expiry, free }),
+    };
+    const response = await fetch(
+      `${API_URL}/users/free/${ADMIN_UID}/${membLvl}`,
+      fetchConfig
+    );
     const jsonResponse = await response.json();
     console.log(jsonResponse);
   } catch (err) {
@@ -134,6 +159,11 @@ export function monthName(number) {
       month = "Error";
   }
   return month;
+}
+
+// Add 31 days to the supplied date.
+export function addMonth(date) {
+  return new Date(date.setMonth(date.getMonth() + 1));
 }
 
 /*

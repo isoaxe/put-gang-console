@@ -1,9 +1,17 @@
 import MUIDataTable from "mui-datatables";
 import React, { useState, useContext } from "react";
-import { Avatar, Grow, Icon, IconButton, TextField } from "@mui/material";
 import { Box, styled, useTheme } from "@mui/system";
+import {
+  Avatar,
+  Grow,
+  Icon,
+  IconButton,
+  TextField,
+  Button,
+} from "@mui/material";
 import DataContext from "./../../contexts/DataContext";
 import ReceiptsModal from "./../modal/ReceiptsModal";
+import AddUserModal from "./../modal/AddUserModal";
 import { userStatus, displayReceipts } from "./../../utils/helpers";
 import { H5, Paragraph, Small } from "app/components/Typography";
 
@@ -23,12 +31,17 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 const Users = () => {
-  const [visible, setVisible] = useState(false);
+  const [receiptsOpen, setReceiptsOpen] = useState(false);
+  const [addUserOpen, setAddUserOpen] = useState(false);
   const [receipts, setReceipts] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
-  const { users } = useContext(DataContext);
+  const { users, role } = useContext(DataContext);
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
+
+  const styles = {
+    button: { width: "100px", marginBottom: "30px" },
+  };
 
   // Converts an ISO string to DD/MM/YYYY local string.
   function formatDate(date) {
@@ -137,6 +150,15 @@ const Users = () => {
 
   return (
     <Container>
+      {role === "admin" && (
+        <Button
+          sx={styles.button}
+          variant="outlined"
+          onClick={() => setAddUserOpen(true)}
+        >
+          Add User
+        </Button>
+      )}
       <Box overflow="auto">
         <Box minWidth={750}>
           <MUIDataTable
@@ -150,7 +172,7 @@ const Users = () => {
               onRowClick: (rowData, rowState) => {
                 const clickedUser = users[rowState.rowIndex];
                 setSelectedUser(clickedUser);
-                displayReceipts(clickedUser.uid, setReceipts, setVisible);
+                displayReceipts(clickedUser.uid, setReceipts, setReceiptsOpen);
               },
               // selectableRows: "none", // set checkbox for each row
               // search: false, // set search option
@@ -198,11 +220,12 @@ const Users = () => {
         </Box>
       </Box>
       <ReceiptsModal
-        visible={visible}
-        setVisible={setVisible}
+        visible={receiptsOpen}
+        setVisible={setReceiptsOpen}
         receipts={receipts}
         selectedUser={selectedUser}
       />
+      <AddUserModal visible={addUserOpen} setVisible={setAddUserOpen} />
     </Container>
   );
 };

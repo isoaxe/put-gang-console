@@ -7,4 +7,6 @@
 export const topBarHeight = 64;
 export const sideNavWidth = 260;
 
+// User ID and email for admin.
+export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
