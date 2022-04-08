@@ -87,7 +87,7 @@ export async function create(req, res) {
     // Set creation and expiry dates.
     const now = new Date();
     const joinDate = now.toISOString();
-    const expiryDate = (expiry || addMonth(now)).toISOString();
+    const expiryDate = expiry ? expiry : addMonth(now).toISOString();
 
     // Create user and set their claims.
     const { uid } = await admin.auth().createUser({ email, password });
