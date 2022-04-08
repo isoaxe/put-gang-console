@@ -90,7 +90,7 @@ const Register = () => {
       body: JSON.stringify(state),
     };
     const response = await fetch(
-      `${API_URL}/users/${refId}/${membLvl}/${stripeUid}`,
+      `${API_URL}/users/user/${refId}/${membLvl}/${stripeUid}`,
       fetchConfig
     );
     const jsonResponse = await response.json();
