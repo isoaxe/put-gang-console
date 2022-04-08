@@ -7,7 +7,7 @@ export default function usersRoute(app) {
   app.post("/users/user/:refId/:membLvl/:stripeUid", create);
   // Create a new non-paying user.
   app.post(
-    "/users/free/:refId/:membLvl/:stripeUid",
+    "/users/free/:refId/:membLvl",
     isAuthenticated,
     isAuthorized({ hasRole: ["admin"] }),
     create
