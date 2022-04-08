@@ -43,6 +43,11 @@ function AddUserModal(props) {
     setVisible(false);
   }
 
+  async function runFreeUserFn() {
+    createFreeUser(membLvl, email, password, expiry, true);
+    setVisible(false);
+  }
+
   return (
     <Modal
       isOpen={visible}
@@ -93,10 +98,7 @@ function AddUserModal(props) {
             <Button
               sx={styles.button}
               variant="outlined"
-              onClick={() => {
-                createFreeUser(membLvl, email, password, expiry, true);
-                setVisible(false);
-              }}
+              onClick={() => runFreeUserFn()}
             >
               Create User
             </Button>
