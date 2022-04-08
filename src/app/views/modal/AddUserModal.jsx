@@ -46,6 +46,10 @@ function AddUserModal(props) {
   async function runFreeUserFn() {
     setIsLoading(true);
     await createFreeUser(membLvl, email, password, expiry, true);
+    setEmail("");
+    setPassword("");
+    setMembLvl("");
+    setExpiry(oneMonthsTime);
     setIsLoading(false);
     setVisible(false);
   }
