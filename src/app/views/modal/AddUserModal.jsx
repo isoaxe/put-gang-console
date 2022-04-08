@@ -90,6 +90,7 @@ function AddUserModal(props) {
             variant="outlined"
             onClick={() => {
               createFreeUser(membLvl, email, password, expiry, true);
+              setVisible(false);
             }}
           >
             Create User
