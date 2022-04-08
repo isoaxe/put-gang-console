@@ -20,15 +20,19 @@ export async function create(req, res) {
     // Declare variables from params and body.
     let { refId, membLvl, stripeUid } = req.params;
     const { email, password, expiry, free } = req.body;
+    const callerRole = res.locals.role;
     if (membLvl === "null") membLvl = "none";
     if (stripeUid === "null") stripeUid = "none";
 
-    // Check if user is already a paying subscriber in Stripe.
-    const customer = await stripe.customers.retrieve(stripeUid);
-    if (email !== customer.email) {
-      return res.status(400).send({
-        error: `${email} is the wrong email for this Stripe customer`,
-      });
+    // Skip this step if creating a new user as admin.
+    if (callerRole !== "admin") {
+      // Check if user is already a paying subscriber in Stripe.
+      const customer = await stripe.customers.retrieve(stripeUid);
+      if (email !== customer.email) {
+        return res.status(400).send({
+          error: `${email} is the wrong email for this Stripe customer`,
+        });
+      }
     }
 
     // Initialize Firestore database and paths.
