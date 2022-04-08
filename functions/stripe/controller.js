@@ -100,6 +100,7 @@ export async function subscriptionPayment(req, res) {
     subExpiresAsInt,
     dataObject;
   switch (event.type) {
+    // Run payments through Firestore and update expiryDate when payment made.
     case "invoice.paid":
       invoicePaid = event.data.object;
       customerId = invoicePaid.customer;
@@ -110,6 +111,7 @@ export async function subscriptionPayment(req, res) {
         subExpiresAsInt = subscription.data[0].current_period_end;
         subExpires = new Date(subExpiresAsInt * 1000).toISOString();
       }
+      // Skip if customer was just created since init is handled separately.
       if (wasRecent(customer.created)) {
         console.log("ℹ️  Customer was created recently.");
         console.log("Payment data captured via client api call instead.");
