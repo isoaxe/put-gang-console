@@ -22,7 +22,7 @@ export async function create(req, res) {
     const { email, password, expiry, free } = req.body;
     const callerRole = res.locals.role;
     if (membLvl === "null") membLvl = "none";
-    if (stripeUid === "null") stripeUid = "none";
+    if (!stripeUid || stripeUid === "null") stripeUid = "none";
 
     // Skip this step if creating a new user as admin.
     if (callerRole !== "admin") {
