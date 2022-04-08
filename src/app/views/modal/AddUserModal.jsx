@@ -44,7 +44,9 @@ function AddUserModal(props) {
   }
 
   async function runFreeUserFn() {
-    createFreeUser(membLvl, email, password, expiry, true);
+    setIsLoading(true);
+    await createFreeUser(membLvl, email, password, expiry, true);
+    setIsLoading(false);
     setVisible(false);
   }
 
