@@ -10,6 +10,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { H2 } from "app/components/Typography";
 import { addMonth, createFreeUser } from "app/utils/helpers";
@@ -29,6 +30,7 @@ function AddUserModal(props) {
   const [password, setPassword] = useState("");
   const [membLvl, setMembLvl] = useState("");
   const [expiry, setExpiry] = useState(oneMonthsTime);
+  const [isLoading, setIsLoading] = useState(false);
   const { visible, setVisible } = props;
   const styles = {
     header: { marginBottom: "1rem", marginTop: "0.5rem" },
@@ -85,16 +87,20 @@ function AddUserModal(props) {
             onChange={(date) => setExpiry(date)}
             renderInput={(params) => <TextField sx={styles.text} {...params} />}
           />
-          <Button
-            sx={styles.button}
-            variant="outlined"
-            onClick={() => {
-              createFreeUser(membLvl, email, password, expiry, true);
-              setVisible(false);
-            }}
-          >
-            Create User
-          </Button>
+          {isLoading ? (
+            <CircularProgress style={styles.button} />
+          ) : (
+            <Button
+              sx={styles.button}
+              variant="outlined"
+              onClick={() => {
+                createFreeUser(membLvl, email, password, expiry, true);
+                setVisible(false);
+              }}
+            >
+              Create User
+            </Button>
+          )}
         </FlexBox>
       </LocalizationProvider>
     </Modal>
