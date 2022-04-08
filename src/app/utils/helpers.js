@@ -51,9 +51,11 @@ export async function makePayment(type) {
 // Create a new user that does not have to pay.
 export async function createFreeUser(membLvl, email, password, expiry, free) {
   try {
+    const token = await firebase.auth().currentUser.getIdToken(true);
     const fetchConfig = {
       method: "POST",
       headers: {
+        authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
