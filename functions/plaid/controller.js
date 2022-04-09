@@ -79,7 +79,6 @@ export async function saveBankAccount(req, res) {
     const bankRef = db.collection("plaid").doc(bankAccount.id);
     await bankRef.set({ account_holder_type, account_type, routing_number });
 
-    console.log("bankAccount:", bankAccount);
     res.status(200).send({
       success: "Bank details saved to Stripe",
       bank_account_id: bankAccount.id,
