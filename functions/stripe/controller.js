@@ -45,20 +45,6 @@ export async function createSubscription(req, res) {
   }
 }
 
-// Modify a subscription payment method type in Stripe.
-export async function changePaymentType(req, res) {
-  try {
-    const { stripeUid, method } = req.body;
-    await stripe.subscriptions.update(stripeUid, {
-      payment_settings: { payment_method_types: [method] },
-    });
-
-    res.status(204).send();
-  } catch (err) {
-    return handleError(res, err);
-  }
-}
-
 // Make a payment by completing a PaymentIntent.
 export async function achPayment(req, res) {
   try {
