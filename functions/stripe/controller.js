@@ -31,6 +31,7 @@ export async function createSubscription(req, res) {
       customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
+      payment_settings: { payment_method_types: ["card", "us_bank_account"] },
       expand: ["latest_invoice.payment_intent"],
     });
 
