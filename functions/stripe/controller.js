@@ -26,12 +26,12 @@ export async function createCustomer(req, res) {
 // Create a new subscription in Stripe.
 export async function createSubscription(req, res) {
   try {
-    const { priceId, customerId, paymentMethod } = req.body;
+    const { priceId, customerId, payType } = req.body;
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
-      payment_settings: { payment_method_types: [paymentMethod] },
+      payment_settings: { payment_method_types: [payType] },
       expand: ["latest_invoice.payment_intent"],
     });
 
