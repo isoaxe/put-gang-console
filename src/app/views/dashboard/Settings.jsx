@@ -146,22 +146,6 @@ const Settings = () => {
           Update
         </Button>
       </FlexBox>
-      <FlexBox>
-        <H5 sx={styles.header}>Discord: {user?.discord || "Not yet set"}</H5>
-        <TextField
-          sx={styles.text}
-          label="Discord"
-          value={discord}
-          onChange={(e) => setDiscord(e.target.value)}
-        />
-        <Button
-          sx={styles.button}
-          variant="outlined"
-          onClick={() => updateUser("discord")}
-        >
-          Update
-        </Button>
-      </FlexBox>
       {role === "admin" && (
         <FlexBox>
           <FormControlLabel
