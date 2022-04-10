@@ -73,7 +73,6 @@ const Register = () => {
   Discord oauth2 stuff
   */
   const REDIRECT_URL = API_URL;
-  const DISCORD_CODE = currentUrl.searchParams.get("code");
 
   function setHeader() {
     if (passedEmail) return <Header>Create a password</Header>;
@@ -105,10 +104,6 @@ const Register = () => {
 
   async function handleFormSubmit() {
     try {
-      if(DISCORD_CODE){ 
-        // user is back from discord oauth2
-        return navigate("/")
-      }
       setLoading(true);
       const user = await createUser();
       if (user.error) {
@@ -121,7 +116,10 @@ const Register = () => {
         Handle discord oauth2 
         Redirect the user to the discord oauthpage
         */
-        return window.location.href = OAUTH_URL;
+        let dState;
+        if(membLvl === "join"){ dState = btoa("urerjenckphgvcrjebn") } // Random token must be same with the server
+        if(membLvl === "watch"){ dState = btoa("fhjsdgfgjdgsgfjhgsd") }
+        return window.location.href = `${OAUTH_URL}&state=${dState}`;
       }
     } catch (e) {
       setLoading(false);
