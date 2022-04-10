@@ -26,3 +26,14 @@ const remoteRedUrl = "https://us-central1-put-gang.cloudfunctions.net/api";
 
 export const REDIRECT_URL =
   MODE === "test" ? localRedUrl : remoteRedUrl;
+
+/*
+
+
+
+I'm Guessing test means locally run
+
+
+
+
+*/
