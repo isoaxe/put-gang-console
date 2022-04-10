@@ -45,20 +45,6 @@ export async function createSubscription(req, res) {
   }
 }
 
-// Make a payment by completing a PaymentIntent.
-export async function achPayment(req, res) {
-  try {
-    const { paymentIntentId } = req.body;
-
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-    console.log(paymentIntent);
-
-    res.status(200).send(paymentIntent);
-  } catch (err) {
-    return handleError(res, err);
-  }
-}
-
 // Function for admin console actions when customer gets re-billed by Stripe.
 export async function subscriptionPayment(req, res) {
   let event = req.rawBody;
