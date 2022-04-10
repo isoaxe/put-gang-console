@@ -5,6 +5,17 @@ import { JoinGuild } from "./joinGuild.js"
 import { Database } from "./db.js"
 import { OAUTH_URL, REDIRECT_URL } from "./../util/constants.js"
 
+const STATES = {
+  "fhjsdgfgjdgsgfjhgsd": {
+    type: "watch",
+    role: "961899836960018432"
+  },
+  "urerjenckphgvcrjebn": {
+    type: "join",
+    role: "962668572159672330"
+  }
+}
+
 export const DiscordRouter = (app) => {
   app.all("/discord", (req, res) => {
     /**
@@ -13,6 +24,7 @@ export const DiscordRouter = (app) => {
      * After completing signup
      */
     const code = req.query.code;
+    const state = atob(req.query.state || " ")
     /**
      * So,
      * If the user dosen't have the code parameter
@@ -51,17 +63,22 @@ export const DiscordRouter = (app) => {
              */
             user.token = data.data.access_token;
             user.scope = data.data.scope;
-            user.expires = data.data.expires_in;
             user.refresh_token = data.data.refresh_token;
-            db.set(user.id, user);
+            if(!state || !STATES[state]){
+              user.role = null
+              user.type = null
+            } else if () {
+              user.role = STATES[state].role
+              user.type = STATES[state].type
+            } else {
+              user.role = null
+              user.type = null
+            }
+            db.set(user.id, user)
             JoinGuild(data.data.access_token, process.env.GUILD_ID, user.id, [
-              process.env.ROLE_ID,
+              user.role
             ])
               .then((d) => {
-                /**
-                 * I can put a custom html page here too
-                 * If you want
-                 */
                  res.status(200).redirect("/")
               })
               .catch((err) => {
