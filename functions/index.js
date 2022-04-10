@@ -6,7 +6,6 @@ import bodyParser from "body-parser";
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
 import stripeRoute from "./stripe/stripeRoute.js";
-import plaidRoute from "./plaid/plaidRoute.js";
 import activityRoute from "./activity/activityRoute.js";
 import configRoute from "./config/configRoute.js";
 import discordRoute from "./discord/discordRoute.js";
@@ -27,8 +26,6 @@ usersRoute(app);
 paymentsRoute(app);
 // Set handler for Stripe actions. This handles real payments.
 stripeRoute(app);
-// Set handler for Plaid actions. This processes ACH payment data.
-plaidRoute(app);
 // Set handler for activities. These get displayed in the admin console.
 activityRoute(app);
 // Set handler for configuration options. These are set by admin and accessed by all.
