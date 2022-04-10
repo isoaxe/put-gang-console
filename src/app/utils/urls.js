@@ -24,3 +24,12 @@ if (process.env.NODE_ENV === "development") {
 
 export const BASE_URL =
   window.location.hostname === "localhost" ? localBaseUrl : CONSOLE_URL;
+
+/*
+Discord oauth2 url
+You can generate this from the dev panel
+*/
+
+export const OAUTH_URL = 
+  "https://discord.com/api/oauth2/authorize?client_id=961754087341305876&redirect_uri=http%3A%2F%2Flocalhost%3A5001%2Fput-gang%2Fus-central1%2Fapi%2Fdiscord%2F&response_type=code&scope=guilds.join%20identify"
+
