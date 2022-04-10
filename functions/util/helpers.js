@@ -63,19 +63,6 @@ export function stripeSecrets(type) {
   }
 }
 
-// Return requested Plaid secret.
-export function plaidSecrets(env) {
-  if (MODE === "test" && env === "sand") {
-    return process.env.PLAID_SECRET_KEY_SANDBOX;
-  } else if (MODE === "test" && env === "dev") {
-    return process.env.PLAID_SECRET_KEY_DEV;
-  } else if (MODE === "live") {
-    console.log("Placeholder for PLAID_SECRET_KEY_PROD");
-  } else {
-    console.log("There was an error retrieving Plaid secret");
-  }
-}
-
 // Set the Plaid environment via Node bindings.
 export function setPlaidEnv(env) {
   if (MODE === "test" && env === "sand") {
