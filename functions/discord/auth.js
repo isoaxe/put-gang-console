@@ -5,7 +5,7 @@ import { JoinGuild } from "./joinGuild.js"
 import { Database } from "./db.js"
 import { OAUTH_URL, REDIRECT_URL } from "./../util/constants.js"
 
-export const DiscordRouter = (app, _firedb) => {
+export const DiscordRouter = (app) => {
   app.all("/discord", (req, res) => {
     /**
      * Here code is the code parameter we get after user authentication
