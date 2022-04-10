@@ -107,8 +107,7 @@ const Register = () => {
     try {
       if(DISCORD_CODE){ 
         // user is back from discord oauth2
-        // send request to the backend
-        // return navigate("/")
+        return navigate("/")
       }
       setLoading(true);
       const user = await createUser();
