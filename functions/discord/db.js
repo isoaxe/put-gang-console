@@ -1,4 +1,4 @@
-module.exports.Database = class Database {
+export class Database {
     constructor(_store, _collection){
         this._store = _store // Firestore database
         this.db = this._store.collection(_collection)
