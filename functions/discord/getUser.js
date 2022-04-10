@@ -3,7 +3,7 @@ import axios from "axios";
 /**
  * Get current user from user token
  */
-module.exports = (_token) => {
+export const GetUser = (_token) => {
   return new Promise((resolve, reject) => {
     if (!_token) {
       /**
