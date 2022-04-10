@@ -26,11 +26,12 @@ export async function createCustomer(req, res) {
 // Create a new subscription in Stripe.
 export async function createSubscription(req, res) {
   try {
-    const { priceId, customerId } = req.body;
+    const { priceId, customerId, payType } = req.body;
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
+      payment_settings: { payment_method_types: [payType] },
       expand: ["latest_invoice.payment_intent"],
     });
 
@@ -39,37 +40,6 @@ export async function createSubscription(req, res) {
       client_secret: subscription.latest_invoice.payment_intent.client_secret,
       payment_intent_id: subscription.latest_invoice.payment_intent.id,
     });
-  } catch (err) {
-    return handleError(res, err);
-  }
-}
-
-// Make a payment by completing a PaymentIntent.
-export async function achPayment(req, res) {
-  try {
-    const { bankAccountId, paymentIntentId } = req.body;
-
-    const db = admin.firestore();
-    const bankRef = db.collection("plaid").doc(bankAccountId);
-    const bank = await bankRef.get();
-    const { account_holder_type, account_type, routing_number } = bank.data();
-    bankRef.delete();
-
-    // Create a new PaymentMethod and use to update PaymentIntent.
-    const paymentMethod = await stripe.paymentMethods.create({
-      type: "us_bank_account",
-      us_bank_account: {
-        account_holder_type: "individual", // TODO: Remove after testing.
-        account_type: "checking", // TODO: Remove after testing.
-        routing_number,
-      },
-    });
-    const payment_method_id = paymentMethod.id;
-
-    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
-      payment_method: payment_method_id,
-    });
-    res.status(200).send(paymentIntent);
   } catch (err) {
     return handleError(res, err);
   }
@@ -100,6 +70,7 @@ export async function subscriptionPayment(req, res) {
     subExpiresAsInt,
     dataObject;
   switch (event.type) {
+    // Run payments through Firestore and update expiryDate when payment made.
     case "invoice.paid":
       invoicePaid = event.data.object;
       customerId = invoicePaid.customer;
@@ -110,6 +81,7 @@ export async function subscriptionPayment(req, res) {
         subExpiresAsInt = subscription.data[0].current_period_end;
         subExpires = new Date(subExpiresAsInt * 1000).toISOString();
       }
+      // Skip if customer was just created since init is handled separately.
       if (wasRecent(customer.created)) {
         console.log("ℹ️  Customer was created recently.");
         console.log("Payment data captured via client api call instead.");
