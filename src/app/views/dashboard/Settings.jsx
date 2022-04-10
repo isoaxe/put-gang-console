@@ -91,12 +91,6 @@ const Settings = () => {
     }
   }
 
-  async function resetDiscord() {
-    const response = await fetch(API_URL + "/discord/role");
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-  }
-
   useEffect(() => {
     getData("/users/user", setUser);
   }, []);
@@ -159,13 +153,6 @@ const Settings = () => {
             label="Allow card payments"
             disabled={disabled}
           />
-          <Button
-            sx={styles.button}
-            variant="outlined"
-            onClick={() => resetDiscord()}
-          >
-            Reset Bot
-          </Button>
         </FlexBox>
       )}
     </Container>
