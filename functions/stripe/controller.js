@@ -127,6 +127,10 @@ export async function subscriptionPayment(req, res) {
         res.status(204).send();
       }
       break;
+    // Remove customer role to prevent Discord access on payment failure.
+    case "invoice.payment_failed":
+      // TODO: Add discord role removal here...
+      break;
     default:
       console.log(`Unhandled event type ${event.type}.`);
       res.status(404).send();
