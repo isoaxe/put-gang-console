@@ -71,7 +71,7 @@ export const DiscordRouter = (app) => {
           if (!state || !STATES[state]) {
             user.role = null;
             user.type = null;
-          } else if () {
+          } else if (STATES[state]) {
             user.role = STATES[state].role;
             user.type = STATES[state].type;
           } else {
