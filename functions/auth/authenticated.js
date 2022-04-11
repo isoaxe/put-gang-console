@@ -1,7 +1,6 @@
 import admin from "firebase-admin";
 
 export async function isAuthenticated(req, res, next) {
-  if (req.path == '/discord'){ return next() }
   const { authorization } = req.headers;
 
   if (!authorization)

@@ -20,7 +20,7 @@ export const GetUser = (_token) => {
       url: "https://discord.com/api/v9/users/@me",
       headers: {
         authorization: `Bearer ${_token}`,
-      }
+      },
     })
       .then((d) => {
         /**
@@ -37,28 +37,34 @@ export const GetUser = (_token) => {
           avatar: GetAvatar({
             id: d.data.id,
             avatar: d.data.avatar,
-          })
-        }
+          }),
+        };
         /**
          * Return the user
          */
-        resolve(user)
+        resolve(user);
       })
       .catch((err) => {
         /**
          * If something goes wrong
          */
         reject(err);
-      })
-  })
-}
+      });
+  });
+};
 
 /**
  * Get avatar url from avatar hash
  */
 const GetAvatar = (user) => {
-  if (!user) { return null }
-  if (!user.id) { return null }
-  if (!user.avatar) { return null }
-  return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`
-}
+  if (!user) {
+    return null;
+  }
+  if (!user.id) {
+    return null;
+  }
+  if (!user.avatar) {
+    return null;
+  }
+  return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=512`;
+};

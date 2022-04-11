@@ -1,20 +1,25 @@
-import axios from 'axios';
+import axios from "axios";
 import admin from "firebase-admin";
-import { GetUser } from "./getUser.js"
-import { JoinGuild } from "./joinGuild.js"
-import { Database } from "./db.js"
-import { OAUTH_URL, REDIRECT_URL } from "./../util/constants.js"
+import { GetUser } from "./getUser.js";
+import { JoinGuild } from "./joinGuild.js";
+import { Database } from "./db.js";
+import {
+  OAUTH_URL,
+  REDIRECT_URL,
+  GANGSTA_ID,
+  SUPER_GANGSTA_ID,
+} from "./../util/constants.js";
 
 const STATES = {
-  "fhjsdgfgjdgsgfjhgsd": {
+  fhjsdgfgjdgsgfjhgsd: {
     type: "watch",
-    role: "961899836960018432"
+    role: GANGSTA_ID,
   },
-  "urerjenckphgvcrjebn": {
+  urerjenckphgvcrjebn: {
     type: "join",
-    role: "962668572159672330"
-  }
-}
+    role: SUPER_GANGSTA_ID,
+  },
+};
 
 export const DiscordRouter = (app) => {
   app.all("/discord", (req, res) => {
@@ -24,7 +29,7 @@ export const DiscordRouter = (app) => {
      * After completing signup
      */
     const code = req.query.code;
-    const state = atob(req.query.state || " ")
+    const state = atob(req.query.state || " ");
     /**
      * So,
      * If the user dosen't have the code parameter
@@ -35,61 +40,60 @@ export const DiscordRouter = (app) => {
     if (!code) {
       return res.status(307).redirect(OAUTH_URL);
     }
-    const db = new Database(admin.firestore(), "discord")
-    try {
-      axios({
-        method: "post",
-        url: "https://discord.com/api/oauth2/token",
-        data: new URLSearchParams({
-          client_id: process.env.D_APPLICATION_ID,
-          client_secret: process.env.D_CLIENT_SECRET,
-          code: code,
-          grant_type: "authorization_code",
-          redirect_uri: REDIRECT_URL,
-          scope: "identify guilds.join",
-        }),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        }
-      })
+    const db = new Database(admin.firestore(), "discord");
+    axios({
+      method: "post",
+      url: "https://discord.com/api/oauth2/token",
+      data: new URLSearchParams({
+        client_id: process.env.DISCORD_APP_ID,
+        client_secret: process.env.DISCORD_CLIENT_SECRET,
+        code,
+        grant_type: "authorization_code",
+        redirect_uri: REDIRECT_URL,
+        scope: "identify guilds.join",
+      }),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
       .then(async (data) => {
-          if (!data.data.access_token) {
-            return res.status(502).send("BAD GATEWAY")
+        if (!data.data.access_token) {
+          return res.status(502).send("BAD GATEWAY");
+        }
+        GetUser(data.data.access_token).then((u) => {
+          let user = u;
+          /**
+           * It's better to save these data along with others
+           */
+          user.token = data.data.access_token;
+          user.scope = data.data.scope;
+          user.refresh_token = data.data.refresh_token;
+          if (!state || !STATES[state]) {
+            user.role = null;
+            user.type = null;
+          } else if () {
+            user.role = STATES[state].role;
+            user.type = STATES[state].type;
+          } else {
+            user.role = null;
+            user.type = null;
           }
-          GetUser(data.data.access_token).then((u) => {
-            let user = u;
-            /**
-             * It's better to save these data along with others
-             */
-            user.token = data.data.access_token;
-            user.scope = data.data.scope;
-            user.refresh_token = data.data.refresh_token;
-            if(!state || !STATES[state]){
-              user.role = null
-              user.type = null
-            } else if () {
-              user.role = STATES[state].role
-              user.type = STATES[state].type
-            } else {
-              user.role = null
-              user.type = null
-            }
-            db.set(user.id, user)
-            JoinGuild(data.data.access_token, process.env.GUILD_ID, user.id, [
-              user.role
-            ])
-              .then((d) => {
-                 res.status(200).redirect("/")
-              })
-              .catch((err) => {
-                res.status(500).send("Server error")
-                console.log(err);
-              });
-          });
-        })
-        .catch((err) => {
-          res.status(500).send("Server Error")
-          console.log(err);
+          db.set(user.id, user);
+          JoinGuild(data.data.access_token, process.env.GUILD_ID, user.id, [
+            user.role,
+          ])
+            .then(() => {
+              res.status(200).redirect("/");
+            })
+            .catch((err) => {
+              res.status(500).send("Server error");
+              console.log(err);
+            });
         });
+      })
+      .catch((err) => {
+        res.status(500).send("Server Error");
+        console.log(err);
+      });
   });
-}
+};

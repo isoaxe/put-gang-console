@@ -68,7 +68,7 @@ const Register = () => {
   const currentUrl = new URL(window.location.href);
   const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
   const stripeUid = currentUrl.searchParams.get("stripeUid");
-  
+
   /*
   Discord oauth2 stuff
   */
@@ -113,13 +113,17 @@ const Register = () => {
         await signInWithEmailAndPassword(email, password);
         if (membLvl) makePayment(membLvl);
         /*
-        Handle discord oauth2 
+        Handle discord oauth2
         Redirect the user to the discord oauthpage
         */
         let dState;
-        if(membLvl === "join"){ dState = btoa("urerjenckphgvcrjebn") } // Random token must be same with the server
-        if(membLvl === "watch"){ dState = btoa("fhjsdgfgjdgsgfjhgsd") }
-        return window.location.href = `${OAUTH_URL}&state=${dState}`;
+        if (membLvl === "join") {
+          dState = btoa("urerjenckphgvcrjebn");
+        } // Random token must be same with the server
+        if (membLvl === "watch") {
+          dState = btoa("fhjsdgfgjdgsgfjhgsd");
+        }
+        return (window.location.href = `${OAUTH_URL}&state=${dState}`);
       }
     } catch (e) {
       setLoading(false);
