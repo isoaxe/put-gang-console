@@ -13,6 +13,7 @@ export const ADMIN_EMAIL = "phillymantis@gmail.com";
 // Discord roles ids: Currently pertain to 'Oauth2 Test' server.
 export const GANGSTA_ID = "961899836960018432"; // Corresponds to 'watch'.
 export const SUPER_GANGSTA_ID = "963004634316828702"; // Corresponds to 'join'.
+export const DISCORD_GUILD_ID = "961899170241839104";
 
 /*
 Discord oauth2 url
