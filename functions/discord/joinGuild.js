@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const JoinGUild = (_token, _guild, _user, roles) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     if (!_token) {
       return reject(new Error("No Token Provided"));
     }
