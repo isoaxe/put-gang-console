@@ -11,8 +11,8 @@ export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
 
 // Discord roles ids:
-export const GANGSTA_ID = "943736283447050241";
-export const SUPER_GANGSTA_ID = "943738474715033633";
+export const GANGSTA_ID = "961899836960018432";
+export const SUPER_GANGSTA_ID = "962668572159672330";
 
 /*
 Discord oauth2 url
