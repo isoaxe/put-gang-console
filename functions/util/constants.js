@@ -10,9 +10,13 @@ export const MODE = "test"; // enum 'test' || 'live'
 export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
 
-// Discord roles ids:
-export const GANGSTA_ID = "961899836960018432"; // Corresponds to 'watch'.
-export const SUPER_GANGSTA_ID = "962668572159672330"; // Corresponds to 'join'.
+// Discord role and guild ids.
+export const GANGSTA_ID =
+  MODE === "test" ? "961899836960018432" : "838608029771366410"; // Corresponds to 'watch'.
+export const SUPER_GANGSTA_ID =
+  MODE === "test" ? "963004634316828702" : "845763952469213206"; // Corresponds to 'join'.
+export const DISCORD_GUILD_ID =
+  MODE === "test" ? "961899170241839104" : "797133925616975933";
 
 /*
 Discord oauth2 url

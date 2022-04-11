@@ -69,11 +69,6 @@ const Register = () => {
   const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
   const stripeUid = currentUrl.searchParams.get("stripeUid");
 
-  /*
-  Discord oauth2 stuff
-  */
-  const REDIRECT_URL = API_URL;
-
   function setHeader() {
     if (passedEmail) return <Header>Create a password</Header>;
   }
