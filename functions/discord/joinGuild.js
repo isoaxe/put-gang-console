@@ -9,7 +9,7 @@ export const JoinGUild = (_token, _guild, _user, roles) => {
       method: "put",
       url: `https://discord.com/api/v9/guilds/${_guild}/members/${_user}`,
       headers: {
-        authorization: `Bot ${process.env.BOT_TOKEN}`,
+        authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
         "Content-Type": "application/json",
       },
       data: {
