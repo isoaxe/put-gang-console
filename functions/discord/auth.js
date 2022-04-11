@@ -40,9 +40,9 @@ export const DiscordRouter = (app) => {
       method: "post",
       url: "https://discord.com/api/oauth2/token",
       data: new URLSearchParams({
-        client_id: process.env.D_APPLICATION_ID,
-        client_secret: process.env.D_CLIENT_SECRET,
-        code: code,
+        client_id: process.env.DISCORD_APP_ID,
+        client_secret: process.env.DISCORD_CLIENT_SECRET,
+        code,
         grant_type: "authorization_code",
         redirect_uri: REDIRECT_URL,
         scope: "identify guilds.join",
@@ -77,7 +77,7 @@ export const DiscordRouter = (app) => {
           JoinGuild(data.data.access_token, process.env.GUILD_ID, user.id, [
             user.role,
           ])
-            .then((d) => {
+            .then(() => {
               res.status(200).redirect("/");
             })
             .catch((err) => {
