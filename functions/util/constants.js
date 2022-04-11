@@ -10,9 +10,9 @@ export const MODE = "test"; // enum 'test' || 'live'
 export const ADMIN_UID = "ocxVcejnEce6Pglc2QWzcakbgAT2";
 export const ADMIN_EMAIL = "phillymantis@gmail.com";
 
-// Discord roles ids:
+// Discord roles ids: Currently pertain to 'Oauth2 Test' server.
 export const GANGSTA_ID = "961899836960018432"; // Corresponds to 'watch'.
-export const SUPER_GANGSTA_ID = "962668572159672330"; // Corresponds to 'join'.
+export const SUPER_GANGSTA_ID = "963004634316828702"; // Corresponds to 'join'.
 
 /*
 Discord oauth2 url
