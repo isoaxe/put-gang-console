@@ -3,16 +3,21 @@ import admin from "firebase-admin";
 import { GetUser } from "./getUser.js";
 import { JoinGuild } from "./joinGuild.js";
 import { Database } from "./db.js";
-import { OAUTH_URL, REDIRECT_URL } from "./../util/constants.js";
+import {
+  OAUTH_URL,
+  REDIRECT_URL,
+  GANGSTA_ID,
+  SUPER_GANGSTA_ID,
+} from "./../util/constants.js";
 
 const STATES = {
   fhjsdgfgjdgsgfjhgsd: {
     type: "watch",
-    role: "961899836960018432",
+    role: GANGSTA_ID,
   },
   urerjenckphgvcrjebn: {
     type: "join",
-    role: "962668572159672330",
+    role: SUPER_GANGSTA_ID,
   },
 };
 
