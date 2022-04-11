@@ -40,9 +40,9 @@ const secrets = {
     "STRIPE_WEBHOOK_SECRET_LOCAL",
     "STRIPE_WEBHOOK_SECRET_TEST",
     "STRIPE_WEBHOOK_SECRET_LIVE",
-    "D_APPLICATION_ID", //Discord Application ID
-    "D_CLIENT_SECRET", // Discord Client Secret
-    "BOT_TOKEN", // Discord Bot Token
+    "DISCORD_APP_ID",
+    "DISCORD_CLIENT_SECRET",
+    "DISCORD_BOT_TOKEN",
   ],
 };
 
