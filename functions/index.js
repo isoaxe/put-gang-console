@@ -2,7 +2,6 @@ import functions from "firebase-functions";
 import admin from "firebase-admin";
 import express from "express";
 import cors from "cors";
-import bodyParser from "body-parser";
 import usersRoute from "./users/usersRoute.js";
 import paymentsRoute from "./payments/paymentsRoute.js";
 import stripeRoute from "./stripe/stripeRoute.js";
@@ -17,7 +16,8 @@ const app = express();
 // Automatically allow cross-origin requests.
 app.use(cors({ origin: true }));
 
-app.use(bodyParser.json());
+//Bodyparser is built in
+app.use(express.json());
 
 // Set handler for Firebase & Firestore user accounts.
 usersRoute(app);
@@ -40,6 +40,9 @@ const secrets = {
     "STRIPE_WEBHOOK_SECRET_LOCAL",
     "STRIPE_WEBHOOK_SECRET_TEST",
     "STRIPE_WEBHOOK_SECRET_LIVE",
+    "D_APPLICATION_ID", //Discord Application ID
+    "D_CLIENT_SECRET" // Discord Client Secret
+    "BOT_TOKEN" // Discord Bot Token
   ],
 };
 

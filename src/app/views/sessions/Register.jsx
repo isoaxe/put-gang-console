@@ -7,7 +7,7 @@ import "firebase/auth";
 import useAuth from "app/hooks/useAuth";
 import { Paragraph, Span, H3 } from "app/components/Typography";
 import { makePayment } from "app/utils/helpers";
-import { API_URL } from "app/utils/urls";
+import { API_URL, OAUTH_URL } from "app/utils/urls";
 
 const FlexBox = styled(Box)(() => ({
   display: "flex",
@@ -68,6 +68,11 @@ const Register = () => {
   const currentUrl = new URL(window.location.href);
   const passedEmail = currentUrl.searchParams.get("email"); // Get email from params.
   const stripeUid = currentUrl.searchParams.get("stripeUid");
+  
+  /*
+  Discord oauth2 stuff
+  */
+  const REDIRECT_URL = API_URL;
 
   function setHeader() {
     if (passedEmail) return <Header>Create a password</Header>;
@@ -107,7 +112,14 @@ const Register = () => {
       } else {
         await signInWithEmailAndPassword(email, password);
         if (membLvl) makePayment(membLvl);
-        navigate("/");
+        /*
+        Handle discord oauth2 
+        Redirect the user to the discord oauthpage
+        */
+        let dState;
+        if(membLvl === "join"){ dState = btoa("urerjenckphgvcrjebn") } // Random token must be same with the server
+        if(membLvl === "watch"){ dState = btoa("fhjsdgfgjdgsgfjhgsd") }
+        return window.location.href = `${OAUTH_URL}&state=${dState}`;
       }
     } catch (e) {
       setLoading(false);
