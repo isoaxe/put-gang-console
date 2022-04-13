@@ -5,6 +5,15 @@ The Put Gang project is broken into two repositories: `put-gang-landing` and `pu
 The console has several different sections. Subordinate user data can be viewed from here. As an example, a `level-1` user would be able to see `level-2` users whom they have recruited. The `level-1` would also see `level-3` users whom the `level-2` has recruited. So basically anyone below then in the hierarchy tree. However, they would not have access to users at a lower level that have been recruited by them or their subordinates.
 
 
+## Multi-Level Marketing Structure
+
+The user hierarchy has 5 levels as follows: `admin`, `level-1`, `level-2`, `level-3` and `standard`. That is also the order of seniority, with the last two at the roughly the same access level and considered 'junior'. The other 3 are typically regarded as 'senior'. Since the `admin` is the most senior, they have access to everything and can see all users. There is only a single `admin` per project.
+
+New affiliate users are created by using a referral link to signup (see `<Links/>` section in the console UI description below). For example, if an `admin` user provides a link to a new user, then the new user will have a `role` of `level-1`. Similarly, a `level-1` user will produce a `level-2` which in turn can produce a `level-3`. If a user signs up without an affiliate link, they will be `standard` and outside of the MLM system.
+
+By default, the MLM structure is hidden from a `level-2` user. However, they can opt-in and gain access to the admin console. This allows them to see all of the pages listed in the console UI structure below.
+
+
 ## Console User Interface Structure
 
 When a user gains entry after logging in, they have access to several different pages via the nav menu. There is `<Console/>`, `<Users/>`, `<Affiliates/>`, `<Links/>` and `<Charts/>`.
