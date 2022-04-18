@@ -16,7 +16,11 @@ Affiliate users can only see their subordinates. As an example, a `level-1` user
 
 ## Console User Interface Structure
 
-When a user gains entry after logging in, they have access to several different pages via the nav menu. There is `<Console/>`, `<Users/>`, `<Affiliates/>`, `<Links/>` and `<Charts/>`.
+The console UI is broken down into two broad parts: The navigation menu on the left hand side and the user menu at the top right. Only senior users have access to the former whereas all users have access to the latter.
+
+### Navigation Menu
+
+When a senior user gains entry after logging in, they have access to several different pages via the nav menu. There is `<Console/>`, `<Users/>`, `<Affiliates/>`, `<Links/>` and `<Charts/>`.
 
 The `<Console/>` displays `stats` related to revenue, MRR and payment due to the affiliate(s). There is also an `activities` list that displays recent events to senior users.
 
