@@ -1,120 +1,43 @@
-Matx React was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Put Gang Console
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### Roadmap
-Update navigations in MatxVerticalNav.jsx
+The Put Gang project is broken into two repositories: `put-gang-landing` and `put-gang-console`. The former is just a landing page from which the signup flow is initialized. The customer completes the Stripe payment flow from here via modals. Some data is then passed to `put-gang-console` via params, where the Firebase user is created. This gives access to a dashboard / console where either just `<Settings/>` are displayed (for junior users) or full MLM access (for senior users).
 
 
-### Changelog
+## Multi-Level Marketing Structure
 
-v1.0.0
-Mar 3, 2020
+The user hierarchy has 5 levels as follows: `admin`, `level-1`, `level-2`, `level-3` and `standard`. That is also the order of seniority, with the last two at the roughly the same access level and considered 'junior'. The other 3 are typically regarded as 'senior'. Since the `admin` is the most senior, they have access to everything and can see all users. There is only a single `admin` per project.
 
-Initial release
+New affiliate users are created by using a referral link to signup (see `<Links/>` section in the console UI description below). For example, if an `admin` user provides a link to a new user, then the new user will have a `role` of `level-1`. Similarly, a `level-1` user will produce a `level-2` which in turn can produce a `level-3`. If a user signs up without an affiliate link, they will be `standard` and outside of the MLM system.
 
-v1.1.0
-August 2, 2020
+By default, the MLM structure is hidden from a `level-2` user. However, they can opt-in and gain access to the admin console. This allows them to see all of the pages listed in the console UI structure below.
 
-Removed SCSS and Converted all styles to JSS
-Added MUI Datatable
-Updated to all functional components
+Affiliate users can only see their subordinates. As an example, a `level-1` user would be able to see `level-2` users whom they have recruited. The `level-1` would also see `level-3` users who that `level-2` has recruited. So basically anyone below them in the hierarchy tree. However, they would not have access to users at a lower level that have been recruited by someone else not originating from them.
 
-v1.2.0
-September 13, 2020
 
-Added Popup Chatbox
-Added apexchart dependency
-Added New Dashboard
+## Console User Interface Structure
 
-v1.3.0
-September 28, 2020
+The console UI is broken down into two broad parts: The navigation menu on the left hand side and the user menu at the top right. Only senior users have access to the former whereas all users have access to the latter.
 
-Added Authentication (JWT, Firebase and Auth0)
-Added new forms
-Added formik to create complex forms
-Added inventory management dashboard
-Added Customers
-Added Customer detail
-Added Products
-Added Product detail
-Added Orders
-Added Order detail
+### Navigation Menu
 
-v1.4.0
-Nov 29, 2020
+When a senior user gains entry after logging in, they have access to several different pages via the nav menu. There is `<Console/>`, `<Users/>`, `<Affiliates/>`, `<Links/>` and `<Charts/>`.
 
-Added Context API Settings
-Improved performance
-Fixed small design issues(Nav item hover, active state, Brand area height)
+The `<Console/>` displays `stats` related to revenue, MRR and payment due to the affiliate(s). There is also an `activities` list that displays recent events to senior users.
 
-v1.5.0
-Jan 3, 2021
+Within `<Users/>` is a table that displays all users when `admin` or just subordinates for other senior users. This lists role, membership level, join and expiry dates. Clicking on a user opens a modal that displays their payment history and a list of receipts.
 
-moved all components from matx to components
-added parent wrapper folder for all components
+Similarly, `<Affiliates/>` is a table that just lists subordinate affiliates of the user in the MLM structure (and thus never `standard` or `level-3` users). This gives the `stats` for each of them. Clicking on an affiliate opens the `<Affiliate/>` page where the `stats` are displayed again at the top followed by a list of all the affiliates invoices and their payment statuses.
+
+The `<Links/>` section is for senior users and contains several automatically generated links that can be easily copied and given to prospective customers. These are the web addresses of `put-gang-landing` but with params relating to the user. Any customer that uses one of these links to signup will become a subordinate user of the referrer.
+
+Finally, the `<Charts/>` section displays aggregated `stats` data for the past year for the `admin` user only.
+
+### User Menu
+
+The user menu has three parts - `Home`, `<Settings/>` and `Logout`. These are available to all users.
+
+Selecting `Home` redirects to the default page for the user. If they are senior, then `Home` will redirect to `<Console/>`. For junior users, they will remain on `<Settings/>` as they don't have access to the navigation menu.
+
+The `<Settings/>` section allows the user to configure several pieces of data for their account. They can set `name` as will appear throughout the console. They can also set their `insta` handle which sets a profile image. The Discord integration is also set here. The `admin` can also toggle the availability of `card` payments. For junior users (including `level-2` without MLM activation), this is the only page they have access to.
+
+The last part is `Logout` that logs the user out of Firebase and returns them to the login page.
