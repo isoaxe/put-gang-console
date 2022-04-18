@@ -31,3 +31,13 @@ Similarly, `<Affiliates/>` is a table that just lists subordinate affiliates of 
 The `<Links/>` section is for senior users and contains several automatically generated links that can be easily copied and given to prospective customers. These are the web addresses of `put-gang-landing` but with params relating to the user. Any customer that uses one of these links to signup will become a subordinate user of the referrer.
 
 Finally, the `<Charts/>` section displays aggregated `stats` data for the past year for the `admin` user only.
+
+### User Menu
+
+The user menu has three parts - `Home`, `<Settings/>` and `Logout`. These are available to all users.
+
+Selecting `Home` redirects to the default page for the user. If they are senior, then `Home` will redirect to `<Console/>`. For junior users, they will remain on `<Settings/>` as they don't have access to the navigation menu.
+
+The `<Settings/>` section allows the user to configure several pieces of data for their account. They can set `name` as will appear throughout the console. They can also set their `insta` handle which sets a profile image. The Discord integration is also set here. The `admin` can also toggle the availability of `card` payments. For junior users (including `level-2` without MLM activation), this is the only page they have access to.
+
+The last part is `Logout` that logs the user out of Firebase and returns them to the login page.
