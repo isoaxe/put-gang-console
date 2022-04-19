@@ -118,7 +118,7 @@ const Settings = () => {
     discordButtonText();
     getData("/users/user", setUser);
     if (user.discord) setDiscord(user.discord);
-    if (user && !user.discord) setDiscord(null);
+    if (Object.keys(user).length && !user.discord) setDiscord(null);
   }, [user, user.discord, discordButtonText]);
 
   useEffect(() => {
