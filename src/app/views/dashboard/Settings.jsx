@@ -154,6 +154,7 @@ const Settings = () => {
         </Button>
       </FlexBox>
       <FlexBox>
+        <H5 sx={styles.header}>Discord Account</H5>
         <Button
           sx={styles.button}
           variant="outlined"
