@@ -163,7 +163,8 @@ const Settings = () => {
           variant="outlined"
           onClick={() =>
             window.open(
-              `${discordUrl}${discord ? "remove" : "join"}?user_id=${uid}`
+              `${discordUrl}${discord ? "remove" : "join"}?user_id=${uid}`,
+              "_self"
             )
           }
         >
