@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { styled, useTheme } from "@mui/system";
 import { TextField, Button, Switch, FormControlLabel } from "@mui/material";
 import firebase from "firebase/app";
@@ -28,7 +28,8 @@ const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
-  const [discord, setDiscord] = useState("Fetching...");
+  const [discord, setDiscord] = useState("");
+  const [discordText, setDiscordText] = useState("Fetching...");
   const [paymentChoices, setPaymentChoices] = useState(false);
   const [config, setConfig] = useState({});
   const [disabled, setDisabled] = useState(false);
@@ -105,11 +106,20 @@ const Settings = () => {
     return jsonResponse;
   }
 
+  const discordButtonText = useCallback(() => {
+    if (discord === null) {
+      setDiscordText("Connect");
+    } else if (Object.keys(user).length) {
+      setDiscordText("Disconnect");
+    }
+  }, [user, discord]);
+
   useEffect(() => {
+    discordButtonText();
     getData("/users/user", setUser);
     if (user.discord) setDiscord(user.discord);
     if (user && !user.discord) setDiscord(null);
-  }, [user, user.discord]);
+  }, [user, user.discord, discordButtonText]);
 
   useEffect(() => {
     async function configure() {
@@ -162,7 +172,7 @@ const Settings = () => {
           variant="outlined"
           onClick={() => getDiscord()}
         >
-          {discord}
+          {discordText}
         </Button>
       </FlexBox>
       {role === "admin" && (
