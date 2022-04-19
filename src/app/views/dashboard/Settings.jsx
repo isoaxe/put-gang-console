@@ -101,7 +101,10 @@ const Settings = () => {
         Accept: "application/json",
       },
     };
-    const response = await fetch(`${discordUrl}`, fetchConfig);
+    const response = await fetch(
+      `${discordUrl}${discord ? "remove" : "join"}?user_id=${uid}`,
+      fetchConfig
+    );
     const jsonResponse = await response.json();
     return jsonResponse;
   }
