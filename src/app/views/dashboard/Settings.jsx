@@ -5,8 +5,8 @@ import firebase from "firebase/app";
 import DataContext from "app/contexts/DataContext";
 import { H3, H5 } from "app/components/Typography";
 import useAuth from "app/hooks/useAuth";
-import { getData } from "./../../utils/helpers";
-import { API_URL } from "./../../utils/urls";
+import { getData } from "app/utils/helpers";
+import { API_URL } from "app/utils/urls";
 
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",
