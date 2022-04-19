@@ -173,7 +173,11 @@ const Settings = () => {
         <Button
           sx={styles.button}
           variant="outlined"
-          onClick={() => getDiscord()}
+          onClick={() =>
+            window.open(
+              `${discordUrl}${discord ? "remove" : "join"}?user_id=${uid}`
+            )
+          }
         >
           {discordText}
         </Button>
