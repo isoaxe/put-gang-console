@@ -93,22 +93,6 @@ const Settings = () => {
     }
   }
 
-  async function getDiscord() {
-    const fetchConfig = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    };
-    const response = await fetch(
-      `${discordUrl}${discord ? "remove" : "join"}?user_id=${uid}`,
-      fetchConfig
-    );
-    const jsonResponse = await response.json();
-    return jsonResponse;
-  }
-
   const discordButtonText = useCallback(() => {
     if (discord === null) {
       setDiscordText("Connect");
