@@ -103,10 +103,13 @@ const Settings = () => {
 
   useEffect(() => {
     discordButtonText();
-    getData("/users/user", setUser);
     if (user.discord) setDiscord(user.discord);
     if (Object.keys(user).length && !user.discord) setDiscord(null);
   }, [user, user.discord, discordButtonText]);
+
+  useEffect(() => {
+    getData("/users/user", setUser);
+  }, []);
 
   useEffect(() => {
     async function configure() {
