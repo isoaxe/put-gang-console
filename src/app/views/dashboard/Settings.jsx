@@ -4,6 +4,7 @@ import { TextField, Button, Switch, FormControlLabel } from "@mui/material";
 import firebase from "firebase/app";
 import DataContext from "app/contexts/DataContext";
 import { H3, H5 } from "app/components/Typography";
+import useAuth from "app/hooks/useAuth";
 import { getData } from "./../../utils/helpers";
 import { API_URL } from "./../../utils/urls";
 
@@ -27,12 +28,15 @@ const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
+  const [discord, setDiscord] = useState("Fetching...");
   const [paymentChoices, setPaymentChoices] = useState(false);
   const [config, setConfig] = useState({});
   const [disabled, setDisabled] = useState(false);
   const { role } = useContext(DataContext);
+  const uid = useAuth().user.id;
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
+  const discordUrl = "https://put-gang-discord.herokuapp.com/api/v1/discord/";
   const styles = {
     header: { marginBottom: "10px", color: textMuted },
     text: { width: "250px", marginBottom: "1rem" },
@@ -88,6 +92,19 @@ const Settings = () => {
     }
   }
 
+  async function getDiscord() {
+    const fetchConfig = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    };
+    const response = await fetch(`${discordUrl}`, fetchConfig);
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  }
+
   useEffect(() => {
     getData("/users/user", setUser);
   }, []);
@@ -135,6 +152,15 @@ const Settings = () => {
           onClick={() => updateUser("insta")}
         >
           Update
+        </Button>
+      </FlexBox>
+      <FlexBox>
+        <Button
+          sx={styles.button}
+          variant="outlined"
+          onClick={() => getDiscord()}
+        >
+          {discord}
         </Button>
       </FlexBox>
       {role === "admin" && (
