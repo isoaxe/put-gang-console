@@ -1,11 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { styled, useTheme } from "@mui/system";
 import { TextField, Button, Switch, FormControlLabel } from "@mui/material";
 import firebase from "firebase/app";
 import DataContext from "app/contexts/DataContext";
 import { H3, H5 } from "app/components/Typography";
-import { getData } from "./../../utils/helpers";
-import { API_URL } from "./../../utils/urls";
+import useAuth from "app/hooks/useAuth";
+import { getData } from "app/utils/helpers";
+import { API_URL } from "app/utils/urls";
 
 const Container = styled("div")(({ theme }) => ({
   margin: "30px",
@@ -27,12 +28,16 @@ const Settings = () => {
   const [user, setUser] = useState({});
   const [name, setName] = useState("");
   const [insta, setInsta] = useState("");
+  const [discord, setDiscord] = useState("");
+  const [discordText, setDiscordText] = useState("Fetching...");
   const [paymentChoices, setPaymentChoices] = useState(false);
   const [config, setConfig] = useState({});
   const [disabled, setDisabled] = useState(false);
   const { role } = useContext(DataContext);
+  const uid = useAuth().user.id;
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
+  const discordUrl = "https://put-gang-discord.herokuapp.com/api/v1/discord/";
   const styles = {
     header: { marginBottom: "10px", color: textMuted },
     text: { width: "250px", marginBottom: "1rem" },
@@ -88,6 +93,20 @@ const Settings = () => {
     }
   }
 
+  const discordButtonText = useCallback(() => {
+    if (discord === null) {
+      setDiscordText("Connect");
+    } else if (Object.keys(user).length) {
+      setDiscordText("Disconnect");
+    }
+  }, [user, discord]);
+
+  useEffect(() => {
+    discordButtonText();
+    if (user.discord) setDiscord(user.discord);
+    if (Object.keys(user).length && !user.discord) setDiscord(null);
+  }, [user, user.discord, discordButtonText]);
+
   useEffect(() => {
     getData("/users/user", setUser);
   }, []);
@@ -135,6 +154,21 @@ const Settings = () => {
           onClick={() => updateUser("insta")}
         >
           Update
+        </Button>
+      </FlexBox>
+      <FlexBox>
+        <H5 sx={styles.header}>Discord Account</H5>
+        <Button
+          sx={styles.button}
+          variant="outlined"
+          onClick={() =>
+            window.open(
+              `${discordUrl}${discord ? "remove" : "join"}?user_id=${uid}`,
+              "_self"
+            )
+          }
+        >
+          {discordText}
         </Button>
       </FlexBox>
       {role === "admin" && (
