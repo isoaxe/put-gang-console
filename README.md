@@ -41,3 +41,14 @@ Selecting `Home` redirects to the default page for the user. If they are senior,
 The `<Settings/>` section allows the user to configure several pieces of data for their account. They can set `name` as will appear throughout the console. They can also set their `insta` handle which sets a profile image. The Discord integration is also set here. The `admin` can also toggle the availability of `card` payments. For junior users (including `level-2` without MLM activation), this is the only page they have access to.
 
 The last part is `Logout` that logs the user out of Firebase and returns them to the login page.
+
+-----------------------------------------------------------------------------
+
+
+## Initial Setup
+
+Since the whole project lies behind a login screen, even just setting up the Put Gang project as a developer requires hooking up to Firebase. Ask for the credentials from @phillypro.
+
+If creating a new platform (i.e. outside of Put Gang) from this repository, set up a new [Firebase project](https://firebase.google.com/) first. This will be required for hosting, functions and Firestore database.
+
+Either way, fork the project and run the following shell commands.
