@@ -81,3 +81,12 @@ Navigate to the functions folder in a **new shell tab** to complete configuratio
 ### `npm run start`
 
 Run the `start` script to spin up a new server. This allows local access to Firebase Functions.
+
+
+## Contribution Guidelines
+
+When building a new feature, developers should create a new branch. On completion, the branch should be pushed to `main` for review by the repo owner (@Isoaxe or @phillypro in the case of Put Gang). Following a successful review, the branch will be merged with `main`. It is the developers responsibility to fully test the new feature and ensure that it works as expected.
+
+### `npm run deploy` (repo owner only)
+
+Navigate to the `put-gang-console` root directory. After merging the feature branch to `main` and pulling from the remote, the **project owner** (_not_ the developer) should deploy the updated codebase to the hosted environment.
