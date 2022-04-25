@@ -60,3 +60,24 @@ After setting up the Firebase project, install the Firebase CLI.
 ### `firebase login`
 
 You will also need to [login](https://firebase.google.com/docs/cli#sign-in-test-cli) and link this project to the remote, which will be the Google account associated with it.
+
+
+## Project Setup
+
+In the **put-gang-console directory**, run the following commands:
+
+### `npm install`
+
+Install all of the Node dependencies for React and other third party packages used in the frontend.
+
+### `npm run start`
+
+Opens the browser at `localhost:3000` on the login page.
+
+### `cd functions && npm install`
+
+Navigate to the functions folder in a **new shell tab** to complete configuration of Firebase functions. Install all of the Node dependencies for Express and other third party packages used by Firebase functions.
+
+### `npm run start`
+
+Run the `start` script to spin up a new server. This allows local access to Firebase Functions.
