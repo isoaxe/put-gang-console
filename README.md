@@ -52,3 +52,11 @@ Since the whole project lies behind a login screen, even just setting up the Put
 If creating a new platform (i.e. outside of Put Gang) from this repository, set up a new [Firebase project](https://firebase.google.com/) first. This will be required for hosting, functions and Firestore database.
 
 Either way, fork the project and run the following shell commands.
+
+### `npm install -g firebase-tools`
+
+After setting up the Firebase project, install the Firebase CLI.
+
+### `firebase login`
+
+You will also need to [login](https://firebase.google.com/docs/cli#sign-in-test-cli) and link this project to the remote, which will be the Google account associated with it.
