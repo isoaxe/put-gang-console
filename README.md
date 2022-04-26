@@ -41,3 +41,52 @@ Selecting `Home` redirects to the default page for the user. If they are senior,
 The `<Settings/>` section allows the user to configure several pieces of data for their account. They can set `name` as will appear throughout the console. They can also set their `insta` handle which sets a profile image. The Discord integration is also set here. The `admin` can also toggle the availability of `card` payments. For junior users (including `level-2` without MLM activation), this is the only page they have access to.
 
 The last part is `Logout` that logs the user out of Firebase and returns them to the login page.
+
+-----------------------------------------------------------------------------
+
+
+## Initial Setup
+
+Since the whole project lies behind a login screen, even just setting up the Put Gang project as a developer requires hooking up to Firebase. Ask for the credentials from @phillypro.
+
+If creating a new platform (i.e. outside of Put Gang) from this repository, set up a new [Firebase project](https://firebase.google.com/) first. This will be required for hosting, functions and Firestore database.
+
+Either way, fork the project and run the following shell commands.
+
+### `npm install -g firebase-tools`
+
+After setting up the Firebase project, install the Firebase CLI.
+
+### `firebase login`
+
+You will also need to [login](https://firebase.google.com/docs/cli#sign-in-test-cli) and link this project to the remote, which will be the Google account associated with it.
+
+
+## Project Setup
+
+In the **put-gang-console directory**, run the following commands:
+
+### `npm install`
+
+Install all of the Node dependencies for React and other third party packages used in the frontend.
+
+### `npm run start`
+
+Opens the browser at `localhost:3000` on the login page.
+
+### `cd functions && npm install`
+
+Navigate to the functions folder in a **new shell tab** to complete configuration of Firebase functions. Install all of the Node dependencies for Express and other third party packages used by Firebase functions.
+
+### `npm run start`
+
+Run the `start` script to spin up a new server. This allows local access to Firebase Functions.
+
+
+## Contribution Guidelines
+
+When building a new feature, developers should create a new branch. On completion, the branch should be pushed to `main` for review by the repo owner (@Isoaxe or @phillypro in the case of Put Gang). Following a successful review, the branch will be merged with `main`. It is the developers responsibility to fully test the new feature and ensure that it works as expected.
+
+### `npm run deploy` (repo owner only)
+
+Navigate to the `put-gang-console` root directory. After merging the feature branch to `main` and pulling from the remote, the **project owner** (_not_ the developer) should deploy the updated codebase to the hosted environment. This automatically `build`s a production version when done.
