@@ -89,4 +89,4 @@ When building a new feature, developers should create a new branch. On completio
 
 ### `npm run deploy` (repo owner only)
 
-Navigate to the `put-gang-console` root directory. After merging the feature branch to `main` and pulling from the remote, the **project owner** (_not_ the developer) should deploy the updated codebase to the hosted environment.
+Navigate to the `put-gang-console` root directory. After merging the feature branch to `main` and pulling from the remote, the **project owner** (_not_ the developer) should deploy the updated codebase to the hosted environment. This automatically `build`s a production version when done.
