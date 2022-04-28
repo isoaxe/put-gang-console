@@ -17,9 +17,6 @@ const app = express();
 // Automatically allow cross-origin requests.
 app.use(cors({ origin: true }));
 
-//Bodyparser is built in
-app.use(express.json());
-
 // Set handler for Firebase & Firestore user accounts.
 usersRoute(app);
 // Set handler for payment information. This is admin console payments.
@@ -43,9 +40,6 @@ const secrets = {
     "STRIPE_WEBHOOK_SECRET_LOCAL",
     "STRIPE_WEBHOOK_SECRET_TEST",
     "STRIPE_WEBHOOK_SECRET_LIVE",
-    "DISCORD_APP_ID",
-    "DISCORD_CLIENT_SECRET",
-    "DISCORD_BOT_TOKEN",
   ],
 };
 
