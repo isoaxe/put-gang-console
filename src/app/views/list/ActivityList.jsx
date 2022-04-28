@@ -46,9 +46,12 @@ const ActivityList = () => {
       const currentUser = users.find(
         (user) => user.uid === currentActivity.uid
       );
-      currentActivity["name"] = currentUser.name;
-      currentActivity["avatarUrl"] = currentUser.avatarUrl;
-      combinedactivities.push(currentActivity);
+      // currentUser is null if user has been deleted from Firestore.
+      if (currentUser) {
+        currentActivity["name"] = currentUser.name;
+        currentActivity["avatarUrl"] = currentUser.avatarUrl;
+        combinedactivities.push(currentActivity);
+      }
     }
     combinedactivities.forEach(
       (item) =>
