@@ -7,5 +7,5 @@
 export const MODE = "test"; // enum 'test' || 'live'
 
 // User ID and email for admin.
-export const ADMIN_UID = "dgpO36fcGUR3BPDIzoXyCfsZIbB2";
+export const ADMIN_UID = "4zbPoCMRnrUUCDE9sRbCOF7P4X03";
 export const ADMIN_EMAIL = "admin@putgang.com";
