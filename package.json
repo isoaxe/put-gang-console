@@ -29,7 +29,7 @@
     "redux-thunk": "^2.4.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "deploy": "npm run build && firebase deploy",
